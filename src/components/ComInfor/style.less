@@ -1,0 +1,63 @@
+.content {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background: #fff;
+}
+.top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .title {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .select{
+    width: 55px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+    img{
+      width: 100%;
+    }
+  }
+}
+
+.content ul {
+  width: 100%;
+  div {
+    overflow: hidden;
+    &:after {
+      content: "";
+      clear: both;
+      display: block;
+    }
+  }
+  li {
+    margin-top: 10px;
+    padding-left: 20px;
+    color: #4A4A4A;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .first {
+    float: left;
+    background: url(../../static/companyType@3x.png) no-repeat left center/ 16px 16px;
+  }
+  .second {
+    float: left;
+    margin-left: 10px;
+    background: url(../../static/personNum@3x.png) no-repeat left center/ 17px 16px;
+  }
+  .third {
+    background: url(../../static/comnature@3x.png) no-repeat left center/ 15px 18px;
+  }
+  .fourth {
+    background: url(../../static/select@3x.png) no-repeat left center/ 16px 16px;
+  }
+}

@@ -1,0 +1,129 @@
+/**
+ * Created by huangchao on 2017/10/12.
+ */
+import React, { PureComponent } from 'react'
+import style from './style.less'
+import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import { NavBar, SwipeAction, ListView } from 'antd-mobile'
+import CollectCompanyItemWrap from '../../components/CollectCompanyItem'
+import Nothing from '../../components/Nothing'
+import {getCollectCompantInit, deleteCompany, saveScrollTop, deleteCache} from '../../actions/CollectCompany'
+
+@connect(state => {
+  return {
+    list: state.CollectCompany.list,
+    scrollTop: state.CollectCompany.scrollTop,
+  }
+})
+class SelectCompany extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
+    this.state = {
+      dataSource,
+    }
+  }
+
+  /*返回*/
+  goBack = () => {
+    this.scrollTop = 0
+    this.props.dispatch(deleteCache())
+    this.props.history.go(-1)
+  }
+
+  /*删除记录*/
+  cancleCollect = id => {
+    this.props.dispatch(deleteCompany({
+      company_id: id,
+    }))
+  }
+
+  onScroll = () => {
+    let scrollTop = this.refs['page'].listviewRef.scrollProperties.offset
+    this.scrollTop = scrollTop
+  }
+
+
+  componentDidMount() {
+    /* 初始化this.scrollTop */
+    this.scrollTop = this.props.scrollTop
+
+    this.props.dispatch(getCollectCompantInit())
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const scrollTop = nextProps.scrollTop
+    if (nextProps.list && this.props.list !== nextProps.list) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
+      }, () => {
+        if(scrollTop !== 0) {
+          this.refs['page'].scrollTo(0,scrollTop)
+        }
+      })
+    }
+  }
+
+  /*组建卸载，存储滚动条的位置*/
+  componentWillUnmount() {
+    let top = this.scrollTop || this.props.scrollTop
+    this.props.dispatch(saveScrollTop(top))
+  }
+
+  render() {
+    const {list} = this.props
+    const Row = (data) => {
+      return (
+        <SwipeAction
+          autoClose
+          right={[
+            {
+              text: '删除',
+              onPress: () => this.cancleCollect(data.company_id),
+              style: { backgroundColor: '#F4333C', color: 'white', width: '120px' },
+            },
+          ]}
+        >
+          <Link  to={`/${data.company_id}`}>
+            <CollectCompanyItemWrap {...data} />
+          </Link>
+        </SwipeAction>
+      )
+    }
+    return (
+      <div className={style.SelectCompanyWrap}>
+        <NavBar
+          mode="dark"
+          onLeftClick={this.goBack}
+        >关注企业</NavBar>
+        <div id="page" className={style.listbox} onScroll={this.onScroll}>
+          {
+            list.length > 0 ?
+            <ListView
+              ref="page"
+              dataSource={this.state.dataSource}
+              renderRow={Row}
+              scrollRenderAheadDistance={100}
+              onEndReachedThreshold={10}
+              scrollEventThrottle={100}
+              initialListSize={0}
+              pageSize={2000}
+              style={{
+                overflow: 'auto',
+                height: 'calc(100vh - 1rem)',
+              }}
+              onScroll={this.onScroll}
+              />
+              : <Nothing font="快去收藏更多的职位吧～"/>
+          }
+        </div>
+      </div>
+    )
+  }
+}
+
+export default SelectCompany

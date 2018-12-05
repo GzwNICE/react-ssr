@@ -1,0 +1,90 @@
+.root {
+  height: 100%;
+}
+
+.wrap {
+  height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-left: 0 !important;
+  > div {
+    // margin: 40px 20px;
+  }
+  :global{
+    .am-input-label-5{
+      width: 85px !important;
+    }
+    .am-list-item .am-list-line .am-list-extra {
+      flex-basis: 60%;
+    }
+  }
+}
+
+.workDateCheckbox {
+  position: relative;
+  top: -1.5px;
+  left: -5px;
+}
+
+.workDateYjs {
+  position: relative;
+  right: 26px;
+}
+
+.workDateCheckboxYjs {
+  position: relative;
+  top: -1.5px;
+  left: -5px;
+}
+
+.workDate {
+  :global {
+    .am-list-item {
+      overflow: visible;
+    }
+    .am-list-item .am-list-line {
+      overflow: visible;
+    }
+    .am-list-item .am-list-line .am-list-content {
+      position: relative;
+      top: 20px;
+      overflow: visible;
+      z-index: 99;
+    }
+    .am-list-body .am-list-item:last-child {
+      border-bottom: 1px !important;
+    }
+    .am-list-line:after {
+      border-bottom: 0 !important
+    }
+  }
+}
+
+
+.checkbox {
+  margin-top: -1PX;
+  :global {
+    .am-list-content {
+      display: flex;
+      flex-direction: row-reverse;
+      > label {
+        display: flex;
+        align-items: center;
+        > span {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+.nav {
+  :global {
+    .am-navbar-right {
+      span {
+        padding: 12px;
+        margin-right: -12px;
+      }
+    }
+  }
+}

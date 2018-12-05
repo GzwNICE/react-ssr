@@ -1,0 +1,53 @@
+.content {
+  width: 100%;
+  background-color: #fff;
+  padding: 7px 20px;
+  box-sizing: border-box;
+  min-height: 36px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+  &:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+  .inputCon {
+    width: 86%;
+    overflow-x:hidden; 
+     .input {
+      resize: none;
+      font-size: 13px;
+      line-height: 18px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      width: 100%;
+      padding: 9px 0 9px 10px;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 36px;
+      background-color: #E2E2E2;
+      border: 0;
+      border-radius: 8px;
+    }
+    pre {
+      visibility: hidden;
+      position: absolute;
+      z-index: -1;
+      min-height: 36px;
+      max-height: 72px;
+    }
+    ::-webkit-input-placeholder{color:#9B9B9B;}
+  }
+  .sendCon {
+    float: right;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: right;
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    color: #FF7214;
+  }
+}

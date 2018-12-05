@@ -1,0 +1,330 @@
+/**
+ * Created by huangchao on 2017/10/25.
+ */
+import React, { PureComponent } from 'react'
+import {connect} from 'react-redux'
+import style from './style.less'
+import store from 'store'
+import { Link } from 'react-router-dom'
+import { ListView } from 'antd-mobile'
+import queryString from 'query-string'
+import SearchEndBar from '../../components/SearchEndBar'
+import JobCard from '../../components/JobCard'
+import FilterSearch from '../../components/FilterSearch'
+import {getSearchListInit, getSearchListadd, saveScrollTop, changeQuery, saveQuery, deleteList} from '../../actions/search'
+import F from '../../helper/tool'
+const option = store.get('m:option')
+
+@connect(state => {
+  return {
+    isLoading: state.search.isLoading,
+    searchLIst: state.search.list,
+    pager: state.search.pager,
+    userStatus: state.userStatus,
+    query: state.search.query,
+    srearchData: state.search,
+    supers: state.supers,
+  }
+})
+class SearchEnd extends PureComponent {
+  constructor(props) {
+    super(props)
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
+    this.initData = []
+    this.state = {
+      init: {
+        company_industry: 0,
+        education: 0,
+        room_board: 0,
+        salary: 0,
+        scope: 4,
+        update_time: -1,
+        work_mode: 0,
+      },
+      stareSearch: false,
+      dataSource,
+      page: this.props.srearchData.pager.cur,
+      Loaded: 'Loading',
+      searchCondition: {},
+    }
+
+    const {keyword, position, area, salary, company_industry, update_time, education, room_board, work_mode} = queryString.parse(window.location.search)
+    this.getQuery = {
+      isUsed: 1,
+      more:{},
+    }
+
+    if(keyword) this.getQuery.keyword = keyword
+    if(position) this.getQuery.position = [position]
+    if(area) this.getQuery.area = [area]
+    if(salary) this.getQuery.salary = [parseInt(salary, 10)]
+    if(company_industry) this.getQuery.more.company_industry = parseInt(company_industry, 10)
+    if(update_time) this.getQuery.more.update_time =  parseInt(update_time, 10)
+    if(education) this.getQuery.more.education = parseInt(education, 10)
+    if(room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
+    if(work_mode) this.getQuery.more.work_mode =  parseInt(work_mode, 10)
+  }
+
+  goBack = () => {
+    const {redirect} = queryString.parse(window.location.search)
+    this.props.dispatch(deleteList())
+
+    if(redirect) {
+      // window.location.href = redirect
+      this.props.history.push(redirect)
+    }
+    this.scrollTop = 0
+    this.props.history.go(-1)
+  }
+
+  goSerch = () => {
+    const {redirect, sss} = queryString.parse(window.location.search)
+    this.props.dispatch(deleteList())
+
+    if (redirect) {
+      this.props.history.push(redirect)
+    }
+    if(this.props.history.length === 2 || this.props.history.length === 1 || sss){
+      this.props.history.push(`/search?sss=${sss}`)
+    } else {
+      this.scrollTop = 0
+      this.props.history.go(-1)
+    }
+  }
+
+  onEndReached = () => { // 上拉加载
+    const page = this.state.page + 1
+    // const searchState = this.props.location.state
+    const allPage = this.props.pager.allPage
+    this.setState({
+      page: page,
+    })
+    if(page <= allPage) {
+      this.props.dispatch(getSearchListadd({
+        page: page,
+        size: this.props.pager.size,
+        area: this.props.query.area || (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
+        ...this.state.searchCondition,
+      }))
+    } else {
+      this.setState({
+        Loaded: '没有更多了',
+      })
+    }
+  }
+
+  showCount = () => {
+    const count = this.props.pager.count || 0
+    return count > 10000 ? '10000+' : count
+  }
+
+  filterSearch = (value = {}) => {
+
+    //zhuge统计
+    let val = ''
+    if(value.position){ // 记录职位
+      const positions_index = option.positions_index || {}
+      value.position.map(item => {
+        val += positions_index[item] + ';'
+        return null
+      })
+      window.zhuge.track('工作筛选项', {'职位': val})
+    }
+    if(value.area){ // 记录地区
+      const areas_index = option.areas_index || {}
+      val = areas_index[value.area[0]]
+      window.zhuge.track('工作筛选项', {'地区': val})
+    }
+    if(value.salary){ // 记录薪资
+      const salary_scope_index = (option.opts_salary && option.opts_salary.salary_scope_index) || {}
+      val = salary_scope_index[value.salary[0]]
+      window.zhuge.track('工作筛选项', {'薪资': val})
+    }
+    if(value.more){ // 记录更多
+      window.zhuge.track('工作筛选项', {'更多': 'click'})
+    }
+
+    this.props.dispatch(saveQuery(F.filterUndefindToString(value)))
+    this.setState({
+      page: 1,
+    }, () => {
+      const allQuery = this.handleSearchQuery()
+      this.props.dispatch(getSearchListInit(allQuery))
+    })
+    this.getQuery.isUsed = 0
+
+  }
+
+  onScroll = () => {
+    let top = document.body.scrollTop || document.documentElement.scrollTop
+    this.scrollTop = top
+  }
+
+  handleSearchQuery = () => {
+    const data = this.props.location.state || {}
+    const more = this.props.query && this.props.query.more
+    const {keyword} = queryString.parse(window.location.search)
+    const key = data.keyword || keyword || ''
+    const code = this.props.userStatus.code && this.props.userStatus.code.length > 0 ? this.props.userStatus.code : this.props.supers.location.address.code
+
+    let allQuery = {
+      ...data,
+      ...this.state.init,
+      ...this.props.query,
+      keyword: key,
+      company_industry: more.company_industry || 0,
+      update_time: more.update_time || -1,
+      education: more.education || 0,
+      room_board: more.room_board || 0,
+      work_mode: more.work_mode || 0,
+      more: '',
+      page: 1,
+      size: this.props.pager.size,
+      area: this.props.query.area || (this.props.userStatus.code && (this.props.userStatus.code[0] || '')) || code || this.getQuery.area,
+    }
+    if(this.getQuery.isUsed) {
+      allQuery = {
+        ...allQuery,
+        ...this.getQuery,
+        ...(this.getQuery.more ? this.getQuery.more : null),
+        more: '',
+      }
+    }
+    //this.props.dispatch(getSearchListInit(allQuery))
+    return allQuery
+  }
+
+  componentDidMount() {
+    /* 初始化this.scrollTop */
+    this.scrollTop = this.props.srearchData.scrollTop
+
+    const data = this.props.location.state || {}
+    const {keyword} = queryString.parse(window.location.search)
+    const allQuery = this.handleSearchQuery()
+    if(data.keyword || keyword) {
+      this.setState({
+        defaultValue: data.keyword || keyword,
+      })
+    }
+
+    this.props.dispatch(getSearchListInit(allQuery))
+
+    delete this.getQuery.keyword
+    delete this.getQuery.isUsed
+    /*
+     如果more没有值 删除this.getQuery.more这个字段
+     防止在reducer中没有选择更多的时候出现more={}会覆盖原有的字段
+     */
+    if(Object.keys(this.getQuery.more).length === 0){
+      delete this.getQuery.more
+    }
+    this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextList = nextProps.searchLIst
+    const thisList = this.props.searchLIst
+    const scrollTop = nextProps.srearchData.scrollTop
+    if (nextList !== thisList) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextList),
+      },() => {
+        if(scrollTop !== 0) {
+          document.body.scrollTop=document.documentElement.scrollTop = scrollTop
+        }
+      })
+    }
+
+    if(nextList.length < 20) {
+      this.setState({
+        Loaded: '没有更多了',
+      })
+    }
+
+    if(this.props.location.state !== nextProps.location.state){
+      const data = nextProps.location.state || {}
+      const allQuery = this.handleSearchQuery()
+      if(data !== {}){
+        setTimeout(() => {
+          this.props.dispatch(changeQuery(allQuery))
+            .then((data) => {
+              document.body.scrollTop=document.documentElement.scrollTop = 0
+              if(data.data.count === 0 ){
+                this.setState({
+                  Loaded: '没有更多了',
+                })
+              }
+            })
+        })
+      }
+    }
+
+    window._hmt && window._hmt.push(['_trackPageview', window.location.href])
+  }
+
+  /*组建卸载，存储滚动条的位置*/
+  componentWillUnmount() {
+    this.getQuery.isUsed = 0
+    this.props.dispatch(saveScrollTop(this.scrollTop))
+  }
+
+  render() {
+
+    let query = this.props.query
+    const area = this.props.userStatus.code && this.props.userStatus.code.length > 0 ? this.props.userStatus.code : this.props.supers.location.address.code
+    if(query.area.length === 0) {
+      query.area = area
+    }
+
+    delete query.keyword
+    delete query.isUsed
+
+    // console.log(query)
+
+    const Row = (d) => {
+      return <div className={style.listItem}>
+        <Link to={`/${d.company_id}/${d.job_id}`}>
+          <JobCard data={d} />
+        </Link>
+      </div>
+    }
+    // console.log(this.props.searchLIst)
+    return (
+      <div className={style.SearchEndWrap}>
+        <div className={style.top}>
+          <SearchEndBar
+            goBack={this.goBack}
+            goSerch={this.goSerch}
+            keyword={this.state.defaultValue}
+            number={this.showCount()}
+          />
+          <div className={style.searchCondition}>
+            <FilterSearch filterSearch={this.filterSearch} query={query} />
+          </div>
+        </div>
+        <div className={style.listBox}>
+          <ListView
+            className={style.listView}
+            dataSource={this.state.dataSource}
+            renderRow={Row}
+            scrollRenderAheadDistance={100}
+            onEndReachedThreshold={10}
+            scrollEventThrottle={100}
+            initialListSize={1000}
+            pageSize={2000}
+            useBodyScroll
+            onScroll={this.onScroll}
+            onEndReached={this.onEndReached} // 上啦加载
+            renderFooter={() => (<div style={{ padding: 10, textAlign: 'center' }}>
+              {this.props.isLoading ? 'Loading...' : this.state.Loaded}
+            </div>)}
+          />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default SearchEnd

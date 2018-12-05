@@ -1,0 +1,206 @@
+/**
+ * Created by huangchao on 2017/9/30.
+ */
+import React, { PureComponent } from 'react'
+import {connect} from 'react-redux'
+import store from 'store'
+import MySearchBar from '../../components/SearchBar'
+import SearchClassify from '../../components/SearchClassify'
+import {getSearchTips} from '../../actions/search'
+import {changeAllCity} from '../../actions/home'
+import SearchHot from '../../components/SearchHot'
+import SearchHistory from '../../components/SearchHistory'
+import F from '../../helper/tool'
+import resume from '@static/sresume@3x.png'
+import qiye from '@static/scompany@3x.png'
+import welfares from '@static/sfuli@3x.png'
+import style from './style.less'
+import {getSearchHot} from '../../actions/search'
+const option = store.get('m:option')
+
+@connect(state => {
+  return {
+    hot: state.search.hot,
+    tips: state.search.tips,
+  }
+})
+class SearchPage extends PureComponent {
+  static propTypes = {
+  }
+
+  state = {
+    stareSearch: false,
+  }
+
+  onChangeCity = (value) => {
+    const Area = option.areas_index
+    const code = value.areas
+
+    if(value.areas.length > 0) {
+      this.props.dispatch(changeAllCity(code))
+
+      let val = Area[code]
+      window.zhuge.track("搜索", {
+        "城市": val,
+      })
+    }
+  }
+
+  change=(keyWord) => {
+    this.setState({
+      stareSearch: true,
+      keyWord: keyWord,
+    })
+    this.props.dispatch(getSearchTips({
+      keyword: keyWord,
+      count: 3,
+    }))
+  }
+
+  Cancel = () => {
+    this.props.history.go(-1)
+    // const {seo} = queryString.parse(window.location.search)
+    // if(seo) {
+    //
+    // } else {
+    // }
+  }
+
+  touchHot = (item) => { //热门搜索
+    const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
+    searchHistory.unshift(item)
+    const newHis = searchHistory.slice(0, 5)
+    localStorage.setItem('m:searchHis', JSON.stringify(F.ArrayDelRepetition(newHis)))
+    const state = this.props.location.state || {}
+    if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
+      // console.log('从tab_job进入的'+state.form)
+      this.props.history.push(`/tabs/job/?keyword=${item}`, {keyword:item})
+    } else {
+      this.props.history.push(`/search/${item}?keyword=${item}`, {keyword:item})
+    }
+  }
+
+  search = (val) => { //搜索
+    const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
+    searchHistory.unshift(val)
+    const newHis = searchHistory.slice(0, 5)
+    localStorage.setItem('m:searchHis', JSON.stringify(F.ArrayDelRepetition(newHis)))
+    const state = this.props.location.state || {}
+    if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
+     // console.log('从tab_job进入的'+state.form)
+      this.props.history.push(`/tabs/job/?keyword=${val}`, {keyword:val})
+    } else {
+      this.props.history.push(`/search/${val}?keyword=${val}`, {keyword:val})
+    }
+  }
+
+  touchSearchItem = (val) => { // 点击筛选结果
+
+    window.zhuge.track("搜索", {
+      "关键字": val.keyword,
+    })
+
+    const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
+    searchHistory.unshift(val.keyword)
+    const newHis = searchHistory.slice(0, 5)
+    localStorage.setItem('m:searchHis', JSON.stringify(F.ArrayDelRepetition(newHis)))
+    const state = this.props.location.state || {}
+    if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
+     // console.log('从tab_job进入的'+state.form)
+      this.props.history.push(`/tabs/job/?keyword=${val.keyword}`, {...val})
+    } else {
+      this.props.history.push(`/search/${val.keyword}?keyword=${val.keyword}`, {...val})
+    }
+  }
+
+  searcHis = (keyWord) => { // 点击历史记录
+    const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
+    searchHistory.unshift(keyWord)
+    const newHis = searchHistory.slice(0, 5)
+    localStorage.setItem('m:searchHis', JSON.stringify(F.ArrayDelRepetition(newHis)))
+    const state = this.props.location.state || {}
+    if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
+      // console.log('从tab_job进入的'+state.form)
+      this.props.history.push(`/tabs/job/?keyword=${keyWord}`, {keyword: keyWord})
+    } else {
+      this.props.history.push(`/search/${keyWord}?keyword=${keyWord}`, {keyword: keyWord})
+    }
+  }
+
+  ShowPost = (job = []) => {
+    if(job.length > 0) {
+      return <SearchClassify
+        title="职位"
+        scope="2"
+        keyWord={this.state.keyWord}
+        src={resume}
+        data={job}
+        callback={this.touchSearchItem}
+      />
+    }
+  }
+  ShowCompany = (company = []) => {
+    if(company.length > 0) {
+      return <SearchClassify
+        title="企业"
+        scope="3"
+        keyWord={this.state.keyWord}
+        src={qiye}
+        data={company}
+        callback={this.touchSearchItem}
+      />
+    }
+  }
+  ShowWelfare = (welfare = []) => {
+    if(welfare.length > 0) {
+      return <SearchClassify
+        title="福利"
+        scope="4"
+        keyWord={this.state.keyWord}
+        src={welfares}
+        data={welfare}
+        callback={this.touchSearchItem}
+      />
+    }
+  }
+  ShowSearchEnd = () => {
+    // console.log(this.props.tips)
+    if(this.state.stareSearch) {
+      return <div>
+        {this.ShowPost(this.props.tips.job)}
+        {this.ShowCompany(this.props.tips.company)}
+        {this.ShowWelfare(this.props.tips.welfare)}
+      </div>
+    } else {
+      return <div>
+        <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
+        <SearchHistory callback={this.searcHis} {...this.props}/>
+      </div>
+    }
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getSearchHot())
+  }
+
+  render() {
+    // console.log(this.props)
+    return (
+      <div className={style.SearchPageWrap}>
+        <MySearchBar
+          callback={this.search}
+          touchCancel={this.Cancel}
+          onChange={this.change}
+          onChangeCity={this.onChangeCity}
+          autoFocus
+          showCity="true"
+          defaultValue="" // 输入框的默认值
+          placeholder="请输入职位/公司名"
+        />
+        {this.ShowSearchEnd()}
+      </div>
+    )
+  }
+}
+
+export default SearchPage

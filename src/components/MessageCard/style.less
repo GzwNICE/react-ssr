@@ -1,0 +1,48 @@
+.content {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  overflow: hidden;
+  &:after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+  .head {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    float: left;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid #d2d0d0;
+    
+    algin-item:center;
+    img {
+      width: 100%;
+    }
+  } 
+  .message {
+    padding: 8px 10px;
+    float: left;
+    margin: 0 10px;
+    background-color: #fff;
+    line-height: 17px;
+    font-size: 14px;
+    color: #777;
+    border-radius: 8px;
+    max-width: 500px;
+    margin-top: 3px;
+    box-sizing: border-box;
+  }
+}
+.right {
+  .message {
+    float: right;
+    background-color: #FEE7D7 ;
+  }
+  .head {
+    float: right;
+  }
+}
