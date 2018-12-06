@@ -13,18 +13,96 @@ export default class FamousCompany extends Component {
     return (
       <div className={style.Company}>
         <h1 className={style.subtitle}>名企专区</h1>
-        
-        <div className={style.CompanyCard}>
-          <div className={style.CompanyCent}>
-            <div className={style.top}>
-              <img src={companyLogo} alt="" />
+        <div className={style.CompanyBox}>
+          <div className={style.Boxscroll}>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className={style.bot}>
-              <h4 className={style.Companyname}>杭州万豪大酒店</h4>
-              <span>{invite}个在招职位</span>
-              <div className={style.welfare}>
-                <span>五险一金</span>
-                <span>美女多</span>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={style.CompanyCard}>
+              <div className={style.CompanyCent}>
+                <div className={style.top}>
+                  <img src={companyLogo} alt="" />
+                </div>
+                <div className={style.bot}>
+                  <h4 className={style.Companyname}>杭州万豪大酒店</h4>
+                  <span>{invite}个在招职位</span>
+                  <div className={style.welfare}>
+                    <span>五险一金</span>
+                    <span>美女多</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

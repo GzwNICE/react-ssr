@@ -1,16 +1,22 @@
-import React, {PureComponent } from 'react'
-import {connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
 import FamousCompany from '../../components/FamousCompany'
 import HotTrade from '../../components/HotTrade'
-import { WhiteSpace } from 'antd-mobile';
+import { WhiteSpace } from 'antd-mobile'
 import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
-import { getPostInit,changeCity, refReshPost, addPost, saveScrollTop } from '../../actions/home'
-import {saveCityCode} from '../../actions/userStatus'
+import {
+  getPostInit,
+  changeCity,
+  refReshPost,
+  addPost,
+  saveScrollTop,
+} from '../../actions/home'
+import { saveCityCode } from '../../actions/userStatus'
 import { saveQuery } from '../../actions/jobPage'
 import { ListView } from 'antd-mobile'
 import RegisterWrap from '../../components/RegisterWrap'
@@ -39,7 +45,7 @@ class HomePage extends PureComponent {
     super(props)
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+    })
     this.initData = []
     this.state = {
       dataSource,
@@ -49,73 +55,88 @@ class HomePage extends PureComponent {
       showAd: false,
     }
   }
-
+  
   searchFocus = () => {
     this.props.history.push('/search')
   }
 
-  goPosition = (d) => {
-    window.zhuge.track('职位详情页打开', { '触发来源': '首页推荐列表' })
+  goPosition = d => {
+    window.zhuge.track('职位详情页打开', { 触发来源: '首页推荐列表' })
     this.props.history.push(`/${d.c_userid}/${d.job_id}`)
   }
 
-  handleCloseReg(){
+  // 关闭底部引导注册弹框
+  handleCloseReg() {
     this.setState({
       showAd: false,
     })
+    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   onTouchList = (data, name) => {
     window.zhuge.track(name)
     let area = this.props.userStatus.code
-    this.props.history.push('/tabs/job', {...data})
+    this.props.history.push('/tabs/job', { ...data })
     let more = {
-      ...(data.company_industry ? {company_industry: parseInt(data.company_industry, 10)} : null),
+      ...(data.company_industry
+        ? { company_industry: parseInt(data.company_industry, 10) }
+        : null),
     }
-    this.setState({more})
-    this.props.dispatch(saveQuery({
-      area,
-      more,
-    }))
+    this.setState({ more })
+    this.props.dispatch(
+      saveQuery({
+        area,
+        more,
+      })
+    )
   }
 
-  onChangeCity = (values) => {
+  onChangeCity = values => {
     /* 放入用户信息的reducer 重新改变props 渲染页面  userStatus*/
-    this.props.dispatch(saveCityCode({
-      code: values.areas,
-    }))
+    this.props.dispatch(
+      saveCityCode({
+        code: values.areas,
+      })
+    )
 
     /* 改变工作页面及搜索页面的this.props.query , jobPage*/
-    this.props.dispatch(saveQuery({
-      area:values.areas,
-      more: this.state.more,
-    }))
+    this.props.dispatch(
+      saveQuery({
+        area: values.areas,
+        more: this.state.more,
+      })
+    )
   }
 
   /* 关闭广告 */
   onCloseAd = () => {
     sessionStorage.setItem('ad', 'yes')
-    this.setState({show: true})
+    this.setState({ show: true })
   }
 
   /* 下载或者打开app */
   downLoadAd = () => {
     window.zhuge.track('下载App')
-    window.location.href = "https://m.veryeast.cn/mobile/index.html?c=mobile" //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
   /* 下拉刷新 */
   onRefresh = () => {
-    const location = this.props.userStatus.code && this.props.userStatus.code[0] ? this.props.userStatus.code : this.props.supers.location.address.code
-    if(!this.props.homeDate.refreshing) {
+    const location =
+      this.props.userStatus.code && this.props.userStatus.code[0]
+        ? this.props.userStatus.code
+        : this.props.supers.location.address.code
+    if (!this.props.homeDate.refreshing) {
       this.setState({
         page: 1,
       })
 
-      this.props.dispatch(refReshPost({
-        location,
-        page: 1,
-      }))
+      this.props.dispatch(
+        refReshPost({
+          location,
+          page: 1,
+        })
+      )
     }
   }
 
@@ -126,11 +147,14 @@ class HomePage extends PureComponent {
     this.setState({
       page: page,
     })
-    if(page <= allPage) {
-      this.props.dispatch(addPost({
-        page: page,
-        location: this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
-      }))
+    if (page <= allPage) {
+      this.props.dispatch(
+        addPost({
+          page: page,
+          location:
+            this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
+        })
+      )
     } else {
       this.setState({
         Loaded: '没有更多了',
@@ -139,25 +163,40 @@ class HomePage extends PureComponent {
   }
 
   /* 记录滚动条的位置 */
-  onScroll = () => {
-    let top = document.body.scrollTop || document.documentElement.scrollTop
-    this.scrollTop = top
+  onScroll = e => {
+    // let top = document.body.scrollTop || document.documentElement.scrollTop
+    // this.scrollTop = top
+    let scroll = window.scrollY
+    if (scroll > 360) {
+      this.setState({
+        showAd: true,
+      })
+    } else {
+      this.setState({
+        showAd: false,
+      })
+    }
   }
 
   componentWillMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
     const { userStatus, supers } = this.props
-    const location = userStatus.code && userStatus.code[0] ? userStatus.code : supers.location.address.code
-    this.props.dispatch(getPostInit({
-      location,
-      page: 1,
-    }))
+    const location =
+      userStatus.code && userStatus.code[0]
+        ? userStatus.code
+        : supers.location.address.code
+    this.props.dispatch(
+      getPostInit({
+        location,
+        page: 1,
+      })
+    )
   }
 
   componentDidMount() {
     let yes = sessionStorage.getItem('ad') || false
-    if(!yes) {
+    if (!yes) {
       this.setState({
         show: false,
       })
@@ -166,18 +205,7 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-    window.addEventListener('scroll', (e)=>{
-      let scroll = window.scrollY
-      if(scroll > 360){
-        this.setState({
-          showAd: true,
-        })
-      }else{
-        this.setState({
-          showAd: false,
-        })
-      }
-    }, false)
+    window.addEventListener('scroll', this.onScroll, false)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -185,22 +213,33 @@ class HomePage extends PureComponent {
     const thisList = this.props.homeList
     const scrollTop = nextProps.homeDate.scrollTop
     if (nextList !== thisList) {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextList),
-      }, () => {
-        if (scrollTop !== 0) {
-          document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+      this.setState(
+        {
+          dataSource: this.state.dataSource.cloneWithRows(nextList),
+        },
+        () => {
+          if (scrollTop !== 0) {
+            document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+          }
         }
-      })
+      )
     }
     /* 用户重新选择了城市 */
-    if (this.props.userStatus.code && nextProps.userStatus.code && (nextProps.userStatus.code[0] !== this.props.userStatus.code[0])) {
-      this.props.dispatch(changeCity({
-        page: 1,
-        location: nextProps.userStatus.code[0] || [],
-      })).then(() => {
-        document.body.scrollTop = document.documentElement.scrollTop = 0
-      })
+    if (
+      this.props.userStatus.code &&
+      nextProps.userStatus.code &&
+      nextProps.userStatus.code[0] !== this.props.userStatus.code[0]
+    ) {
+      this.props
+        .dispatch(
+          changeCity({
+            page: 1,
+            location: nextProps.userStatus.code[0] || [],
+          })
+        )
+        .then(() => {
+          document.body.scrollTop = document.documentElement.scrollTop = 0
+        })
     }
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
@@ -208,17 +247,19 @@ class HomePage extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
-    window.removeEventListener('scroll')
+    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
-    const {show, showAd} = this.state
-    const Row = (d) => {
-      return <div className={style.listitem}>
-        <div onClick={() => this.goPosition(d) }>
-          <JobCard data={d} />
+    const { show, showAd } = this.state
+    const Row = d => {
+      return (
+        <div className={style.listitem}>
+          <div onClick={() => this.goPosition(d)}>
+            <JobCard data={d} />
+          </div>
         </div>
-      </div>
+      )
     }
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
@@ -228,10 +269,7 @@ class HomePage extends PureComponent {
           downLoadAd={this.downLoadAd}
         />
         <div className={style.searchBar}>
-          <Ad.AdTop
-            show={show}
-            downLoadAd={this.downLoadAd}
-          />
+          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <MySearchBar
             searchFocus={this.searchFocus}
             onChangeCity={this.onChangeCity}
@@ -240,12 +278,17 @@ class HomePage extends PureComponent {
             placeholder="请输入职位/公司名"
           />
         </div>
-        <Carousels {...this.props}/>
+        <Carousels {...this.props} />
         <WhiteSpace size="sm" />
         <FamousCompany />
         <WhiteSpace size="sm" />
         <HotTrade />
-        {showAd ? <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} location={this.props.history.location.pathname}/> : null}
+        {showAd ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
+          />
+        ) : null}
       </div>
     )
   }
