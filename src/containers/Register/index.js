@@ -4,8 +4,6 @@
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import Rectangle from '@static/Rectangle@3x.png'
-import passwordno from '@static/paswordno@3x.png'
-import paswordimg from '@static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import F from '../../helper/tool'
@@ -13,6 +11,7 @@ import style from './style.less'
 import Loginstyle from '../Login/style.less'
 import {captcha} from '../../actions/auth'
 import {mobile, register} from '../../actions/auth'
+import {errCode} from '../../helper/errCode'
 
 @createForm()
 class Register extends PureComponent {
@@ -42,8 +41,8 @@ class Register extends PureComponent {
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
       if(err) return
-      // console.log(value)
-      if(value.number && value.imgCode && value.massageCode && value.newPassword) {
+      // console.log(value) && value.imgCode
+      if(value.number && value.massageCode) {
         this.setState({
           disabled: true,
         })
@@ -68,44 +67,62 @@ class Register extends PureComponent {
     this.props.form.validateFields((err, value) => {
       if(err) return
       if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
-      if(!value.imgCode) return Toast.info('请输入图形验证码' ,2)
       window.zhuge.track('获取验证码')
-      if (this.state.disableCode){
-        mobile({
-          mobile: value.number,
-          captcha: value.imgCode,
-          sms_type: 2,
-        }).then((data) => {
-          if(data.flag === 0) {
-            this.setState({
-              disableCode: false,
-            })
-            this.timer = setInterval(() => {
 
-              if(this.state.index <= 0) {
-                return this.Clear()
-              }
-
+      let send = (res) => {
+        if (this.state.disableCode){
+          mobile({
+            mobile: value.number,
+            captcha: '',
+            sms_type: 2,
+            tx_ticket: res.ticket,
+            tx_randstr: res.randstr,
+            tx_type: 1,
+          }).then((data) => {
+            if(data.flag === 0) {
               this.setState({
-                index: this.state.index -1,
-                tipFont: `${this.state.index -1}秒后重新获取`,
+                disableCode: false,
               })
+              this.timer = setInterval(() => {
 
-            }, 999)
-          } else if(data.flag === 5012) {
-            Toast.info('号码已注册', 2)
-            window.zhuge.track('注册失败', {
-              '手机号已注册': '',
-            })
-          } else {
-            this.changeImg()
-            Toast.info('验证码错误', 2)
-            window.zhuge.track('注册失败', {
-              '验证码错误': '',
-            })
-          }
-        })
+                if(this.state.index <= 0) {
+                  return this.Clear()
+                }
+
+                this.setState({
+                  index: this.state.index -1,
+                  tipFont: `${this.state.index -1}秒后重新获取`,
+                })
+
+              }, 999)
+            } else if(data.flag === 5012) {
+              Toast.info('号码已注册', 2)
+              window.zhuge.track('注册失败', {
+                '手机号已注册': '',
+              })
+            } else {
+              window.zhuge.track('注册失败', {
+                '验证码错误': '',
+              })
+              const flag = data.flag
+              const errMs = errCode[flag]
+              if (errMs) {
+                Toast.info(errMs, 2)
+              } else {
+                Toast.info('验证码错误', 2)
+              }
+            }
+          })
+        }
+
       }
+
+      let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
+        if(res.ret === 0){
+          send(res)
+        }
+      })
+      captcha1.show()
     })
   }
 
@@ -113,9 +130,6 @@ class Register extends PureComponent {
     if(this.state.disabled) {
       this.props.form.validateFields((err, value) => {
         if(err) return
-        if(value.newPassword.length < 6 || value.newPassword.length > 20){
-          return Toast.info('密码格式为6-20位字母或数字', 2)
-        }
         const {register_page_source} = queryString.parse(window.location.search)
         // console.log(value)
         register({
@@ -123,7 +137,7 @@ class Register extends PureComponent {
           username: value.number,
           mobile: value.number,
           code: value.massageCode,
-          password: value.newPassword,
+          password: '', // 这个密码框去除了，用不到，暂时没有删除，保留字段
           register_type: 'mobile_register',
           user_type: 2,
           platform: 3,
@@ -188,10 +202,10 @@ class Register extends PureComponent {
   componentDidMount() {
     const {key} = this.props.location.state || {}
     const {sss} = queryString.parse(window.location.search)
-    console.log(key)
+    // const TriggerSource = ''
     if(sss) {
       window.zhuge.track('注册页面打开', {
-        '触发来源': '首页浮窗',
+      '触发来源': '首页浮窗',
       })
     } else {
       window.zhuge.track('注册页面打开', {
@@ -220,17 +234,6 @@ class Register extends PureComponent {
             placeholder="手机号"
             maxLength="11"
           />
-          <div className={style.pictureCode}>
-            <InputItem
-              {...getFieldProps('imgCode', {onChange: this.onPhoneNumber})}
-              className={`${style.inputHei} ${style.picLeft}`}
-              clear
-              placeholder="验证码"
-            />
-            <div onClick={this.changeImg} className={style.picture}>
-              <img src={this.state.url} alt="图片验证码" />
-            </div>
-          </div>
           <div className={style.massageCode}>
             <InputItem
               {...getFieldProps('massageCode', {onChange: this.onPhoneNumber})}
@@ -240,20 +243,9 @@ class Register extends PureComponent {
             />
             <div
               onClick={this.getCode}
+              id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
               className={`${style.massage} ${this.state.disableCode ? null : style.disabledCode}`}>
               {this.state.tipFont}
-            </div>
-          </div>
-          <div className={style.passwordCode}>
-            <InputItem
-              {...getFieldProps('newPassword', {onChange: this.onPhoneNumber})}
-              className={`${style.inputHei} ${style.passwordLeft}`}
-              type={this.state.password ? 'password' : 'text'}
-              clear
-              placeholder="请输入6-20个字母或数字的密码"
-            />
-            <div className={style.password} onClick={this.changePasswordType}>
-              <img src={this.state.password ? passwordno : paswordimg} alt="显示" />
             </div>
           </div>
         </div>

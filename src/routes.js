@@ -1,188 +1,450 @@
-// 清酒稻香
+import Loadable from "react-loadable";
 import React from 'react'
-import Tab from './containers/Tabs'
+// import Tab from './containers/Tabs'
 import { Switch, Route, Redirect } from 'react-router-dom'
-const codeTypeTentXun = true  // 默认使用腾讯验证码
-let loginComponent = require('./containers/Login/index2').default
-let loginCodeComponent = require('./containers/LoginCode/index2').default
-let registerComponent = require('./containers/Register/index2').default
-let forgetPasswordComponent = require('./containers/ForgetPassword/index2').default
-let bindMoblePhoneComponent = require('./containers/BindMoblePhone/index2').default
-let bindEmailComponent = require('./containers/BindEmail/index2').default
-if (!codeTypeTentXun) {
-  loginComponent = require('./containers/Login/index').default
-  registerComponent = require('./containers/Register/index').default
-  forgetPasswordComponent = require('./containers/ForgetPassword/index').default
-  loginCodeComponent = require('./containers/LoginCode/index').default
-  bindMoblePhoneComponent = require('./containers/BindMoblePhone/index').default
-  bindEmailComponent = require('./containers/BindEmail/index').default
-}
+
+const loading = (<div>Loading...</div>)
+/** 下面是代码分割异步加载的方式引入各页面 **/
+const ActivityRegister = Loadable({
+  loader: () => import("./containers/ActivityRegister"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Home = Loadable({
+  loader: () => import("./containers/HomePage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const JobPage = Loadable({
+  loader: () => import("./containers/JobPage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const MassagePage = Loadable({
+  loader: () => import("./containers/MassagePage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const UserPage = Loadable({
+  loader: () => import("./containers/UserPage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const SearchEnd = Loadable({
+  loader: () => import("./containers/SearchEnd"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Searchpage = Loadable({
+  loader: () => import("./containers/Searchpage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const DeliveryRecord = Loadable({
+  loader: () => import("./containers/DeliveryRecord"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const PrivacyService = Loadable({
+  loader: () => import("./containers/PrivacyService"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const MoreSeeting = Loadable({
+  loader: () => import("./containers/MoreSeeting"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const SystemMessage = Loadable({
+  loader: () => import("./containers/SystemMessage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const SelectPost = Loadable({
+  loader: () => import("./containers/SelectPost"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const SelectCompany = Loadable({
+  loader: () => import("./containers/SelectCompany"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const BusinessLetter = Loadable({
+  loader: () => import("./containers/BusinessLetter"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Subscription = Loadable({
+  loader: () => import("./containers/Subscription"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const AddCompany = Loadable({
+  loader: () => import("./containers/AddCompany"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ChangePassword = Loadable({
+  loader: () => import("./containers/ChangePassword"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const BindMoblePhone = Loadable({
+  loader: () => import("./containers/BindMoblePhone"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const BindEmail = Loadable({
+  loader: () => import("./containers/BindEmail"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Opintion = Loadable({
+  loader: () => import("./containers/Opintion"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const AboutOus = Loadable({
+  loader: () => import("./containers/AboutOus"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeInfo = Loadable({
+  loader: () => import("./containers/ResumeInfo"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeIntention = Loadable({
+  loader: () => import("./containers/ResumeIntention"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeEducationEdit = Loadable({
+  loader: () => import("./containers/ResumeEducationEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeEducation = Loadable({
+  loader: () => import("./containers/ResumeEducation"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeExperienceEdit = Loadable({
+  loader: () => import("./containers/ResumeExperienceEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeExperience = Loadable({
+  loader: () => import("./containers/ResumeExperience"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeLanguageEdit = Loadable({
+  loader: () => import("./containers/ResumeLanguageEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeLanguage = Loadable({
+  loader: () => import("./containers/ResumeLanguage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeSkillsEdit = Loadable({
+  loader: () => import("./containers/ResumeSkillsEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeSkills = Loadable({
+  loader: () => import("./containers/ResumeSkills"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeTrainingEdit = Loadable({
+  loader: () => import("./containers/ResumeTrainingEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeTraining = Loadable({
+  loader: () => import("./containers/ResumeTraining"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeCertificateEdit = Loadable({
+  loader: () => import("./containers/ResumeCertificateEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeCertificate = Loadable({
+  loader: () => import("./containers/ResumeCertificate"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeOtherEdit = Loadable({
+  loader: () => import("./containers/ResumeOtherEdit"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeOther = Loadable({
+  loader: () => import("./containers/ResumeOther"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumeDescription = Loadable({
+  loader: () => import("./containers/ResumeDescription"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const MicroResume = Loadable({
+  loader: () => import("./containers/MicroResume"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Resume = Loadable({
+  loader: () => import("./containers/Resume"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const JobDetails_pan = Loadable({
+  loader: () => import("./containers/JobDetails_pan"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const CompanyIntroduce = Loadable({
+  loader: () => import("./containers/CompanyIntroduce"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Login = Loadable({
+  loader: () => import("./containers/Login"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const LoginCode = Loadable({
+  loader: () => import("./containers/LoginCode"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Register = Loadable({
+  loader: () => import("./containers/Register"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ForgetPassword = Loadable({
+  loader: () => import("./containers/ForgetPassword"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Chat = Loadable({
+  loader: () => import("./containers/Chat"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const TipOffs = Loadable({
+  loader: () => import("./containers/TipOffs"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const MobileBind = Loadable({
+  loader: () => import("./containers/MobileBind"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const EmailBind = Loadable({
+  loader: () => import("./containers/EmailBind"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const PositionDetail = Loadable({
+  loader: () => import("./containers/PositionDetail"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const CompanyDetail = Loadable({
+  loader: () => import("./containers/CompanyDetail"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const HomePage = Loadable({
+  loader: () => import("./containers/HomePage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const routes = [
+  {
+    path: '/activityRegister',
+    component: ActivityRegister,
+  },
+  {
+    path: '/tabs/home',
+    component: Home,
+  },
+  {
+    path: '/tabs/job',
+    component: JobPage,
+  },
+  {
+    path: '/tabs/massage',
+    component: MassagePage,
+  },
+  {
+    path: '/tabs/user',
+    component: UserPage,
+  },
+  {
+    path: '/search/:keyword',
+    component: SearchEnd,
+  },
+  {
+    path: '/search',
+    component: Searchpage,
+  },
+  {
+    path: '/person/applyRecord',
+    component: DeliveryRecord,
+  },
+  {
+    path: '/person/privacy',
+    component: PrivacyService,
+  },
+  {
+    path: '/person/more',
+    component: MoreSeeting,
+  },
+  {
+    path: '/person/message',
+    component: SystemMessage,
+  },
+  {
+    path: '/person/jobFavorites',
+    component: SelectPost,
+  },
+  {
+    path: '/person/followedCompanies',
+    component: SelectCompany,
+  },
+  {
+    path: '/person/letter/:message_id',
+    component: BusinessLetter,
+  },
+  {
+    path: '/person/subscription',
+    component: Subscription,
+  },
+  {
+    path: '/person/shield',
+    component: AddCompany,
+  },
+  {
+    path: '/user/changePassword',
+    component: ChangePassword,
+  },
+  {
+    path: '/user/bindPhone',
+    component: BindMoblePhone,
+  },
+  {
+    path: '/user/bindEmail',
+    component: BindEmail,
+  },
+  {
+    path: '/feedback',
+    component: Opintion,
+  },
+  {
+    path: '/aboutous',
+    component: AboutOus,
+  },
+  {
+    path: '/resume/info',
+    component: ResumeInfo,
+  },
+  {
+    path: '/resume/intention',
+    component: ResumeIntention,
+  },
+  {
+    path: '/resume/education/:id',
+    component: ResumeEducationEdit,
+  },
+  {
+    path: '/resume/education',
+    component: ResumeEducation,
+  },
+  {
+    path: '/resume/experience/:id',
+    component: ResumeExperienceEdit,
+  },
+  {
+    path: '/resume/experience',
+    component: ResumeExperience,
+  },
+  {
+    path: '/resume/language/:id',
+    component: ResumeLanguageEdit,
+  },
+  {
+    path: '/resume/language',
+    component: ResumeLanguage,
+  },
+  {
+    path: '/resume/skills/:id',
+    component: ResumeSkillsEdit,
+  },
+  {
+    path: '/resume/skills',
+    component: ResumeSkills,
+  },
+  {
+    path: '/resume/training/:id',
+    component: ResumeTrainingEdit,
+  },
+  {
+    path: '/resume/training',
+    component: ResumeTraining,
+  },
+  {
+    path: '/resume/certificate/:id',
+    component: ResumeCertificateEdit,
+  },
+  {
+    path: '/resume/certificate',
+    component: ResumeCertificate,
+  },
+  {
+    path: '/resume/other/:id',
+    component: ResumeOtherEdit,
+  },
+  {
+    path: '/resume/other',
+    component: ResumeOther,
+  },
+  {
+    path: '/resume/description',
+    component: ResumeDescription,
+  },
+  {
+    path: '/resume/micro',
+    component: MicroResume,
+  },
+  {
+    path: '/resume',
+    component: Resume,
+  },
+  {
+    path: '/jobdetails',
+    component: JobDetails_pan,
+  },
+  {
+    path: '/companyintroduce',
+    component: CompanyIntroduce,
+  },
+  {
+    path: '/user/login',
+    component: Login,
+  },
+  {
+    path: '/user/logincode',
+    component: LoginCode,
+  },
+  {
+    path: '/user/register',
+    component: Register,
+  },
+  {
+    path: '/user/forgetPassword',
+    component: ForgetPassword,
+  },
+  {
+    path: '/chat/:id',
+    component: Chat,
+  },
+  {
+    path: '/tip-offs',
+    component: TipOffs,
+  },
+  {
+    path: '/mobilebind/:status/:mobile/:hidden_mobile',
+    component: MobileBind,
+  },
+  {
+    path: '/emailbind/:status/:email/:hidden_email',
+    component: EmailBind,
+  },
+  {
+    path: '/:comapny_id/:job_id',
+    component: PositionDetail,
+  },
+  {
+    path: '/:comapny_id',
+    component: CompanyDetail,
+  },
+  {
+    path: '/',
+    component: HomePage,
+  },
+]
 
 export default (
   <Switch>
-      <Route
-        path="/activityRegister"
-        component={require('./containers/ActivityRegister').default} />
-      {/*<Route*/}
-        {/*path="/tabs/:name"*/}
-        {/*component={props => (<Tab {...props} />)} />*/}
-      <Route
-        path="/tabs/home"
-        component={require('./containers/HomePage').default} />
-      <Route
-        path="/tabs/job"
-        component={require('./containers/JobPage').default} />
-      <Route
-        path="/tabs/massage"
-        component={require('./containers/MassagePage').default} />
-      <Route
-        path="/tabs/user"
-        component={require('./containers/UserPage').default} />
-      <Route
-        path="/search/:keyword"
-        component={require('./containers/SearchEnd').default} />
-      <Route
-        path="/search"
-        component={require('./containers/Searchpage').default} />
-      <Route
-        path="/person/applyRecord"
-        component={require('./containers/DeliveryRecord').default} />
-      <Route
-        path="/person/privacy"
-        component={require('./containers/PrivacyService').default} />
-      <Route
-        path="/person/more"
-        component={require('./containers/MoreSeeting').default} />
-      <Route
-        path="/person/message"
-        component={require('./containers/SystemMessage').default} />
-      <Route
-        path="/person/jobFavorites"
-        component={require('./containers/SelectPost').default} />
-      <Route
-        path="/person/followedCompanies"
-        component={require('./containers/SelectCompany').default} />
-      <Route
-        path="/person/letter/:message_id"
-        component={require('./containers/BusinessLetter').default} />
-      <Route
-        path="/person/subscription"
-        component={require('./containers/Subscription').default} />
-      <Route
-        path="/person/shield"
-        component={require('./containers/AddCompany').default} />
-      <Route
-        path="/user/changePassword"
-        component={require('./containers/ChangePassword').default} />
-      <Route
-        path="/user/bindPhone"
-        component={bindMoblePhoneComponent} />
-      <Route
-        path="/user/bindEmail"
-        component={bindEmailComponent} />
-      <Route
-        path="/feedback"
-        component={require('./containers/Opintion').default} />
-      <Route
-        path="/aboutous"
-        component={require('./containers/AboutOus').default} />
-      <Route
-        path="/resume/info"
-        component={require('./containers/ResumeInfo').default} />
-      <Route
-        path="/resume/intention"
-        component={require('./containers/ResumeIntention').default} />
-      <Route
-        path="/resume/education/:id"
-        component={require('./containers/ResumeEducationEdit').default} />
-      <Route
-        path="/resume/education"
-        component={require('./containers/ResumeEducation').default} />
-      <Route
-        path="/resume/experience/:id"
-        component={require('./containers/ResumeExperienceEdit').default} />
-      <Route
-        path="/resume/experience"
-        component={require('./containers/ResumeExperience').default} />
-      <Route
-        path="/resume/language/:id"
-        component={require('./containers/ResumeLanguageEdit').default} />
-      <Route
-        path="/resume/language"
-        component={require('./containers/ResumeLanguage').default} />
-      <Route
-        path="/resume/skills/:id"
-        component={require('./containers/ResumeSkillsEdit').default} />
-      <Route
-        path="/resume/skills"
-        component={require('./containers/ResumeSkills').default} />
-      <Route
-        path="/resume/training/:id"
-        component={require('./containers/ResumeTrainingEdit').default} />
-      <Route
-        path="/resume/training"
-        component={require('./containers/ResumeTraining').default} />
-      <Route
-        path="/resume/certificate/:id"
-        component={require('./containers/ResumeCertificateEdit').default} />
-      <Route
-        path="/resume/certificate"
-        component={require('./containers/ResumeCertificate').default} />
-      <Route
-        path="/resume/other/:id"
-        component={require('./containers/ResumeOtherEdit').default} />
-      <Route
-        path="/resume/other"
-        component={require('./containers/ResumeOther').default} />
-      <Route
-        path="/resume/description"
-        component={require('./containers/ResumeDescription').default} />
-      <Route
-        path="/resume/micro"
-        component={require('./containers/MicroResume').default} />
-      <Route
-        path="/resume"
-        component={require('./containers/Resume').default} />
-      <Route
-        path="/jobdetails"
-        component={require('./containers/JobDetails_pan').default} />
-      <Route
-        path="/companyintroduce"
-        component={require('./containers/CompanyIntroduce').default} />
-      <Route
-        path="/user/login"
-        component={loginComponent} />
-      <Route
-        path="/user/logincode"
-        component={loginCodeComponent} />
-      <Route
-        path="/user/register"
-        component={registerComponent} />
-      <Route
-        path="/user/forgetPassword"
-        component={forgetPasswordComponent} />
-      <Route
-        path="/chat/:id"
-        component={require('./containers/Chat').default} />
-      <Route
-        path="/tip-offs"
-        component={require('./containers/TipOffs').default} />
-      <Route
-        path="/mobilebind/:status/:mobile/:hidden_mobile"
-        component={require('./containers/MobileBind').default} />
-      <Route
-        path="/emailbind/:status/:email/:hidden_email"
-        component={require('./containers/EmailBind').default} />
-      <Route
-        path="/:comapny_id/:job_id"
-        component={require('./containers/PositionDetail').default} />
-      <Route
-        path="/:comapny_id"
-        component={require('./containers/CompanyDetail').default} />
-      <Route
-        path="/"
-        component={require('./containers/HomePage').default} />
-      <Redirect to="/" />
-    {/* <Route component={() => <h1>404</h1>} /> */}
+    <Redirect exact from="/" to="/tabs/home" />
+    {
+      routes.map((route, index) => {
+        return (
+          <Route
+            key={index}
+            path={route.path}
+            render={(match) => <route.component match={match}/>}
+          />
+        )
+      })
+    }
   </Switch>
 )

@@ -12,6 +12,7 @@ import { createForm } from 'rc-form'
 import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import {mobile, loginCode} from '../../actions/auth'
+import {errCode} from "../../helper/errCode";
 
 @createForm()
 class LoginCode extends PureComponent {
@@ -30,18 +31,10 @@ class LoginCode extends PureComponent {
     })
   }
 
-  changeImg = () => {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-  }
-
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
       if(err) return
-      if(value.number && value.imgCode && value.massageCode) {
+      if(value.number && value.massageCode) {
         this.setState({
           disabled: true,
         })
@@ -70,35 +63,51 @@ class LoginCode extends PureComponent {
     this.props.form.validateFields((err, value) => {
       if(err) return
       if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
-      if(!value.imgCode) return Toast.info('请输入图形验证码' ,2)
-      if (this.state.disableCode){
-        mobile({
-          mobile: value.number,
-          captcha: value.imgCode,
-          sms_type: 7,
-        }).then((data) => {
-          if(data.flag === 0) {
-            this.setState({
-              disableCode: false,
-            })
-            this.timer = setInterval(() => {
-
-              if(this.state.index <= 0) {
-                return this.Clear()
-              }
-
+      let send = (res) => {
+        if (this.state.disableCode){
+          mobile({
+            mobile: value.number,
+            captcha: '',
+            sms_type: 7,
+            tx_ticket: res.ticket,
+            tx_randstr: res.randstr,
+            tx_type: 1,
+          }).then((data) => {
+            if(data.flag === 0) {
               this.setState({
-                index: this.state.index -1,
-                tipFont: `${this.state.index -1}秒后重新获取`,
+                disableCode: false,
               })
+              this.timer = setInterval(() => {
+                if(this.state.index <= 0) {
+                  return this.Clear()
+                }
 
-            }, 999)
-          } else {
-            this.changeImg()
-            Toast.info('验证码错误', 2)
-          }
-        })
+                this.setState({
+                  index: this.state.index -1,
+                  tipFont: `${this.state.index -1}秒后重新获取`,
+                })
+
+              }, 999)
+            } else {
+              // this.changeImg()
+              const flag = data.flag
+              const errMs = errCode[flag]
+              if (errMs) {
+                Toast.info(errMs, 2)
+              } else {
+                Toast.info('验证码错误', 2)
+              }
+            }
+          })
+        }
       }
+
+      let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
+        if(res.ret === 0){
+          send(res)
+        }
+      })
+      captcha1.show()
     })
   }
 
@@ -114,7 +123,6 @@ class LoginCode extends PureComponent {
           }
           return null
         })
-        console.log(_url)
         loginCode({
           username: value.number,
           password: value.massageCode,
@@ -143,7 +151,7 @@ class LoginCode extends PureComponent {
               '登录失败': err.errMsg,
             })
             Toast.info(err.errMsg, 2)
-          })
+        })
       })
     }
   }
@@ -194,17 +202,6 @@ class LoginCode extends PureComponent {
             placeholder="手机号"
             maxLength="11"
           />
-          <div className={style.pictureCode}>
-            <InputItem
-              {...getFieldProps('imgCode', {onChange: this.onPhoneNumber})}
-              className={`${style.inputHei} ${style.picLeft}`}
-              clear
-              placeholder="验证码"
-            />
-            <div onClick={this.changeImg} className={style.picture}>
-              <img src={this.state.url} alt="图片验证码" />
-            </div>
-          </div>
           <div className={style.massageCode}>
             <InputItem
               {...getFieldProps('massageCode', {onChange: this.onPhoneNumber})}
@@ -213,6 +210,7 @@ class LoginCode extends PureComponent {
               placeholder="请输入获取验证码"
             />
             <div onClick={this.getCode}
+                 id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
                  className={`${style.massage} ${this.state.disableCode ? null : style.disabledCode}`}>
               {this.state.tipFont}
             </div>
@@ -222,7 +220,7 @@ class LoginCode extends PureComponent {
           <a className={this.state.disabled ? null : `${style.disabled}`}>登 录</a>
         </div>
         {/*<div className={style.bottom}>*/}
-        {/*<ThirdPartyLogin />*/}
+          {/*<ThirdPartyLogin />*/}
         {/*</div>*/}
       </div>
     )
