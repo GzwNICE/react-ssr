@@ -80,40 +80,51 @@ class BindMoblePhone extends PureComponent {
       }
     }
     if (disableCode){
-      mobile_bind({
-        country: country,
-        mobile: mobile,
-        sms_type: 3,
-        page_source: 3,
-        user_id: auth.user_id,
-        version: '9.9.9',
-      }).then((data) => {
-        const { msg, errCode } = data
-        if(errCode === 0) {
-          this.setState({
-            disableCode: false,
-          })
-          this.timer = setInterval(() => {
-            if (this.state.index <= 0) {
-              return this.Clear()
-            }
+      let send = (res) => {
+        mobile_bind({
+          country: country,
+          mobile: mobile,
+          sms_type: 3,
+          page_source: 3,
+          user_id: auth.user_id,
+          version: '9.9.9',
+          tx_ticket: res.ticket,
+          tx_randstr: res.randstr,
+          tx_type: 1,
+        }).then((data) => {
+          const { msg, errCode } = data
+          if(errCode === 0) {
             this.setState({
               disableCode: false,
-              index: this.state.index - 1,
-              tipFont: `已发送(${this.state.index - 1}s)`,
             })
-          }, 1000)
-        } else {
-          if (msg) {
-            Toast.fail(msg, 2)
+            this.timer = setInterval(() => {
+              if (this.state.index <= 0) {
+                return this.Clear()
+              }
+              this.setState({
+                disableCode: false,
+                index: this.state.index - 1,
+                tipFont: `已发送(${this.state.index - 1}s)`,
+              })
+            }, 1000)
+          } else {
+            if (msg) {
+              Toast.fail(msg, 2)
+            }
+            captcha().then(data => {
+              this.setState({
+                url: data,
+              })
+            })
           }
-          captcha().then(data => {
-            this.setState({
-              url: data,
-            })
-          })
+        })
+      }
+      let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
+        if(res.ret === 0){
+          send(res)
         }
       })
+      captcha1.show()
     }
   }
 
@@ -220,6 +231,7 @@ class BindMoblePhone extends PureComponent {
               <input onChange={this.onChange}  ref="code" placeholder="请输入手机验证码" type="text" />
             </div>
             <div onClick={this.getCode}
+                 id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
                  className={`${style.clickBox} ${this.state.disableCode ? null : style.disabledCode}`}>
               {this.state.tipFont}
             </div>

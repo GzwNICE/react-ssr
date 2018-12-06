@@ -3,8 +3,15 @@
 #### 项目介绍
 最佳东方同构触屏版
 
-#### 软件架构
-软件架构说明
+## 测试发布
+    执行npm run build:test之后把build中资源放到m_veryeast_cn/webroot/v2中
+## 预发布/
+    执行npm run build:pre之后把build中资源文件放到m_veryeast_cn/webroot/v2中，构建ve_m_ssr和m_veryeast_cn预发布环境
+## 生产发布
+    执行npm run build:pre之后把build中资源文件放到m_veryeast_cn/webroot/v2中，构建ve_m_ssr和m_veryeast_cn预生产环境
+
+index.production.html 是构建时用到的html
+这个master权限我有
 
 
 #### 安装教程
@@ -15,8 +22,8 @@
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
+1. npm run start 运行之后 使用http://m.veryeast.cn:3000/
+2. 测试使用： http://m.veryeast.cn/
 3. xxxx
 
 #### 参与贡献

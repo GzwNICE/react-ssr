@@ -62,27 +62,39 @@ class BindEmail extends PureComponent {
     if (!F.changeEmail(this.state.email))
       return Toast.info('请输入正确的邮箱', 2)
     if (this.state.disableCode) {
-      email_verify_code({
-        email: this.state.email,
-      }).then(data => {
-        const { msg, errMsg, status } = data
-        if (status === 0) {
-          if (msg || errMsg) {
-            Toast.fail(msg || errMsg, 2)
-          }
-        } else {
-          this.timer = setInterval(() => {
-            if (this.state.index <= 0) {
-              return this.Clear()
+      let send = (res) => {
+        email_verify_code({
+          email: this.state.email,
+          tx_ticket: res.ticket,
+          tx_randstr: res.randstr,
+          tx_type: 1,
+        }).then(data => {
+          const { msg, errMsg, status } = data
+          if (status === 0) {
+            if (msg || errMsg) {
+              Toast.fail(msg || errMsg, 2)
             }
-            this.setState({
-              disableCode: false,
-              index: this.state.index - 1,
-              tipFont: `已发送(${this.state.index - 1}s)`,
-            })
-          }, 1000)
+          } else {
+            this.timer = setInterval(() => {
+              if (this.state.index <= 0) {
+                return this.Clear()
+              }
+              this.setState({
+                disableCode: false,
+                index: this.state.index - 1,
+                tipFont: `已发送(${this.state.index - 1}s)`,
+              })
+            }, 1000)
+          }
+        })
+      }
+
+      let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
+        if(res.ret === 0){
+          send(res)
         }
       })
+      captcha1.show()
     }
   }
 
@@ -165,6 +177,7 @@ class BindEmail extends PureComponent {
             </div>
             <div
               onClick={this.getCode}
+              id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
               className={`${style.clickBox} ${
                 this.state.disableCode ? null : style.disabledCode
               }`}

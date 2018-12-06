@@ -4,6 +4,7 @@
 
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
+import {connect} from 'react-redux'
 import style from './style.less'
 import Rectangle from '@static/Rectangle@3x.png'
 import queryString from 'query-string'
@@ -12,8 +13,12 @@ import { createForm } from 'rc-form'
 import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import {mobile, loginCode} from '../../actions/auth'
+import {errCode} from "../../helper/errCode";
+import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
 
 @createForm()
+@connect(state => ({
+}))
 class LoginCode extends PureComponent {
   state = {
     url: '',
@@ -30,18 +35,10 @@ class LoginCode extends PureComponent {
     })
   }
 
-  changeImg = () => {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-  }
-
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
       if(err) return
-      if(value.number && value.imgCode && value.massageCode) {
+      if(value.number && value.massageCode) {
         this.setState({
           disabled: true,
         })
@@ -70,35 +67,51 @@ class LoginCode extends PureComponent {
     this.props.form.validateFields((err, value) => {
       if(err) return
       if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
-      if(!value.imgCode) return Toast.info('请输入图形验证码' ,2)
-      if (this.state.disableCode){
-        mobile({
-          mobile: value.number,
-          captcha: value.imgCode,
-          sms_type: 7,
-        }).then((data) => {
-          if(data.flag === 0) {
-            this.setState({
-              disableCode: false,
-            })
-            this.timer = setInterval(() => {
-
-              if(this.state.index <= 0) {
-                return this.Clear()
-              }
-
+      let send = (res) => {
+        if (this.state.disableCode){
+          mobile({
+            mobile: value.number,
+            captcha: '',
+            sms_type: 7,
+            tx_ticket: res.ticket,
+            tx_randstr: res.randstr,
+            tx_type: 1,
+          }).then((data) => {
+            if(data.flag === 0) {
               this.setState({
-                index: this.state.index -1,
-                tipFont: `${this.state.index -1}秒后重新获取`,
+                disableCode: false,
               })
+              this.timer = setInterval(() => {
+                if(this.state.index <= 0) {
+                  return this.Clear()
+                }
 
-            }, 999)
-          } else {
-            this.changeImg()
-            Toast.info('验证码错误', 2)
-          }
-        })
+                this.setState({
+                  index: this.state.index -1,
+                  tipFont: `${this.state.index -1}秒后重新获取`,
+                })
+
+              }, 999)
+            } else {
+              // this.changeImg()
+              const flag = data.flag
+              const errMs = errCode[flag]
+              if (errMs) {
+                Toast.info(errMs, 2)
+              } else {
+                Toast.info('验证码错误', 2)
+              }
+            }
+          })
+        }
       }
+
+      let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
+        if(res.ret === 0){
+          send(res)
+        }
+      })
+      captcha1.show()
     })
   }
 
@@ -114,11 +127,11 @@ class LoginCode extends PureComponent {
           }
           return null
         })
-        console.log(_url)
         loginCode({
           username: value.number,
           password: value.massageCode,
           platform: 2,
+          appchannel: 'web',
         }).then(data => {
           if(data) {
             Toast.info('登录成功', 2)
@@ -130,7 +143,6 @@ class LoginCode extends PureComponent {
             })
             setTimeout(() => {
               if(parsed.redirect) {
-                // window.location.href = redirect
                 this.props.history.replace(_url)
               } else {
                 this.props.history.replace('/tabs/user')
@@ -142,7 +154,16 @@ class LoginCode extends PureComponent {
             window.zhuge.track('验证码登录', {
               '登录失败': err.errMsg,
             })
-            Toast.info(err.errMsg, 2)
+            if (err.errCode === -404) {
+              const payload = JSON.parse(err.errMsg)
+              this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
+              this.props.dispatch({type: 'ACCOUNT_GET_MOBILE', payload: value.number })
+              setTimeout(() => {
+                this.props.history.replace(`/user/bindExistAccount${this.props.history.location.search}`)
+              },1200)
+            } else {
+              Toast.info(err.errMsg, 2)
+            }
           })
       })
     }
@@ -179,7 +200,6 @@ class LoginCode extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form
-    // console.log(this.props)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>
@@ -194,17 +214,6 @@ class LoginCode extends PureComponent {
             placeholder="手机号"
             maxLength="11"
           />
-          <div className={style.pictureCode}>
-            <InputItem
-              {...getFieldProps('imgCode', {onChange: this.onPhoneNumber})}
-              className={`${style.inputHei} ${style.picLeft}`}
-              clear
-              placeholder="验证码"
-            />
-            <div onClick={this.changeImg} className={style.picture}>
-              <img src={this.state.url} alt="图片验证码" />
-            </div>
-          </div>
           <div className={style.massageCode}>
             <InputItem
               {...getFieldProps('massageCode', {onChange: this.onPhoneNumber})}
@@ -213,6 +222,7 @@ class LoginCode extends PureComponent {
               placeholder="请输入获取验证码"
             />
             <div onClick={this.getCode}
+                 id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
                  className={`${style.massage} ${this.state.disableCode ? null : style.disabledCode}`}>
               {this.state.tipFont}
             </div>
