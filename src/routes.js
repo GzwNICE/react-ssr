@@ -5,6 +5,10 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 const loading = (<div>Loading...</div>)
 /** 下面是代码分割异步加载的方式引入各页面 **/
+const BindExistAccount = Loadable({
+  loader: () => import("./containers/BindExistAccount"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const ActivityRegister = Loadable({
   loader: () => import("./containers/ActivityRegister"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -218,6 +222,10 @@ const HomePage = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 const routes = [
+  {
+    path: '/user/bindExistAccount',
+    component: BindExistAccount,
+  },
   {
     path: '/activityRegister',
     component: ActivityRegister,
@@ -441,7 +449,7 @@ export default (
           <Route
             key={index}
             path={route.path}
-            render={(match) => <route.component match={match}/>}
+            render={(props) => <route.component {...props}/>}
           />
         )
       })

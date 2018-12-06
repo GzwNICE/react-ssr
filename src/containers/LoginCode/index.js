@@ -4,6 +4,7 @@
 
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
+import {connect} from 'react-redux'
 import style from './style.less'
 import Rectangle from '@static/Rectangle@3x.png'
 import queryString from 'query-string'
@@ -13,8 +14,11 @@ import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
+import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
 
 @createForm()
+@connect(state => ({
+}))
 class LoginCode extends PureComponent {
   state = {
     url: '',
@@ -127,6 +131,7 @@ class LoginCode extends PureComponent {
           username: value.number,
           password: value.massageCode,
           platform: 2,
+          appchannel: 'web',
         }).then(data => {
           if(data) {
             Toast.info('登录成功', 2)
@@ -138,7 +143,6 @@ class LoginCode extends PureComponent {
             })
             setTimeout(() => {
               if(parsed.redirect) {
-                // window.location.href = redirect
                 this.props.history.replace(_url)
               } else {
                 this.props.history.replace('/tabs/user')
@@ -150,8 +154,17 @@ class LoginCode extends PureComponent {
             window.zhuge.track('验证码登录', {
               '登录失败': err.errMsg,
             })
-            Toast.info(err.errMsg, 2)
-        })
+            if (err.errCode === -404) {
+              const payload = JSON.parse(err.errMsg)
+              this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
+              this.props.dispatch({type: 'ACCOUNT_GET_MOBILE', payload: value.number })
+              setTimeout(() => {
+                this.props.history.replace(`/user/bindExistAccount${this.props.history.location.search}`)
+              },1200)
+            } else {
+              Toast.info(err.errMsg, 2)
+            }
+          })
       })
     }
   }
@@ -187,7 +200,6 @@ class LoginCode extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form
-    // console.log(this.props)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>
@@ -220,7 +232,7 @@ class LoginCode extends PureComponent {
           <a className={this.state.disabled ? null : `${style.disabled}`}>登 录</a>
         </div>
         {/*<div className={style.bottom}>*/}
-          {/*<ThirdPartyLogin />*/}
+        {/*<ThirdPartyLogin />*/}
         {/*</div>*/}
       </div>
     )

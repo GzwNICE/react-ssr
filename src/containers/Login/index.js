@@ -42,7 +42,6 @@ class Login extends PureComponent {
   }
   goRegister = (url, key) => {
     const search = window.location.search
-    // console.log(window.location.search)
     if(key) {
       window.zhuge.track('手机号注册')
     }
@@ -104,7 +103,6 @@ class Login extends PureComponent {
             tx_type: 1,
           }
         }
-        // console.log(params)
         auth.login({platform: 2, ...params}).then(data => {
           if(data) {
             Toast.info('登录成功', 2)
@@ -146,7 +144,6 @@ class Login extends PureComponent {
       let { loginNum } = this.state
       if (loginNum >= 3) {
         let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
-          // console.log(res)
           if(res.ret === 0){
             login(res)
           }
@@ -203,7 +200,7 @@ class Login extends PureComponent {
           </div>
           <div className={style.subBtn} onClick={this.handleLogin}>
             <a id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
-              className={this.state.disabled ? null : `${style.disabled}` }>登 录</a>
+               className={this.state.disabled ? null : `${style.disabled}` }>登 录</a>
           </div>
           <div className={style.otherLogin}>
             <div onClick={() => this.goRegister('/user/logincode')}>
@@ -218,7 +215,7 @@ class Login extends PureComponent {
           </Link>*/}
         </div>
         {/*<div className={style.bottom}>*/}
-          {/*<ThirdPartyLogin />*/}
+        {/*<ThirdPartyLogin />*/}
         {/*</div>*/}
       </div>
     )

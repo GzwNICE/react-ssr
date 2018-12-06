@@ -12,7 +12,11 @@ import Loginstyle from '../Login/style.less'
 import {captcha} from '../../actions/auth'
 import {mobile, register} from '../../actions/auth'
 import {errCode} from '../../helper/errCode'
+import {connect} from "react-redux";
 
+@connect(state => ({
+  bindExistAccount: state.bindExistAccount,
+}))
 @createForm()
 class Register extends PureComponent {
   state = {
@@ -21,6 +25,7 @@ class Register extends PureComponent {
     tipFont: '获取验证码',
     disableCode: true,
     index: 60,
+    needVerify: this.props.bindExistAccount.needVerify,
   }
 
   changePasswordType = () => {
@@ -141,6 +146,8 @@ class Register extends PureComponent {
           register_type: 'mobile_register',
           user_type: 2,
           platform: 3,
+          is_verify: this.state.needVerify,
+          appchannel: 'web',
         }).then(data => {
           if(data.status) {
             Toast.info('注册成功', 2)
@@ -155,10 +162,20 @@ class Register extends PureComponent {
           }
         })
           .catch(err => {
-            Toast.info(err.errMsg, 2)
             window.zhuge.track('注册失败', {
               '服务器返回原因': err.errMsg,
             })
+            if (err.errCode === -404) {
+              const payload = JSON.parse(err.errMsg)
+              console.log(payload)
+              this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
+              this.props.dispatch({type: 'ACCOUNT_GET_MOBILE', payload: value.number })
+              setTimeout(() => {
+                this.props.history.replace(`/user/bindExistAccount${this.props.history.location.search}`)
+              }, 1200)
+            } else {
+              Toast.info(err.errMsg, 2)
+            }
           })
       })
     }
@@ -205,7 +222,7 @@ class Register extends PureComponent {
     // const TriggerSource = ''
     if(sss) {
       window.zhuge.track('注册页面打开', {
-      '触发来源': '首页浮窗',
+        '触发来源': '首页浮窗',
       })
     } else {
       window.zhuge.track('注册页面打开', {
@@ -220,6 +237,7 @@ class Register extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form;
+    console.log(this.props.bindExistAccount)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>

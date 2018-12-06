@@ -1,0 +1,108 @@
+.wraper{
+  background-color: #fff;
+  height: 100%;
+  padding: 0 80px 0 80px;
+  color: #4A4A4A;
+  .header {
+    position: absolute;
+    left: 0;
+    top: 65px;
+    padding: 15px;
+  }
+  .title {
+    font-size: 44px;
+    color: #333333;
+    padding-top: 168px;
+  }
+  .content {
+    font-size: 28px;
+    margin-top: 44px;
+    margin-bottom: 66px;
+    span {
+      color: #ff4f00;
+    }
+  }
+  .name {
+    border-bottom: 1Px solid rgba(200,199,204,0.50);
+    height: 88px;
+    line-height: 88px;
+    margin-top: 44px;
+  }
+  :global(.am-button) {
+    background-color: #FF4F00;
+    color: #ffffff;
+    margin-top: 84px;
+  }
+  .newAccount {
+    color: #FF4F00;
+    margin-top: 44px;
+    text-align: right;
+  }
+}
+.select {
+  position: relative;
+  text-align: left;
+  border-bottom: 1Px solid rgba(200,199,204,0.50);
+  height: 88px;
+  line-height: 88px;
+  &-icon {
+    color: #777777;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &-wraper {
+    position: absolute;
+    left: 0;
+    top: 80px;
+    border: 1Px solid #c8c7cc;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ffffff;
+    &-sanjiao-wraper {
+      position: absolute;
+      right: 50px;
+      top: -18px;
+    }
+    &-sanjiao {
+      position: relative;
+      height: 0px;
+      width: 0px;
+      border-right: 18px solid transparent;
+      border-bottom: 18px solid #c8c7cc;
+      border-left: 18px solid transparent;
+    }
+    &-sanjiao:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: -16px;
+      border-right: 16px solid transparent;
+      border-bottom: 16px solid #FFFFFF;
+      border-left: 16px solid transparent;
+    }
+    li {
+      border-bottom: 1Px solid #c8c7cc;
+      position: relative;
+      height: 80px;
+      line-height: 80px;
+      padding: 0 10px;
+    }
+    li:last-child {
+      border: none;
+    }
+  }
+}
+
+.hide {
+  display: none;
+  //animation: hideAnimation 2s;
+}
+@keyframes hideAnimation {
+  from {opacity: 1;}
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
