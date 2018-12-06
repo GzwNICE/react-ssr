@@ -2,11 +2,15 @@ import React, { PureComponent } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo, avatar } from '../../actions/resume'
-import { NavBar, Card, Flex, Modal, TextareaItem } from 'antd-mobile'
+import { NavBar, Card, Flex, Modal, TextareaItem, Icon } from 'antd-mobile'
 // import queryString from 'query-string'
 import BitmapMin from 'bitmap-min'
 import style from './style.less'
 import editIcon from '@static/edit@3x.png'
+import setIcon from '@static/set.png'
+import refreshIcon from '@static/refresh2@3x.png'
+import previewIcon from '@static/preview@2x.png'
+import portraitIcon from '@static/portrait@3x.png'
 
 const Pla = (props) =>
   <i style={{display: 'inline-block', width: props.w + 'em'}} />
@@ -98,49 +102,49 @@ class Resume extends PureComponent {
     } = this.props
 
     return (
-      <Flex direction="column" align="stretch" className={style.root}>
-        <NavBar
-          mode="dark"
-          className={style.nav}
-          onLeftClick={() => {this.whereWillIGo()}}>
-          编辑简历
-        </NavBar>
-        <Flex.Item onScroll={this.onScroll} id="page" className={style.wrap}>
-          <div>
-            <Card
-              className={style.card}>
-              <Card.Header title="添加头像" />
-              <Card.Body className={style.main}>
-                <div className={style.head}>
-                  <div>
-                    <img src={resume.photo} />
-                    <img className={style.edit} src={editIcon} />
-                  </div>
-                  <span>点击更换</span>
-                  <input
-                    className={style.face}
-                    type="file"
-                    accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-                    onChange={this.handleFaceChange} />
-                </div>
-              </Card.Body>
-            </Card>
+      <Flex direction="column" align="stretch" className={style.wraper}>
+        <div className={style.header}>
+          <Icon
+            type="left"
+            onClick={() => {this.whereWillIGo()}}
+            className={style.nav}/>
+        </div>
+        <Flex.Item onScroll={this.onScroll} id="page" className={style.content}>
+            <div className={style.firstcard}>
+              <div className={style.photo}>
+                <img src={resume.photo ? resume.photo : portraitIcon} />
+              </div>
+              <p className={style.title}>张杰的简历</p>
+              <p className={style.subTitle}>简历完善度:<span>70%</span></p>
+              <Flex>
+                <Flex.Item>
+                  <img src={setIcon} />
+                  <p>设置</p>
+                </Flex.Item>
+                <Flex.Item>
+                  <img src={previewIcon} />
+                  <p>预览</p>
+                </Flex.Item>
+                <Flex.Item>
+                  <img src={refreshIcon} />
+                  <p>刷新</p>
+                </Flex.Item>
+              </Flex>
+            </div>
             <Card
               className={style.card}>
               <Card.Header
-                title={<span>基本信息 <i className={style.required}>必填</i></span>}
-                extra={<Link to="/resume/info"><img className={style.edit} src={editIcon} /></Link>} />
-              <Card.Body className={style.main}>
-                <div className={style.item}>
-                  <span>姓<Pla w={2} />名</span>：
-                  {resume.true_name_cn}
+                title={<span>基本信息 <span>(必填)</span></span>}
+                extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
+              <Card.Body className={style['card-body']}>
+                <div>
+                  <span>姓<Pla w={2} />名：</span>{resume.true_name_cn}
                 </div>
-                <div className={style.item}>
-                  <span>性<Pla w={2} />别</span>：
-                  {option.opts_gender.filter(item => parseInt(resume.gender, 10) === item.code).map(item => item.value)[0] || '未知'}
+                <div>
+                  <span>性<Pla w={2} />别：</span>{option.opts_gender.filter(item => parseInt(resume.gender, 10) === item.code).map(item => item.value)[0] || '未知'}
                 </div>
-                <div className={style.item}>
-                  <span>年<Pla w={2} />龄</span>：
+                <div>
+                  <span>年<Pla w={2} />龄：</span>
                   {/*(() => {
                     const now = new Date()
                     const birthday = new Date(resume.birthday)
@@ -150,37 +154,34 @@ class Resume extends PureComponent {
                   })()*/}
                   {resume.age}
                 </div>
-                <div className={style.item}>
-                  <span>所在城市</span>：
-                  {option.areas_index[resume.current_location]}
+                {/*<div>*/}
+                  {/*<span>所在城市：</span>*/}
+                  {/*{option.areas_index[resume.current_location]}*/}
+                {/*</div>*/}
+                <div>
+                  <span>工作年限：</span>{resume.work_year}
                 </div>
-                <div className={style.item}>
-                  <span>工作年限</span>：
-                  {resume.work_year}
+                <div>
+                  <span>手机号码：</span>{resume.mobile}
                 </div>
-                <div className={style.item}>
-                  <span>联系电话</span>：
-                  {resume.mobile}
+                <div>
+                  <span>联系邮箱：</span>{resume.email}
                 </div>
-                <div className={style.item}>
-                  <span>联系邮箱</span>：
-                  {resume.email}
-                </div>
-                <div className={style.item}>
-                  <span>求职状态</span>：
-                  {option.opts_job_status_index[resume.job_status]}
-                </div>
+                {/*<div>*/}
+                  {/*<span>求职状态：</span>*/}
+                  {/*{option.opts_job_status_index[resume.job_status]}*/}
+                {/*</div>*/}
               </Card.Body>
             </Card>
             <Card
               className={style.card}>
               <Card.Header
-                title={<span>求职意向 <i className={style.required}>必填</i></span>}
+                title={<span>求职意向 <span>(必填)</span></span>}
                 extra={<Link to="/resume/intention"><img className={style.edit} src={editIcon} /></Link>} />
               <Card.Body className={style.main}>
-                <div className={style.item}><span>求职岗位</span>：{DesiredPositions.map(item => option.positions_index[item]).join(', ')}</div>
-                <div className={style.item}><span>工作地点</span>：{DesiredLocations.map(item => option.areas_index[item]).join(', ')}</div>
-                <div className={style.item}><span>期望薪资</span>：{option.opts_salary.salary_scope_index[DesiredJob.desired_salary]}</div>
+                <div><span>求职岗位</span>：{DesiredPositions.map(item => option.positions_index[item]).join(', ')}</div>
+                <div><span>工作地点</span>：{DesiredLocations.map(item => option.areas_index[item]).join(', ')}</div>
+                <div><span>期望薪资</span>：{option.opts_salary.salary_scope_index[DesiredJob.desired_salary]}</div>
               </Card.Body>
             </Card>
             <Card
@@ -308,7 +309,7 @@ class Resume extends PureComponent {
                 )) : '请简明扼要地描述你的职业优势,让企业HR快速了解你~'}
               </Card.Body>
             </Card>
-          </div>
+
         </Flex.Item>
       </Flex>
     )
