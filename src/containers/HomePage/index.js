@@ -6,7 +6,6 @@ import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
 import FamousCompany from '../../components/FamousCompany'
 import HotTrade from '../../components/HotTrade'
-import HotJobs from '../../components/HotJobs'
 import { WhiteSpace } from 'antd-mobile';
 import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
@@ -226,7 +225,6 @@ class HomePage extends PureComponent {
         <FamousCompany />
         <WhiteSpace size="sm" />
         <HotTrade />
-        <HotJobs />        
       </div>
     )
   }
