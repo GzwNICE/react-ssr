@@ -113,15 +113,15 @@ export default class HotTrade extends Component {
     return (
       <div className={style.Hottrade}> 
         {TradeData
-          ? TradeData.map(item => {
+          ? TradeData.map((item,index) => {
               return (
-                <div className={style.tradeModule}>
+                <div className={style.tradeModule} key={index}>
                   <h1 className={style.subtitle}>{item.subtitle}</h1>
                   <div className={style.tradeLogo}>
                     <Flex>
-                      {item.logosrc.map(item => {
+                      {item.logosrc.map((item,index) => {
                         return (
-                          <Flex.Item>
+                          <Flex.Item key={index}>
                             <img src={item} alt="img" />
                           </Flex.Item>
                         )
@@ -129,8 +129,8 @@ export default class HotTrade extends Component {
                     </Flex>
                   </div>
                   <div className={style.tradePost}>
-                    {item.post.map(item => {
-                      return <span>{item}</span>
+                    {item.post.map((item,index) => {
+                      return <span key={index}>{item}</span>
                     })}
                   </div>
                   <i />
@@ -144,8 +144,8 @@ export default class HotTrade extends Component {
             <img src={hotjobs} alt="img" />
             <div className={style.jobs}>
               {jobs
-                ? jobs.map(item => {
-                    return <span>{item}</span>
+                ? jobs.map((item,index) => {
+                    return <span key={index}>{item}</span>
                   })
                 : null}
             </div>

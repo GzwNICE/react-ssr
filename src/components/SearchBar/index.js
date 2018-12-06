@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import { SearchBar } from 'antd-mobile'
 import SimpleItem from '../../inputs/SimpleItem'
 import { createForm } from 'rc-form'
+import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
 import angleDown from '@static/angleDown@3x.png'
 import personal from '@static/headimg@3x.png'
@@ -96,7 +97,9 @@ class MySearchBar extends PureComponent {
             className={style.bac}
             placeholder={placeholder} />
         </div>
-        <img src={personal} alt="img"  className={style.personal}/>
+        <Link rel="stylesheet" to={`/tabs/user?redirect=${this.props.location.pathname}`}>
+          <img src={personal} alt="img"  className={style.personal} />
+        </Link>
       </div>
     )
   }

@@ -13,6 +13,7 @@ export default class FamousCompany extends Component {
     return (
       <div className={style.Company}>
         <h1 className={style.subtitle}>名企专区</h1>
+        
         <div className={style.CompanyCard}>
           <div className={style.CompanyCent}>
             <div className={style.top}>

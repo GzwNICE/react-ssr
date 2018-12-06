@@ -13,6 +13,7 @@ import { getPostInit,changeCity, refReshPost, addPost, saveScrollTop } from '../
 import {saveCityCode} from '../../actions/userStatus'
 import { saveQuery } from '../../actions/jobPage'
 import { ListView } from 'antd-mobile'
+import RegisterWrap from '../../components/RegisterWrap'
 
 /*
 关于地点的逻辑梳理
@@ -45,6 +46,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
+      showAd: false,
     }
   }
 
@@ -57,6 +59,11 @@ class HomePage extends PureComponent {
     this.props.history.push(`/${d.c_userid}/${d.job_id}`)
   }
 
+  handleCloseReg(){
+    this.setState({
+      showAd: false,
+    })
+  }
 
   onTouchList = (data, name) => {
     window.zhuge.track(name)
@@ -159,6 +166,18 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
+    window.addEventListener('scroll', (e)=>{
+      let scroll = window.scrollY
+      if(scroll > 360){
+        this.setState({
+          showAd: true,
+        })
+      }else{
+        this.setState({
+          showAd: false,
+        })
+      }
+    }, false)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -189,10 +208,11 @@ class HomePage extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
+    window.removeEventListener('scroll')
   }
 
   render() {
-    const {show} = this.state
+    const {show, showAd} = this.state
     const Row = (d) => {
       return <div className={style.listitem}>
         <div onClick={() => this.goPosition(d) }>
@@ -225,6 +245,7 @@ class HomePage extends PureComponent {
         <FamousCompany />
         <WhiteSpace size="sm" />
         <HotTrade />
+        {showAd ? <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} location={this.props.history.location.pathname}/> : null}
       </div>
     )
   }

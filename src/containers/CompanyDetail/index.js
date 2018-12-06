@@ -4,7 +4,6 @@
 import React, {PureComponent} from 'react'
 import style from './style.less'
 import { NavBar, Tabs, Badge } from 'antd-mobile'
-import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
 import queryString from 'query-string'
 import ComInfor from '../../components/ComInfor'
@@ -12,6 +11,7 @@ import ShowArticle from '../../components/ShowArticle'
 import Connection from '../../components/Connection/'
 import RestPosition from '../../components/RestPosition'
 import PageScroll from '../../components/PageScroll'
+import RegisterWrap from '../../components/RegisterWrap'
 import {companydetail, companyList} from '../../actions/company' // emptyInfo
 import company from '@static/company@3x.png'
 const TabPane = Tabs.TabPane
@@ -30,6 +30,8 @@ class CompanyDetail extends PureComponent {
     showAd: true,
   }
 
+  
+  
   nextPost = (job_id, c_userid) => {
     window.zhuge.track('职位详情页打开', { '触发来源': '企业招聘职位' })
     this.props.history.push(`/${c_userid}/${job_id}`)
@@ -54,11 +56,11 @@ class CompanyDetail extends PureComponent {
     }
   }
 
-  closeReg = () => {
+  handleCloseReg(){
     this.setState({
       showAd: false,
     })
-  }
+  }  
 
   goLogin = (key) => {
     window.zhuge.track('登陆后查看')
@@ -117,16 +119,7 @@ class CompanyDetail extends PureComponent {
         </div>
 
         {
-          this.state.showAd ? <div className={style.registerWrap}>
-              <div className={style.left}>
-                <div className={style.title}>找酒店餐饮工作？</div>
-                <div className={style.des}>业内人士首选最佳东方</div>
-              </div>
-              <div className={style.regist_btn}>
-                <Link to={`/user/register?redirect=${this.props.history.location.pathname}`}>立即注册</Link>
-              </div>
-              <div className={style.close} onClick={this.closeReg}></div>
-            </div> : null
+          this.state.showAd ? <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} /> : null
         }
       </div>
     )
