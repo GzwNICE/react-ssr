@@ -42,8 +42,8 @@ let ua = navigator.userAgent
 let refresh = sessionStorage.getItem("refresh")
 let isIos = navigator.appVersion.match(/(iphone|ipad|ipod)/gi);
 if(ua.indexOf('Safari') > -1 && !refresh && isIos) {
-  sessionStorage.setItem("refresh", false)
-  window.location.href = window.location.href
+  // sessionStorage.setItem("refresh", false)
+  // window.location.href = window.location.href
 }
 
 setTimeout(function() {

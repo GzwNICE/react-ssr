@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
-import SquareList from '../../components/SquareList'
+import FamousCompany from '../../components/FamousCompany'
+import HotTrade from '../../components/HotTrade'
+import HotJobs from '../../components/HotJobs'
+import { WhiteSpace } from 'antd-mobile';
 import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
 import { getPostInit,changeCity, refReshPost, addPost, saveScrollTop } from '../../actions/home'
@@ -51,8 +54,6 @@ class HomePage extends PureComponent {
   }
 
   goPosition = (d) => {
-    // const origin = window.location.origin
-    // window.location.href = `${origin}/${d.c_userid}/${d.job_id}`
     window.zhuge.track('职位详情页打开', { '触发来源': '首页推荐列表' })
     this.props.history.push(`/${d.c_userid}/${d.job_id}`)
   }
@@ -73,7 +74,6 @@ class HomePage extends PureComponent {
   }
 
   onChangeCity = (values) => {
-    // console.log(values)
     /* 放入用户信息的reducer 重新改变props 渲染页面  userStatus*/
     this.props.dispatch(saveCityCode({
       code: values.areas,
@@ -141,10 +141,8 @@ class HomePage extends PureComponent {
   componentWillMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
-
     const { userStatus, supers } = this.props
     const location = userStatus.code && userStatus.code[0] ? userStatus.code : supers.location.address.code
-    // console.log(supers.location.address.code[0])
     this.props.dispatch(getPostInit({
       location,
       page: 1,
@@ -162,11 +160,9 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps)
     const nextList = nextProps.homeList
     const thisList = this.props.homeList
     const scrollTop = nextProps.homeDate.scrollTop
@@ -190,7 +186,6 @@ class HomePage extends PureComponent {
     }
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
-
 
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
@@ -227,26 +222,11 @@ class HomePage extends PureComponent {
           />
         </div>
         <Carousels {...this.props}/>
-        <SquareList classback={this.onTouchList} />
-        <div ref="postList" className={style.postList}>
-          <ListView
-            ref="homePage"
-            className={style.listView}
-            dataSource={this.state.dataSource}
-            renderRow={Row}
-            scrollRenderAheadDistance={100}
-            onEndReachedThreshold={10}
-            scrollEventThrottle={100}
-            initialListSize={0}
-            pageSize={2000}
-            useBodyScroll
-            onScroll={this.onScroll}
-            onEndReached={this.onEndReached} // 上拉加载
-            renderFooter={() => (<div style={{ padding: 10, textAlign: 'center' }}>
-              {this.props.homeDate.isLoading ? 'Loading...' : this.state.Loaded}
-            </div>)}
-          />
-        </div>
+        <WhiteSpace size="sm" />
+        <FamousCompany />
+        <WhiteSpace size="sm" />
+        <HotTrade />
+        <HotJobs />        
       </div>
     )
   }

@@ -77,14 +77,14 @@ class Carousels extends (PureComponent || Component) {
 }
 const DOT = {
   dotStyle: {
-    width: 0.16 + 'rem',
-    height: 0.16 + 'rem',
+    width: 0.06 + 'rem',
+    height: 0.06 + 'rem',
     backgroundColor: '#fff',
     opacity: 0.5,
   },
   dotActiveStyle: {
-    width: 0.34 + 'rem',
-    height: 0.16 + 'rem',
+    width: 0.24 + 'rem',
+    height: 0.06 + 'rem',
     borderRadius: 0.08 + 'rem',
     backgroundColor: '#fff',
   },
