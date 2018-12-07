@@ -221,10 +221,18 @@ const HomePage = Loadable({
   loader: () => import("./containers/HomePage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
+const CompanyArea = Loadable({
+  loader: () => import("./containers/CompanyArea"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const routes = [
   {
     path: '/user/bindExistAccount',
     component: BindExistAccount,
+  },
+  {
+    path: '/companyArea',
+    component: CompanyArea,
   },
   {
     path: '/activityRegister',

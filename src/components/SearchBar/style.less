@@ -1,39 +1,43 @@
-.SearchBarWrap{
-  background-color: #FF4F00;
+.SearchBarWrap {
+  background-color: #ff4f00;
   height: 50px;
   display: flex;
   align-items: center;
-  .bac{
+  .bac {
     background-color: inherit;
-    >div:last-child{
+    > div:last-child {
       color: #fff;
     }
-    >div:first-child{
-      >div{
-        text-align: left;
-        padding-left: 15px;
+    // >div:first-child{
+    //   >div{
+    //     text-align: left;
+    //     padding-left: 15px;
+    //   }
+    // }
+    :global {
+      .am-search-input {
+        flex: 0.98;
+        border-radius: 14px;
       }
-    }
-    :global{
-      .am-search-input .am-search-synthetic-ph-placeholder{
+      .am-search-input .am-search-synthetic-ph-placeholder {
         font-size: 14px;
       }
-      .am-search-input input[type="search"]{
+      .am-search-input input[type='search'] {
         font-size: 14px;
       }
     }
     i {
       width: 17px;
       height: 17px;
-      background-image: url("../../static/usearch@3x.png");
+      background-image: url('../../static/usearch@3x.png');
       background-size: cover;
     }
   }
 }
-.paddingAdd{
+.paddingAdd {
   padding: 0 15px;
 }
-.leftContant{
+.leftContant {
   width: 46px;
   color: #fff;
   display: flex;
@@ -41,28 +45,26 @@
   justify-content: space-between;
   font-size: 14px;
   padding-left: 15px;
-  >div{
-    >div{
+  > div {
+    > div {
       width: 30px;
       overflow: hidden;
-      text-overflow:ellipsis;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
   }
-  img{
+  img {
     width: 14px;
     height: 14px;
   }
 }
-.search{
+.search {
   form {
     width: 255px;
     height: 30px;
     margin-left: 14px;
-    padding: 0; 
-    border-radius: 15px;
+    padding: 0;
   }
-  
 }
 .personal {
   width: 25px;

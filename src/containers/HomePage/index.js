@@ -7,7 +7,7 @@ import MySearchBar from '../../components/SearchBar'
 import FamousCompany from '../../components/FamousCompany'
 import HotTrade from '../../components/HotTrade'
 import { WhiteSpace } from 'antd-mobile'
-import JobCard from '../../components/JobCard'
+// import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
 import {
   getPostInit,
@@ -252,15 +252,15 @@ class HomePage extends PureComponent {
 
   render() {
     const { show, showAd } = this.state
-    const Row = d => {
-      return (
-        <div className={style.listitem}>
-          <div onClick={() => this.goPosition(d)}>
-            <JobCard data={d} />
-          </div>
-        </div>
-      )
-    }
+    // const Row = d => {
+    //   return (
+    //     <div className={style.listitem}>
+    //       <div onClick={() => this.goPosition(d)}>
+    //         <JobCard data={d} />
+    //       </div>
+    //     </div>
+    //   )
+    // }
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow
