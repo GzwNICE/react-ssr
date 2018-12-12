@@ -13,6 +13,7 @@ import PositionBar from '../../components/PositionBar'
 import JobDetailsCard from '../../components/JobDetailsCard'
 import HotelEntry from '../../components/HotelEntry'
 import PageScroll from '../../components/PageScroll'
+import * as Ad from '../../components/Ad'
 import article from '@static/artlcle@3x.png'
 import rest from '@static/rest@3x.png'
 import share from '@static/share@3x.png'
@@ -25,7 +26,12 @@ import {wxconfig, wx_config, shareToPeople, shareToAll} from '../../actions/auth
 }))
 @PageScroll
 class PositionDetail extends PureComponent {
-
+  constructor(props) {
+    super(props)
+    this.state={
+      show: true,
+    }
+  }
   share = () => {
     const shareLink = window.location.href
     // const shareImg = this.props.user.portrait_url
@@ -93,10 +99,6 @@ class PositionDetail extends PureComponent {
       this.page.scrollTop = pageScroll[page] || 0
       this.shareWeixin(data)
     })
-
-    this.clipboard = Clipboard.isSupported() && new Clipboard(this.refs.share, {
-      text: () => `${href}`,
-    })
   }
 
   componentWillReceiveProps(nestprops) {
@@ -125,15 +127,10 @@ class PositionDetail extends PureComponent {
     const company = this.props.position.company_detail || {}
     const list = this.props.position.list || []
     const data = this.props.position
+    const { show } = this.state
     return (
       <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}>
-        <NavBar
-          mode="dark"
-          onLeftClick={() => {this.whereWillIGo()}}
-          rightContent={<div onClick={this.share} className={style.share} key="1">
-            <img src={share} alt="分享" ref="share" />
-          </div>}
-        > 职位详情</NavBar>
+        <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
         <div id="page" className={style.connent}>
           <JobDetailsCard {...this.props} />
           <div>
