@@ -12,8 +12,10 @@ import logoImg from '../static/logo.jpg'
       password: 'yada',
     })
  */
+// :ve.mobile.interface/user/login
 export const login = (params) => {
   return pipeline(':ve.mobile.interface/user/login', params).then(payload => {
+    console.log(payload)
     if (payload.status !== 0) {
       store.set('m:auth', payload.data)
       Cookies.set('ticket', payload.data.user_ticket)

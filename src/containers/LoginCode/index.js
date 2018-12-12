@@ -133,6 +133,7 @@ class LoginCode extends PureComponent {
           platform: 2,
           appchannel: 'web',
         }).then(data => {
+          console.log(data)
           if(data) {
             Toast.info('登录成功', 2)
             window.zhuge.track('验证码登录', {

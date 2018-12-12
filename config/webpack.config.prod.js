@@ -93,6 +93,7 @@ module.exports = {
     // 'md5': 'md5',
     // 'js-cookie': 'Cookies',
     'sso': 'SSO_Controller',
+    'BMap': 'BMap',
   },
 
   resolve: {

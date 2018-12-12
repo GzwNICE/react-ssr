@@ -103,4 +103,4 @@ export function typeString(data) {
   return Object.prototype.toString.call(data).match(/\[object (\w+)\]/)[1].toLowerCase()
 }
 
-window.Standard = Standard
+// window.Standard = Standard
