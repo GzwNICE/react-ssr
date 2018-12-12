@@ -234,6 +234,23 @@ const CompanyArea = Loadable({
 });
 const routes = [
   {
+    path: '/user/bindExistAccount',
+    component: BindExistAccount,
+  },
+  {
+    path: '/companyArea',
+    component: CompanyArea,
+  },
+  {
+    path: '/activityRegister',
+    component: ActivityRegister,
+  },
+  {
+    path: '/tabs/home',
+    component: Home,
+  },
+
+  {
     path: '/user/login',
     component: Login,
   },

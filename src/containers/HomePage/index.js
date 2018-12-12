@@ -263,32 +263,8 @@ class HomePage extends PureComponent {
     // }
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
-        <Ad.AdWindow
-          show={show}
-          onCloseAd={this.onCloseAd}
-          downLoadAd={this.downLoadAd}
-        />
-        <div className={style.searchBar}>
-          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-          <MySearchBar
-            searchFocus={this.searchFocus}
-            onChangeCity={this.onChangeCity}
-            showCity="true"
-            defaultValue="" // 输入框的默认值
-            placeholder="请输入职位/公司名"
-          />
-        </div>
         <Carousels {...this.props} />
-        <WhiteSpace size="sm" />
-        <FamousCompany />
-        <WhiteSpace size="sm" />
-        <HotTrade />
-        {showAd ? (
-          <RegisterWrap
-            onCloseReg={this.handleCloseReg.bind(this)}
-            location={this.props.history.location.pathname}
-          />
-        ) : null}
+11111111111
       </div>
     )
   }

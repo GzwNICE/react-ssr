@@ -152,7 +152,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   listView(sublist) {
-    return sublist.map(item => this.ItemView(item))
+    return sublist ? sublist.map(item => this.ItemView(item)) : null
   }
 
   allView(sublist) {

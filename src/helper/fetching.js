@@ -1,7 +1,7 @@
 import store from 'store'
 import Cookies from 'js-cookie'
 import axios from "axios"
-
+import isServer from './isServer'
 /**
  * action 生成器
  * @param {object} options
@@ -95,19 +95,19 @@ export function parseBody(params = {}) {
     user_ticket: auth.user_ticket || Cookies.get('ticket'),
   }
   // todo 这边临时这么做，formData在node上运行报错，还是要解决
-  // if (isServer) {
-  //   return params
-  // } else {
-  //   const formData = new FormData()
-  //   Object.keys(params).forEach((key) => {
-  //     formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))
-  //   })
-  //   return formData
-  // }
+  if (isServer) {
+    return params
+  } else {
+    const formData = new FormData()
+    Object.keys(params).forEach((key) => {
+      formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))
+    })
+    return formData
+  }
 
   const formData = new FormData()
   Object.keys(params).forEach((key) => {
     formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))
   })
-  return formData
+  // return formData
 }

@@ -11,7 +11,7 @@ import style from './style.less'
 })
 class IdType extends PureComponent {
   render() {
-    const { options, value, children } = this.props
+    const { options=[], value, children } = this.props
     // console.log(this.props)
     return React.cloneElement(children, {
       extra: (

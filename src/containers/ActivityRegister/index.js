@@ -34,6 +34,7 @@ class Register extends PureComponent {
     tipFont: '获取验证码',
     disableCode: true,
     index: 60,
+    parcel: {},
   }
 
   changePasswordType = () => {
@@ -176,11 +177,14 @@ class Register extends PureComponent {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     captcha().then(data => {
       this.setState({
         url: data,
       })
+    })
+    this.setState({
+      parcel: queryString.parse(window.location.search),
     })
   }
 
@@ -190,7 +194,7 @@ class Register extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form;
-    const parcel = queryString.parse(window.location.search)
+    const { parcel } = this.state
     return (
       <div className={style.container}>
         <div className={style.header}>
