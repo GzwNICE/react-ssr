@@ -4,8 +4,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less'
-import angleDown from '@static/angleDown@3x.png'
-import search from '@static/usearch@3x.png'
+import angleDown from '../../static/angleDown@3x.png'
+import search from '../../static/usearch@3x.png'
 
 const SearchEndBar = (props) => {
   const {

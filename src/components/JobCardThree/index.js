@@ -4,8 +4,8 @@
  */
 import React from 'react'
 import style from '../JobCardTwo/style.less'
-import end from '@static/icon_deliver_stop.png'
-// import leeter from '@static/leeter@3x.png'
+import end from '../../static/icon_deliver_stop.png'
+// import leeter from '../../static/leeter@3x.png'
 
 const JobCardThree = (props) => {
   // console.log(props)

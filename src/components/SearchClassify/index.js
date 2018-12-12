@@ -4,8 +4,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less'
-import search from '@static/search@3x.png'
-import rectangle from '@static/Rectangle@3x.png'
+import search from '../../static/search@3x.png'
+import rectangle from '../../static/Rectangle@3x.png'
 
 class SearchClassify extends PureComponent {
   static propTypes = {

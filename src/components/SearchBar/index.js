@@ -11,8 +11,8 @@ import SimpleItem from '../../inputs/SimpleItem'
 import { createForm } from 'rc-form'
 import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
-import angleDown from '@static/angleDown@3x.png'
-import personal from '@static/headimg@3x.png'
+import angleDown from '../../static/angleDown@3x.png'
+import personal from '../../static/headimg@3x.png'
 
 
 

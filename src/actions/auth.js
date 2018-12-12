@@ -2,6 +2,7 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
 import logoImg from '../static/logo.jpg'
+import axios from "axios"
 
 /**
  * http://apidoc.veryeast.cn/
@@ -102,16 +103,29 @@ export const register = (params) => {
  */
 export const mobile = (params) => {
   const key = Cookies.get('captcha_key')
-  return fetch(toRealUrl(':ve.sso/user/mobile_code'), {
-    method: 'post',
+  // return fetch(toRealUrl(':ve.sso/user/mobile_code'), {
+  //   method: 'post',
+  //   credentials: 'include',
+  //   body: parseBody({
+  //     appid: 1, // 1: 最佳东方；2：先之； sms_type: 1,  //	1：短信登录；2：手机注册；
+  //     return_type: 'json', // json/callback_json
+  //     captcha_key: key,
+  //     ...params,
+  //   }),
+  // }).then(res => {
+  //   console.log(res)
+  // })
+  return axios({
+    url: toRealUrl(':ve.sso/user/mobile_code'),
     credentials: 'include',
-    body: parseBody({
+    method: 'post',
+    data: parseBody({
       appid: 1, // 1: 最佳东方；2：先之； sms_type: 1,  //	1：短信登录；2：手机注册；
       return_type: 'json', // json/callback_json
       captcha_key: key,
       ...params,
     }),
-  }).then(res => res.json())
+  }).then(res => res.data)
 }
 
 /*

@@ -6,11 +6,11 @@ import { NavBar, Card, Flex, Modal, TextareaItem, Icon } from 'antd-mobile'
 // import queryString from 'query-string'
 import BitmapMin from 'bitmap-min'
 import style from './style.less'
-import editIcon from '@static/edit@3x.png'
-import setIcon from '@static/set.png'
-import refreshIcon from '@static/refresh2@3x.png'
-import previewIcon from '@static/preview@2x.png'
-import portraitIcon from '@static/portrait@3x.png'
+import editIcon from '../../static/edit@3x.png'
+import setIcon from '../../static/set.png'
+import refreshIcon from '../../static/refresh2@3x.png'
+import previewIcon from '../../static/preview@2x.png'
+import portraitIcon from '../../static/portrait@3x.png'
 
 const Pla = (props) =>
   <i style={{display: 'inline-block', width: props.w + 'em'}} />

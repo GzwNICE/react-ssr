@@ -1,7 +1,7 @@
 import store from 'store'
 import Cookies from 'js-cookie'
-import axios from "axios";
-import isServer from './isServer'
+import axios from "axios"
+
 /**
  * action 生成器
  * @param {object} options
@@ -104,6 +104,7 @@ export function parseBody(params = {}) {
   //   })
   //   return formData
   // }
+
   const formData = new FormData()
   Object.keys(params).forEach((key) => {
     formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))

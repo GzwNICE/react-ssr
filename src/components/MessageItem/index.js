@@ -4,10 +4,10 @@
 
 import React from 'react'
 import style from './style.less'
-import icNews from '@static/ic_news.png'
-import icMsgNews from '@static/ic_msg_news.png'
-import icHr from '@static/ic_hr.png'
-import icMsgHr from '@static/ic__msg_hr.png'
+import icNews from '../../static/ic_news.png'
+import icMsgNews from '../../static/ic_msg_news.png'
+import icHr from '../../static/ic_hr.png'
+import icMsgHr from '../../static/ic__msg_hr.png'
 
 const showImg = (type, isRead) => {
   if(type === 1) {

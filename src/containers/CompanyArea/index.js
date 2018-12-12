@@ -4,7 +4,7 @@ import Search from '../../components/SearchBar/Search'
 import { WhiteSpace } from 'antd-mobile';
 import CompanyList from './CompanyList'
 import RegisterWrap from '../../components/RegisterWrap'
-import Down from '@static/angleDownGray@3x.png'
+import Down from '../../static/angleDownGray@3x.png'
 import style from './style.less'
 
 export default class CompanyArea extends Component {

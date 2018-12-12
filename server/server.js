@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import loader from './loader'
+import Loadable from "react-loadable";
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -23,7 +24,10 @@ app.use(express.static(path.resolve(__dirname, '../build')))
 
 app.use(loader)
 
-app.listen(PORT, console.log(`App listening on port ${PORT}!`))
+Loadable.preloadAll().then(() => {
+  console.log(222222222222222222222222222222)
+  app.listen(PORT, console.log(`App listening on port ${PORT}!`))
+});
 
 app.on('error', error => {
   if (error.syscall !== 'listen') {

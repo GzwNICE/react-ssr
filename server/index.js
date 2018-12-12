@@ -24,13 +24,13 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
     mod.exports = `/static/media/${bn}`
   }
 })
-
+require('whatwg-fetch');
 // Set up babel to do its thing... env for the latest toys, react-app for CRA
 // Notice three plugins: the first two allow us to use import rather than require, the third is for code splitting
 require('babel-register')({
   ignore: /\/(build|node_modules)\//,
   presets: ['env', 'react-app'],
-  plugins: ['syntax-dynamic-import', 'dynamic-import-node']
+  plugins: ['syntax-dynamic-import', 'dynamic-import-node', 'transform-decorators-legacy']
 })
 
 require('css-modules-require-hook')({

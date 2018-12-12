@@ -4,7 +4,7 @@
 import React from 'react'
 import style from './style.less'
 import PropTypes from 'prop-types'
-import searchHot from '@static/search_hot@3x.png'
+import searchHot from '../../static/search_hot@3x.png'
 
 const SearchHot = (props) => {
   return (

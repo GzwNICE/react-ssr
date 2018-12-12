@@ -6,9 +6,9 @@ import LisetItem from '../../components/ListItem'
 import {connect} from 'react-redux'
 import { NavBar, Toast } from 'antd-mobile'
 import style from './style.less'
-import feedback from '@static/feedback@3x.png'
-import opintion from '@static/opintion@3x.png'
-import phoneNumber from '@static/pjoneNumber@3x.png'
+import feedback from '../../static/feedback@3x.png'
+import opintion from '../../static/opintion@3x.png'
+import phoneNumber from '../../static/pjoneNumber@3x.png'
 import {feedbackOpinion} from '../../actions/moreSeeting'
 
 const type = [{
