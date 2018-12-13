@@ -120,7 +120,7 @@ export default (state = initState, action) => {
         pager: {
           ...state.pager,
           count: action.data.count,
-          allPage: Math.ceil(action.data.count / 15),
+          allPage: Math.ceil(action.data.count / 20),
         },
         company: {
           ...action.company,
@@ -135,7 +135,7 @@ export default (state = initState, action) => {
           ...state.pager,
           cur: 1,
           count: action.data.count,
-          allPage: Math.ceil(action.data.count / 15),
+          allPage: Math.ceil(action.data.count / 20),
         },
       }
     case JOB_SEARCH_ADD:

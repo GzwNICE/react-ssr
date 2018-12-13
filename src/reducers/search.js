@@ -35,7 +35,7 @@ const initState = {
     cur:1,
     count: '',
     allPage: '',
-    size: 15,
+    size: 20,
   },
   company: {},
 }
@@ -129,7 +129,7 @@ export default (state = initState, action) => {
         pager: {
           ...state.pager,
           count: action.data.count,
-          allPage: Math.ceil(action.data.count / 15),
+          allPage: Math.ceil(action.data.count / 20),
         },
       }
     case SEARCH_LIST_ADD:

@@ -6,6 +6,7 @@ const nodeExternals = require('webpack-node-externals')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
+const pxtorem = require('postcss-pxtorem')
 
 const appPackage = require(paths.appPackageJson)
 
@@ -141,7 +142,11 @@ module.exports = {
                               'not ie < 9' // React doesn't support IE8 anyway
                             ],
                             flexbox: 'no-2009'
-                          })
+                          }),
+                          pxtorem({
+                            rootValue: 100,
+                            propWhiteList: [],
+                          }),
                         ]
                       }
                     }
@@ -187,7 +192,11 @@ module.exports = {
                               'not ie < 9' // React doesn't support IE8 anyway
                             ],
                             flexbox: 'no-2009'
-                          })
+                          }),
+                          pxtorem({
+                            rootValue: 100,
+                            propWhiteList: [],
+                          }),
                         ]
                       }
                     }

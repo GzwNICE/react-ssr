@@ -128,13 +128,16 @@ class JobPage extends (PureComponent || Component) {
       page: page,
     })
     if(page <= allPage) {
-      this.props.dispatch(getSearchListadd({
+      const allQuery = this.handleSearchQuery()
+      const params = {
+        ...allQuery,
         ...searchState,
         ...this.props.query,
         page: page,
         size: this.props.pager.size,
         area: this.props.query.area || (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
-      }))
+      }
+      this.props.dispatch(getSearchListadd(params))
     } else {
       this.setState({
         Loaded: '没有更多了',

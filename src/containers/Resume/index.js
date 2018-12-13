@@ -100,7 +100,7 @@ class Resume extends PureComponent {
       certificates,
       other_exps,
     } = this.props
-
+    console.log(option)
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>

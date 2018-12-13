@@ -102,12 +102,15 @@ class SearchEnd extends PureComponent {
       page: page,
     })
     if(page <= allPage) {
-      this.props.dispatch(getSearchListadd({
+      const allQuery = this.handleSearchQuery()
+      const params = {
+        ...allQuery,
         page: page,
         size: this.props.pager.size,
         area: this.props.query.area || (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
         ...this.state.searchCondition,
-      }))
+      }
+      this.props.dispatch(getSearchListadd(params))
     } else {
       this.setState({
         Loaded: '没有更多了',

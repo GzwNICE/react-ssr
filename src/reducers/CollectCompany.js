@@ -19,7 +19,7 @@ const initState = {
     cur:1,
     count: '',
     allPage: '',
-    size: 15,
+    size: 20,
   },
 }
 
@@ -38,7 +38,7 @@ export default (state = initState, action) => {
           ...state.pager,
           cur: 1,
           count: action.data.count,
-          allPage: Math.ceil(action.data.count / 15),
+          allPage: Math.ceil(action.data.count / 20),
         },
       }
     case DELETE_COMPANY:
