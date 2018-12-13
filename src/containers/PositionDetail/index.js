@@ -2,24 +2,29 @@
  * Created by huangchao on 2017/10/10.
  */
 import React, {PureComponent} from 'react'
-import { NavBar, Modal } from 'antd-mobile'
+import { Modal,SearchBar } from 'antd-mobile'
 import Clipboard from 'clipboard'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import style from './style.less'
 import queryString from 'query-string'
 import ShowArticle from './ShowArticle'
 import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
 import site from '@static/area@3x.png'
+import dim from '@static/dim.png'
 // import JobDetailsCard from '../../components/JobDetailsCard'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
 import * as Ad from '../../components/Ad'
-import rest from '../../static/rest@3x.png'
+// import rest from '../../static/rest@3x.png'
 import area from '../../static/area@3x.png'
 import experience from '../../static/experience@3x.png'
 import education from '../../static/education@3x.png'
 import jobType from '../../static/jobType@3x.png'
+import personal from '../../static/headimg@3x.png'
+import unHome from '../../static/unHome@3x.png'
+import back from '../../static/back.png'
 import {positiondetail, emptyInfo} from '../../actions/position'
 import {wxconfig, wx_config, shareToPeople, shareToAll} from '../../actions/auth'
 
@@ -32,7 +37,8 @@ class PositionDetail extends PureComponent {
   constructor(props) {
     super(props)
     this.state={
-      show: true,
+      show: true, 
+      searchShow: true,  //顶部搜索框默认隐藏
     }
   }
   share = () => {
@@ -88,8 +94,22 @@ class PositionDetail extends PureComponent {
     }
   }
 
+  /* 获取页面卷去高度 */
+  onScroll = e => {
+    let scroll = window.scrollY
+    if (scroll > 0) {
+      this.setState({
+        searchShow: true,
+      })
+    } else {
+      this.setState({
+        searchShow: false,
+      })
+    }
+  }
+
   componentDidMount() {
-    const href = window.location.href
+    // const href = window.location.href
     const jobId = this.props.match.params.job_id
     this.page = document.getElementById('page')
     const {from} = queryString.parse(window.location.search)
@@ -102,6 +122,7 @@ class PositionDetail extends PureComponent {
       this.page.scrollTop = pageScroll[page] || 0
       this.shareWeixin(data)
     })
+    window.addEventListener('scroll', this.onScroll, false)
   }
 
   componentWillReceiveProps(nestprops) {
@@ -124,18 +145,37 @@ class PositionDetail extends PureComponent {
     Clipboard.isSupported() && this.clipboard.destroy()
     this.props.dispatch(emptyInfo)
     this.props.handleSavePageScroll()
+    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
     const company = this.props.position.company_detail || {}
     const list = this.props.position.list || []
     const data = this.props.position
-    const { show } = this.state
+    const { show,searchShow } = this.state
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
     return (
       <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}>
-        <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+        <div className={style.PositionHead}>
+          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+          <div className={style.searchbar}>
+            <div className={style.goBack}>
+              <img src={back} alt="bank" />
+            </div>
+            {searchShow ?
+              <SearchBar placeholder="搜索职位/品牌" /> : null
+            }
+            <div className={style.navLink}>
+              <Link rel="stylesheet" to={`/tabs/home`}>
+                <img src={unHome} alt="img" className={style.searcHome} />
+              </Link>
+              <Link rel="stylesheet" to={`/tabs/user`}>
+                <img src={personal} alt="img" className={style.personal} />
+              </Link>
+            </div>
+          </div>
+        </div>
         <div id="page" className={style.connent}>
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
@@ -167,7 +207,12 @@ class PositionDetail extends PureComponent {
               </div>
             </div>
           </div>
-          <RestPosition callback={this.nextPost} title="其他职位推荐" src={rest} data={list} />
+          <div className={style.analyzer}>
+            <div className={style.tradeName}>知己知彼分析器</div>
+            <div className={style.tradeDes}>目前共有{(<img src={dim} alt=""/>)}位求职者投递了该职位，你的简历匹配度为{(<img src={dim} alt=""/>)}，你的综合竞争力排名为第{(<img src={dim} alt=""/>)}名。</div>
+            <div className={style.openApp}>打开APP查看职位竞争力分析</div>
+          </div>
+          <RestPosition callback={this.nextPost} title="相似职位推荐"  data={list} />
         </div>
         <PositionBar {...this.props} />
       </div>

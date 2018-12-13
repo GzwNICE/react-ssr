@@ -192,9 +192,6 @@ class HomePage extends PureComponent {
         page: 1,
       })
     )
-  }
-
-  componentDidMount() {
     let yes = sessionStorage.getItem('ad') || false
     if (!yes) {
       this.setState({
@@ -207,6 +204,7 @@ class HomePage extends PureComponent {
     }
     window.addEventListener('scroll', this.onScroll, false)
   }
+
 
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.homeList

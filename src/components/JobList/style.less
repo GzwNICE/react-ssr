@@ -1,0 +1,105 @@
+.single {
+  background-color: #ffffff;
+  height: 126px;
+  width: 100%;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  border-bottom: 1Px solid #f0f0f0;
+  .payJob {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .Job {
+      font-size: 16px;
+      color: #333333;
+      width: 75%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .Pay {
+      font-size: 14px;
+      color: #ff4f00;
+      width: 25%;
+      text-align: right;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .benefits {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 4px;
+    .time {
+      color: #9b9b9b;
+    }
+  }
+  .hotelInfo {
+    width: 100%;
+    display: flex;
+    // justify-content: space-between;
+    margin-top: 16px;
+    img {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #f0f0f0;
+      border-radius: 1px;
+      margin-right: 15px;
+    }
+    .right {
+      h1 {
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #555555;
+        font-weight: 200;
+      }
+      .scale {
+        margin-top: 2px;
+        font-size: 12px;
+        position: relative;
+        span::after {
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #dfdfdf;
+          position: absolute;
+          top: 3px;
+          right: 5px;
+        }
+      }
+    }
+  }
+  .scale {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: PingFangSC-Regular;
+    color: #777777;
+    > span:last-child {
+      padding: 0;
+    }
+    > span:last-child::after {
+      display: none;
+    }
+    span {
+      position: relative;
+      padding-right: 10px;
+    }
+    span::after {
+      content: '';
+      width: 1px;
+      height: 12px;
+      background-color: #dfdfdf;
+      position: absolute;
+      top: 3px;
+      right: 5px;
+    }
+  }
+}
+.single:last-child {
+  border-bottom: none;
+}
