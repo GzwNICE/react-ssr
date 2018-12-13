@@ -10,6 +10,7 @@ import queryString from 'query-string'
 import ShowArticle from './ShowArticle'
 import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
+import site from '@static/area@3x.png'
 // import JobDetailsCard from '../../components/JobDetailsCard'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
@@ -158,8 +159,14 @@ class PositionDetail extends PureComponent {
               })}
             </ul>
             <ShowArticle type="1" title="职位描述" data={data} {...this.props} />
+            <div className={style.workplace}>
+              <h4>工作地点</h4>
+              <div className={style.site}>
+                <img src={site} alt=""/>
+                <div>浙江省杭州市萧山区皓月路159号诺德财富中心33幢501</div>
+              </div>
+            </div>
           </div>
-          
           <RestPosition callback={this.nextPost} title="其他职位推荐" src={rest} data={list} />
         </div>
         <PositionBar {...this.props} />
