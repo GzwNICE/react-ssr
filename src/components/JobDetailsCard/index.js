@@ -14,34 +14,23 @@ const JobDetailsCard = (props) => {
   const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
   const room_board = data.room_board ? `${data.room_board}/` : null
   return (
-    <Card className={style.jobCard}>
-      <Card.Header
-        className={style.cardHeader}
-        title={
-          <div style={{color: '#333333'}}>{job_name}</div>
-        }
-        extra={<span className={style.salary}>{data.salary}</span>}
-      />
-      <Card.Body className={style.cardCenter}>
-        <div className={style.inner}>
-          <div className={style.left}>
-            <ul className={style.mustBeCon}>
-              <li style={{background: `url(${area}) no-repeat left center/0.24rem`}}>{data.work_place}</li>
-              <li style={{background: `url(${experience}) no-repeat left center/0.28rem`}}>{data.exp}</li>
-              <li style={{background: `url(${education}) no-repeat left center/0.28rem`}}>{data.education}</li>
-              <li style={{background: `url(${jobType}) no-repeat left center/0.28rem`}}>{data.nature}</li>
-            </ul>
-            <div className={style.otherNeed}>招{data.recruit_num || '若干'}人/{room_board}{age}</div>
-          </div>
-          <div className={style.right}>{F.procesTime(data.update_time)}</div>
+    <div className={style.jobCard}>
+        <div className={style.cardHeader}>
+          <div className={style.name}>{job_name}</div>
+          <span className={style.salary}>{data.salary}</span>
         </div>
-        <ul className={style.welfare}>
-          {(datalabel.label || []).map((data, index) => {
-            return <li key={index}>{data}</li>
-          })}
-        </ul>
-      </Card.Body >
-    </Card>
+        <div className={style.inner}>
+          <ul className={style.mustBeCon}>
+            <li style={{background: `url(${area}) no-repeat left center/0.12rem`}}>{data.work_place}</li>
+            <li style={{background: `url(${experience}) no-repeat left center/0.14rem`}}>{data.exp}</li>
+            <li style={{background: `url(${education}) no-repeat left center/0.14rem`}}>{data.education}</li>
+            <li style={{background: `url(${jobType}) no-repeat left center/0.14rem`}}>{data.nature}</li>
+          </ul>
+        </div>
+      <Card.Body className={style.cardCenter}>
+        
+      </Card.Body>
+    </div>
   )
 }
 export default JobDetailsCard
