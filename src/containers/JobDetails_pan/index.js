@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import JobDetailsCard from '../../components/JobDetailsCard'
-import HotelEntry from '../../components/HotelEntry'
+import HotelEntry from '../PositionDetail/HotelEntry'
 import JobIntroduce from '../../components/JobIntroduce'
 import Connection from '../../components/Connection'
 import style from './style.less'

@@ -6,9 +6,13 @@ import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
 import store from 'store'
 import JobCard from '../../components/JobCard'
-import MySearchBar from '../../components/SearchBar'
+// import MySearchBar from '../../components/SearchBar'
+import JobList from './JobList'
+import Search from '../../components/SearchBar/Search'
 import queryString from 'query-string'
+import * as Ad from '../../components/Ad'
 import style from './style.less'
+import RegisterWrap from '../../components/RegisterWrap'
 import FilterSearch from '../../components/FilterSearch'
 import F from '../../helper/tool'
 import {getSearchInit, changeQuery, getSearchListadd,saveScrollTop ,saveQuery, deletecache} from '../../actions/jobPage'
@@ -40,11 +44,14 @@ class JobPage extends (PureComponent || Component) {
         update_time: -1,
         work_mode: 0,
       },
+      show: true,
       stareSearch: false,
       dataSource,
       page: this.props.jobpageData.pager.cur,
       Loaded: 'Loading',
       defaultValue: '请输入职位/公司名',
+      select: false,
+      showAd:false,
     }
   }
 
@@ -84,9 +91,28 @@ class JobPage extends (PureComponent || Component) {
     })
   }
 
+   // 关闭底部引导注册弹框
+   handleCloseReg() {
+    this.setState({
+      showAd: false,
+    })
+    window.removeEventListener('scroll', this.onScroll, false)
+  }
+
   onScroll = () => {
-    let scrollTop = this.refs['jobPage'].listviewRef.scrollProperties.offset
-    this.scrollTop = scrollTop
+    // let scrollTop = this.refs['jobPage'].listviewRef.scrollProperties.offset
+    // this.scrollTop = scrollTop
+
+    let scroll = window.scrollY
+    if (scroll > 360) {
+      this.setState({
+        showAd: true,
+      })
+    } else {
+      this.setState({
+        showAd: false,
+      })
+    }
   }
 
   searchFocus = () => {
@@ -155,6 +181,10 @@ class JobPage extends (PureComponent || Component) {
     this.props.dispatch(getSearchInit(allQuery))
   }
 
+  componentDidMount(){
+    window.addEventListener('scroll', this.onScroll, false)
+  }
+
   componentWillReceiveProps(nextProps) {
     const thisList = this.props.searchLIst
     const nextList = nextProps.searchLIst
@@ -198,10 +228,12 @@ class JobPage extends (PureComponent || Component) {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
+    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
     const query = this.props.query
+    const { show, select, showAd } =this.state
     const Row = (d) => {
       return <div className={style.listItem} onClick={() => window.zhuge.track('职位详情页打开', { '触发来源': '搜索结果' }) }>
         <Link to={`/${d.company_id}/${d.job_id}`}>
@@ -212,39 +244,20 @@ class JobPage extends (PureComponent || Component) {
     return (
       <div className={style.JobPageWrap}>
         <div className={style.top}>
-          <MySearchBar
-            callback={this.search}
-            searchFocus={this.searchFocus}
-            cityName="北京"
-            showCity="false"
-            defaultValue="" // 输入框的默认值
-            placeholder={this.state.defaultValue}
-          />
+          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+          <Search />
           <div className={style.searchCondition}>
             <FilterSearch filterSearch={this.filterSearch} query={query} />
+            {select ? <div className={style.haveOptions}>已选项：杭州</div> : null}
           </div>
         </div>
-        <div className={style.listBox}>
-          <ListView
-            ref="jobPage"
-            className={style.listView}
-            dataSource={this.state.dataSource}
-            renderRow={Row}
-            scrollRenderAheadDistance={100}
-            onEndReachedThreshold={10}
-            scrollEventThrottle={100}
-            initialListSize={1000}
-            pageSize={2000}
-            style={{
-              height: 'calc(100vh - 3rem)',
-            }}
-            onScroll={this.onScroll}
-            onEndReached={this.onEndReached} // 上啦加载
-            renderFooter={() => (<div style={{ padding: 10, textAlign: 'center' }}>
-              {this.props.isLoading ? 'Loading...' : this.state.Loaded}
-            </div>)}
+        <JobList />
+        {showAd ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
           />
-        </div>
+        ) : null}
       </div>
     )
   }

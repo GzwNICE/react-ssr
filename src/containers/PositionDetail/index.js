@@ -7,15 +7,18 @@ import Clipboard from 'clipboard'
 import {connect} from 'react-redux'
 import style from './style.less'
 import queryString from 'query-string'
-import ShowArticle from '../../components/ShowArticle'
+import ShowArticle from './ShowArticle'
 import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
-import JobDetailsCard from '../../components/JobDetailsCard'
-import HotelEntry from '../../components/HotelEntry'
+// import JobDetailsCard from '../../components/JobDetailsCard'
+import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
-import article from '../../static/artlcle@3x.png'
-import rest from '../../static/rest@3x.png'
-import share from '../../static/share@3x.png'
+import * as Ad from '../../components/Ad'
+import rest from '@static/rest@3x.png'
+import area from '../../static/area@3x.png'
+import experience from '../../static/experience@3x.png'
+import education from '../../static/education@3x.png'
+import jobType from '../../static/jobType@3x.png'
 import {positiondetail, emptyInfo} from '../../actions/position'
 import {wxconfig, wx_config, shareToPeople, shareToAll} from '../../actions/auth'
 
@@ -25,7 +28,12 @@ import {wxconfig, wx_config, shareToPeople, shareToAll} from '../../actions/auth
 }))
 @PageScroll
 class PositionDetail extends PureComponent {
-
+  constructor(props) {
+    super(props)
+    this.state={
+      show: true,
+    }
+  }
   share = () => {
     const shareLink = window.location.href
     // const shareImg = this.props.user.portrait_url
@@ -93,10 +101,6 @@ class PositionDetail extends PureComponent {
       this.page.scrollTop = pageScroll[page] || 0
       this.shareWeixin(data)
     })
-
-    this.clipboard = Clipboard.isSupported() && new Clipboard(this.refs.share, {
-      text: () => `${href}`,
-    })
   }
 
   componentWillReceiveProps(nestprops) {
@@ -125,23 +129,37 @@ class PositionDetail extends PureComponent {
     const company = this.props.position.company_detail || {}
     const list = this.props.position.list || []
     const data = this.props.position
+    const { show } = this.state
+    const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
+    const datalabel = this.props.position.company_detail || {}
     return (
       <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}>
-        <NavBar
-          mode="dark"
-          onLeftClick={() => {this.whereWillIGo()}}
-          rightContent={<div onClick={this.share} className={style.share} key="1">
-            <img src={share} alt="分享" ref="share" />
-          </div>}
-        > 职位详情</NavBar>
+        <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
         <div id="page" className={style.connent}>
-          <JobDetailsCard {...this.props} />
-          <div>
-            <div onClick={() => {this.goCompany(company.company_id)}}>
+          <div className={style.jobCard}>
+            <div className={style.cardHeader}>
+              <div className={style.name}>{job_name}</div>
+              <span className={style.salary}>{data.salary}</span>
+            </div>
+            <div className={style.inner}>
+              <ul className={style.mustBeCon}>
+                <li style={{ background: `url(${area}) no-repeat left center/0.12rem` }}>{data.work_place}</li>
+                <li style={{ background: `url(${experience}) no-repeat left center/0.14rem` }}>{data.exp}</li>
+                <li style={{ background: `url(${education}) no-repeat left center/0.14rem` }}>{data.education}</li>
+                <li style={{ background: `url(${jobType}) no-repeat left center/0.14rem` }}>{data.nature}</li>
+              </ul>
+            </div>
+            <div onClick={() => { this.goCompany(company.company_id) }}>
               <HotelEntry {...this.props} />
             </div>
+            <ul className={style.welfare}>
+              {(datalabel.label || []).map((data, index) => {
+                return <li key={index}>{data}</li>
+              })}
+            </ul>
+            <ShowArticle type="1" title="职位描述" data={data} {...this.props} />
           </div>
-          <ShowArticle type="1" title="职位介绍" src={article} data={data} {...this.props}/>
+
           <RestPosition callback={this.nextPost} title="其他职位推荐" src={rest} data={list} />
         </div>
         <PositionBar {...this.props} />

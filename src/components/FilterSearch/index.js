@@ -48,17 +48,7 @@ class FilterSearch extends (PureComponent || Component) {
     // console.log(this.props)
     return (
       <div className={style.FilterSearchWrap}>
-        <div className={style.item}>
-          <Post {...getFieldProps('position', {
-            // initialValue: this.props.position ? this.props.position.split(',') : [],
-          })}
-            extra="" format={this.format} maxLength={5}>
-            <SimpleItem arrow="horizontal">职位</SimpleItem>
-          </Post>
-          <div className={style.jiantou}>
-            <img src={angleDownGray} alt="" />
-          </div>
-        </div>
+        
         <div className={style.item}>
           <Area {...getFieldProps('area', {
            // initialValue: code ? code : [],
@@ -86,7 +76,7 @@ class FilterSearch extends (PureComponent || Component) {
             // initialValue: this.props.more ? this.props.more : {},
           })}
             extra="" format={this.formatMore}>
-            <SimpleItem arrow="horizontal">更多</SimpleItem>
+            <SimpleItem arrow="horizontal">筛选</SimpleItem>
           </More>
           <div className={style.jiantou}>
             <img src={angleDownGray} alt="" />

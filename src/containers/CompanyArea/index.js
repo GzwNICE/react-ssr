@@ -56,17 +56,19 @@ export default class CompanyArea extends Component {
     const {show,individuation,showAd} =this.state
     return (
       <div className={style.CompanyArea}>
-        <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-        <Search />
-        <div className={style.selectInfo}>
-          <div className={style.selCity}>
-            <span>城市</span>
-            <img src={Down} alt="down"/>
-          </div>
-          <span className={style.selRule}></span>
-          <div className={style.selBrand}>
-            <span>品牌</span>
-            <img src={Down} alt="down"/>
+        <div className={style.selHead}>
+          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+          <Search />
+          <div className={style.selectInfo}>
+            <div className={style.selCity}>
+              <span>城市</span>
+              <img src={Down} alt="down"/>
+            </div>
+            <span className={style.selRule}></span>
+            <div className={style.selBrand}>
+              <span>品牌</span>
+              <img src={Down} alt="down"/>
+            </div>
           </div>
         </div>
         <WhiteSpace size="sm" />
