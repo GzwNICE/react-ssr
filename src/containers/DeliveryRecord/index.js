@@ -48,7 +48,7 @@ class DeliveryRecord extends PureComponent {
     // })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const parsed = queryString.parse(window.location.search)
     this.setState({
       key: parsed.key || 1,

@@ -32,7 +32,7 @@ class More extends ComplexSelView {
     this.setState({ value: {} })
   }
 
-  listView(sublist, label) {
+  listView(sublist=[], label) {
     const prevValue = this.state ? this.state.value : {}
     return (
       <div className={style2.items}>{sublist.map(item => (

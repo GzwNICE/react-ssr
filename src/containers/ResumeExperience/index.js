@@ -32,7 +32,7 @@ class ResumeExperience extends PureComponent {
 
   render() {
     const {
-      work_exps,
+      work_exps=[],
     } = this.props
 
     return (

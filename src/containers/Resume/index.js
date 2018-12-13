@@ -141,7 +141,7 @@ class Resume extends PureComponent {
                   <span>姓<Pla w={2} />名：</span>{resume.true_name_cn}
                 </div>
                 <div>
-                  <span>性<Pla w={2} />别：</span>{option.opts_gender.filter(item => parseInt(resume.gender, 10) === item.code).map(item => item.value)[0] || '未知'}
+                  <span>性<Pla w={2} />别：</span>{option.opts_gender ? option.opts_gender.filter(item => parseInt(resume.gender, 10) === item.code).map(item => item.value)[0] || '未知' : '未知'}
                 </div>
                 <div>
                   <span>年<Pla w={2} />龄：</span>
@@ -181,7 +181,7 @@ class Resume extends PureComponent {
               <Card.Body className={style.main}>
                 <div><span>求职岗位</span>：{DesiredPositions.map(item => option.positions_index[item]).join(', ')}</div>
                 <div><span>工作地点</span>：{DesiredLocations.map(item => option.areas_index[item]).join(', ')}</div>
-                <div><span>期望薪资</span>：{option.opts_salary.salary_scope_index[DesiredJob.desired_salary]}</div>
+                <div><span>期望薪资</span>：{option.opts_salary ? option.opts_salary.salary_scope_index[DesiredJob.desired_salary] : ''}</div>
               </Card.Body>
             </Card>
             <Card

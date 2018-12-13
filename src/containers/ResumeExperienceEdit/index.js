@@ -73,7 +73,7 @@ class ResumeExperienceEdit extends PureComponent {
     const {
       form,
       // option,
-      work_exps,
+      work_exps=[],
       match,
     } = this.props
     const { getFieldProps } = form

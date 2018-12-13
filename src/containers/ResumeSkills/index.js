@@ -33,7 +33,7 @@ class ResumeSkills extends PureComponent {
   render() {
     const {
       option,
-      skills,
+      skills=[],
     } = this.props
 
     return (

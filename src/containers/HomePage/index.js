@@ -178,7 +178,7 @@ class HomePage extends PureComponent {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
     const { userStatus, supers } = this.props

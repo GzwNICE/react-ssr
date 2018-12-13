@@ -141,7 +141,7 @@ class JobPage extends (PureComponent || Component) {
     return allQuery
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const data = this.props.location.state || {}
     const allQuery = this.handleSearchQuery()
     /* 初始化this.scrollTop */

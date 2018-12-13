@@ -249,7 +249,166 @@ const routes = [
     path: '/tabs/home',
     component: Home,
   },
-
+  {
+    path: '/tabs/job',
+    component: JobPage,
+  },
+  {
+    path: '/tabs/massage',
+    component: MassagePage,
+  },
+  {
+    path: '/tabs/user',
+    component: UserPage,
+  },
+  {
+    path: '/search/:keyword',
+    component: SearchEnd,
+  },
+  {
+    path: '/search',
+    component: Searchpage,
+  },
+  {
+    path: '/person/applyRecord',
+    component: DeliveryRecord,
+  },
+  {
+    path: '/person/privacy',
+    component: PrivacyService,
+  },
+  {
+    path: '/person/more',
+    component: MoreSeeting,
+  },
+  {
+    path: '/person/message',
+    component: SystemMessage,
+  },
+  {
+    path: '/person/jobFavorites',
+    component: SelectPost,
+  },
+  {
+    path: '/person/followedCompanies',
+    component: SelectCompany,
+  },
+  {
+    path: '/person/letter/:message_id',
+    component: BusinessLetter,
+  },
+  {
+    path: '/person/subscription',
+    component: Subscription,
+  },
+  {
+    path: '/person/shield',
+    component: AddCompany,
+  },
+  {
+    path: '/user/changePassword',
+    component: ChangePassword,
+  },
+  {
+    path: '/user/bindPhone',
+    component: BindMoblePhone,
+  },
+  {
+    path: '/user/bindEmail',
+    component: BindEmail,
+  },
+  {
+    path: '/feedback',
+    component: Opintion,
+  },
+  {
+    path: '/aboutous',
+    component: AboutOus,
+  },
+  {
+    path: '/resume/info',
+    component: ResumeInfo,
+  },
+  {
+    path: '/resume/intention',
+    component: ResumeIntention,
+  },
+  {
+    path: '/resume/education/:id',
+    component: ResumeEducationEdit,
+  },
+  {
+    path: '/resume/education',
+    component: ResumeEducation,
+  },
+  {
+    path: '/resume/experience/:id',
+    component: ResumeExperienceEdit,
+  },
+  {
+    path: '/resume/experience',
+    component: ResumeExperience,
+  },
+  {
+    path: '/resume/language/:id',
+    component: ResumeLanguageEdit,
+  },
+  {
+    path: '/resume/language',
+    component: ResumeLanguage,
+  },
+  {
+    path: '/resume/skills/:id',
+    component: ResumeSkillsEdit,
+  },
+  {
+    path: '/resume/skills',
+    component: ResumeSkills,
+  },
+  {
+    path: '/resume/training/:id',
+    component: ResumeTrainingEdit,
+  },
+  {
+    path: '/resume/training',
+    component: ResumeTraining,
+  },
+  {
+    path: '/resume/certificate/:id',
+    component: ResumeCertificateEdit,
+  },
+  {
+    path: '/resume/certificate',
+    component: ResumeCertificate,
+  },
+  {
+    path: '/resume/other/:id',
+    component: ResumeOtherEdit,
+  },
+  {
+    path: '/resume/other',
+    component: ResumeOther,
+  },
+  {
+    path: '/resume/description',
+    component: ResumeDescription,
+  },
+  {
+    path: '/resume/micro',
+    component: MicroResume,
+  },
+  {
+    path: '/resume',
+    component: Resume,
+  },
+  {
+    path: '/jobdetails',
+    component: JobDetails_pan,
+  },
+  {
+    path: '/companyintroduce',
+    component: CompanyIntroduce,
+  },
   {
     path: '/user/login',
     component: Login,
@@ -267,7 +426,31 @@ const routes = [
     component: ForgetPassword,
   },
   {
-    path: '/home',
+    path: '/chat/:id',
+    component: Chat,
+  },
+  {
+    path: '/tip-offs',
+    component: TipOffs,
+  },
+  {
+    path: '/mobilebind/:status/:mobile/:hidden_mobile',
+    component: MobileBind,
+  },
+  {
+    path: '/emailbind/:status/:email/:hidden_email',
+    component: EmailBind,
+  },
+  {
+    path: '/:comapny_id/:job_id',
+    component: PositionDetail,
+  },
+  {
+    path: '/:comapny_id',
+    component: CompanyDetail,
+  },
+  {
+    path: '/',
     component: HomePage,
   },
 ]

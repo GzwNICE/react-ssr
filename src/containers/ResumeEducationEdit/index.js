@@ -62,7 +62,7 @@ class ResumeEducationEdit extends PureComponent {
     const {
       form,
       // option,
-      educationals,
+      educationals=[],
       match,
     } = this.props
     const { getFieldProps } = form

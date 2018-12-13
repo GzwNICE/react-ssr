@@ -48,7 +48,7 @@ class SelectPost extends PureComponent {
     this.scrollTop = scrollTop
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(getCollectPostInit())
   }
 

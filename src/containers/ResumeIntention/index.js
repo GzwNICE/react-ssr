@@ -16,13 +16,12 @@ import ArrivalTime from '../../inputs/ArrivalTime'
 import Salary from '../../inputs/Salary'
 
 @connect(state => {
-  // console.log(state.DesiredCompanyTypes.list)
   return {
     option: state.option,
     DesiredJob: state.DesiredJob,
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
-    DesiredLocations: state.DesiredLocations.list.map(item => item.location),
-    DesiredPositions: state.DesiredPositions.list.map(item => item.position),
+    DesiredLocations: state.DesiredLocations.list ? state.DesiredLocations.list.map(item => item.location) : null,
+    DesiredPositions: state.DesiredPositions.list ? state.DesiredLocations.list.map(item => item.position) : null,
   }
 })
 @createForm()
@@ -88,13 +87,11 @@ class ResumeIntention extends PureComponent {
       form,
       // option,
       DesiredJob,
-      DesiredCompanyTypes,
+      DesiredCompanyTypes=[],
       DesiredLocations,
       DesiredPositions,
     } = this.props
     const { getFieldProps } = form
-
-    console.log(DesiredJob)
 
     return (
       <Flex direction="column" align="stretch" className={style.root}>

@@ -31,7 +31,7 @@ class ResumeTraining extends PureComponent {
   render() {
     const {
       // option,
-      training_exps,
+      training_exps=[],
     } = this.props
 
     return (

@@ -4,12 +4,12 @@ import Rectangle from '../../static/Rectangle@3x.png'
 import share from '../../static/share@3x.png'
 
 const HotelEntry = (props) => {
-  const company = props.position.company_detail || {}
+  const company = (props.position && props.position.company_detail )? props.position.company_detail : {}
   return (
     <div className={style.hotelEntry}>
       <div
         className={style.left}
-        style={{background: `url(${company.company_logo || share}) center/ cover no-repeat`}}
+        style={{background: `url(${company.company_logo ? company.company_logo : share}) center/ cover no-repeat`}}
       />
       <div className={style.center}>
         <div className={style.hotelName}>{company.company_name}</div>

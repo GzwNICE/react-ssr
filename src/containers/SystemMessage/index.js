@@ -37,7 +37,7 @@ class SystemMessage extends PureComponent {
     this.scrollTop = scrollTop
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(getSyatemMessageInit())
   }
 

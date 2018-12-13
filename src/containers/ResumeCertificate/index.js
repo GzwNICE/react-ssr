@@ -33,7 +33,7 @@ class ResumeCertificate extends PureComponent {
   render() {
     const {
       // option,
-      certificates,
+      certificates=[],
     } = this.props
 
     return (

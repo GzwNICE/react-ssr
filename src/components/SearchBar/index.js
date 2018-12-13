@@ -39,7 +39,7 @@ class MySearchBar extends PureComponent {
     return value.length ? value.optIndex[value[0]] : '城市'
   }
 
-  componentWillMount(){
+  componentDidMount(){
   }
 
   componentDidMount() {

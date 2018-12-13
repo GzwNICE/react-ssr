@@ -33,7 +33,7 @@ class Visity extends PureComponent {
     this.scrollTop = scrollTop
   }
 
-  componentWillMount() {
+  componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.scrollTop
 

@@ -38,7 +38,7 @@ class PrivacyService extends PureComponent {
     this.props.history.push('/person/shield')
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       type: this.props.userStatus.resume_status || '1',
     })

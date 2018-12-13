@@ -32,7 +32,7 @@ class Carousels extends (PureComponent || Component) {
       return window.location.href = val.uri
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(getBanner())
   }
   render() {

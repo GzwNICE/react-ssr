@@ -26,8 +26,12 @@ class ComplexSelView extends ComplexFormField {
 
   init() {}
 
-  format(value) {
-    return value.map((code) => this.props.optIndex[code]).join(',')
+  format(value=[]) {
+    if (this.props.optIndex) {
+      return value.map((code) => this.props.optIndex[code]).join(',')
+    } else {
+      return null
+    }
   }
 
   serialize(value) {
@@ -98,7 +102,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   optView() {
-    const selected = this.getValue()
+    const selected = this.getValue() || []
     return (
       <Accordion
         className={style.optView}
@@ -115,7 +119,7 @@ class ComplexSelView extends ComplexFormField {
         }>
           <div className={style.optList}>{selected.map(code => (
             <span key={code}>
-              <slot>{this.props.optIndex[code]}</slot>
+              <slot>{this.props.optIndex ? this.props.optIndex[code] : null}</slot>
               <i onClick={() => (this.props.onSelect || this.selectValue)(code)} />
             </span>
           ))}</div>

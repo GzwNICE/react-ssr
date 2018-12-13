@@ -51,7 +51,7 @@ class ResumeLanguageEdit extends PureComponent {
     const {
       form,
       // option,
-      languages,
+      languages=[],
       match,
     } = this.props
     const { getFieldProps } = form

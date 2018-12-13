@@ -24,8 +24,11 @@ index.production.html 是构建时用到的html
 
 1. npm run start 运行之后 使用http://m.veryeast.cn:3000/
 2. 测试使用： http://m.veryeast.cn/
-3. xxxx
 
+#### 代码书写注意事项
+1. window在服务端是undefined，所以compentWillMount里面还有render里面不要使用
+2. 在服务端就要加载好的数据在compentWillMount里调用，其他页面初始化加载的数据在compentDidMount里调用
+3. reducers中定义initialState时最好给个初始值，空数组空对象也行，不要什么都不写
 #### 参与贡献
 
 1. Fork 本项目

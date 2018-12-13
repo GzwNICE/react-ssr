@@ -9,7 +9,7 @@ import F from '../../helper/tool'
 
 const JobDetailsCard = (props) => {
   const data = props.position || {}
-  const datalabel = props.position.company_detail || {}
+  const datalabel = props.position ? props.position.company_detail : {}
   const age = data.conditions ? `${data.conditions}岁` : '年龄不限'
   const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
   const room_board = data.room_board ? `${data.room_board}/` : null
@@ -36,7 +36,7 @@ const JobDetailsCard = (props) => {
           <div className={style.right}>{F.procesTime(data.update_time)}</div>
         </div>
         <ul className={style.welfare}>
-          {(datalabel.label || []).map((data, index) => {
+          {(datalabel ? datalabel.label : []).map((data, index) => {
             return <li key={index}>{data}</li>
           })}
         </ul>
