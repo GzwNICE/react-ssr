@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { SearchBar } from 'antd-mobile'
 import { Link } from 'react-router-dom'
-import personal from '@static/headimg@3x.png'
-import back from '@static/back.png'
+import personal from '../../../static/headimg@3x.png'
+import back from '../../../static/back.png'
 import style  from './style.less'
 
 export default class Search extends Component {

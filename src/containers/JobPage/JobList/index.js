@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from '@static/weixin@3x.png'
+import logo from '../../../static/weixin@3x.png'
 import style from '../style.less'
 
 export default class JobList extends Component {

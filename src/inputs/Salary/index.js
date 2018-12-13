@@ -20,6 +20,7 @@ class Salary extends ComplexSelView {
 
   format() {
     const { auto, value, options } = this.props
+    if (!options) return // 临时添加
     return auto ? options.salary_scope_index[value[2]] : `${value[2]}${options.salary_currency_index[value[1]]}`
   }
   
@@ -45,6 +46,7 @@ class Salary extends ComplexSelView {
 
   mainView() {
     const { options } = this.props
+    if (!options) return // 临时添加
     const s1 = options.salary_mode.map(item => ({ value: item.code, label: item.value }))
     const s2 = options.salary_currency.map(item => ({ value: item.code, label: item.value }))
     const s3 = options.salary_scope.filter(item => item.mode === (this.state.value[0]))
@@ -85,12 +87,13 @@ class Salary extends ComplexSelView {
 
 @connect(state => {
   return {
-    options: state.option.opts_salary.salary_scope,
-    optIndex: state.option.opts_salary.salary_scope_index,
+    options: state.option.opts_salary ? state.option.opts_salary.salary_scope : null,
+    optIndex: state.option.opts_salary ? state.option.opts_salary.salary_scope_index : null,
   }
 })
 class SalaryScope extends ComplexSelView {
   allView(sublist) {
+    sublist = sublist || []
     return (
       <List className={style$.allView}>
         {this.listView(sublist.filter(item => item.mode === Number(this.props.mode || 1)))}

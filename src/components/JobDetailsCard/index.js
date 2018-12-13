@@ -9,7 +9,7 @@ import F from '../../helper/tool'
 
 const JobDetailsCard = (props) => {
   const data = props.position || {}
-  const datalabel = props.position.company_detail || {}
+  const datalabel = props.position ? props.position.company_detail : {}
   const age = data.conditions ? `${data.conditions}岁` : '年龄不限'
   const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
   const room_board = data.room_board ? `${data.room_board}/` : null
@@ -28,7 +28,7 @@ const JobDetailsCard = (props) => {
           </ul>
         </div>
       <Card.Body className={style.cardCenter}>
-        
+
       </Card.Body>
     </div>
   )

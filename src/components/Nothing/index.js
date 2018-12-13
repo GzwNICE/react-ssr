@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import style from './style.less'
-import nothingImg from '@static/icon_feedback_im.png'
+import nothingImg from '../../static/icon_feedback_im.png'
 
 const Nothing = (props) => {
   const {font} = props

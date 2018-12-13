@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import style from './style.less'
 import SendMessage from '../../components/SendMessage/'
 import MessageList from '../MessageList'
-// import share from '@static/share@3x.png'
+// import share from '../../static/share@3x.png'
 import { pipeline } from '../../helper/fetching'
 import values from 'object.values'
 

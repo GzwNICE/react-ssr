@@ -2,6 +2,7 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
 import logoImg from '../static/logo.jpg'
+import axios from "axios"
 
 /**
  * http://apidoc.veryeast.cn/
@@ -12,8 +13,10 @@ import logoImg from '../static/logo.jpg'
       password: 'yada',
     })
  */
+// :ve.mobile.interface/user/login
 export const login = (params) => {
   return pipeline(':ve.mobile.interface/user/login', params).then(payload => {
+    console.log(payload)
     if (payload.status !== 0) {
       store.set('m:auth', payload.data)
       Cookies.set('ticket', payload.data.user_ticket)
@@ -100,16 +103,29 @@ export const register = (params) => {
  */
 export const mobile = (params) => {
   const key = Cookies.get('captcha_key')
-  return fetch(toRealUrl(':ve.sso/user/mobile_code'), {
-    method: 'post',
+  // return fetch(toRealUrl(':ve.sso/user/mobile_code'), {
+  //   method: 'post',
+  //   credentials: 'include',
+  //   body: parseBody({
+  //     appid: 1, // 1: 最佳东方；2：先之； sms_type: 1,  //	1：短信登录；2：手机注册；
+  //     return_type: 'json', // json/callback_json
+  //     captcha_key: key,
+  //     ...params,
+  //   }),
+  // }).then(res => {
+  //   console.log(res)
+  // })
+  return axios({
+    url: toRealUrl(':ve.sso/user/mobile_code'),
     credentials: 'include',
-    body: parseBody({
+    method: 'post',
+    data: parseBody({
       appid: 1, // 1: 最佳东方；2：先之； sms_type: 1,  //	1：短信登录；2：手机注册；
       return_type: 'json', // json/callback_json
       captcha_key: key,
       ...params,
     }),
-  }).then(res => res.json())
+  }).then(res => res.data)
 }
 
 /*
@@ -129,12 +145,20 @@ export const changePassword = (params) => {
 * */
 
 export const bindMobile = (params) => {
-  return fetch(toRealUrl(':ve.m/client-service/api/mobile'), {
+  // return fetch(toRealUrl(':ve.m/client-service/api/mobile'), {
+  //   method: 'post',
+  //   body: parseBody({
+  //     ...params,
+  //   }),
+  // }).then(res => res.json())
+  return axios({
+    url: toRealUrl(':ve.m/client-service/api/mobile'),
+    credentials: 'include',
     method: 'post',
-    body: parseBody({
+    data: parseBody({
       ...params,
     }),
-  }).then(res => res.json())
+  }).then(res => res.data)
 }
 
 /*
@@ -142,13 +166,22 @@ export const bindMobile = (params) => {
 */
 
 export const handleBindEmail = (params) => {
-  return fetch(toRealUrl(':ve.sso/user/email_authenticate'), {
+  // return fetch(toRealUrl(':ve.sso/user/email_authenticate'), {
+  //   method: 'post',
+  //   body: parseBody({
+  //     return_type: 'json',
+  //     ...params,
+  //   }),
+  // }).then(res => res.json())
+  return axios({
+    url: toRealUrl(':ve.sso/user/email_authenticate'),
+    credentials: 'include',
     method: 'post',
-    body: parseBody({
+    data:  parseBody({
       return_type: 'json',
       ...params,
     }),
-  }).then(res => res.json())
+  }).then(res => res.data)
 }
 
 /**
@@ -168,6 +201,10 @@ export const captcha = () => {
       s.readAsDataURL(blob)
     })
   })
+  // return axios({
+  //   url: toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`),
+  //   credentials: 'include',
+  // }).then(res => res.data)
 }
 
 /*

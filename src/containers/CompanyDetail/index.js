@@ -13,7 +13,7 @@ import RestPosition from '../../components/RestPosition'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import {companydetail, companyList} from '../../actions/company' // emptyInfo
-import company from '@static/company@3x.png'
+import company from '../../static/company@3x.png'
 const TabPane = Tabs.TabPane
 
 @connect(state => {

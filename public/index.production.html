@@ -55,7 +55,17 @@
       //     scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
       //   doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
       // })();
+      addEventListener('resize', setRemUnit);
+      addEventListener('pageshow', function (e) {
+        e.persisted && setRemUnit();
+      });
+      setRemUnit();
 
+      function setRemUnit() {
+        var docEle = document.documentElement;
+        var rootValue = docEle.clientWidth / 3.75;
+        docEle.style.fontSize = rootValue + 'px';
+      }
     </script>
     <script type="text/javascript">
       window.zhuge = window.zhuge || [];window.zhuge.methods = "_init debug identify track trackLink trackForm page".split(" ");

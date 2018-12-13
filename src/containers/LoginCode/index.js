@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import {connect} from 'react-redux'
 import style from './style.less'
-import Rectangle from '@static/Rectangle@3x.png'
+import Rectangle from '../../static/Rectangle@3x.png'
 import queryString from 'query-string'
 import F from '../../helper/tool'
 import { createForm } from 'rc-form'
@@ -133,6 +133,7 @@ class LoginCode extends PureComponent {
           platform: 2,
           appchannel: 'web',
         }).then(data => {
+          console.log(data)
           if(data) {
             Toast.info('登录成功', 2)
             window.zhuge.track('验证码登录', {

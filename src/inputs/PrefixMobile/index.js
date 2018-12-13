@@ -9,7 +9,7 @@ import ComplexPicker from '../../components/ComplexPicker'
 })
 class PrefixMobile extends PureComponent {
   render() {
-    const { options } = this.props
+    const { options=[] } = this.props
     return (
       <ComplexPicker
         {...this.props}

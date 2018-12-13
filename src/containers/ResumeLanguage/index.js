@@ -33,7 +33,7 @@ class ResumeInfo extends PureComponent {
   render() {
     const {
       option,
-      languages,
+      languages=[],
     } = this.props
 
     return (

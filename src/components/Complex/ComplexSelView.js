@@ -2,10 +2,10 @@ import React from 'react'
 import ComplexFormField from './ComplexFormField'
 import { NavBar, Toast, Accordion, List } from 'antd-mobile'
 import style from './style.less'
-import xialaIcon from '@static/xiala@3x.png'
-import okIcon from '@static/ok@3x.png'
-import unsetIcon from '@static/unset@3x.png'
-import rightIcon from '@static/right@3x.png'
+import xialaIcon from '../../static/xiala@3x.png'
+import okIcon from '../../static/ok@3x.png'
+import unsetIcon from '../../static/unset@3x.png'
+import rightIcon from '../../static/right@3x.png'
 
 export { style }
 
@@ -26,8 +26,12 @@ class ComplexSelView extends ComplexFormField {
 
   init() {}
 
-  format(value) {
-    return value.map((code) => this.props.optIndex[code]).join(',')
+  format(value=[]) {
+    if (this.props.optIndex) {
+      return value.map((code) => this.props.optIndex[code]).join(',')
+    } else {
+      return null
+    }
   }
 
   serialize(value) {
@@ -98,7 +102,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   optView() {
-    const selected = this.getValue()
+    const selected = this.getValue() || []
     return (
       <Accordion
         className={style.optView}
@@ -115,7 +119,7 @@ class ComplexSelView extends ComplexFormField {
         }>
           <div className={style.optList}>{selected.map(code => (
             <span key={code}>
-              <slot>{this.props.optIndex[code]}</slot>
+              <slot>{this.props.optIndex ? this.props.optIndex[code] : null}</slot>
               <i onClick={() => (this.props.onSelect || this.selectValue)(code)} />
             </span>
           ))}</div>
@@ -152,7 +156,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   listView(sublist) {
-    return sublist.map(item => this.ItemView(item))
+    return sublist ? sublist.map(item => this.ItemView(item)) : null
   }
 
   allView(sublist) {

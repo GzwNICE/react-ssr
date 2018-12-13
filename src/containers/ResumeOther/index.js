@@ -33,7 +33,7 @@ class ResumeOther extends PureComponent {
   render() {
     const {
       // option,
-      other_exps,
+      other_exps=[],
     } = this.props
 
     return (

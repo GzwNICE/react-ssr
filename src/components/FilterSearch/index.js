@@ -9,7 +9,7 @@ import Area from '../../inputs/Area'
 import Salary from '../../inputs/Salary'
 import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'
-import angleDownGray from '@static/Rectangle@3x.png'
+import angleDownGray from '../../static/Rectangle@3x.png'
 
 @createForm({
   onValuesChange(props, values) {

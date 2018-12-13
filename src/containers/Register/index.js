@@ -3,7 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
-import Rectangle from '@static/Rectangle@3x.png'
+import Rectangle from '../../static/Rectangle@3x.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import F from '../../helper/tool'
@@ -208,14 +208,6 @@ class Register extends PureComponent {
     }
   }
 
-  componentWillMount() {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-  }
-
   componentDidMount() {
     const {key} = this.props.location.state || {}
     const {sss} = queryString.parse(window.location.search)
@@ -229,6 +221,11 @@ class Register extends PureComponent {
         '触发来源': key || '其他来源',
       })
     }
+    // captcha().then(data => {
+    //   this.setState({
+    //     url: data,
+    //   })
+    // })
   }
 
   componentWillUnmount() {

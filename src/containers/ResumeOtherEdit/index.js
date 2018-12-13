@@ -48,7 +48,7 @@ class ResumeOtherEdit extends PureComponent {
     const {
       form,
       // option,
-      other_exps,
+      other_exps=[],
       match,
     } = this.props
     const { getFieldProps } = form

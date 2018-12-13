@@ -6,14 +6,14 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import style from './style.less'
-import Rectangle from '@static/Rectangle@3x.png'
-import logopng from '@static/logo@320x.png'
-import passwordno from '@static/paswordno@3x.png'
-import paswordimg from '@static/pasword@3x.png'
+import Rectangle from '../../static/Rectangle@3x.png'
+import logopng from '../../static/logo@320x.png'
+import passwordno from '../../static/paswordno@3x.png'
+import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import * as auth from '../../actions/auth'
 
-@createForm()
+// @createForm()
 class Login extends PureComponent {
   state = {
     focused: true,
@@ -164,6 +164,7 @@ class Login extends PureComponent {
   }
 
   render() {
+    const { getFieldProps } = this.props.form
     return (
       <div className={style.LoginWrap}>
         <div className={style.back}>
@@ -176,7 +177,7 @@ class Login extends PureComponent {
           <div className={style.userName}>
             <div className={style.title}>账号</div>
             <InputItem
-              {...this.props.form.getFieldProps('username', {onChange: this.onUserName})}
+              {...getFieldProps('username', {onChange: this.onUserName})}
               className={`${style.inputHei} ${style.name}`}
               clear
               placeholder="手机号/邮箱/用户名"
@@ -185,7 +186,7 @@ class Login extends PureComponent {
           <div className={style.passwordBox}>
             <div className={style.title}>密码</div>
             <InputItem
-              {...this.props.form.getFieldProps('password', {onChange: this.onUserName})}
+              {...getFieldProps('password', {onChange: this.onUserName})}
               className={`${style.inputHei} ${style.name}`}
               clear
               type={this.state.password ? 'password' : 'text'}
@@ -222,4 +223,4 @@ class Login extends PureComponent {
   }
 }
 
-export default Login
+export default createForm()(Login)

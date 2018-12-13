@@ -64,7 +64,7 @@ class ResumeTrainingEdit extends PureComponent {
     const {
       form,
       // option,
-      training_exps,
+      training_exps=[],
       match,
     } = this.props
     const { getFieldProps } = form

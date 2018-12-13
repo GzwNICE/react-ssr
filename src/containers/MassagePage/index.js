@@ -29,7 +29,7 @@ class MassagePage extends (PureComponent || Component) {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const parsed = queryString.parse(window.location.search)
     this.setState({
       key: parsed.key || 1,

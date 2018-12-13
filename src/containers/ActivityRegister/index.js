@@ -4,14 +4,14 @@
 import React, { PureComponent } from 'react'
 import { InputItem, Toast, List, DatePicker } from 'antd-mobile'
 import style from './style.less'
-import passwordno from '@static/paswordno@3x.png'
-import paswordimg from '@static/pasword@3x.png'
+import passwordno from '../../static/paswordno@3x.png'
+import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import F from '../../helper/tool'
 import {captcha} from '../../actions/auth'
 import {mobile, register} from '../../actions/auth'
-import logo from '@static/veryeast-logo.png'
+import logo from '../../static/veryeast-logo.png'
 import moment from 'moment'
 import Gender from '../../inputs/Gender'
 import Post from '../../inputs/Post'
@@ -34,6 +34,7 @@ class Register extends PureComponent {
     tipFont: '获取验证码',
     disableCode: true,
     index: 60,
+    parcel: {},
   }
 
   changePasswordType = () => {
@@ -176,11 +177,14 @@ class Register extends PureComponent {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     captcha().then(data => {
       this.setState({
         url: data,
       })
+    })
+    this.setState({
+      parcel: queryString.parse(window.location.search),
     })
   }
 
@@ -190,7 +194,7 @@ class Register extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form;
-    const parcel = queryString.parse(window.location.search)
+    const { parcel } = this.state
     return (
       <div className={style.container}>
         <div className={style.header}>

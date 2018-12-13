@@ -1,7 +1,9 @@
 import Loadable from "react-loadable";
 import React from 'react'
-// import Tab from './containers/Tabs'
+// import path from 'path'
 import { Switch, Route, Redirect } from 'react-router-dom'
+// import isServer from './helper/isServer'
+import First from './containers/Login'
 
 const loading = (<div>Loading...</div>)
 /** 下面是代码分割异步加载的方式引入各页面 **/
@@ -177,10 +179,15 @@ const CompanyIntroduce = Loadable({
   loader: () => import("./containers/CompanyIntroduce"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const Login = Loadable({
+// console.log(path.join(__dirname, './containers/Login'))
+let Login = Loadable({
   loader: () => import("./containers/Login"),
   loading: () => loading, // 自定义的Loading动画组件
+  // delay: 300,
+  // timeout: 10000, // 10 seconds
+  // serverSideRequirePath: path.join(__dirname, './containers/Login'),
 });
+
 const LoginCode = Loadable({
   loader: () => import("./containers/LoginCode"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -447,10 +454,9 @@ const routes = [
     component: HomePage,
   },
 ]
-
 export default (
   <Switch>
-    <Redirect exact from="/" to="/tabs/home" />
+    <Redirect exact from="/" to="/user/login" />
     {
       routes.map((route, index) => {
         return (

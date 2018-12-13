@@ -116,7 +116,7 @@ class MicroResume extends PureComponent {
     ])
   }
 
-  componentWillMount(){
+  componentDidMount(){
     setTimeout(() => {
       if(!auth.user_id && !Cookies('ticket')) {
         this.goLogin()

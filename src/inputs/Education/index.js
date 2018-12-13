@@ -9,7 +9,7 @@ import ComplexPicker from '../../components/ComplexPicker'
 })
 class Education extends PureComponent {
   render() {
-    const { options } = this.props
+    const { options=[] } = this.props
     return (
       <ComplexPicker
         {...this.props}

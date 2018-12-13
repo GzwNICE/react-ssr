@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Flex } from 'antd-mobile'
-import hotjobs from '@static/hotJobs@3x.png'
+import hotjobs from '../../static/hotJobs@3x.png'
 import style from './style.less'
 
 export default class HotTrade extends Component {

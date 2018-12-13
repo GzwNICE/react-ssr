@@ -5,7 +5,7 @@
 
 import React from 'react'
 import style from './style.less'
-// import text from '@static/icon_feedback_im.png'
+// import text from '../../static/icon_feedback_im.png'
 
 const CollectPostItem = (props) => {
   const {company_name, is_stop, job_name, job_area, favorite_date} = props

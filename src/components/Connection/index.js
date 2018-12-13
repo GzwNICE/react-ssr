@@ -39,11 +39,11 @@ class Connection extends PureComponent {
       <div className={style.content}>
         <div className={style.title}>联系方式</div>
         <ul>
-          {data.contact_name ? <li>联系人：{data.contact_name}</li> : null}
-          {data.contact_phone ? this.showMobilePhone(data) : null}
-          {data.contact_tel ? this.showPhone(data) : null }
-          {data.contact_email ? this.showEmail(data) : null}
-          {data.address ? <li>地址：{data.address}</li> : null}
+          {data && data.contact_name ? <li>联系人：{data.contact_name}</li> : null}
+          {data && data.contact_phone ? this.showMobilePhone(data) : null}
+          {data && data.contact_tel ? this.showPhone(data) : null }
+          {data && data.contact_email ? this.showEmail(data) : null}
+          {data && data.address ? <li>地址：{data.address}</li> : null}
         </ul>
       </div>
     )

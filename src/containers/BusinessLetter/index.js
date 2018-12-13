@@ -22,7 +22,7 @@ class BusinessLetter extends PureComponent {
     this.props.history.push(`/${comapny_id}/${job_id}`)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const messageId = this.props.match.params.message_id
     this.props.dispatch(messageDetail({message_id: messageId}))
   }
