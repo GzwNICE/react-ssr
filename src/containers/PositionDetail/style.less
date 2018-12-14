@@ -4,7 +4,7 @@
   height: 100%;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  .PositionHead{
+  .PositionHead {
     position: fixed;
     top: 0;
     left: 0;
@@ -21,7 +21,7 @@
       .goBack {
         height: 20px;
         width: 20px;
-        img{
+        img {
           height: 100%;
         }
       }
@@ -31,7 +31,7 @@
           background: none;
           padding: 0;
         }
-    
+
         .am-search-input .am-search-synthetic-ph-placeholder {
           font-family: PingFangSC-Regular;
           font-size: 14px;
@@ -40,7 +40,7 @@
         .am-search-input {
           flex: 0.98;
           border-radius: 14px;
-          background-color: #F0F0F0;
+          background-color: #f0f0f0;
         }
         .am-search-input input[type='search'] {
           font-family: PingFangSC-Regular;
@@ -51,7 +51,7 @@
       .navLink {
         position: absolute;
         right: 20px;
-        .searcHome{
+        .searcHome {
           width: 26px;
           height: 23px;
           margin-left: 4px;
@@ -62,9 +62,26 @@
           height: 25px;
         }
       }
-      
     }
   }
+  .guidance {
+    background-color: #fff;
+    padding: 30px 0;
+    .finishApp {
+      width: 300px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border: 1Px solid #ffb3a6;
+      border-radius: 2px;
+      font-family: PingFangSC-Medium;
+      font-size: 14px;
+      color: #FF5338;
+      letter-spacing: 0.6px;
+      margin: 0 auto;
+    }
+  }
+  
 }
 .rest {
   margin-top: 10px;
@@ -121,7 +138,7 @@
       color: #000000;
       line-height: 26px;
       margin-top: 10px;
-      img{
+      img {
         width: 20px;
         vertical-align: sub;
       }
@@ -132,7 +149,7 @@
       color: #ff5338;
       letter-spacing: 0.6px;
       line-height: 21px;
-      border: 1Px solid #ffb3a6;
+      border: 1px solid #ffb3a6;
       border-radius: 2px;
       width: 300px;
       height: 40px;
@@ -151,17 +168,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 30px 0 18px 0;
+    margin: 20px 0 18px 0;
+    position: relative;
     .name {
       font-family: PingFangSC-Medium;
       font-size: 22px;
       color: #333333;
+      width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .salary {
       color: #ff4f00;
       font-size: 14x;
       font-weight: 600;
       text-align: right;
+    }
+    .finish {
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      right: 0;
+      top: -10px;
     }
   }
   .inner {
@@ -324,5 +353,55 @@
     }
   }
 }
-
-
+.HotTopic {
+  background-color: #fff;
+  margin-top: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  .hotJobs,
+  .hotCompanyu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-top: 15px;
+    li {
+      list-style: none;
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: #4a4a4a;
+      width: 100px;
+      line-height: 26px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-right: 15px;
+    }
+    li:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+  :global {
+    .am-tabs-default-bar-underline {
+      width: 40px !important;
+      margin-left: 62px;
+    }
+    .am-tabs-default-bar-tab {
+      font-family: PingFangSC-Medium;
+      font-size: 16px;
+    }
+    // .am-tabs-default-bar-content {
+    //   display: flex;
+    //   justify-content: space-between;
+    // }
+    // .am-tabs-default-bar-tab:nth-child(2) {
+    //   margin-left: 50px;
+    // }
+    .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+      display: none !important;
+    }
+    .am-tabs-default-bar-top .am-tabs-default-bar-tab {
+      border-bottom: none;
+    }
+  }
+}
