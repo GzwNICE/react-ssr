@@ -15,7 +15,6 @@ const PageScroll = WrappedComponent =>  {
       if(!this.canRun) return
       this.canRun = false
       setTimeout(() => {
-        console.log(page.scrollTop)
         this.scrollTop = page.scrollTop
         this.canRun = true
       }, 200)

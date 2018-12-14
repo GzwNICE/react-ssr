@@ -13,7 +13,7 @@ export default class Search extends Component {
           <img src={back} alt="bank"/>
         </div>
         <SearchBar placeholder="搜索职位/品牌" />
-        <Link rel="stylesheet" to={`/tabs/user?redirect=`}>
+        <Link rel="stylesheet" to={`/tabs/user`}>
           <img src={personal} alt="img"  className={style.personal} />
         </Link>
       </div>

@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import store from 'store'
 import JobCard from '../../components/JobCard'
 // import MySearchBar from '../../components/SearchBar'
-import JobList from './JobList'
+import JobList from '../../components/JobList'
 import Search from '../../components/SearchBar/Search'
 import queryString from 'query-string'
 import * as Ad from '../../components/Ad'
@@ -182,11 +182,9 @@ class JobPage extends (PureComponent || Component) {
       })
     }
     this.props.dispatch(getSearchInit(allQuery))
-  }
-
-  componentDidMount(){
     window.addEventListener('scroll', this.onScroll, false)
   }
+
 
   componentWillReceiveProps(nextProps) {
     const thisList = this.props.searchLIst
@@ -254,7 +252,9 @@ class JobPage extends (PureComponent || Component) {
             {select ? <div className={style.haveOptions}>已选项：杭州</div> : null}
           </div>
         </div>
-        <JobList />
+        <div className={style.listBox}>
+          <JobList />
+        </div>
         {showAd ? (
           <RegisterWrap
             onCloseReg={this.handleCloseReg.bind(this)}

@@ -94,10 +94,6 @@ class PositionBar extends PureComponent {
     const pathname = this.props.history.location.pathname
     const url = `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
     this.props.history.replace(url, {key: key})
-    // Modal.alert('', '请先登录', [
-    //   { text: '稍后', style: 'default' },
-    //   { text: '登录', onPress: () => this.props.history.replace(url, {key: key}) },
-    // ])
   }
 
   render() {
@@ -109,19 +105,9 @@ class PositionBar extends PureComponent {
             <img className={style.img1} src={data.is_favorited ? unselect : select} alt="img1" />
             <span>{data.is_favorited ? '取消' : '收藏'}</span>
           </div>
-          <span>|</span>
-          <div onClick={this.matching} className={style.matching}>
-            <img className={style.img2} src={matching} alt="img2" />
-            <span>匹配度</span>
-          </div>
-          <span>|</span>
-          <div onClick={this.competitive} className={style.contend}>
-            <img className={style.img1} src={contend} alt="img3" />
-            <span>竞争力</span>
-          </div>
         </div>
-        <div onClick={this.toEmploy} className={`${style.rightBtn} ${data.is_applied ? style.has : null}`}>
-          {data.is_applied  ? '已投递' : '投递简历'}
+        <div onClick={this.toEmploy} className={style.right}>
+          <div className={`${style.rightBtn} ${data.is_applied ? style.has : null}`}>{data.is_applied  ? '已投递' : '投递简历'}</div>
         </div>
       </div>
     )
