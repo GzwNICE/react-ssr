@@ -8,7 +8,6 @@ router.get('/', function(req, res, next) {
 })
 
 router.all('/:id/*', function(req, res, next) {
-  console.log(111111111111111111111111111)
   const id = req.params.id
   const opt = config[id]
   const api = req.url.replace(`/${id}`, '')

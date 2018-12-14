@@ -1,7 +1,7 @@
 
 
 import React from 'react'
-import logo from '@static/weixin@3x.png'
+import logo from '../../static/weixin@3x.png'
 import style from './style.less'
 
 const JobList = (props) => {

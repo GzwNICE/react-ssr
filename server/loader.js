@@ -17,7 +17,7 @@ import routes from '../src/routes'
 import manifest from '../build/asset-manifest.json'
 
 export default (req, res, next) => {
-  // console.log(2222)
+  console.log(11111111111112222222222)
 
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
@@ -86,6 +86,7 @@ export default (req, res, next) => {
             console.log('THE TITLE', helmet.title.toString())
 
             // Pass all this nonsense into our HTML formatting function above
+            // console.log(1111111111111111111)
             console.log(helmet.htmlAttributes.toString())
 
             const html = injectHTML(htmlData, {

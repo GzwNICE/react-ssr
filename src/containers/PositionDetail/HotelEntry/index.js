@@ -17,7 +17,7 @@ const HotelEntry = (props) => {
           {company.company_nature} {company.company_size ? " | " : null}
           {company.company_size} {company.industry ? " | " : null}
           {company.industry}
-          </div>
+        </div>
       </div>
       <div className={style.right}>
         <img src={Rectangle} />

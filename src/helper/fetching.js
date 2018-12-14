@@ -2,6 +2,9 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import axios from "axios"
 import isServer from './isServer'
+// import { Modal } from 'antd-mobile'
+// import { createBrowserHistory, createMemoryHistory } from 'history'
+
 /**
  * action 生成器
  * @param {object} options
@@ -22,6 +25,19 @@ export default (options) => {
       })
       return pipeline(url, params)
         .then(json => {
+          // todo 这样写跳转有问题，再看看
+          // if(json.errMsg === '未登陆') {
+          //   const history = isServer ? createMemoryHistory()
+          //     : createBrowserHistory()
+          //   const goto = () => {
+          //     history.push('/user/login?redirect=' + history.location.pathname)
+          //     console.log(1111)
+          //   }
+          //   return Modal.alert('', '请先登录', [
+          //     { text: '稍后', style: 'default' },
+          //     { text: '登录', onPress: goto },
+          //   ])
+          // }
           dispatch({
             type,
             ...done(json, params, getState),
@@ -104,10 +120,4 @@ export function parseBody(params = {}) {
     })
     return formData
   }
-
-  const formData = new FormData()
-  Object.keys(params).forEach((key) => {
-    formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))
-  })
-  // return formData
 }

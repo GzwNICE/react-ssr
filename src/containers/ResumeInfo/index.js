@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import dayjs from 'dayjs'
 import { getAllInfo, edit as resumeEdit } from '../../actions/resume'
-import { NavBar, Flex, List, InputItem, Toast, Picker, Checkbox } from 'antd-mobile'
+import { NavBar, Flex, List, InputItem, Toast, Picker, Checkbox, Icon } from 'antd-mobile'
 import _ from 'lodash'
 import F from '../../helper/tool'
 import { createForm } from 'rc-form'
@@ -222,244 +222,80 @@ class ResumeInfo extends PureComponent {
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.goBack()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           基本信息
         </NavBar>
-        <Flex.Item className={style.wrap}>
-          <List>
-            <InputItem
-              {...getFieldProps('true_name_cn', {
-                initialValue: resume.true_name_cn,
-              })}
-              clear
-              placeholder="请输入"
-            >
-              姓名
-            </InputItem>
-            <Gender
-              {...getFieldProps('gender', {
-                initialValue: resume.gender,
-              })}
-            >
-              <List.Item>性别</List.Item>
-            </Gender>
-            <List.Item onClick={() => this.bindMobile(1)} extra={mobileStatus}>
-              手机号码
-            </List.Item>
-            {/*<DatePicker
-              {...getFieldProps('birthday', {
-                initialValue: moment(parseInt(resume.birthday || '2018', 10) === 0 ? moment() : (resume.birthday || '2018-01-01')),
-              })}
-              mode="date"
-              title="出生日期"
-              extra="请选择"
-              minDate={moment().year(moment().year() - 100)}
-              maxDate={moment().year(moment().year() - 15)}
-            >
-              <List.Item arrow="horizontal">出生日期</List.Item>
-            </DatePicker>*/}
+        <List>
+          <InputItem
+            {...getFieldProps('true_name_cn', {
+              initialValue: resume.true_name_cn,
+            })}
+            clear
+            placeholder="请输入"
+          >
+            姓名
+          </InputItem>
 
-            <Picker
-              {...getFieldProps('birthday', {
-                initialValue: (resume.birthday || '2018-06')
-                  .split('-')
-                  .slice(0, 2),
-              })}
-              data={fifteryear}
-              title="出生年月"
-              cascade={false}
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">出生年月</List.Item>
-            </Picker>
+          <Gender
+            {...getFieldProps('gender', {
+              initialValue: resume.gender,
+            })}
+          >
+            <List.Item>性别</List.Item>
+          </Gender>
 
-            {/*<InputItem
-              {...getFieldProps('work_year', {
-                initialValue: resume.work_year,
-              })}
-              clear
-              placeholder="请输入"
-              type="number"
-            >
-              参加工作时间
-            </InputItem> */}
+          <Picker
+            {...getFieldProps('birthday', {
+              initialValue: (resume.birthday || '2018-06')
+                .split('-')
+                .slice(0, 2),
+            })}
+            data={fifteryear}
+            title="出生年月"
+            cascade={false}
+            extra="请选择"
+          >
+            <List.Item arrow="horizontal">出生年月</List.Item>
+          </Picker>
 
-            <Picker
-              {...getFieldProps('work_date', {
-                initialValue: (resume.work_date === '0' ? dayjs().format('YYYY-MM') : ((dayjs(resume.work_date).isAfter(dayjs()) ? dayjs().format('YYYY-MM'):resume.work_date||dayjs().format('YYYY-MM')))).split('-').slice(0, 2),
-              })}
-              data={zeroYear}
-              title="参加工作时间"
-              cascade={false}
-              extra="请选择"
-              onOk={this.onPickWorkDate}
-            >
-              <WorkDateChildren onWorkDateChange={this.onWorkDateChange} resume={resume} form={form}>参加工作时间</WorkDateChildren>
-            </Picker>
+          <Picker
+            {...getFieldProps('work_date', {
+              initialValue: (resume.work_date === '0' ? dayjs().format('YYYY-MM') : ((dayjs(resume.work_date).isAfter(dayjs()) ? dayjs().format('YYYY-MM'):resume.work_date||dayjs().format('YYYY-MM')))).split('-').slice(0, 2),
+            })}
+            data={zeroYear}
+            title="参加工作时间"
+            cascade={false}
+            extra="请选择"
+            onOk={this.onPickWorkDate}
+          >
+            <WorkDateChildren onWorkDateChange={this.onWorkDateChange} resume={resume} form={form}>参加工作时间</WorkDateChildren>
+          </Picker>
 
-            <List.Item className={style.checkbox}>
-              <label className={style.workDateYjs}>
-                <Checkbox className={style.workDateCheckboxYjs}
-                  {...getFieldProps('isYjs', {
-                    initialValue: resume.work_date === 0||dayjs(resume.work_date).isAfter(dayjs()) ? true : false,
-                    valuePropName: 'checked',
-                    onChange: this.onYjsChange,
-                  })}
-                />
-                <span>我是应届生</span>
-              </label>
-            </List.Item>
+          <Area
+            {...getFieldProps('current_location', {
+              initialValue: resume.current_location
+                ? [resume.current_location]
+                : [],
+            })}
+          >
+            <List.Item arrow="horizontal">现居地</List.Item>
+          </Area>
 
-            <Education
-              {...getFieldProps('degree', {
-                initialValue: resume.degree ? [resume.degree] : [],
-              })}
-              title="最高学历"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">最高学历</List.Item>
-            </Education>
-            <Area
-              {...getFieldProps('current_location', {
-                initialValue: resume.current_location
-                  ? [resume.current_location]
-                  : [],
-              })}
-            >
-              <List.Item arrow="horizontal">现居地</List.Item>
-            </Area>
-            <Area
-              {...getFieldProps('domicile_location', {
-                initialValue: resume.domicile_location
-                  ? [resume.domicile_location]
-                  : [],
-              })}
-            >
-              <List.Item arrow="horizontal">户籍地</List.Item>
-            </Area>
-            <JobStatus
-              {...getFieldProps('job_status', {
-                initialValue: resume.job_status ? [resume.job_status] : [],
-              })}
-              title="求职状态"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">求职状态</List.Item>
-            </JobStatus>
-            <List.Item onClick={() => this.bindEmail()} extra={emailStatus}>
-              电子邮箱
-            </List.Item>
-            <InputItem
-              {...getFieldProps('height', {
-                initialValue: [resume.height],
-              })}
-              clear
-              placeholder="请输入"
-              type="number"
-            >
-              身高(cm)
-            </InputItem>
-            <InputItem
-              {...getFieldProps('weight', {
-                initialValue: [resume.weight],
-              })}
-              clear
-              placeholder="请输入"
-              type="number"
-            >
-              体重(kg)
-            </InputItem>
+          <List.Item onClick={() => this.bindMobile(1)} extra={mobileStatus}>
+            手机号码
+          </List.Item>
 
-            {/*<DatePicker
-              {...getFieldProps('graduation_time', {
-                initialValue: moment(parseInt(resume.graduation_time || '2018', 10) === 0 ? moment() : (resume.graduation_time || '2018-01-01')),
-              })}
-              mode="date"
-              title="毕业时间"
-              extra="请选择"
-              minDate={moment().year(moment().year() - 100)}
-              maxDate={moment().year(moment().year() + 10)}
-            >
-              <List.Item arrow="horizontal">毕业时间</List.Item>
-            </DatePicker>*/}
+          <List.Item onClick={() => this.bindEmail()} extra={emailStatus}>
+            电子邮箱
+          </List.Item>
 
-            <Picker
-              {...getFieldProps('graduation_time', {
-                initialValue: (resume.graduation_time || '2018-06')
-                  .split('-')
-                  .slice(0, 2),
-              })}
-              data={tenYear}
-              title="毕业时间"
-              cascade={false}
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">毕业时间</List.Item>
-            </Picker>
-
-            <IdType
-              {...getFieldProps('id_type', {
-                initialValue: [resume.id_type],
-              })}
-              title="证件类型"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">证件类型</List.Item>
-            </IdType>
-            <InputItem
-              {...getFieldProps('id_number', {
-                initialValue: resume.id_number,
-              })}
-              clear
-              placeholder="请输入"
-            >
-              证件号码
-            </InputItem>
-            <InputItem
-              {...getFieldProps('qq', {
-                initialValue: resume.qq,
-              })}
-              clear
-              type="number"
-              placeholder="请输入"
-            >
-              QQ
-            </InputItem>
-            <Marital
-              {...getFieldProps('marital', {
-                initialValue: [resume.marital],
-              })}
-              title="婚姻状况"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">婚姻状况</List.Item>
-            </Marital>
-            <Policital
-              {...getFieldProps('policital', {
-                initialValue: [resume.policital],
-              })}
-              title="政治面貌"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">政治面貌</List.Item>
-            </Policital>
-            <Nation
-              {...getFieldProps('nation', {
-                initialValue: resume.nation_code
-                  ? [parseInt(resume.nation_code, 10)]
-                  : [],
-              })}
-              title="民族"
-              extra="请选择"
-            >
-              <List.Item arrow="horizontal">民族</List.Item>
-            </Nation>
-          </List>
-        </Flex.Item>
+        </List>
+        <p className={style.footer}><i></i>为保证简历信息真实性，请先绑定手机号码和邮箱</p>
       </Flex>
     )
   }

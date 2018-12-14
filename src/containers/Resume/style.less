@@ -115,107 +115,163 @@
     > div:last-child {
       padding: 0;
     }
-  }
-}
-
-
-//.main {
-//  font-size: 12px;
-//  color: #777;
-//  img {
-//    border-radius: 50%;
-//    margin: 5px 0;
-//  }
-//}
-
-.item {
-  flex-grow: 1;
-  margin-bottom: 5px;
-  &:last-child {
-    margin-bottom: 0;    
-  }
-  span {
-    i {
-      visibility: hidden;
+    &-describe {
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      line-height: 19px;
     }
   }
-}
+  &-job {
+    &-wraper {
+      padding: 0 15px 0 23px;
+      position: relative;
+      font-size: 13px;
+      color: #9B9B9B;
+      letter-spacing: 0;
+      margin-bottom: 25px;
+      span {
+        font-size: 14px;
+        color: #4A4A4A;
+      }
+      &-circle {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 4px;
+        left: 1px;
+      }
+      &-editor {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        padding: 10px;
+      }
+      p {
+        line-height: 18px;
+      }
+      p:last-child {
+        margin-top: 10px;
+      }
+    }
+    &-footer {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #4A4A4A;
+      img {
+        width: 16px;
+        height: 16px;
+        padding-right: 5px;
+      }
+    }
+  }
+  &-education {
+    &-wraper {
+      padding: 0 15px 0 23px;
+      position: relative;
+      letter-spacing: 0;
+      font-size: 14px;
+      color: #4A4A4A;
+      margin-bottom: 25px;
+      &-circle {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 4px;
+        left: 1px;
+      }
+      &-editor {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        padding: 10px;
+      }
+      &-line {
+        width: 0;
+        height: 76px;
+        border: none;
+        border-left: 0.5Px solid #C8C7CC;
+        opacity: 0.5;
+        position: absolute;
+        top: 16px;
+        left: 6px;
+      }
+      p {
+        line-height: 18px;
+      }
+      p:first-of-type {
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+      p:last-child {
+        font-size: 13px;
+        color: #777777;
+      }
+    }
+    &-footer {
+      text-align: center;
+      margin-top: 25px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #4A4A4A;
+      img {
+        width: 16px;
+        height: 16px;
+        padding-right: 5px;
+      }
+    }
+  }
+  &-language {
+    padding-top: 0;
+    :global {
+      .am-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+        border: 4px solid #FF4F00;
+      }
+    }
+    &-content {
+      margin: 30px 0;
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 10px;
+        span:first-child {
+          color: #333333;
+        }
+        span:last-child {
+          color: #777777;
+        }
+      }
+    }
 
-.head {
-  display: flex;
-  flex-direction: column;
-  justify-self: flex-start;
-  align-items: center;
-  position: relative;
+  }
+}
+.toogle {
+  height: 65px;
+  background: url("../../static/gradual.png") 100% 100%;
+  text-align: center;
+  font-size: 16px;
+  color: #FFFFFF;
   img {
-    width: 60px;
-    height: 60px;
+    height: 16px;
+    width: 16px;
+    margin-right: 10px;
   }
-  .edit {
-    width: 23px;
-    height: 23px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    transform: translate(-20px, 0px);
+  > div {
+    height: 22px;
+    line-height: 22px;
+    padding: 10px 0 4px 0;
   }
-}
-.face {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.required {
-  display: inline-block;
-  border-radius: 50px;
-  font-style: normal;
-  font-size: 11px;
-  border: 1px solid #FF4F00;
-  color: #FF4F00;
-  padding: 0 5px;
-  margin-left: 5px;
-}
-
-.edit {
-  width: 23px;
-  height: 23px;
-  padding: 8px;
-  margin: -13px -8px;
-  transform: translateY(-1PX);
-}
-
-.panel {
-  margin-bottom: 10px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-  span {
-    color: #9B9B9B;
-    margin: 0 3px;
-    &:first-child {
-      margin-left: 0;
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-}
-.info {
-  margin-top: 5px;
-  :global {
-    .am-list-item {
-      padding-left: 0
-    }
+  p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
   }
 }
 
-.live {
-  margin: 5px -8px 0;
-  span {
-    margin: 0 8px !important;
-  }
-}

@@ -1,8 +1,7 @@
 import { $ } from '../actions/option'
 import storageSync from '../helper/storage-sync'
 
-const initialState = {
-}
+const initialState = {}
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
