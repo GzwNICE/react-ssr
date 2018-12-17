@@ -11,34 +11,7 @@ import { createForm } from 'rc-form'
 import style from './style.less'
 
 import Area from '../../inputs/Area'
-// import WorkYear from '../../inputs/WorkYear' Picker
-import Education from '../../inputs/Education'
-import JobStatus from '../../inputs/JobStatus'
-import IdType from '../../inputs/IdType'
-import Marital from '../../inputs/Marital'
-import Policital from '../../inputs/Policital'
-import Nation from '../../inputs/Nation'
 import Gender from '../../inputs/Gender'
-
-const WorkDateChildren = props => {
-  return (
-    <div className={style.workDate}
-    >
-      <List.Item arrow="horizontal" extra={<span>
-        <span className={style.workDateCheckbox}>
-          <Checkbox
-            {...props.form.getFieldProps('isWorkDate', {
-              initialValue: props.resume.work_date === 0||dayjs(props.resume.work_date).isAfter(dayjs()) ? false : true,
-              valuePropName: 'checked',
-              onChange: props.onWorkDateChange,
-            })}
-          /></span><span onClick={props.onClick}>{props.extra}</span></span>}>
-        <span>{props.children}</span>
-      </List.Item>
-    </div>
-  )
-};
-
 
 @connect(state => {
   return {
@@ -71,25 +44,10 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请输入您的工作经验', 2)
       }
 
-      if (values.degree.length === 0) {
-        return Toast.info('请选择您的最高学历', 2)
-      }
-
       if (values.current_location.length === 0) {
         return Toast.info('请选择您的现居地', 2)
       }
 
-      if (values.domicile_location.length === 0) {
-        return Toast.info('请选择您的户籍地', 2)
-      }
-
-      if (values.job_status.length === 0) {
-        return Toast.info('请选择您的求职状态', 2)
-      }
-
-      if (values.height === '' || values.height.length === 0) {
-        return Toast.info('请输您的身高', 2)
-      }
       window.zhuge.track('我的简历', { '模块': '基本信息' })
 
       this.props
@@ -99,7 +57,7 @@ class ResumeInfo extends PureComponent {
             appchannel: 'web',
             work_date: values.isYjs ? 0 : values.work_date.join('-'),
             birthday: values.birthday.join('-'),
-            graduation_time: values.graduation_time.join('-'),
+            graduation_time: '', // values.graduation_time.join('-')
           })
         )
         .then(data => {
@@ -117,13 +75,15 @@ class ResumeInfo extends PureComponent {
       Object.keys(values).forEach((key) => {
         payload[key] = (String(values[key]) || '')
       })
+
       const payloaded = {
         ...payload,
-        nation_code: values.nation[0],
+        nation_code: '', // values.nation[0] 名族
         work_date: values.isYjs ? 0 : values.work_date.join('-'),
         birthday: values.birthday.join('-'),
-        graduation_time: values.graduation_time.join('-'),
+        graduation_time: '', // graduation_time  毕业时间
       }
+      console.log(payloaded)
       this.props.dispatch({
         type: 'TEMPORARY_SAVE',
         payload: payloaded,
@@ -190,7 +150,14 @@ class ResumeInfo extends PureComponent {
       })
     }
   }
-
+  handleFormat = (val) => {
+    val = val.map((item) => {
+      item = item.substring(0, item.length-1)
+      return item
+    })
+    val =  val.join('.')
+    return val
+  }
   render() {
     const { form, resume } = this.props
     const { getFieldProps } = form
@@ -199,23 +166,23 @@ class ResumeInfo extends PureComponent {
     const tenYear = F.dataSource(100, 10)
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
-        <span style={{ color: '#ccc' }}>(已绑定)</span>
+        <span className={style.bind} style={{ color: '#ccc' }}>已绑定</span>
         {resume.mobile}
       </span>
     ) : (
       <span>
-        <span style={{ color: 'red' }}>(待绑定)</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
         {resume.mobile || '请输入'}
       </span>
     )
     const emailStatus = _.toInteger(resume.is_email_bind) ? (
       <span>
-        <span style={{ color: '#ccc' }}>(已绑定)</span>
+        <span className={style.bind} style={{ color: '#ccc' }}>已绑定</span>
         {resume.email}
       </span>
     ) : (
       <span>
-        <span style={{ color: 'red' }}>(待绑定)</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
         {resume.email || '请输入'}
       </span>
     )
@@ -259,6 +226,7 @@ class ResumeInfo extends PureComponent {
             title="出生年月"
             cascade={false}
             extra="请选择"
+            format={this.handleFormat}
           >
             <List.Item arrow="horizontal">出生年月</List.Item>
           </Picker>
@@ -272,8 +240,9 @@ class ResumeInfo extends PureComponent {
             cascade={false}
             extra="请选择"
             onOk={this.onPickWorkDate}
+            format={this.handleFormat}
           >
-            <WorkDateChildren onWorkDateChange={this.onWorkDateChange} resume={resume} form={form}>参加工作时间</WorkDateChildren>
+            <List.Item arrow="horizontal">参加工作时间</List.Item>
           </Picker>
 
           <Area
@@ -286,12 +255,12 @@ class ResumeInfo extends PureComponent {
             <List.Item arrow="horizontal">现居地</List.Item>
           </Area>
 
-          <List.Item onClick={() => this.bindMobile(1)} extra={mobileStatus}>
+          <List.Item onClick={() => this.bindMobile(1)} extra={mobileStatus} arrow="horizontal">
             手机号码
           </List.Item>
 
-          <List.Item onClick={() => this.bindEmail()} extra={emailStatus}>
-            电子邮箱
+          <List.Item className={style.email} onClick={() => this.bindEmail()} extra={emailStatus}>
+            联系邮箱
           </List.Item>
 
         </List>

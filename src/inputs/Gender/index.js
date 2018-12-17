@@ -12,7 +12,7 @@ import style from './style.less'
 class IdType extends PureComponent {
   render() {
     const { options=[], value, children } = this.props
-    // console.log(this.props)
+    // const arr = options.reverse()
     return React.cloneElement(children, {
       extra: (
         <Flex direction="row-reverse">

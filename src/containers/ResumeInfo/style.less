@@ -14,6 +14,7 @@
       height: 50px;
     }
     .am-list-line {
+      height: 50px;
       padding-right: 0;
     }
     .am-list-item .am-list-line .am-list-content, .am-input-label {
@@ -21,6 +22,19 @@
       color: #4A4A4A;
     }
 
+  }
+  .bind {
+    width: 40px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+    display: inline-block;
+    border: 1px solid #FF4F00;
+    font-size: 10px;
+    margin-right: 5px;
+  }
+  .email {
+    height: 60px;
   }
 }
 
@@ -56,83 +70,53 @@
     display: inline-block;
     border-radius: 50%;
     background-color: #FF4F00;
-    padding-right: 5px;
+    margin-right: 5px;
   }
 }
-//.wrap {
-//  height: 0;
-//  overflow: auto;
-//  -webkit-overflow-scrolling: touch;
-//  margin-left: 0 !important;
-//  > div {
-//    // margin: 40px 20px;
-//  }
-//  :global{
-//    .am-input-label-5{
-//      width: 85px !important;
-//    }
-//    .am-list-item .am-list-line .am-list-extra {
-//      flex-basis: 60%;
-//    }
-//  }
-//}
-//
-//.workDateCheckbox {
-//  position: relative;
-//  top: -1.5px;
-//  left: -5px;
-//}
-//
-//.workDateYjs {
-//  position: relative;
-//  right: 26px;
-//}
-//
-//.workDateCheckboxYjs {
-//  position: relative;
-//  top: -1.5px;
-//  left: -5px;
-//}
-//
-//.workDate {
-//  :global {
-//    .am-list-item {
-//      overflow: visible;
-//    }
-//    .am-list-item .am-list-line {
-//      overflow: visible;
-//    }
-//    .am-list-item .am-list-line .am-list-content {
-//      position: relative;
-//      top: 20px;
-//      overflow: visible;
-//      z-index: 99;
-//    }
-//    .am-list-body .am-list-item:last-child {
-//      border-bottom: 1px !important;
-//    }
-//    .am-list-line:after {
-//      border-bottom: 0 !important
-//    }
-//  }
-//}
-//
-//
-//.checkbox {
-//  margin-top: -1PX;
-//  :global {
-//    .am-list-content {
-//      display: flex;
-//      flex-direction: row-reverse;
-//      > label {
-//        display: flex;
-//        align-items: center;
-//        > span {
-//          margin-right: 8px;
-//        }
-//      }
-//    }
-//  }
-//}
 
-
+.checkbox {
+  //text-align: right;
+  //height: 27px;
+  :global {
+    .am-list-item.am-input-item {
+      height: 27px;
+    }
+    .am-list-line {
+      height: 27px;
+    }
+    .am-list-content {
+      text-align: right!important;
+      padding-top: 0!important;
+      padding-bottom: 14px!important;
+      span {
+        padding-left: 5px;
+        padding-bottom: 2px;
+        font-size: 12px;
+        color: #9B9B9B;
+      }
+    }
+    .am-checkbox {
+      .am-checkbox-inner {
+        border: none;
+        background: url(../../static/square.png) center no-repeat;
+        background-size: 90%;
+      }
+      &.am-checkbox-checked {
+        .am-checkbox-inner {
+          background: url(../../static/learnCheck.png) center no-repeat;
+          background-size: 90%;
+          &:after {
+            content: none;
+          }
+        }
+      }
+    }
+  }
+}
+.noboderline {
+  :global {
+    .am-list-line::after {
+      height: 0 !important;
+    }
+  }
+}

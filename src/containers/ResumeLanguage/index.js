@@ -3,9 +3,13 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { remove as languagesRemove } from '../../actions/languages'
-import { NavBar, Flex, List, SwipeAction } from 'antd-mobile'
+import { NavBar, Flex, List, SwipeAction, Icon, Tabs } from 'antd-mobile'
 import style from './style.less'
 
+const tabs = [
+  { title: 'First Tab' },
+  { title: 'Second Tab' },
+]
 @connect(state => {
   return {
     option: state.option,
@@ -39,41 +43,29 @@ class ResumeInfo extends PureComponent {
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
-          onLeftClick={() => this.props.history.goBack()}>
-          语言能力
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.props.history.goBack()}
+          rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
+          语言与技能
         </NavBar>
-        <Flex.Item className={style.wrap}>
-          <List>
-            {languages.map(item => (
-              <SwipeAction
-                key={item.id}
-                autoClose
-                right={[
-                  {
-                    text: '删除',
-                    onPress: () => this.removeItem(item),
-                    style: { backgroundColor: '#F4333C', color: 'white' },
-                  },
-                ]}
-              >
-                <List.Item
-                  arrow="horizontal"
-                  key={item.id} onClick={() => this.goTo(item.id)}
-                  extra={option.opts_master_degree_index[item.ability]}
-                >
-                  {option.opts_language_index[item.language]}
-                </List.Item>
-              </SwipeAction>
-            ))}
-          </List>
-          <Flex className={style.add} justify="center">
-            <Link to="/resume/language/add">
-              + 添加语言能力
-            </Link>
-          </Flex>
-        </Flex.Item>
+
+        <Tabs tabs={tabs}
+              initialPage={1}
+              onChange={(tab, index) => { console.log('onChange', index, tab); }}
+              onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+            Content of first tab
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+            Content of second tab
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+            Content of third tab
+          </div>
+        </Tabs>
       </Flex>
     )
   }

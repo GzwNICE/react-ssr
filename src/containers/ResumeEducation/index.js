@@ -3,8 +3,9 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { remove as educationalsRemove } from '../../actions/educationals'
-import { NavBar, Flex, List, SwipeAction } from 'antd-mobile'
-import style from './style.less'
+import { NavBar, Flex, List, SwipeAction, Icon } from 'antd-mobile'
+import style from '../ResumeInfo/style.less'
+import style2 from './style.less'
 
 @connect(state => {
   return {
@@ -38,12 +39,13 @@ class ResumeEducation extends PureComponent {
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.goBack()}>
           教育经历
         </NavBar>
-        <Flex.Item className={style.wrap}>
+        <div className={style2.wraper}>
           <List>
             {educationals.map(item => (
               <SwipeAction
@@ -59,7 +61,7 @@ class ResumeEducation extends PureComponent {
               >
                 <List.Item arrow="horizontal" onClick={() => this.goTo(item.id)}>
                   <div>{item.school_cn || '学校名称'}</div>
-                  <div className={style.etime}>
+                  <div className={style2.etime}>
                     {`${item.begin_year}-${item.begin_month}`}-
                     {item.end_year !== '0' ? `${item.end_year}-${item.end_month}` : '至今'}
                   </div>
@@ -67,12 +69,12 @@ class ResumeEducation extends PureComponent {
               </SwipeAction>
             ))}
           </List>
-          <Flex className={style.add} justify="center">
-            <Link to="/resume/education/add">
-              + 添加教育经历
-            </Link>
-          </Flex>
-        </Flex.Item>
+        </div>
+        <Flex className={style2.add} justify="center">
+          <Link to="/resume/education/add">
+            + 添加教育经历
+          </Link>
+        </Flex>
       </Flex>
     )
   }
