@@ -8,6 +8,7 @@ import {
   HOME_POST_REF,
   HOME_POST_ADD,
   HOME_PAGE_UNMOUNT,
+  HOME_FAM_COMPANY,
 } from '../actions/home'
 
 import {
@@ -69,6 +70,11 @@ export default (state = initState, action = {}) => {
         scrollTop: action.scrollTop,
       }
     case LOGIN_OUT:
+      return {
+        ...state,
+        list: [],
+      }
+    case HOME_FAM_COMPANY:
       return {
         ...state,
         list: [],
