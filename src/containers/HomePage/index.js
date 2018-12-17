@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
-import FamousCompany from '../../components/FamousCompany'
-import HotTrade from '../../components/HotTrade'
+import FamousCompany from './FamousCompany'
+import HotTrade from './HotTrade'
 import { WhiteSpace } from 'antd-mobile'
 // import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
@@ -55,7 +55,7 @@ class HomePage extends PureComponent {
       showAd: false,
     }
   }
-  
+
   searchFocus = () => {
     this.props.history.push('/search')
   }
@@ -205,7 +205,6 @@ class HomePage extends PureComponent {
     window.addEventListener('scroll', this.onScroll, false)
   }
 
-
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.homeList
     const thisList = this.props.homeList
@@ -261,8 +260,32 @@ class HomePage extends PureComponent {
     // }
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
+        <Ad.AdWindow
+          show={show}
+          onCloseAd={this.onCloseAd}
+          downLoadAd={this.downLoadAd}
+        />
+        <div className={style.searchBar}>
+          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+          <MySearchBar
+            searchFocus={this.searchFocus}
+            onChangeCity={this.onChangeCity}
+            showCity="true"
+            defaultValue="" // 输入框的默认值
+            placeholder="请输入职位或者公司"
+          />
+        </div>
         <Carousels {...this.props} />
-11111111111
+        <WhiteSpace size="sm" />
+        <FamousCompany />
+        <WhiteSpace size="sm" />
+        <HotTrade />
+        {showAd ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
+          />
+        ) : null}
       </div>
     )
   }

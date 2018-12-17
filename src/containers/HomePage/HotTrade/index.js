@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Flex } from 'antd-mobile'
-import hotjobs from '../../static/hotJobs@3x.png'
-import style from './style.less'
+import hotjobs from '../../../static/hotJobs@3x.png'
+import style from '../style.less'
 
 export default class HotTrade extends Component {
   state = {
@@ -108,6 +108,8 @@ export default class HotTrade extends Component {
       '餐饮员工',
     ],
   }
+
+  
   render() {
     const { TradeData, jobs } = this.state
     return (

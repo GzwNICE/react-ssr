@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import style from './style.less'
+import style from '../style.less'
 
 export default class FamousCompany extends Component {
   state = {
     companyLogo:
       'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=946990677,1683235802&fm=26&gp=0.jpg',
     invite: '6945',
+  }
+
+  componentDidMount(){
+    
   }
 
   render() {
