@@ -2,7 +2,7 @@
  * Created by huangchao on 2017/10/10.
  */
 import React, {PureComponent} from 'react'
-import { Modal,SearchBar } from 'antd-mobile'
+import { Modal,SearchBar,Button } from 'antd-mobile'
 import Clipboard from 'clipboard'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -37,9 +37,12 @@ class PositionDetail extends PureComponent {
   constructor(props) {
     super(props)
     this.state={
+      is_favorited: false,
       show: true, 
-      searchShow: true,  //顶部搜索框默认隐藏
+      searchShow: false,  //顶部搜索框默认隐藏
       finishShow: false, //是否停止招聘
+      modal1: false,
+      modal2: false,
     }
   }
   share = () => {
@@ -96,18 +99,31 @@ class PositionDetail extends PureComponent {
   }
 
   /* 获取页面卷去高度 */
-  onScroll = e => {
-    console.log(123)
-    let scroll = window.scrollY
-    if (scroll > 0) {
-      this.setState({
-        searchShow: true,
-      })
-    } else {
-      this.setState({
-        searchShow: false,
-      })
-    }
+  // onScroll = () => {
+  //   console.log(123)
+  //   let scroll = window.scrollY
+  //   if (scroll > 0) {
+  //     this.setState({
+  //       searchShow: true,
+  //     })
+  //   } else {
+  //     this.setState({
+  //       searchShow: false,
+  //     })
+  //   }
+  // }
+
+  showModal = key => (e) => {
+    e.preventDefault(); // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    });
+  }
+  
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    });
   }
 
   componentDidMount() {
@@ -124,7 +140,7 @@ class PositionDetail extends PureComponent {
       this.page.scrollTop = pageScroll[page] || 0
       this.shareWeixin(data)
     })
-    window.addEventListener('scroll', this.onScroll, false)
+    
   }
 
   componentWillReceiveProps(nestprops) {
@@ -144,10 +160,10 @@ class PositionDetail extends PureComponent {
   }
 
   componentWillUnmount() {
-    Clipboard.isSupported() && this.clipboard.destroy()
+    // Clipboard.isSupported() && this.clipboard.destroy()
     this.props.dispatch(emptyInfo)
     this.props.handleSavePageScroll()
-    window.removeEventListener('scroll', this.onScroll, false)
+    
   }
 
   render() {
@@ -158,7 +174,7 @@ class PositionDetail extends PureComponent {
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
     return (
-      <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}>
+      <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}> 
         <div className={style.PositionHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <div className={style.searchbar}>
@@ -233,6 +249,41 @@ class PositionDetail extends PureComponent {
               <div className={style.finishApp}>没有你想要的职位？打开APP查看更多</div>
             </div>
           ): null}
+          <Button onClick={this.showModal('modal1')}>
+            完善
+          </Button>
+            <Modal
+            visible={this.state.modal1}
+            closable={true}
+            transparent
+            maskClosable={false}
+            onClose={this.onClose('modal1')}
+            title="Title"
+            // footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+          >
+            <div style={{ height: 100, overflow: 'scroll' }}>
+              简历信息不完善
+             <Button>去完善</Button>
+            </div>
+          </Modal>
+          <Button onClick={this.showModal('modal2')}>
+              投递
+          </Button>
+          <Modal
+            visible={this.state.modal2}
+            closable={true}
+            transparent
+            maskClosable={false}
+            onClose={this.onClose('modal2')}
+            title="Title"
+            // footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+          >
+            <div style={{ height: 200, overflow: 'scroll' }}>
+             投递成功
+            </div>
+          </Modal>
         </div>
 
         <PositionBar {...this.props} />
