@@ -5,6 +5,7 @@ import {
   GET_USER_STATUS,
   LOGIN_OUT,
   SAVE_USER_CITY_CODE,
+  GET_USER_LOGIN,
 } from '../actions/userStatus'
 import {
   POSITION_APPLIED,
@@ -34,6 +35,8 @@ import {
 
 const initState = {
   code: [],
+  // is_login: '',
+  // photo: '',
 }
 
 export default (state = initState, action) => {
@@ -62,6 +65,11 @@ export default (state = initState, action) => {
     //   }
     //   break
     case GET_USER_STATUS:
+      return {
+        ...state,
+        ...action.data,
+      }
+    case GET_USER_LOGIN:
       return {
         ...state,
         ...action.data,

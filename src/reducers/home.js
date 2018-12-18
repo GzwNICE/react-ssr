@@ -9,6 +9,7 @@ import {
   HOME_POST_ADD,
   HOME_PAGE_UNMOUNT,
   HOME_FAM_COMPANY,
+  HOME_HOT_TRADE,
 } from '../actions/home'
 
 import {
@@ -23,6 +24,8 @@ const initState = {
   pager: {
     cur:  1,
   },
+  photoData: [],
+  tradeDtata: [],
 }
 
 export default (state = initState, action = {}) => {
@@ -77,7 +80,12 @@ export default (state = initState, action = {}) => {
     case HOME_FAM_COMPANY:
       return {
         ...state,
-        list: [],
+        photoData: action.data,
+      }
+    case HOME_HOT_TRADE:
+      return {
+        ...state,
+        tradeDtata: action.data,
       }
     default:
       return state

@@ -13,13 +13,14 @@ import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/headimg@3x.png'
-
-
+import { loggingStatus } from '../../actions/userStatus'
 
 @withRouter
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
+  is_login: state.userStatus.is_login,
+  photo: state.userStatus.photo,
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -33,25 +34,34 @@ class MySearchBar extends PureComponent {
     cityName: PropTypes.string,
     autoFocus: PropTypes.bool,
   }
+  constructor(props) {
+    super(props)
+    this.state = {
+      is_login: false,
+      photo: '',
+    }
+  }
 
   formatArea(value) {
-    // console.log(value[0])
     return value.length ? value.optIndex[value[0]] : '城市'
   }
 
-  componentDidMount(){
-  }
-
   componentDidMount() {
-    if(this.props.autoFocus) {
+    if (this.props.autoFocus) {
       this.autoFocusInst.onFocus()
     }
+    this.props.dispatch(loggingStatus({})).then(() => {
+      this.setState({
+        is_login: this.props.is_login,
+        photo: this.props.photo,
+      })
+    })
   }
 
   componentWillReceiveProps(nextProps) {
     this.props.form.validateFields((err, values) => {
-      if(err) return
-      if(values.areas && nextProps.userStatus.code !== values.areas) {
+      if (err) return
+      if (values.areas && nextProps.userStatus.code !== values.areas) {
         this.props.onChangeCity && this.props.onChangeCity(values)
       }
     })
@@ -60,45 +70,58 @@ class MySearchBar extends PureComponent {
   render() {
     const { form, supers } = this.props // userStatus
     const { getFieldProps } = form
-    // console.log(userStatus, supers)
-    // const code = userStatus.code && userStatus.code.length > 0 ? userStatus.code : supers.location.address.code
-    // console.log(supers.location.address)
-    let { callback = function() {},
+    let {
+      callback = function() {},
       defaultValue,
       placeholder,
       showCity,
       searchFocus = function() {},
       touchCancel = function() {},
-      onChange= function() {},
+      onChange = function() {},
     } = this.props
+    const { photo, is_login } = this.state
     return (
       <div className={style.SearchBarWrap}>
-        {
-          showCity === 'false'
-          ? null
-          : <div className={style.leftContant}>
+        {showCity === 'false' ? null : (
+          <div className={style.leftContant}>
             <div>
-              <Area {...getFieldProps('areas', { initialValue: supers.location.address.code })} // 触发form，调用onChangeCity
-                    format={this.formatArea}>
+              <Area
+                {...getFieldProps('areas', {
+                  initialValue: supers.location.address.code,
+                })} // 触发form，调用onChangeCity
+                format={this.formatArea}
+              >
                 <SimpleItem arrow="horizontal" />
               </Area>
             </div>
             <img src={angleDown} alt="img" />
           </div>
-        }
-        <div className={`${style.search} ${showCity === 'false' ? style.paddingAdd : null}`}>
+        )}
+        <div
+          className={`${style.search} ${
+            showCity === 'false' ? style.paddingAdd : null
+          }`}
+        >
           <SearchBar
             defaultValue={defaultValue}
-            onSubmit={(val) => callback(val)}
+            onSubmit={val => callback(val)}
             onFocus={() => searchFocus()}
-            ref={ref => this.autoFocusInst = ref}
+            ref={ref => (this.autoFocusInst = ref)}
             onCancel={() => touchCancel()}
-            onChange={(val) => onChange(val)}
+            onChange={val => onChange(val)}
             className={style.bac}
-            placeholder={placeholder} />
+            placeholder={placeholder}
+          />
         </div>
-        <Link rel="stylesheet" to={`/tabs/user?redirect=${this.props.location.pathname}`}>
-          <img src={personal} alt="img"  className={style.personal} />
+        <Link
+          rel="stylesheet"
+          to={`/tabs/user?redirect=${this.props.location.pathname}`}
+        >
+          <img
+            src={is_login ? photo : personal}
+            alt="img"
+            className={style.personal}
+          />
         </Link>
       </div>
     )
