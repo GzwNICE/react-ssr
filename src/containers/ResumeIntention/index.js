@@ -18,12 +18,14 @@ import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
 
 @connect(state => {
+  let DesiredLocations = new Set(state.DesiredPositions.list.map(item => item.position))
+  DesiredLocations = [...DesiredLocations]
   return {
     option: state.option,
     DesiredJob: state.DesiredJob,
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
-    DesiredLocations: state.DesiredLocations.list ? state.DesiredLocations.list.map(item => item.location) : null,
-    DesiredPositions: state.DesiredPositions.list ? state.DesiredLocations.list.map(item => item.position) : null,
+    DesiredLocations: state.DesiredLocations.list.map(item => item.location),
+    DesiredPositions: DesiredLocations,
     resume: state.resume,
   }
 })
@@ -75,7 +77,7 @@ class ResumeIntention extends PureComponent {
         PersonDesiredCompanyType: JSON.stringify(values.company_industry.map(item => ({
           company_type: item,
           industry: item,
-          star: values.star_level[0],
+          star: '', // values.star_level[0]
         }))),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
         PersonDesiredPosition: JSON.stringify(values.desired_positions),
@@ -96,7 +98,6 @@ class ResumeIntention extends PureComponent {
       resume,
     } = this.props
     const { getFieldProps } = form
-    console.log(this.props)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

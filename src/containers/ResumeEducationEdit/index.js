@@ -48,16 +48,16 @@ class ResumeEducationEdit extends PureComponent {
         return Toast.info('请输入您的学校名称', 2)
       }
       window.zhuge.track('我的简历', { '模块': '教育经历' })
-
+      console.log(values)
       this.props.dispatch(educationalsEdit({
         ...values,
-        id: this.props.match.params.id,
-        is_overseas: values.overseas ? '1' : '2',
-        begin_year: values.begin.format('YYYY'),
-        begin_month: values.begin.format('MM'),
-        end_year: values.end.format('YYYY'),
-        end_month: values.end.format('MM'),
-        detail_cn: values.detail_cn || '',
+        // id: this.props.match.params.id,
+        // is_overseas: values.overseas ? '1' : '2',
+        // begin_year: values.begin.format('YYYY'),
+        // begin_month: values.begin.format('MM'),
+        // end_year: values.end.format('YYYY'),
+        // end_month: values.end.format('MM'),
+        detail_cn: '', // values.detail_cn || ''
       })).then(data => {
         this.props.history.goBack()
       })
@@ -75,8 +75,16 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
-    console.log(item)
+    let save
+    this.props.form.validateFields((err, values) => {
+      if (err) return
+      if (values.school_cn && values.major_id && values.major_id[0] && values.degree && values.degree[0] && values.begin && values.end) {
+        save = (<span style={{color: '#FF4F00'  }}>保存</span>)
+      } else {
+        save = (<span>保存</span>)
+      }
 
+    })
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -84,7 +92,7 @@ class ResumeEducationEdit extends PureComponent {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.goBack()}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}
+          rightContent={<span onClick={() => this.changeValue()}>{save}</span>}
         >
           教育经历
         </NavBar>

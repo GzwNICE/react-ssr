@@ -164,26 +164,27 @@ class ResumeInfo extends PureComponent {
     const fifteryear = F.dataSource(100, 15)
     const zeroYear = F.dataSource(100, 0)
     const tenYear = F.dataSource(100, 10)
+    console.log(resume)
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#ccc' }}>已绑定</span>
-        {resume.mobile}
+        {resume.hidden_mobile}
       </span>
     ) : (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
-        {resume.mobile || '请输入'}
+        {resume.hidden_mobile || '请输入'}
       </span>
     )
     const emailStatus = _.toInteger(resume.is_email_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#ccc' }}>已绑定</span>
-        {resume.email}
+        {resume.hidden_email}
       </span>
     ) : (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
-        {resume.email || '请输入'}
+        {resume.hidden_email || '请输入'}
       </span>
     )
     return (
@@ -259,7 +260,7 @@ class ResumeInfo extends PureComponent {
             手机号码
           </List.Item>
 
-          <List.Item className={style.email} onClick={() => this.bindEmail()} extra={emailStatus}>
+          <List.Item className={style.email} onClick={() => this.bindEmail()} extra={emailStatus} arrow="horizontal">
             联系邮箱
           </List.Item>
 
