@@ -13,7 +13,7 @@ export const HOME_FAM_COMPANY = 'HOME_FAM_COMPANY' //首页名企专区
 
 
 const URLPOST = ':ve.mobile.interface/user/recommended_jobs'
-const URLCOMPANY = 've.mobile.interface/h5-new/company-mobile-index/index'
+const URLCOMPANY = ':ve.mobile.interface/h5-new/company-mobile-index/index'
 
 export const getPostInit = singleApi({
   url: URLPOST,
@@ -86,6 +86,7 @@ export const saveScrollTop = (top) => {
   }
 }
 
+// 首页列表头像
 export const famCompany = singleApi({
   url: URLCOMPANY,
   action: (args, json) => {
