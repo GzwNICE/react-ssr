@@ -1,12 +1,112 @@
-.CompanyDetailWrap{
+.CompanyDetailWrap {
   display: flex;
   flex-direction: column;
   height: 100%;
   -webkit-overflow-scrolling: touch;
-}
-.connent{
-  flex: 1;
-  height: 0;
-  overflow-y: scroll;
-}
+  .DetailHead {
+    width: 100%;
+    height: auto;
+    margin-top: 110px;
+    background-color: #fff;
+    padding: 25px 20px;
+    box-sizing: border-box;
+    .DetailNaLo {
+      width: 100%;
+      display: flex;
+      div {
+        width: 80%;
+        max-height: 50px;
+        line-height: 1.4;
+        font-family: PingFangSC-Medium;
+        font-size: 18px;
+        color: #333333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 2px;
+        border: 1Px solid #f0f0f0;
+      }
+    }
+    .DetailScAt {
+      width: 100%;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 5px;
+      .scale {
+        width: 75%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #777777;
+        line-height: 26px;
+        >span:last-child{
+          padding: 0;
+        }
+        >span:last-child::after{
+          display: none;
+        }
+        span{
+          position: relative;
+          padding-right: 10px;
+        }
 
+        span::after{
+          content: '';
+          width: 1Px;
+          height: 12px;
+          background-color: #dfdfdf;
+          position: absolute;
+          top: 3px;
+          right: 5px;
+        }
+
+      }
+      .attention {
+        margin-right: 20px;
+        width: 44px;
+        line-height: 20px;
+        border-radius: 10px;
+        background-image: linear-gradient(-127deg, #FF7214 23%, #FF4F00 100%);
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #FFFFFF;
+        text-align: center; 
+      }
+      
+    }
+    .welfare {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      li {
+        height: 24px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border: 1px solid #e7e7e7;
+        border-radius: 2px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #4a4a4a;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 2px;
+        margin: 8px 10px 0 0;
+        overflow: hidden;
+      }
+    }
+  }
+}
+.connent {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #FFFFFF;
+}
