@@ -3,7 +3,9 @@
  */
 import React, {PureComponent} from 'react'
 import style from './style.less'
-import { NavBar, Tabs, Badge } from 'antd-mobile'
+import { SearchBar, Tabs, Badge } from 'antd-mobile'
+import { Link } from 'react-router-dom'
+import * as Ad from '../../components/Ad'
 import {connect} from 'react-redux'
 import queryString from 'query-string'
 import ComInfor from '../../components/ComInfor'
@@ -12,8 +14,12 @@ import Connection from '../../components/Connection/'
 import RestPosition from '../../components/RestPosition'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
+import SearchUser from '../../components/SearchBar/SearchUser'
 import {companydetail, companyList} from '../../actions/company' // emptyInfo
 import company from '../../static/company@3x.png'
+import back from '../../static/back.png'
+import unHome from '../../static/unHome@3x.png'
+import personal from '../../static/headimg@3x.png'
 const TabPane = Tabs.TabPane
 
 @connect(state => {
@@ -28,6 +34,8 @@ class CompanyDetail extends PureComponent {
 
   state = {
     showAd: true,
+    show: true, 
+    searchShow: false,  //顶部搜索框默认隐藏
   }
 
   
@@ -99,12 +107,11 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
+    const {show,searchShow } =this.state
     return (
       <div className={style.CompanyDetailWrap} onScroll={() => this.props.onScroll(this.page)}>
-        <NavBar
-          mode="dark"
-          onLeftClick={() => (this.whereWillIGo())}
-        >企业介绍</NavBar>
+        <SearchUser />
+        
         <div className={style.connent} id="page">
           <Tabs defaultActiveKey={key} onChange={this.onChangeTab} swipeable={false}>
             <TabPane tab={<Badge>企业信息</Badge>} key="1">

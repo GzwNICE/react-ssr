@@ -16,6 +16,7 @@ import dim from '../../static/dim.png'
 import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
+import SearchUser from '../../components/SearchBar/SearchUser'
 import * as Ad from '../../components/Ad'
 import area from '../../static/area@3x.png'
 import experience from '../../static/experience@3x.png'
@@ -24,6 +25,7 @@ import jobType from '../../static/jobType@3x.png'
 import personal from '../../static/headimg@3x.png'
 import unHome from '../../static/unHome@3x.png'
 import back from '../../static/back.png'
+import deliver from '../../static/deliverSuccess@3x.png'
 import finish from '../../static/finish.png'
 import {positiondetail, emptyInfo} from '../../actions/position'
 import {wxconfig, wx_config, shareToPeople, shareToAll} from '../../actions/auth'
@@ -39,10 +41,11 @@ class PositionDetail extends PureComponent {
     this.state={
       is_favorited: false,
       show: true, 
-      searchShow: false,  //顶部搜索框默认隐藏
+      searchShow: true,  //顶部搜索框默认隐藏
       finishShow: false, //是否停止招聘
-      modal1: false,
-      modal2: false,
+      Success: false,  //投递成功弹窗
+      Failure: false,  //投递失败弹窗
+      Perfect: false,  //简历不完善弹窗
     }
   }
   share = () => {
@@ -175,26 +178,8 @@ class PositionDetail extends PureComponent {
     const datalabel = this.props.position.company_detail || {}
     return (
       <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}> 
-        <div className={style.PositionHead}>
-          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-          <div className={style.searchbar}>
-            <div className={style.goBack}>
-              <img src={back} alt="bank" />
-            </div>
-            {searchShow ?
-              <SearchBar placeholder="搜索职位/品牌" /> : null
-            }
-            <div className={style.navLink}>
-              <Link rel="stylesheet" to={`/tabs/home`}>
-                <img src={unHome} alt="img" className={style.searcHome} />
-              </Link>
-              <Link rel="stylesheet" to={`/tabs/user`}>
-                <img src={personal} alt="img" className={style.personal} />
-              </Link>
-            </div>
-          </div>
-        </div>
-
+        
+        <SearchUser />
         <div id="page" className={style.connent}>
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
@@ -249,39 +234,59 @@ class PositionDetail extends PureComponent {
               <div className={style.finishApp}>没有你想要的职位？打开APP查看更多</div>
             </div>
           ): null}
-          <Button onClick={this.showModal('modal1')}>
-            完善
-          </Button>
-            <Modal
-            visible={this.state.modal1}
-            closable={true}
-            transparent
-            maskClosable={false}
-            onClose={this.onClose('modal1')}
-            title="Title"
-            // footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
-            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-          >
-            <div style={{ height: 100, overflow: 'scroll' }}>
-              简历信息不完善
-             <Button>去完善</Button>
-            </div>
-          </Modal>
-          <Button onClick={this.showModal('modal2')}>
-              投递
+          
+          <Button onClick={this.showModal('Success')}>
+            成功
           </Button>
           <Modal
-            visible={this.state.modal2}
+            visible={this.state.Success}
             closable={true}
             transparent
             maskClosable={false}
-            onClose={this.onClose('modal2')}
-            title="Title"
-            // footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+            onClose={this.onClose('Success')}
             wrapProps={{ onTouchStart: this.onWrapTouchStart }}
           >
-            <div style={{ height: 200, overflow: 'scroll' }}>
-             投递成功
+            <div className={style.deliverSuccess}>
+              <img src={deliver} alt="" className={style.deliver}/>
+              <span>投递成功</span>
+              <p>你可在「最佳东方APP」查看最新投递进展~</p>
+              <div>打开APP</div>
+            </div>
+          </Modal>
+
+          <Button onClick={this.showModal('Failure')}>
+              失败
+          </Button>
+          <Modal
+            visible={this.state.Failure}
+            closable={true}
+            transparent
+            maskClosable={false}
+            onClose={this.onClose('Failure')}
+            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+          >
+            <div className={style.deliveryFailure}>
+              <span>简历信息不完善</span>
+              <p>你的简历没有姓名，无法投递</p>
+              <div>去完善</div>
+            </div>
+          </Modal>
+
+          <Button onClick={this.showModal('Perfect')}>
+              去完善
+          </Button>
+          <Modal
+            visible={this.state.Perfect}
+            closable={true}
+            transparent
+            maskClosable={false}
+            onClose={this.onClose('Perfect')}
+            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+          >
+            <div className={style.deliveryFailure}>
+              <span>简历信息不完善</span>
+              <p>{`你的简历完整度<40%，通过率极低`}</p>
+              <div>去完善</div>
             </div>
           </Modal>
         </div>
