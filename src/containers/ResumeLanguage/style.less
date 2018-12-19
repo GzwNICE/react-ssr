@@ -75,6 +75,35 @@
     .am-accordion::before {
       opacity: 0;
     }
+    .am-list-item {
+      padding-left: 14px;
+      background-color: #F6F6F6;
+    }
+    .am-list-item .am-list-line {
+      padding-right: 0;
+    }
+    .am-list-item .am-list-thumb:first-child {
+      margin-right: 10px;
+    }
+    .am-list-content {
+      font-size: 12px!important;
+    }
+    .am-modal-title {
+      color: #030303!important;
+    }
+    .am-modal-footer {
+      color: #007AFF;
+    }
+    //.am-flexbox-item, .am-list-item {
+    //  background-color: #F6F6F6;
+    //}
+    //.am-checkbox-inner, .am-checkbox {
+    //  width: 18px;
+    //}
+    //.am-checkbox {
+    //  width: 14px;
+    //  height: 14px;
+    //}
     //.am-accordion .am-accordion-item .am-accordion-header {
     //
     //}
@@ -109,15 +138,147 @@
     color: #4A4A4A;
     padding-left: 20px;
   }
-
 }
 .option {
   background: #F6F6F6;
   //border: 1Px solid rgba(200,199,204,0.50);
   border-radius: 2px;
-  height: 100px;
+  height: 60px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.wraperSkill {
+  :global{
+    .am-accordion-header .arrow {
+      opacity: 0;
+    }
+    .am-accordion .am-accordion-item .am-accordion-header {
+      padding-right: 0;
+    }
+  }
+  .content {
+    background-color: #ffffff;
+    padding: 0 20px;
+  }
+  .titleSkill {
+    height: 60px;
+    line-height: 60px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    .left {
+      > span {
+        font-size: 15px;
+        color: #4A4A4A;
+        padding-right: 15px;
+      }
+      > div {
+        display: inline-block;
+        position: relative;
+      }
+    }
+    .right {
+      font-size: 14px;
+      color: #C8C7CC;
+      padding-left: 20px;
+    }
+    .skillArrow {
+      opacity: 1;
+      position: relative!important;
+      left: 0!important;
+      top: 2px!important;
+    }
+  }
+  .addSkill {
+    height: 40px;
+    line-height: 40px;
+    color: #FF4F00;
+    text-align: center;
+    border: 1px solid #FF4F00;
+    border-radius: 2px;
+    margin: 30px 20px 0 20px;
+  }
+}
+
+.modal {
+  :global{
+    .am-modal-title {
+      color: #030303!important;
+    }
+    .am-modal-header {
+      padding-top: 24px!important;
+    }
+    .am-modal-body {
+      padding: 0!important;
+    }
+  }
+  .modalBody {
+    text-align: center;
+    p {
+      font-size: 15px;
+      color: #030303;
+      padding-bottom: 18px;
+    }
+    > div {
+      height: 44px;
+      line-height: 44px;
+      display: flex;
+      font-size: 16px;
+      color: #007AFF;
+      border-top: 1Px solid rgba(200,199,204,0.50);
+      text-align: center;
+      > div {
+        flex: 1;
+        &:first-child {
+          border-right: 1Px solid rgba(200,199,204,0.50);
+        }
+      }
+    }
+  }
+}
+
+.addSkillModal {
+  :global{
+    .am-modal-title {
+      color: #222222!important;
+      font-size: 16px;
+    }
+    .am-modal-header {
+      padding-top: 13px!important;
+    }
+    .am-list-item,.am-list-line {
+      padding: 0!important;
+    }
+    .am-input-control input {
+      border: 1Px solid rgba(200,199,204,0.50);
+      height: 40px;
+      border-radius: 2px;
+    }
+
+    //.am-modal-body {
+    //  padding: 0!important;
+    //}
+  }
+  .confirm {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    >div {
+      width: 200px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 2px;
+      background-color: #FF4F00;
+      font-size: 16px;
+      color: rgba(255,255,255,0.40);
+    }
+  }
+  //.modalBody {
+  //  text-align: center;
+  //
+  //}
 }
 
 

@@ -3,6 +3,8 @@ import { $ } from '../actions/languages'
 
 const initialState = {
   list: [],
+  get_languages: [],
+  get_skills: [],
 }
 
 export default (state = initialState, action) => {
@@ -17,6 +19,12 @@ export default (state = initialState, action) => {
     //     ...state,
     //     ...action.payload,
     //   }
+    case $.lanSkills:
+      return {
+        ...state,
+        get_languages: action.payload && action.payload.get_languages,
+        get_skills: action.payload && action.payload.get_skills,
+      }
     case $.remove:
       return {
         ...state,

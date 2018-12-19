@@ -13,11 +13,23 @@ export const $ = constants('languages', [
   'edit', // 编辑用户信息
   'add',
   'remove',
+  'lanSkills', // 获取用户语言技能信息
 ])
 
 const URL_LOAD = ':ve.mobile.interface/resume/get_languages'
 const URL_EDIT = ':ve.mobile.interface/resume/set_language'
 const URL_REMOVE = ':ve.mobile.interface/resume/delete_language'
+
+export const lanSkills = transport({
+  url: ':ve.mobile.interface/resume/get_lan_skills',
+  type: $.lanSkills,
+  done(payload, params, getState) {
+    return {
+      params,
+      payload: payload.data,
+    }
+  },
+})
 
 export const load = transport({
   url: URL_LOAD,
