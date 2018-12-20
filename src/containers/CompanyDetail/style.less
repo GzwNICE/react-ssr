@@ -1,8 +1,10 @@
 .CompanyDetailWrap {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
+  // -webkit-overflow-scrolling: touch;
+  padding-bottom: 60px;
   .DetailHead {
     width: 100%;
     height: auto;
@@ -13,6 +15,7 @@
     .DetailNaLo {
       width: 100%;
       display: flex;
+      justify-content: space-between;
       div {
         width: 80%;
         max-height: 50px;
@@ -29,7 +32,7 @@
         width: 50px;
         height: 50px;
         border-radius: 2px;
-        border: 1Px solid #f0f0f0;
+        border: 1px solid #f0f0f0;
       }
     }
     .DetailScAt {
@@ -48,40 +51,38 @@
         font-size: 12px;
         color: #777777;
         line-height: 26px;
-        >span:last-child{
+        > span:last-child {
           padding: 0;
         }
-        >span:last-child::after{
+        > span:last-child::after {
           display: none;
         }
-        span{
+        span {
           position: relative;
           padding-right: 10px;
         }
 
-        span::after{
+        span::after {
           content: '';
-          width: 1Px;
+          width: 1px;
           height: 12px;
           background-color: #dfdfdf;
           position: absolute;
           top: 3px;
           right: 5px;
         }
-
       }
       .attention {
-        margin-right: 20px;
+        margin-right: 4px;
         width: 44px;
         line-height: 20px;
         border-radius: 10px;
-        background-image: linear-gradient(-127deg, #FF7214 23%, #FF4F00 100%);
+        background-image: linear-gradient(-127deg, #ff7214 23%, #ff4f00 100%);
         font-family: PingFangSC-Regular;
         font-size: 12px;
-        color: #FFFFFF;
-        text-align: center; 
+        color: #ffffff;
+        text-align: center;
       }
-      
     }
     .welfare {
       display: flex;
@@ -108,5 +109,127 @@
 .connent {
   margin-top: 10px;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  :global {
+    .am-tabs-default-bar-tab {
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #9b9b9b;
+      span {
+        display: block;
+        width: 100%;
+        text-align: left;
+      }
+    }
+    .am-tabs-default-bar-tab-active {
+      font-family: PingFangSC-Medium;
+      font-size: 16px;
+      color: #333333 !important;
+      text-align: left;
+    }
+    .am-tabs-tab-bar-wrap {
+      border-bottom: 1px solid rgba(200, 199, 204, 0.5) !important;
+    }
+    .am-tabs-default-bar {
+      width: 188px !important;
+    }
+    .am-tabs-default-bar-tab {
+      width: 94px !important;
+      justify-content: left;
+    }
+    .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+      display: none !important;
+    }
+    .am-tabs-default-bar-underline {
+      width: 25px !important;
+      margin-left: 18px;
+    }
+    .am-tabs-default-bar-underline {
+      border: 1px solid #ff4f00;
+    }
+  }
+  .Introduce {
+    .companyFerral {
+      border-bottom: 1px solid rgba(200, 199, 204, 0.5);
+      padding-bottom: 18px;
+      .title {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #4a4a4a;
+      }
+      .particulars {
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #4a4a4a;
+        letter-spacing: 0.5px;
+        line-height: 25px;
+        max-height: 100px;
+        overflow: hidden;
+        position: relative;
+      }
+      .lookAll {
+        i {
+          color: #4a4a4a;
+          font-style: normal;
+        }
+        color: #1989fb;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 0 4px;
+        background-color: #fff;
+        z-index: 1;
+      }
+      .unfold {
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #4a4a4a;
+        letter-spacing: 0.5px;
+        line-height: 25px;
+        height: auto;
+      }
+    }
+    .contactInfo {
+      padding-top: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(200, 199, 204, 0.5);
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: #4a4a4a;
+      p {
+        margin-bottom: 10px;
+        font-size: 15px;
+      }
+      div {
+        line-height: 25px;
+        span {
+          font-family: PingFangSC-Regular;
+          color: #1989fb;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+
+    .photoAlbum {
+      padding-top: 18px;
+      p {
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #4a4a4a;
+        margin-bottom: 15px;
+      }
+      .photo {
+        height: 180px;
+        img{
+          height: 100%;
+          width: 100%;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
 }

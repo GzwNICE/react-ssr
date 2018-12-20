@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import store from 'store'
 import JobCard from '../../components/JobCard'
 // import MySearchBar from '../../components/SearchBar'
-import JobList from '../../components/JobList'
+import * as JobList from '../../components/JobList'
 import Search from '../../components/SearchBar/Search'
 import queryString from 'query-string'
 import * as Ad from '../../components/Ad'
@@ -253,7 +253,7 @@ class JobPage extends (PureComponent || Component) {
           </div>
         </div>
         <div className={style.listBox}>
-          <JobList />
+          <JobList.JobList />
         </div>
         {showAd ? (
           <RegisterWrap

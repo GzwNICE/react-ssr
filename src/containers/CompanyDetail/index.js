@@ -6,16 +6,19 @@ import style from './style.less'
 import { Tabs, Badge } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-import ComInfor from '../../components/ComInfor'
-import ShowArticle from '../PositionDetail/ShowArticle'
-import Connection from '../../components/Connection/'
-import RestPosition from '../../components/RestPosition'
+// import ComInfor from '../../components/ComInfor'
+// import ShowArticle from '../PositionDetail/ShowArticle'
+// import Connection from '../../components/Connection/'
+// import RestPosition from '../../components/RestPosition'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
+import CompanyDuce from './CompanyDuce'
+import * as JobList from '../../components/JobList'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
-import company from '../../static/company@3x.png'
-const TabPane = Tabs.TabPane
+
+// import company from '../../static/company@3x.png'
+// const TabPane = Tabs.TabPane
 
 @connect(state => {
   return {
@@ -41,12 +44,12 @@ class CompanyDetail extends PureComponent {
   }
 
   onChangeTab = key => {
-    this.key = key
-    if (key === '1') {
-      window.zhuge.track('企业信息')
-    } else if (key === '2') {
-      window.zhuge.track('招聘职位')
-    }
+    // this.key = key
+    // if (key === '1') {
+    //   window.zhuge.track('企业信息')
+    // } else if (key === '2') {
+    //   window.zhuge.track('招聘职位')
+    // }
   }
 
   whereWillIGo = () => {
@@ -111,12 +114,16 @@ class CompanyDetail extends PureComponent {
   }
 
   render() {
-    const data = this.props.company
+    // const data = this.props.company
     const pathname = this.props.location.pathname
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
     const { DetailLogo } = this.state
+    const tabs = [
+      { title: <Badge>企业信息</Badge> },
+      { title: <Badge>在招职位</Badge> },
+    ]
     return (
       <div
         className={style.CompanyDetailWrap}
@@ -134,6 +141,8 @@ class CompanyDetail extends PureComponent {
               <span>中式餐饮</span>
               <span>150-500人</span>
               <span>私营民营企业</span>
+              <span>私营民营企业</span>
+              <span>私营民营企业</span>
             </div>
             <div className={style.attention}>关注</div>
           </div>
@@ -147,31 +156,11 @@ class CompanyDetail extends PureComponent {
             <li>五险一金</li>
           </ul>
         </div>
-        
+
         <div className={style.connent} id="page">
-        123
-          <Tabs
-            defaultActiveKey={key}
-            onChange={this.onChangeTab}
-            swipeable={false}
-          >
-            <TabPane tab={<Badge>企业信息</Badge>} key="1">
-              <ComInfor {...this.props} />
-              <ShowArticle
-                type="2"
-                title="公司介绍"
-                src={company}
-                data={data}
-              />
-              <Connection {...this.props} goLogin={this.goLogin} />
-            </TabPane>
-            <TabPane tab={<Badge>招聘职位</Badge>} key="2">
-              <RestPosition
-                callback={this.nextPost}
-                noTitle={false}
-                data={this.props.list}
-              />
-            </TabPane>
+          <Tabs tabs={tabs} initialPage={0}>
+            <CompanyDuce />
+            <JobList.PostList />
           </Tabs>
         </div>
 
