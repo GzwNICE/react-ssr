@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
-// import { remove as languagesRemove } from '../../actions/languages'
+import { remove as languagesRemove } from '../../actions/languages'
 import { remove as skillsRemove } from '../../actions/skills'
 
 import { NavBar, Flex, List, SwipeAction, Icon, Tabs, Radio, Accordion, Checkbox, Modal, Button, InputItem, Toast } from 'antd-mobile'
@@ -10,6 +10,7 @@ import style from './style.less'
 import tickImg from '../../static/tick.png'
 import { edit as languageEdit } from '../../actions/languages'
 import { lanSkills } from '../../actions/languages'
+import { setLanSkills } from '../../actions/languages'
 
 const CheckboxItem = Checkbox.CheckboxItem
 const tabs = [
@@ -32,7 +33,6 @@ const ability = [
 @createForm()
 @withRouter
 class ResumeInfo extends PureComponent {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -51,8 +51,9 @@ class ResumeInfo extends PureComponent {
       skillArr: [],  // 技能数组遍历使用
       showModal: false,
       showAddSkillModal: false, // 添加技能modal
+      inputChangeVal: '',   // 添加技能输入框内容
+      operation: false,    // 页面只有有操作就为true,保存过为false
     }
-
   }
   componentDidMount() {
     this.init()
@@ -66,6 +67,8 @@ class ResumeInfo extends PureComponent {
         languages,
         skills,
       } = this.props
+      console.log(languages)
+      console.log(skills)
 
       let arrLan = languages.map(item => {
         let obj = {
@@ -112,7 +115,6 @@ class ResumeInfo extends PureComponent {
         }
         skillArr.push(obj)
       })
-
       this.setState({
         language: arrLan,
         skill: arrSkill2,
@@ -124,7 +126,6 @@ class ResumeInfo extends PureComponent {
     this.props.history.push(`/resume/language/${id}`)
   }
 
-
   // 下面自己写的
   onLanguageChange = (value, key) => {
     let { language } = this.state
@@ -132,8 +133,10 @@ class ResumeInfo extends PureComponent {
     const languageArr = this.onChange(language, value, key)
     this.setState({
       language: languageArr,
+      operation: true,
     })
   }
+
   language = () => {
     const { language } = this.state
     const data = [...ability]
@@ -214,6 +217,7 @@ class ResumeInfo extends PureComponent {
     }
     return arrLanguage
   }
+
   onSkillChange = (value, key) => {
     // console.log(value, key)
     let { skill } = this.state
@@ -221,14 +225,30 @@ class ResumeInfo extends PureComponent {
 
     this.setState({
       skill: skillArr,
+      operation: true,
     })
   }
+  // 技能水平-删除
   removeItem = (e, item) => {
     e.stopPropagation()
-    console.log(e)
-    this.props.dispatch(skillsRemove({
-      skill_id: item.key,
-    }))
+    const { skillArr, skill } = this.state
+    let arr = [...skillArr]
+    let arr2 = [...skill]
+    arr.map((i, index) => {
+      if (i.key === item.key) {
+        arr.splice(index, 1)
+      }
+    })
+    arr2.map((i, index) => {
+      if (i.key === item.key) {
+        arr2.splice(index, 1)
+      }
+    })
+    this.setState({
+      skillArr: arr,
+      skill: arr2,
+      operation: true,
+    })
   }
   skills = () => {
     const { skill, skillArr } = this.state
@@ -277,25 +297,58 @@ class ResumeInfo extends PureComponent {
 
   }
 
-  changeValue = () => {
-    // 这边是保存的一个，这个项目最好是原来怎么样还怎么样返回过去,添加删除时不和后端交互，只有点击保存时才交互
-    // this.props.dispatch(languageEdit({
-    //   ...values,
-    //   id: this.props.match.params.id,
-    // })).then(data => {
-    //   this.props.history.goBack()
-    // })
+  saveValue = () => {
+    const { language, skill } = this.state
+    // language.map  value: "2", key: "1      language: "15", ability:
+    let arr = []
+    let arr2 = []
+    language.map((item) => {
+      let obj = {
+        "language": item.key,
+        "ability": item.value,
+      }
+      arr.push(obj)
+    })
+    skill.map((item) => {
+      let obj = {
+        "skill_cn": item.key,
+        "ability": item.value,
+      }
+      arr2.push(obj)
+    })
+
+    let parmas = {
+      "get_languages": arr,
+      "get_skills": arr2,
+    }
+    parmas = JSON.stringify(parmas)
+    this.props.dispatch(setLanSkills({
+      appchannel: 'web',
+      data: parmas,
+    })).then(() => {
+      Toast.info('保存成功', 2)
+      this.setState({
+        operation: false,
+      })
+    })
   }
 
   goBack = () => {
-    // this.props.history.goBack()
-    this.setState({
-      showModal: true,
-    })
+    const { operation } = this.state
+    if (operation) {
+      this.setState({
+        showModal: true,
+      })
+    } else {
+      this.props.history.goBack()
+    }
   }
   // 退出
   handleExit = () => {
-    console.log('tuichu')
+    this.setState({
+      showModal: false,
+    })
+    this.props.history.goBack()
   }
   // 继续填写
   handleContinue = () => {
@@ -303,35 +356,48 @@ class ResumeInfo extends PureComponent {
       showModal: false,
     })
   }
-  // 添加技能
-  handleAddSkill = () => {
-    this.props.form.validateFields((err, values) => {
-      if (err) return
-      // console.log(values.skill)
-      if (values.skill.length < 1) {
-        Toast.info('技能不能为空', 2)
-      } else {
-        const { skill } = this.state
-        let arr111 = []
-        let obj = {
-          value: '',
-          key: values.skill,
-        }
-        // console.log(skill)
-        console.log(arr111)
-        let arr1 = arr111.push(obj)
-        console.log(arr1)
-        // this.setState({
-        //   skill: arr,
-        //   showAddSkillModal: false,
-        // })
-      }
+  // 添加技能输入框显示
+  handleShowInputModal = () => {
+    this.setState({
+      inputChangeVal: '',
+      showAddSkillModal: true,
     })
+  }
+  // 添加技能输入框内容change
+  handleInputChange = (item) => {
+    this.setState({
+      inputChangeVal: item,
+    })
+  }
+  // 添加技能确定
+  handleAddSkill = () => {
+    const { inputChangeVal } = this.state
+    if (inputChangeVal.length < 1) {
+      Toast.info('技能不能为空', 2)
+    } else {
+      const { skillArr, skill } = this.state
+      let arr = [...skillArr]
+      let arr2 = [...skill]
+      let obj = {
+        title: inputChangeVal,
+        key: inputChangeVal,
+      }
+      let obj2 = {
+        value: '',
+        key: inputChangeVal,
+      }
+      arr.unshift(obj)
+      arr2.unshift(obj2)
+      this.setState({
+        skillArr: arr,
+        showAddSkillModal: false,
+        operation: true,
+      })
+    }
 
   }
   render() {
     const { showModal, showAddSkillModal } = this.state
-    const { getFieldProps } = this.props.form
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -339,7 +405,7 @@ class ResumeInfo extends PureComponent {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={this.goBack}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
+          rightContent={<span onClick={() => this.saveValue()}>保存</span>}>
           语言与技能
         </NavBar>
 
@@ -353,7 +419,7 @@ class ResumeInfo extends PureComponent {
           </div>
           <div className={style.wraperSkill}>
             {this.skills()}
-            <div className={style.addSkill} onClick={() => { this.setState({showAddSkillModal: true})}}>
+            <div className={style.addSkill} onClick={this.handleShowInputModal}>
               添加技能
             </div>
           </div>
@@ -383,7 +449,7 @@ class ResumeInfo extends PureComponent {
           title="添加技能"
         >
           <InputItem
-            {...getFieldProps('skill')}
+            onChange={this.handleInputChange}
             placeholder="请输入30个字以内的技能"
             maxLength={30}/>
           <div className={style.confirm}>

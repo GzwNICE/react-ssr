@@ -14,6 +14,7 @@ export const $ = constants('languages', [
   'add',
   'remove',
   'lanSkills', // 获取用户语言技能信息
+  'setLanSkills', // 保存用户语言技能信息
 ])
 
 const URL_LOAD = ':ve.mobile.interface/resume/get_languages'
@@ -24,6 +25,18 @@ export const lanSkills = transport({
   url: ':ve.mobile.interface/resume/get_lan_skills',
   type: $.lanSkills,
   done(payload, params, getState) {
+    return {
+      params,
+      payload: payload.data,
+    }
+  },
+})
+
+export const setLanSkills = transport({
+  url: ':ve.mobile.interface/resume/set_lan_skills',
+  type: $.setLanSkills,
+  done(payload, params, getState) {
+    console.log(params)
     return {
       params,
       payload: payload.data,

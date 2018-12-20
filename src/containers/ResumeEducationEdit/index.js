@@ -20,8 +20,8 @@ import TextareaField from '../../inputs/TextareaField'
 // const now = new Date(nowTimeStamp);
 const maxDate = new Date();
 let minDate = new Date(maxDate - 99*365*24*60*60*1000);
-let strTime="2011/04";
-console.log(new Date(Date.parse(strTime)))
+// let strTime="2011/04";
+// console.log(new Date(Date.parse(strTime)))
 @connect(state => {
   return {
     option: state.option,
