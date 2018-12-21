@@ -97,10 +97,8 @@ export default class CompanyDuce extends Component {
           <p>企业魅力</p>
           <div className={style.photo}>
             <Carousel
-              className="space-carousel"
-              frameOverflow="visible"
               cellSpacing={10}
-              slideWidth="340px"
+              slideWidth="300px"
               dots={false}
               afterChange={this.handleChange.bind(this)}
             >

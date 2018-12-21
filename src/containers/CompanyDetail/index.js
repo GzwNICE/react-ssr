@@ -37,8 +37,8 @@ class CompanyDetail extends PureComponent {
     DetailLogo:
       'https://p3-v.veimg.cn/sysimg/20181112/e25e958898be67a11378011f92ef6b4c.jpg',
     data: [
-      'https://p3-v.veimg.cn/sysimg/20181214/b56fd776cfaeb37f7b623eec94661ca9.jpg',
-      'https://p3-v.veimg.cn/sysimg/20181217/a215c5480e49588795e1c96134b2ddb7.jpg',
+      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
+      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545382997404&di=f232cc3c0ef9c7efdd678fa3a0fef30c&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Fu%2F2017%2F1221%2F4_143339_4.jpg',
     ],
     current: 1,
@@ -173,6 +173,7 @@ class CompanyDetail extends PureComponent {
 
         <div className={style.connent} id="page">
           <Tabs tabs={tabs} initialPage={0} swipeable={false}>
+          
             <CompanyDuce />
             <div className={style.PostList}>
               <JobList.PostList />
