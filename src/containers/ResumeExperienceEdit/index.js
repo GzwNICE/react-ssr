@@ -10,7 +10,8 @@ import style2 from './style.less'
 import style from '../ResumeInfo/style.less'
 
 import Post from '../../inputs/Post'
-import Job from '../../inputs/JobSearch'
+import Company from './components/companySearch'
+import Job from './components/jobSearch'
 import Area from '../../inputs/Area'
 import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
@@ -101,7 +102,7 @@ class ResumeExperienceEdit extends PureComponent {
   render() {
     const {
       form,
-      // option,
+      option,
       work_exps=[],
       match,
     } = this.props
@@ -112,7 +113,7 @@ class ResumeExperienceEdit extends PureComponent {
     const { endTimedata, sValue } = this.state
 
     console.log(item)
-    // console.log(item.end_year)
+    console.log(option)
     // console.log(item.end_month)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -126,30 +127,37 @@ class ResumeExperienceEdit extends PureComponent {
           工作经历
         </NavBar>
         <List>
-          <InputItem
+          {/*<InputItem*/}
+            {/*{...getFieldProps('company_name_cn', {*/}
+              {/*initialValue: item.company_name_cn,*/}
+            {/*})}*/}
+            {/*clear placeholder="请输入"*/}
+          {/*>*/}
+            {/*企业名称*/}
+          {/*</InputItem>*/}
+          <Company
             {...getFieldProps('company_name_cn', {
-              initialValue: item.company_name_cn,
+              initialValue: '111',
             })}
-            clear placeholder="请输入"
           >
-            企业名称
-          </InputItem>
+            <List.Item arrow="horizontal">企业名称</List.Item>
+          </Company>
           {/*这边想用之前定义的方法Post组件那个，但是没怎么看懂*/}
           <Job
             {...getFieldProps('position_id', {
-              initialValue: item.position_id ? [item.position_id] : [],
+              initialValue: '职位名称1',
             })}
           >
             <List.Item arrow="horizontal">职位名称</List.Item>
           </Job>
 
-          <Post
-            {...getFieldProps('position_id', {
-              initialValue: item.position_id ? [item.position_id] : [],
-            })}
-          >
-            <List.Item arrow="horizontal">职位名称</List.Item>
-          </Post>
+          {/*<Post*/}
+            {/*{...getFieldProps('position_id', {*/}
+              {/*initialValue: item.position_id ? [item.position_id] : [],*/}
+            {/*})}*/}
+          {/*>*/}
+            {/*<List.Item arrow="horizontal">职位名称</List.Item>*/}
+          {/*</Post>*/}
 
           <DatePicker
             {...getFieldProps('begin', {

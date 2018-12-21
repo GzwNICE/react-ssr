@@ -78,9 +78,10 @@ class ComplexSelView extends ComplexFormField {
   }
 
   changeValue = () => {
-    console.log(this.props)
 
     if (this.props.onChange) {
+      console.log(this.serialize(this.getValue()))
+      debugger
       this.props.onChange(this.serialize(this.getValue()))
       this.changeVisible(false, true)
     } else {

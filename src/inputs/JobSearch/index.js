@@ -1,8 +1,9 @@
 import React from 'react'
 import ComplexFormField from '../../components/Complex/ComplexFormField'
-import { NavBar, Toast, Accordion, List, Icon } from 'antd-mobile'
+import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 
+const Item = List.Item
 class ComplexSelView extends ComplexFormField {
   static defaultProps = {
     value: [],
@@ -19,14 +20,14 @@ class ComplexSelView extends ComplexFormField {
   }
 
   changeValue = () => {
-    // console.log(this.props.onChange)
-    // console.log(this.changeVisible)
-    if (this.props.onChange) {
-      this.props.onChange(this.serialize(this.getValue()))
-      this.changeVisible(false, true)
-    } else {
-      this.changeVisible()
-    }
+    this.props.onChange('你好')
+    this.changeVisible(false, true)
+    // if (this.props.onChange) {
+    //   this.props.onChange('你好')
+    //   this.changeVisible(false, true)
+    // } else {
+    //   this.changeVisible()
+    // }
   }
 
   mainView() {
@@ -38,9 +39,19 @@ class ComplexSelView extends ComplexFormField {
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
-          {this.props.title || this.props.children.props.children}
+          所在公司
         </NavBar>
-       111
+        <InputItem
+          // className={`${style.inputHei} ${style.name}`}
+          clear
+          placeholder="请输入公司全称"
+        />
+        <ul>
+          <li>1111</li>
+          <li>1111</li>
+          <li>1111</li>
+          <li>1111</li>
+        </ul>
       </div>
     )
   }
