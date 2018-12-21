@@ -3,7 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { Tabs, Badge } from 'antd-mobile'
+import { Tabs, Badge, Carousel } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 // import ComInfor from '../../components/ComInfor'
@@ -15,6 +15,7 @@ import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
 import CompanyDuce from './CompanyDuce'
 import * as JobList from '../../components/JobList'
+import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
 
 // import company from '../../static/company@3x.png'
@@ -31,10 +32,17 @@ import { companydetail, companyList } from '../../actions/company' // emptyInfo
 class CompanyDetail extends PureComponent {
   state = {
     showAd: true,
-    // show: true,
+    show: true,
     // searchShow: false,  //顶部搜索框默认隐藏
     DetailLogo:
       'https://p3-v.veimg.cn/sysimg/20181112/e25e958898be67a11378011f92ef6b4c.jpg',
+    data: [
+      'https://p3-v.veimg.cn/sysimg/20181214/b56fd776cfaeb37f7b623eec94661ca9.jpg',
+      'https://p3-v.veimg.cn/sysimg/20181217/a215c5480e49588795e1c96134b2ddb7.jpg',
+      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545382997404&di=f232cc3c0ef9c7efdd678fa3a0fef30c&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Fu%2F2017%2F1221%2F4_143339_4.jpg',
+    ],
+    current: 1,
+    album: false,
   }
 
   nextPost = (job_id, c_userid) => {
@@ -66,6 +74,12 @@ class CompanyDetail extends PureComponent {
   handleCloseReg() {
     this.setState({
       showAd: false,
+    })
+  }
+
+  handleChange(i) {
+    this.setState({
+      current: i + 1,
     })
   }
 
@@ -119,7 +133,7 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const { DetailLogo } = this.state
+    const { DetailLogo, show, current, album } = this.state
     const tabs = [
       { title: <Badge>企业信息</Badge> },
       { title: <Badge>在招职位</Badge> },
@@ -158,14 +172,42 @@ class CompanyDetail extends PureComponent {
         </div>
 
         <div className={style.connent} id="page">
-          <Tabs tabs={tabs} initialPage={0}>
+          <Tabs tabs={tabs} initialPage={0} swipeable={false}>
             <CompanyDuce />
-            <JobList.PostList />
+            <div className={style.PostList}>
+              <JobList.PostList />
+            </div>
+            
           </Tabs>
         </div>
 
         {this.state.showAd ? (
           <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} />
+        ) : null}
+
+        {album ? (
+          <div className={style.albumDetails}>
+            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+            <Carousel
+              autoplay={false}
+              dots={false}
+              afterChange={this.handleChange.bind(this)}
+              className={style.carousel}
+            >
+              {this.state.data.map(val => (
+                <a key={val}>
+                  <img
+                    src={val}
+                    alt=""
+                    style={{ width: '100%', verticalAlign: 'top' }}
+                  />
+                </a>
+              ))}
+            </Carousel>
+            <div className={style.DetailsDots}>
+              {current} / {this.state.data.length}
+            </div>
+          </div>
         ) : null}
       </div>
     )

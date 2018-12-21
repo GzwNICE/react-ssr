@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Carousel } from 'antd-mobile'
 import style from '../style.less'
 
 export default class CompanyDuce extends Component {
@@ -7,6 +8,12 @@ export default class CompanyDuce extends Component {
     this.state = {
       introduced: true, //有企业信息
       open: true, //显示查看全部
+      data: [
+        'AiyWuByWklrrUDlFignR',
+        'TekJlZRVCjLFexlOCuWn',
+        'IJOtIlfsYdTyaDTRVrLI',
+      ],
+      current: 1,
     }
   }
 
@@ -26,8 +33,14 @@ export default class CompanyDuce extends Component {
     })
   }
 
+  handleChange(i){
+    this.setState({
+      current: i + 1,
+    })
+  }
+
   render() {
-    const { open, introduced } = this.state
+    const { open, introduced,current } = this.state
     return (
       <div className={style.Introduce}>
         {introduced ? (
@@ -83,9 +96,27 @@ export default class CompanyDuce extends Component {
         <div className={style.photoAlbum}>
           <p>企业魅力</p>
           <div className={style.photo}>
-            <img src="https://f3-v.veimg.cn/company_picture/001/260/027/logo/18060706785247.jpg" alt=""/>
+            <Carousel
+              className="space-carousel"
+              frameOverflow="visible"
+              cellSpacing={10}
+              slideWidth="340px"
+              dots={false}
+              afterChange={this.handleChange.bind(this)}
+            >
+              {this.state.data.map((val, index) => (
+                <a key={index}  >
+                  <img
+                    src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
+                    alt=""
+                  />
+                </a>
+              ))}
+            </Carousel>
+            <div className={style.dots}>{current} / <span>{this.state.data.length}</span></div>
           </div>
         </div>
+        
       </div>
     )
   }
