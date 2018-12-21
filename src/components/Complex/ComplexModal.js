@@ -12,7 +12,7 @@ class ComplexModal extends Modal {
       this.props.getThat(() => this)
       const label = this.props.label || this._sign
       const { state } = this.props.location
-      const out = render.call(this)
+      const out = render.call(this)  // todo 这个地方不太清楚
       const visible = state && state._complex && state._complex.indexOf(label) >= 0
       if (visible !== this.visible && this.props.onVisible) {
         setTimeout(() => this.props.onVisible(visible))
