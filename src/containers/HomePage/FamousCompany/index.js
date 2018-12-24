@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { famCompany } from '../../../actions/home'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import style from '../style.less'
 
 @connect(state => ({
   photoData: state.home.photoData,
 }))
-export default class FamousCompany extends Component {
+class FamousCompany extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      
-    }
+    this.state = {}
   }
   componentDidMount() {
     this.props.dispatch(famCompany({}))
@@ -26,7 +25,15 @@ export default class FamousCompany extends Component {
             {CompanyData
               ? CompanyData.map(item => {
                   return (
-                    <div className={style.CompanyCard} key={item.id}>
+                    <div
+                      className={style.CompanyCard}
+                      key={item.id}
+                      onClick={() => {
+                        this.props.history.push(
+                          `/companyArea?id=${item.id}`
+                        )
+                      }}
+                    >
                       <div className={style.CompanyCent}>
                         <div className={style.top}>
                           <img src={item.company_logo} alt="Img" />
@@ -52,3 +59,4 @@ export default class FamousCompany extends Component {
     )
   }
 }
+export default withRouter(FamousCompany)

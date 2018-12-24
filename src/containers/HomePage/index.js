@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import {withRouter} from "react-router-dom";
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
@@ -291,4 +292,4 @@ class HomePage extends PureComponent {
   }
 }
 
-export default HomePage
+export default withRouter(HomePage)
