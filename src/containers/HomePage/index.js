@@ -53,7 +53,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
-      showAd: false,
+      showAd: true,
     }
   }
 
@@ -71,7 +71,7 @@ class HomePage extends PureComponent {
     this.setState({
       showAd: false,
     })
-    window.removeEventListener('scroll', this.onScroll, false)
+    
   }
 
   onTouchList = (data, name) => {
@@ -164,20 +164,20 @@ class HomePage extends PureComponent {
   }
 
   /* 记录滚动条的位置 */
-  onScroll = e => {
-    // let top = document.body.scrollTop || document.documentElement.scrollTop
-    // this.scrollTop = top
-    let scroll = window.scrollY
-    if (scroll > 360) {
-      this.setState({
-        showAd: true,
-      })
-    } else {
-      this.setState({
-        showAd: false,
-      })
-    }
-  }
+  // onScroll = e => {
+  //   // let top = document.body.scrollTop || document.documentElement.scrollTop
+  //   // this.scrollTop = top
+  //   let scroll = e.scrollY
+  //   if (scroll > 360) {
+  //     this.setState({
+  //       showAd: true,
+  //     })
+  //   } else {
+  //     this.setState({
+  //       showAd: false,
+  //     })
+  //   }
+  // }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
@@ -203,7 +203,10 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-    window.addEventListener('scroll', this.onScroll, false)
+    // if(!this.state.isLogin){
+      // window.addEventListener('scroll', this.onScroll, false)
+    // }
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -245,7 +248,7 @@ class HomePage extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
-    window.removeEventListener('scroll', this.onScroll, false)
+    // window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
@@ -266,21 +269,27 @@ class HomePage extends PureComponent {
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
-        <div className={style.searchBar}>
-          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-          <MySearchBar
-            searchFocus={this.searchFocus}
-            onChangeCity={this.onChangeCity}
-            showCity="true"
-            defaultValue="" // 输入框的默认值
-            placeholder="请输入职位或者公司"
-          />
+        <div className={style.homehead}>
+          <div className={style.searchBar}>
+            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+            <MySearchBar
+              searchFocus={this.searchFocus}
+              onChangeCity={this.onChangeCity}
+              showCity="true"
+              defaultValue="" // 输入框的默认值
+              placeholder="请输入职位或者公司"
+            />
+          </div>
         </div>
-        <Carousels {...this.props} />
-        <WhiteSpace size="sm" />
-        <FamousCompany />
-        <WhiteSpace size="sm" />
-        <HotTrade />
+
+        <div className={style.homecentent}>
+          <Carousels {...this.props} />
+          <WhiteSpace size="sm" />
+          <FamousCompany />
+          <WhiteSpace size="sm" />
+          <HotTrade />
+        </div>
+
         {showAd ? (
           <RegisterWrap
             onCloseReg={this.handleCloseReg.bind(this)}

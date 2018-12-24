@@ -115,7 +115,11 @@ class MySearchBar extends PureComponent {
         </div>
         <Link
           rel="stylesheet"
-          to={`/tabs/user?redirect=${this.props.location.pathname}`}
+          to={
+            is_login
+              ? `/tabs/user?redirect=${this.props.location.pathname}`
+              : `/user/register?redirect=${this.props.location.pathname}`
+          }
         >
           <img
             src={is_login ? photo : personal}

@@ -35,7 +35,7 @@ class CompanyDetail extends PureComponent {
     show: true,
     // searchShow: false,  //顶部搜索框默认隐藏
     DetailLogo:
-      'https://p3-v.veimg.cn/sysimg/20181112/e25e958898be67a11378011f92ef6b4c.jpg',
+      '',
     data: [
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
@@ -128,7 +128,7 @@ class CompanyDetail extends PureComponent {
   }
 
   render() {
-    // const data = this.props.company
+    const data = this.props.company
     const pathname = this.props.location.pathname
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
@@ -138,6 +138,7 @@ class CompanyDetail extends PureComponent {
       { title: <Badge>企业信息</Badge> },
       { title: <Badge>在招职位</Badge> },
     ]
+    console.log(data);
     return (
       <div
         className={style.CompanyDetailWrap}
@@ -147,16 +148,14 @@ class CompanyDetail extends PureComponent {
 
         <div className={style.DetailHead}>
           <div className={style.DetailNaLo}>
-            <div>浙江蝶来三舍酒店投资管理浙江蝶来三舍酒店</div>
-            <img src={DetailLogo} alt="img" />
+            <div>{data.company_name}</div>
+            <img src={data.company_logo ? data.company_logo : DetailLogo} alt="img" />
           </div>
           <div className={style.DetailScAt}>
             <div className={style.scale}>
               <span>中式餐饮</span>
-              <span>150-500人</span>
-              <span>私营民营企业</span>
-              <span>私营民营企业</span>
-              <span>私营民营企业</span>
+              <span>{data.company_size}</span>
+              <span>{data.company_nature}</span>
             </div>
             <div className={style.attention}>关注</div>
           </div>
@@ -173,12 +172,10 @@ class CompanyDetail extends PureComponent {
 
         <div className={style.connent} id="page">
           <Tabs tabs={tabs} initialPage={0} swipeable={false}>
-          
             <CompanyDuce />
             <div className={style.PostList}>
               <JobList.PostList />
             </div>
-            
           </Tabs>
         </div>
 
