@@ -14,9 +14,10 @@ import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
 import CompanyDuce from './CompanyDuce'
-import * as JobList from '../../components/JobList'
+import JobList from '../../components/JobList'
 import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
+import detailLogo from '../../static/detailLogo.png'
 
 // import company from '../../static/company@3x.png'
 // const TabPane = Tabs.TabPane
@@ -31,11 +32,9 @@ import { companydetail, companyList } from '../../actions/company' // emptyInfo
 @PageScroll
 class CompanyDetail extends PureComponent {
   state = {
-    showAd: true,
+    showAd: false,
     show: true,
     // searchShow: false,  //顶部搜索框默认隐藏
-    DetailLogo:
-      '',
     data: [
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
@@ -43,6 +42,7 @@ class CompanyDetail extends PureComponent {
     ],
     current: 1,
     album: false,
+    searchShow: false, //顶部搜索框默认隐藏
   }
 
   nextPost = (job_id, c_userid) => {
@@ -52,12 +52,26 @@ class CompanyDetail extends PureComponent {
   }
 
   onChangeTab = key => {
-    // this.key = key
-    // if (key === '1') {
-    //   window.zhuge.track('企业信息')
-    // } else if (key === '2') {
-    //   window.zhuge.track('招聘职位')
-    // }
+    this.key = key
+    if (key === '1') {
+      window.zhuge.track('企业信息')
+    } else if (key === '2') {
+      window.zhuge.track('招聘职位')
+    }
+  }
+
+  onScroll = page => {
+    setTimeout(() => {
+      if (this.page.scrollTop > 0) {
+        this.setState({
+          searchShow: true,
+        })
+      } else {
+        this.setState({
+          searchShow: false,
+        })
+      }
+    }, 100)
   }
 
   whereWillIGo = () => {
@@ -73,7 +87,7 @@ class CompanyDetail extends PureComponent {
 
   handleCloseReg() {
     this.setState({
-      showAd: false,
+      showAd: true,
     })
   }
 
@@ -133,55 +147,59 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const { DetailLogo, show, current, album } = this.state
+    const { show, current, album, searchShow } = this.state
     const tabs = [
       { title: <Badge>企业信息</Badge> },
       { title: <Badge>在招职位</Badge> },
     ]
-    console.log(data);
     return (
-      <div
-        className={style.CompanyDetailWrap}
-        onScroll={() => this.props.onScroll(this.page)}
-      >
-        <SearchUser />
+      <div className={style.CompanyDetailWrap}>
+        <SearchUser searchShow={searchShow} />
 
-        <div className={style.DetailHead}>
-          <div className={style.DetailNaLo}>
-            <div>{data.company_name}</div>
-            <img src={data.company_logo ? data.company_logo : DetailLogo} alt="img" />
-          </div>
-          <div className={style.DetailScAt}>
-            <div className={style.scale}>
-              <span>中式餐饮</span>
-              <span>{data.company_size}</span>
-              <span>{data.company_nature}</span>
+        <div className={style.DetailWrap} onScroll={this.onScroll} id="page">
+          <div className={style.DetailHead}>
+            <div className={style.Detaillayout}>
+              <div className={style.DetailNaLo}>
+                <div>{data.company_name}</div>
+                <div className={style.scale}>
+                  {data.industry_star ? <span>{data.industry_star}</span> : null}
+                  {data.company_size ? <span>{data.company_size}</span> : null}
+                  {data.company_nature ? (
+                    <span>{data.company_nature}</span>
+                  ) : null}
+                </div>
+              </div>
+              <div className={style.DetailScAt}>
+                <img
+                  src={data.company_logo ? data.company_logo : detailLogo}
+                  alt="img"
+                />
+              </div>
             </div>
-            <div className={style.attention}>关注</div>
+            <div className={style.Detailweat}>
+              <ul className={style.welfare}>
+                {data.label
+                  ? data.label.map((item, index) => {
+                      return <li key={index}>{item}</li>
+                    })
+                  : null}
+              </ul>
+              <div className={style.attention}>关注</div>
+            </div>
           </div>
-          <ul className={style.welfare}>
-            <li>节日礼物</li>
-            <li>技能培训</li>
-            <li>岗位晋升</li>
-            <li>管理规范</li>
-            <li>员工生日礼物</li>
-            <li>包吃包住</li>
-            <li>五险一金</li>
-          </ul>
+          <div className={style.connent}>
+            <Tabs tabs={tabs} initialPage={0} swipeable={false}>
+              <CompanyDuce {...this.props} />
+              <div className={style.PostList}>
+                <JobList.PostList data={this.props.list} />
+              </div>
+            </Tabs>
+          </div>
         </div>
 
-        <div className={style.connent} id="page">
-          <Tabs tabs={tabs} initialPage={0} swipeable={false}>
-            <CompanyDuce />
-            <div className={style.PostList}>
-              <JobList.PostList />
-            </div>
-          </Tabs>
-        </div>
-
-        {this.state.showAd ? (
+        {this.state.showAd ? null : (
           <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} />
-        ) : null}
+        )}
 
         {album ? (
           <div className={style.albumDetails}>

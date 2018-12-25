@@ -1,56 +1,39 @@
 .CompanyDetailWrap {
   width: 100%;
-  // display: flex;
-  // flex-direction: column;
-  // height: 100%;
-  // -webkit-overflow-scrolling: touch;
-  padding-bottom: 60px;
-  .DetailHead {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  .DetailWrap {
+    height: 0;
+    flex: 1;
+    overflow-y: scroll;
+    .DetailHead {
     width: 100%;
     height: auto;
-    margin-top: 110px;
     background-color: #fff;
     padding: 25px 20px;
     box-sizing: border-box;
-    .DetailNaLo {
-      width: 100%;
+    .Detaillayout {
       display: flex;
-      justify-content: space-between;
+
+    }
+    .DetailNaLo {
+      width: 84%;
       div {
-        width: 80%;
-        max-height: 50px;
+        width: 100%;
         line-height: 1.4;
         font-family: PingFangSC-Medium;
         font-size: 18px;
         color: #333333;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
       }
-      img {
-        width: 50px;
-        height: 50px;
-        border-radius: 2px;
-        border: 1px solid #f0f0f0;
-      }
-    }
-    .DetailScAt {
-      width: 100%;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 5px;
       .scale {
-        width: 75%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        width: 100%;
         font-family: PingFangSC-Regular;
         font-size: 12px;
         color: #777777;
-        line-height: 26px;
+        line-height: 20px;
+        margin-top: 4px;
         > span:last-child {
           padding: 0;
         }
@@ -72,9 +55,51 @@
           right: 5px;
         }
       }
+    }
+    .DetailScAt {
+      width: 16%; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // justify-content: flex-end;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 2px;
+        border: 1px solid #f0f0f0;
+      }
+      
+    }
+    .Detailweat {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .welfare {
+        width: 82%;
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          height: 24px;
+          padding: 0 10px;
+          box-sizing: border-box;
+          border: 1px solid #e7e7e7;
+          border-radius: 2px;
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: #4a4a4a;
+          text-align: center;
+          line-height: 24px;
+          border-radius: 2px;
+          margin: 8px 10px 0 0;
+          overflow: hidden;
+        }
+      }
+      }
       .attention {
+        margin-top: 8px;
         margin-right: 4px;
         width: 44px;
+        height: 20px;
         line-height: 20px;
         border-radius: 10px;
         background-image: linear-gradient(-127deg, #ff7214 23%, #ff4f00 100%);
@@ -84,188 +109,147 @@
         text-align: center;
       }
     }
-    .welfare {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      li {
-        height: 24px;
-        padding: 0 10px;
-        box-sizing: border-box;
-        border: 1px solid #e7e7e7;
-        border-radius: 2px;
-        font-family: PingFangSC-Regular;
-        font-size: 12px;
-        color: #4a4a4a;
-        text-align: center;
-        line-height: 24px;
-        border-radius: 2px;
-        margin: 8px 10px 0 0;
-        overflow: hidden;
-      }
-    }
-  }
-}
-.connent {
-  margin-top: 10px;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 30px 20px;
-  box-sizing: border-box;
-  // .PostList {
-  //   padding: 0 20px;
-  // }
-  :global {
-    .am-tabs-default-bar-tab {
-      font-family: PingFangSC-Regular;
-      font-size: 16px;
-      color: #9b9b9b;
-      span {
-        display: block;
-        width: 100%;
-        text-align: left;
-      }
-    }
-    .am-tabs-default-bar-tab-active {
-      font-family: PingFangSC-Medium;
-      font-size: 16px;
-      color: #333333 !important;
-      text-align: left;
-    }
-    .am-tabs-tab-bar-wrap {
-      // padding: 0 20px;
-      border-bottom: 1px solid rgba(200, 199, 204, 0.5) !important;
+    
+    .connent {
+      margin-top: 10px;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 30px 20px;
       box-sizing: border-box;
-    }
-    .am-tabs-default-bar {
-      width: 188px !important;
-    }
-    .am-tabs-default-bar-tab {
-      width: 94px !important;
-      justify-content: left;
-    }
-    .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
-      display: none !important;
-    }
-    .am-tabs-default-bar-underline {
-      width: 25px !important;
-      margin-left: 18px;
-    }
-    .am-tabs-default-bar-underline {
-      border: 1px solid #ff4f00;
-    }
-  }
-  .Introduce {
-    .companyFerral {
-      border-bottom: 1px solid rgba(200, 199, 204, 0.5);
-      padding-bottom: 18px;
-      .title {
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-family: PingFangSC-Regular;
-        font-size: 15px;
-        color: #4a4a4a;
-      }
-      .particulars {
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #4a4a4a;
-        letter-spacing: 0.5px;
-        line-height: 25px;
-        max-height: 100px;
-        overflow: hidden;
-        position: relative;
-      }
-      .lookAll {
-        i {
-          color: #4a4a4a;
-          font-style: normal;
-        }
-        color: #1989fb;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        padding: 0 4px;
-        background-color: #fff;
-        z-index: 1;
-      }
-      .unfold {
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #4a4a4a;
-        letter-spacing: 0.5px;
-        line-height: 25px;
-        height: auto;
-      }
-    }
-    .contactInfo {
-      padding: 18px 0;
-      border-bottom: 1px solid rgba(200, 199, 204, 0.5);
-      font-family: PingFangSC-Regular;
-      font-size: 14px;
-      color: #4a4a4a;
-      p {
-        margin-bottom: 10px;
-        font-size: 15px;
-      }
-      div {
-        line-height: 25px;
-        span {
-          font-family: PingFangSC-Regular;
-          color: #1989fb;
-          letter-spacing: 0.5px;
-        }
-      }
-    }
-    .photoAlbum {
-      padding-top: 18px;
-      overflow: hidden;
-      p {
-        font-family: PingFangSC-Regular;
-        font-size: 15px;
-        color: #4a4a4a;
-        margin-bottom: 15px;
-        // padding: 0 20px;
-      }
-      .photo {
-        // height: 180px;
-        position: relative;
-        img{
-          width: 100%;
-          border-radius: 4px;
-        }
-        .dots {
-          width: 40px;
-          line-height: 16px;
-          position: absolute;
-          right: 32px;
-          top: 12px;
-          background: rgba(0,0,0,0.30);
-          border-radius: 7.5px;
-          color: #fff;
-          font-size: 12px;
-          text-align: center;
-        }
-      }
       :global {
-        .slider-list {
-          // margin-left: -15px !important;
-        }
-        // .slider-frame {
-          
-        // }
-        .slider-slide {
-          
-          a{
-            // display: block;
-            // width: 100%;
-            // height: 100%;
+        .am-tabs-default-bar-tab {
+          font-family: PingFangSC-Regular;
+          font-size: 16px;
+          color: #9b9b9b;
+          span {
+            display: block;
+            width: 100%;
+            text-align: left;
           }
-          
+        }
+        .am-tabs-default-bar-tab-active {
+          font-family: PingFangSC-Medium;
+          font-size: 16px;
+          color: #333333 !important;
+          text-align: left;
+        }
+        .am-tabs-tab-bar-wrap {
+          border-bottom: 1px solid rgba(200, 199, 204, 0.5) !important;
+          box-sizing: border-box;
+        }
+        .am-tabs-default-bar {
+          width: 188px !important;
+        }
+        .am-tabs-default-bar-tab {
+          width: 94px !important;
+          justify-content: left;
+        }
+        .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+          display: none !important;
+        }
+        .am-tabs-default-bar-underline {
+          width: 25px !important;
+          margin-left: 18px;
+        }
+        .am-tabs-default-bar-underline {
+          border: 1px solid #ff4f00;
+        }
+      }
+      .Introduce {
+        .companyFerral {
+          border-bottom: 1px solid rgba(200, 199, 204, 0.5);
+          padding-bottom: 18px;
+          .title {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #4a4a4a;
+          }
+          .particulars {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #4a4a4a;
+            letter-spacing: 0.5px;
+            line-height: 25px;
+            max-height: 100px;
+            overflow: hidden;
+            position: relative;
+          }
+          .lookAll {
+            i {
+              color: #4a4a4a;
+              font-style: normal;
+            }
+            color: #1989fb;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0 4px;
+            background-color: #fff;
+            z-index: 1;
+          }
+          .unfold {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #4a4a4a;
+            letter-spacing: 0.5px;
+            line-height: 25px;
+            height: auto;
+          }
+        }
+        .contactInfo {
+          padding: 18px 0;
+          border-bottom: 1px solid rgba(200, 199, 204, 0.5);
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #4a4a4a;
+          p {
+            margin-bottom: 10px;
+            font-size: 15px;
+          }
+          div {
+            line-height: 25px;
+            span {
+              font-family: PingFangSC-Regular;
+              color: #1989fb;
+              letter-spacing: 0.5px;
+            }
+          }
+        }
+        .photoAlbum {
+          padding-top: 18px;
+          overflow: hidden;
+          p {
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+          }
+          .photo {
+            position: relative;
+            img{
+              width: 100%;
+              border-radius: 4px;
+            }
+            .dots {
+              width: 40px;
+              line-height: 16px;
+              position: absolute;
+              right: 32px;
+              top: 12px;
+              background: rgba(0,0,0,0.30);
+              border-radius: 7.5px;
+              color: #fff;
+              font-size: 12px;
+              text-align: center;
+            }
+          }
         }
       }
     }
   }
+  
 }
 .albumDetails {
   width: 100%;

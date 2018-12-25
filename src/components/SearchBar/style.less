@@ -66,12 +66,10 @@
   margin-left: 10px;
   border-radius: 50%;
 }
-.PositionHead {
-  position: fixed;
-  top: 0;
-  left: 0;
+.positionHead,.headScoll {
   width: 100%;
   z-index: 10;
+  
   .searchbar {
     width: 100%;
     height: 50px;
@@ -91,9 +89,10 @@
     }
     :global {
       .am-search {
-        width: 260px;
+        width: 240px;
         background: none;
         padding: 0;
+        margin: 0 10px;
       }
 
       .am-search-input .am-search-synthetic-ph-placeholder {
@@ -112,6 +111,14 @@
         color: #4a4a4a;
       }
     }
+    .companyTitle {
+      width: 260px;
+      text-align: center;
+      line-height: 50px;
+      font-family: PingFangSC-Medium;
+      font-size: 0.18rem;
+      color: #333333;
+    }
     .navLink {
       position: absolute;
       right: 20px;
@@ -127,4 +134,7 @@
       }
     }
   }
+}
+.headScoll{
+  box-shadow: 0 1Px 1Px rgba(0, 0, 0, 0.02);
 }

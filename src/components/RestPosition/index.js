@@ -2,7 +2,7 @@
  * Created by huangchao on 2017/10/11.
  */
 import React from 'react'
-import * as JobList from '../JobList'
+import JobList from '../JobList'
 import style from './style.less'
 
 const RestPosition = props => {

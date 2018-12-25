@@ -17,13 +17,11 @@ export default class CompanyDuce extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.state.introduced) {
-      if (this.otext.clientHeight < 50) {
-        this.setState({
-          open: false,
-        })
-      }
+  componentDidUpdate(prevProps) {
+    if (this.props.company.description !== prevProps.company.description  && (this.otext.clientHeight < 50  && this.otext.clientHeight > 0)) {
+      this.setState({
+        open: false,
+      })
     }
   }
 
@@ -33,14 +31,15 @@ export default class CompanyDuce extends Component {
     })
   }
 
-  handleChange(i){
+  handleChange(i) {
     this.setState({
       current: i + 1,
     })
   }
 
   render() {
-    const { open, introduced,current } = this.state
+    const { open, introduced, current } = this.state
+    const { company = {} } = this.props
     return (
       <div className={style.Introduce}>
         {introduced ? (
@@ -52,7 +51,7 @@ export default class CompanyDuce extends Component {
                 this.otext = e
               }}
             >
-              2008年5月两位胖子兄弟与螃蟹有了第一次亲密接触，仅50元左右，很快便就受到广泛追捧就受仅50元左右，很快便就受到广泛追捧就受仅50元左右，很快便就受到广泛追捧就受仅50元左右，很快便就受到广泛追捧就受仅50元左右，很快便就受到广泛追捧就受
+              {company.description}
               {open ? (
                 <span
                   className={style.lookAll}
@@ -67,30 +66,20 @@ export default class CompanyDuce extends Component {
 
         <div className={style.contactInfo}>
           <p>联系方式</p>
-          <div>联系人：王小姐</div>
-          <div>
-            手　机：
-            <span
-              onClick={() => {
-                alert(111)
-              }}
-            >
-              登录后查看
-            </span>
-          </div>
-          <div>
-            邮　箱：
-            <span
-              onClick={() => {
-                alert(222)
-              }}
-            >
-              登录后查看
-            </span>
-          </div>
-          <div>
-            地　址：浙江省杭州市下城区长寿路6号浙江省杭州市下城区长寿路6号浙江省杭州市下城区长寿路6号
-          </div>
+          <div>联系人：{company.contact_name}</div>
+          {company.contact_phone ? (
+            <div>
+              手　机：
+              <span>{company.contact_phone}</span>
+            </div>
+          ) : null}
+          {company.contact_email ? (
+            <div>
+              邮　箱：
+              <span>{company.contact_email}</span>
+            </div>
+          ) : null}
+          <div>地　址：{company.address}</div>
         </div>
 
         <div className={style.photoAlbum}>
@@ -103,7 +92,7 @@ export default class CompanyDuce extends Component {
               afterChange={this.handleChange.bind(this)}
             >
               {this.state.data.map((val, index) => (
-                <a key={index}  >
+                <a key={index}>
                   <img
                     src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
                     alt=""
@@ -111,10 +100,11 @@ export default class CompanyDuce extends Component {
                 </a>
               ))}
             </Carousel>
-            <div className={style.dots}>{current} / <span>{this.state.data.length}</span></div>
+            <div className={style.dots}>
+              {current} / <span>{this.state.data.length}</span>
+            </div>
           </div>
         </div>
-        
       </div>
     )
   }

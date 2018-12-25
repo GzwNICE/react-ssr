@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {withRouter} from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
@@ -53,7 +53,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
-      showAd: true,
+      showAd: false, //是否登录
     }
   }
 
@@ -69,9 +69,8 @@ class HomePage extends PureComponent {
   // 关闭底部引导注册弹框
   handleCloseReg() {
     this.setState({
-      showAd: false,
+      showAd: true,
     })
-    
   }
 
   onTouchList = (data, name) => {
@@ -204,9 +203,8 @@ class HomePage extends PureComponent {
       })
     }
     // if(!this.state.isLogin){
-      // window.addEventListener('scroll', this.onScroll, false)
+    // window.addEventListener('scroll', this.onScroll, false)
     // }
-    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -277,7 +275,7 @@ class HomePage extends PureComponent {
               onChangeCity={this.onChangeCity}
               showCity="true"
               defaultValue="" // 输入框的默认值
-              placeholder="请输入职位或者公司"
+              placeholder="搜索职位/公司"
             />
           </div>
         </div>
@@ -290,12 +288,12 @@ class HomePage extends PureComponent {
           <HotTrade />
         </div>
 
-        {showAd ? (
+        {showAd ? null : (
           <RegisterWrap
             onCloseReg={this.handleCloseReg.bind(this)}
             location={this.props.history.location.pathname}
           />
-        ) : null}
+        )}
       </div>
     )
   }

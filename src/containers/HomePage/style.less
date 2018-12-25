@@ -1,6 +1,4 @@
 .HomePageWrap{
-  // padding-top: 50px;
-  //-webkit-overflow-scrolling: touch;
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -19,6 +17,7 @@
     height: 0;
     overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
 }
@@ -92,6 +91,7 @@
   .CompanyBox {
     width: 100%;
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
     .Boxscroll {
       width: 1356px;
       display: flex;
@@ -159,10 +159,9 @@
               width: 100%;
               display: flex;
               align-items: center;
-              justify-content: space-between;
+              justify-content: center;
               margin-top: 2px;
               span {
-                width: 85px;
                 line-height: 20px;
                 border-radius: 2px;
                 text-align: center;
@@ -170,6 +169,11 @@
                 font-size: 12px;
                 color: #636363;
                 border: 1Px solid #f0f0f0;
+                padding: 0 10px;
+                margin-right: 12px; 
+              }
+              span:last-child{
+                margin-right: 0px !important; 
               }
             }
           }
