@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 import style from './style.less'
 import { Tabs, Badge, Carousel } from 'antd-mobile'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
 // import ComInfor from '../../components/ComInfor'
 // import ShowArticle from '../PositionDetail/ShowArticle'
@@ -18,6 +19,7 @@ import JobList from '../../components/JobList'
 import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
+
 
 // import company from '../../static/company@3x.png'
 // const TabPane = Tabs.TabPane
@@ -34,7 +36,6 @@ class CompanyDetail extends PureComponent {
   state = {
     showAd: false,
     show: true,
-    // searchShow: false,  //顶部搜索框默认隐藏
     data: [
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
@@ -51,12 +52,12 @@ class CompanyDetail extends PureComponent {
     this.props.handleSavePageScroll(this.key)
   }
 
-  onChangeTab = key => {
-    this.key = key
-    if (key === '1') {
+  onChangeTab = (key) => {
+    let keys = key.title.key
+    if (keys === '1') {
       window.zhuge.track('企业信息')
-    } else if (key === '2') {
-      window.zhuge.track('招聘职位')
+    } else if (keys === '2') {
+      window.zhuge.track('在招职位')
     }
   }
 
@@ -125,6 +126,7 @@ class CompanyDetail extends PureComponent {
         companyList({
           // 该企业其他职位
           company_id: id,
+          appchannel: 'web',
         })
       )
       .then(() => {
@@ -149,12 +151,12 @@ class CompanyDetail extends PureComponent {
     this.key = key
     const { show, current, album, searchShow } = this.state
     const tabs = [
-      { title: <Badge>企业信息</Badge> },
-      { title: <Badge>在招职位</Badge> },
+      { title: <Badge key="1">企业信息</Badge> },
+      { title: <Badge key="2">在招职位</Badge> },
     ]
     return (
       <div className={style.CompanyDetailWrap}>
-        <SearchUser searchShow={searchShow} />
+        <SearchUser searchShow={searchShow} goBack={this.whereWillIGo} title="公司详情"/>
 
         <div className={style.DetailWrap} onScroll={this.onScroll} id="page">
           <div className={style.DetailHead}>
@@ -188,7 +190,7 @@ class CompanyDetail extends PureComponent {
             </div>
           </div>
           <div className={style.connent}>
-            <Tabs tabs={tabs} initialPage={0} swipeable={false}>
+            <Tabs tabs={tabs} initialPage={1} swipeable={false} onChange={this.onChangeTab}>
               <CompanyDuce {...this.props} />
               <div className={style.PostList}>
                 <JobList.PostList data={this.props.list} />
@@ -230,4 +232,4 @@ class CompanyDetail extends PureComponent {
   }
 }
 
-export default CompanyDetail
+export default withRouter(CompanyDetail)

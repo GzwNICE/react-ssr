@@ -179,7 +179,7 @@ class PositionDetail extends PureComponent {
     return (
       <div className={style.PositionDetailWrap} onScroll={() => this.props.onScroll(this.page)}> 
         
-        <SearchUser />
+        <SearchUser title="职位详情"/>
         <div id="page" className={style.connent}>
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
@@ -290,7 +290,6 @@ class PositionDetail extends PureComponent {
             </div>
           </Modal>
         </div>
-
         <PositionBar {...this.props} />
       </div>
     )
