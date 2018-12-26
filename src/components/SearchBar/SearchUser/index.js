@@ -6,6 +6,7 @@ import * as Ad from '../../Ad'
 import back from '../../../static/back.png'
 import unHome from '../../../static/unHome@3x.png'
 import personal from '../../../static/personal.png'
+import PropTypes from 'prop-types'
 import style from '../style.less'
 import { loggingStatus } from '../../../actions/userStatus'
 
@@ -14,6 +15,9 @@ import { loggingStatus } from '../../../actions/userStatus'
   photo: state.userStatus.photo,
 }))
 class SearchUser extends Component {
+  static propTypes = {
+    autoFocus: PropTypes.bool,
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -22,7 +26,12 @@ class SearchUser extends Component {
     }
   }
 
+  
+
   componentDidMount() {
+    // if (this.props.autoFocus) {
+    //   this.autoFocusInst.onFocus()
+    // }
     this.props.dispatch(loggingStatus({})).then(() => {
       this.setState({
         is_login: this.props.is_login,
@@ -34,6 +43,7 @@ class SearchUser extends Component {
   render() {
     const { show, is_login, photo } = this.state
     const { searchShow } = this.props
+    // let { searchFocus = function() {} } = this.props
     return (
       <div className={searchShow ? style.headScoll : style.positionHead}>
         <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
@@ -42,7 +52,10 @@ class SearchUser extends Component {
             <img src={back} alt="bank" />
           </div>
           {searchShow ? (
-            <SearchBar placeholder="搜索职位/公司" />
+            <SearchBar
+              placeholder="搜索职位/公司"
+              onFocus={this.props.searchFocus}
+            />
           ) : (
             <div className={style.companyTitle}>{this.props.title}</div>
           )}

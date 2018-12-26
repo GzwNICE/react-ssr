@@ -59,11 +59,6 @@ class SearchPage extends PureComponent {
 
   Cancel = () => {
     this.props.history.go(-1)
-    // const {seo} = queryString.parse(window.location.search)
-    // if(seo) {
-    //
-    // } else {
-    // }
   }
 
   touchHot = (item) => { //热门搜索
@@ -196,6 +191,7 @@ class SearchPage extends PureComponent {
           showCity="true"
           defaultValue="" // 输入框的默认值
           placeholder="请输入职位/公司名"
+          SearchUser="true"
         />
         {this.ShowSearchEnd()}
       </div>

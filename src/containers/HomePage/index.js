@@ -202,9 +202,7 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-    // if(!this.state.isLogin){
-    // window.addEventListener('scroll', this.onScroll, false)
-    // }
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -246,20 +244,10 @@ class HomePage extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
-    // window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
     const { show, showAd } = this.state
-    // const Row = d => {
-    //   return (
-    //     <div className={style.listitem}>
-    //       <div onClick={() => this.goPosition(d)}>
-    //         <JobCard data={d} />
-    //       </div>
-    //     </div>
-    //   )
-    // }
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow
@@ -276,7 +264,9 @@ class HomePage extends PureComponent {
               showCity="true"
               defaultValue="" // 输入框的默认值
               placeholder="搜索职位/公司"
+              SearchUser="true"
             />
+            
           </div>
         </div>
 

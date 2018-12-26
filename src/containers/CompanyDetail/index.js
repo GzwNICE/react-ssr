@@ -20,7 +20,6 @@ import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 
-
 // import company from '../../static/company@3x.png'
 // const TabPane = Tabs.TabPane
 
@@ -52,7 +51,7 @@ class CompanyDetail extends PureComponent {
     this.props.handleSavePageScroll(this.key)
   }
 
-  onChangeTab = (key) => {
+  onChangeTab = key => {
     let keys = key.title.key
     if (keys === '1') {
       window.zhuge.track('企业信息')
@@ -62,7 +61,7 @@ class CompanyDetail extends PureComponent {
   }
 
   onScroll = page => {
-    setTimeout(() => {
+    this.setScroll = setTimeout(() => {
       if (this.page.scrollTop > 0) {
         this.setState({
           searchShow: true,
@@ -110,6 +109,10 @@ class CompanyDetail extends PureComponent {
     this.props.history.replace(url, { key: '获取联系方式' })
   }
 
+  searchFocus = () => {
+    this.props.history.push('/search')
+  }
+
   componentDidMount() {
     const id = this.props.match.params.comapny_id
     this.page = document.getElementById('page')
@@ -141,6 +144,7 @@ class CompanyDetail extends PureComponent {
   componentWillUnmount() {
     // this.props.dispatch(emptyInfo)
     this.props.handleSavePageScroll(this.key)
+    clearTimeout(this.setScroll)
   }
 
   render() {
@@ -156,7 +160,12 @@ class CompanyDetail extends PureComponent {
     ]
     return (
       <div className={style.CompanyDetailWrap}>
-        <SearchUser searchShow={searchShow} goBack={this.whereWillIGo} title="公司详情"/>
+        <SearchUser
+          searchShow={searchShow}
+          goBack={this.whereWillIGo}
+          title="公司详情"
+          searchFocus={this.searchFocus}
+        />
 
         <div className={style.DetailWrap} onScroll={this.onScroll} id="page">
           <div className={style.DetailHead}>
@@ -164,7 +173,9 @@ class CompanyDetail extends PureComponent {
               <div className={style.DetailNaLo}>
                 <div>{data.company_name}</div>
                 <div className={style.scale}>
-                  {data.industry_star ? <span>{data.industry_star}</span> : null}
+                  {data.industry_star ? (
+                    <span>{data.industry_star}</span>
+                  ) : null}
                   {data.company_size ? <span>{data.company_size}</span> : null}
                   {data.company_nature ? (
                     <span>{data.company_nature}</span>
@@ -190,7 +201,12 @@ class CompanyDetail extends PureComponent {
             </div>
           </div>
           <div className={style.connent}>
-            <Tabs tabs={tabs} initialPage={1} swipeable={false} onChange={this.onChangeTab}>
+            <Tabs
+              tabs={tabs}
+              initialPage={0}
+              swipeable={false}
+              onChange={this.onChangeTab}
+            >
               <CompanyDuce {...this.props} />
               <div className={style.PostList}>
                 <JobList.PostList data={this.props.list} />
