@@ -3,7 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { Tabs, Badge, Carousel } from 'antd-mobile'
+import { Tabs, Badge, Carousel, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
@@ -16,9 +16,11 @@ import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
 import CompanyDuce from './CompanyDuce'
 import JobList from '../../components/JobList'
+import Album from './PhotoAlbum'
 import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
+import { companyCollect, companyUnCollect } from '../../actions/company'
 
 // import company from '../../static/company@3x.png'
 // const TabPane = Tabs.TabPane
@@ -33,16 +35,17 @@ import detailLogo from '../../static/detailLogo.png'
 @PageScroll
 class CompanyDetail extends PureComponent {
   state = {
-    showAd: false,
-    show: true,
-    data: [
+    showAd: false, //引导注册
+    searchShow: false, //顶部搜索框默认隐藏
+    data2: [
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545382997404&di=f232cc3c0ef9c7efdd678fa3a0fef30c&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Fu%2F2017%2F1221%2F4_143339_4.jpg',
     ],
-    current: 1,
-    album: false,
-    searchShow: false, //顶部搜索框默认隐藏
+    albumShow: false, //相册详情
+    current: 1, //相册当前页
+    show: true, //引导下载框
+    attention: '关注', //关注企业
   }
 
   nextPost = (job_id, c_userid) => {
@@ -57,6 +60,49 @@ class CompanyDetail extends PureComponent {
       window.zhuge.track('企业信息')
     } else if (keys === '2') {
       window.zhuge.track('在招职位')
+    }
+  }
+
+  handleChange(i) {
+    this.setState({
+      current: i + 1,
+    })
+  }
+
+  handleAttention() {
+    const isFollowed = this.props.company.is_followed
+    const companyId = this.props.company.company_id
+    if (isFollowed === 1) {
+      this.props
+        .dispatch(
+          companyUnCollect({
+            company_id: companyId,
+          })
+        )
+        .then(data => {
+          Toast.success('取消关注', 2)
+        })
+    } else {
+      this.props
+        .dispatch(
+          companyCollect({
+            company_id: companyId,
+          })
+        )
+        .then(data => {
+          if (data.status === 0) {
+            const msg = data.errMsg
+            if (msg === '未登陆') {
+              return this.goLogin()
+            }
+            return Toast.info(msg, 2)
+          } else {
+            Toast.success('关注成功', 2)
+            this.setState({
+              attention: '已关注',
+            })
+          }
+        })
     }
   }
 
@@ -91,14 +137,19 @@ class CompanyDetail extends PureComponent {
     })
   }
 
-  handleChange(i) {
-    this.setState({
-      current: i + 1,
-    })
-  }
+  // goLogin = key => {
+  //   window.zhuge.track('登陆后查看')
+  //   const search = this.props.history.location.search
+  //     ? this.props.history.location.search
+  //     : '?'
+  //   const pathname = this.props.history.location.pathname
+  //   const url = `/user/register${search}${
+  //     search === '?' ? '' : '&'
+  //   }redirect=${pathname}`
+  //   this.props.history.replace(url, { key: '获取联系方式' })
+  // }
 
-  goLogin = key => {
-    window.zhuge.track('登陆后查看')
+  goLogin = () => {
     const search = this.props.history.location.search
       ? this.props.history.location.search
       : '?'
@@ -106,7 +157,7 @@ class CompanyDetail extends PureComponent {
     const url = `/user/register${search}${
       search === '?' ? '' : '&'
     }redirect=${pathname}`
-    this.props.history.replace(url, { key: '获取联系方式' })
+    this.props.history.replace(url, { key: '关注' })
   }
 
   searchFocus = () => {
@@ -153,7 +204,7 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const { show, current, album, searchShow } = this.state
+    const { searchShow, show, albumShow, current, attention } = this.state
     const tabs = [
       { title: <Badge key="1">企业信息</Badge> },
       { title: <Badge key="2">在招职位</Badge> },
@@ -197,7 +248,12 @@ class CompanyDetail extends PureComponent {
                     })
                   : null}
               </ul>
-              <div className={style.attention}>关注</div>
+              <div
+                className={style.attention}
+                onClick={this.handleAttention.bind(this)}
+              >
+                {attention}
+              </div>
             </div>
           </div>
           <div className={style.connent}>
@@ -207,7 +263,10 @@ class CompanyDetail extends PureComponent {
               swipeable={false}
               onChange={this.onChangeTab}
             >
-              <CompanyDuce {...this.props} />
+              <div>
+                <CompanyDuce {...this.props} />
+                <Album />
+              </div>
               <div className={style.PostList}>
                 <JobList.PostList data={this.props.list} />
               </div>
@@ -219,7 +278,7 @@ class CompanyDetail extends PureComponent {
           <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} />
         )}
 
-        {album ? (
+        {albumShow ? (
           <div className={style.albumDetails}>
             <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
             <Carousel
@@ -228,7 +287,7 @@ class CompanyDetail extends PureComponent {
               afterChange={this.handleChange.bind(this)}
               className={style.carousel}
             >
-              {this.state.data.map(val => (
+              {this.state.data2.map(val => (
                 <a key={val}>
                   <img
                     src={val}
@@ -239,7 +298,7 @@ class CompanyDetail extends PureComponent {
               ))}
             </Carousel>
             <div className={style.DetailsDots}>
-              {current} / {this.state.data.length}
+              {current} / {this.state.data2.length}
             </div>
           </div>
         ) : null}
