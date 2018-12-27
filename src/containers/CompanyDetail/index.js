@@ -121,8 +121,8 @@ class CompanyDetail extends PureComponent {
   }
 
   whereWillIGo = () => {
-    const { sss } = queryString.parse(window.location.search)
-    if (sss) {
+    const { pathSearch } = queryString.parse(window.location.search)
+    if (pathSearch) {
       this.props.history.go(-1)
     } else {
       this.props.history.length === 2 || this.props.history.length === 1
@@ -222,7 +222,7 @@ class CompanyDetail extends PureComponent {
           <div className={style.DetailHead}>
             <div className={style.Detaillayout}>
               <div className={style.DetailNaLo}>
-                <div>{data.company_name}</div>
+                <h1 className={style.company_name}>{data.company_name}</h1>
                 <div className={style.scale}>
                   {data.industry_star ? (
                     <span>{data.industry_star}</span>

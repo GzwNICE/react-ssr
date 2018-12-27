@@ -1,37 +1,57 @@
 import React, { Component } from 'react'
-import logo from '../../static/weixin@3x.png'
+import detailLogo from '../../static/detailLogo.png'
 import { withRouter } from 'react-router-dom'
 import style from './style.less'
 
 class JobList extends Component {
   render() {
+    const { data } = this.props
+    let list = data || []
     return (
-      <div className={style.single}>
-        <div className={style.payJob}>
-          <h1 className={style.Job}>
-            前厅副经理前厅副经理前厅副经理前厅副经理前厅副经理
-          </h1>
-          <span className={style.Pay}>2万-3万</span>
-        </div>
-        <div className={style.benefits}>
-          <div className={style.scale}>
-            <span>北京</span>
-            <span>3年以上</span>
-            <span>大专</span>
-            <span>包吃住</span>
-          </div>
-          <span className={style.time}>15:30</span>
-        </div>
-        <div className={style.hotelInfo}>
-          <img src={logo} alt="" />
-          <div className={style.right}>
-            <h1>丽思卡尔顿酒店</h1>
-            <div className={style.scale}>
-              <span>国际高端酒店/5星级</span>
-              <span>500-2000人</span>
-            </div>
-          </div>
-        </div>
+      <div className={style.JobList}>
+        {list
+          ? list.map((item, index) => {
+              return (
+                <div
+                  className={style.single}
+                  key={index}
+                  onClick={() => {
+                    this.props.history.push(
+                      `/${item.company_id}/${item.job_id}`
+                    )
+                  }}
+                >
+                  <div className={style.payJob}>
+                    <h1 className={style.Job}>{item.job_name}</h1>
+                    <span className={style.Pay}>{item.salary}</span>
+                  </div>
+                  <div className={style.benefits}>
+                    <div className={style.scale}>
+                      {item.work_place ? <span>{item.work_place}</span> : null}
+                      {item.exp ? <span>{item.exp}</span> : null}
+                      {item.education ? <span>{item.education}</span> : null}
+                      {item.room_board ? <span>{item.room_board}</span> : null}
+                    </div>
+                    <span className={style.time}>{item.update_time}</span>
+                  </div>
+                  <div className={style.hotelInfo}>
+                    <img src={item.company_logo ? item.company_logo : detailLogo} alt="img" />
+                    <div className={style.right}>
+                      <h1>{item.company_name}</h1>
+                      <div className={style.scale}>
+                        {item.industry_star ? (
+                          <span>{item.industry_star}</span>
+                        ) : null}
+                        {item.company_size ? (
+                          <span>{item.company_size}</span>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          : null}
       </div>
     )
   }
@@ -61,10 +81,10 @@ class PostList extends Component {
                   </div>
                   <div className={style.PostBot}>
                     <div className={style.scale}>
-                      <span>{item.work_place}</span>
-                      <span>{item.exp}</span>
-                      <span>{item.education}</span>
-                      <span>{item.room_board}</span>
+                      {item.work_place ? <span>{item.work_place}</span> : null}
+                      {item.exp ? <span>{item.exp}</span> : null}
+                      {item.education ? <span>{item.education}</span> : null}
+                      {item.room_board ? <span>{item.room_board}</span> : null}
                     </div>
                     <span className={style.day}>{item.update_time}</span>
                   </div>

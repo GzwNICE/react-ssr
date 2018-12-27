@@ -22,6 +22,7 @@ class ShowArticle extends PureComponent {
   render() {
     const description =
       this.props.data.decription || this.props.data.description
+    const other = this.props.data.other || this.props.data.other
     return (
       <div className={style.articleWrap}>
         <div className={style.title}>{this.props.title}</div>
@@ -30,16 +31,17 @@ class ShowArticle extends PureComponent {
             className={style.backArticle}
             dangerouslySetInnerHTML={{ __html: this.replacleHtml(description) }}
           />
-          <div className={style.otherRequire}>
-            <h4>其他要求</h4>
-            <ul className={style.priority}>
-              <li>国际联号工作经验：优先</li>
-              <li>国内管理公司经验：优先</li>
-              <li>年龄要求：20-35岁</li>
-              <li>语言要求：英语-精通,法语-熟练</li>
-              <li>现居住地：杭州</li>
-            </ul>
-          </div>
+          {JSON.stringify(other) === '[]' ? null : (
+            <div className={style.otherRequire}>
+              <h4>其他要求</h4>
+              <ul className={style.priority}>
+                {(other || []).map((item,index)=>{
+                  return (<li key={index}>{item}</li>)
+                })}
+              </ul>
+            </div>
+          )}
+
           <div
             onClick={() => this.report(this.props.data.job_id)}
             className={style.report}
