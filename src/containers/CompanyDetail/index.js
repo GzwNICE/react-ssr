@@ -259,7 +259,7 @@ class CompanyDetail extends PureComponent {
           <div className={style.connent}>
             <Tabs
               tabs={tabs}
-              initialPage={0}
+              initialPage={1}
               swipeable={false}
               onChange={this.onChangeTab}
             >
