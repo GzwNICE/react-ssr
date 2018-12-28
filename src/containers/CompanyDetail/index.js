@@ -165,7 +165,7 @@ class CompanyDetail extends PureComponent {
   }
 
   componentDidMount() {
-    const id = this.props.match.params.comapny_id
+    const id = this.props.match.params.company_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
     this.props.dispatch(
@@ -232,27 +232,27 @@ class CompanyDetail extends PureComponent {
                     <span>{data.company_nature}</span>
                   ) : null}
                 </div>
+                <div className={style.Detailweat}>
+                  <ul className={style.welfare}>
+                    {data.label
+                      ? data.label.map((item, index) => {
+                          return <li key={index}>{item}</li>
+                        })
+                      : null}
+                  </ul>
+                </div>
               </div>
               <div className={style.DetailScAt}>
                 <img
                   src={data.company_logo ? data.company_logo : detailLogo}
                   alt="img"
                 />
-              </div>
-            </div>
-            <div className={style.Detailweat}>
-              <ul className={style.welfare}>
-                {data.label
-                  ? data.label.map((item, index) => {
-                      return <li key={index}>{item}</li>
-                    })
-                  : null}
-              </ul>
-              <div
-                className={style.attention}
-                onClick={this.handleAttention.bind(this)}
-              >
-                {attention}
+                <div
+                  className={style.attention}
+                  onClick={this.handleAttention.bind(this)}
+                >
+                  {attention}
+                </div>
               </div>
             </div>
           </div>

@@ -442,11 +442,11 @@ const routes = [
     component: EmailBind,
   },
   {
-    path: '/:comapny_id/:job_id',
+    path: '/:company_id/:job_id',
     component: PositionDetail,
   },
   {
-    path: '/:comapny_id',
+    path: '/:company_id',
     component: CompanyDetail,
   },
   {

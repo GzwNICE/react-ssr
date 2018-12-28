@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
-import { Tabs, WhiteSpace, Badge } from 'antd-mobile'
+import { Tabs, Badge } from 'antd-mobile'
+import { withRouter } from 'react-router-dom'
 import style from '../style.less'
 
-export default class HotTopic extends Component {
+class HotTopic extends Component {
   render() {
+    const { data } = this.props
+    let hotPosts = data.hotPosts || [] //热门职位
+    let hotCities = data.hotCities || [] //热门地区
+    let city = data.city //城市
     const tabs = [
       { title: <Badge>热门职位</Badge> },
       { title: <Badge>热门地区</Badge> },
@@ -12,33 +17,35 @@ export default class HotTopic extends Component {
       <div className={style.HotTopic}>
         <Tabs tabs={tabs} initialPage={0}>
           <div className={style.hotJobs}>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
+            {hotPosts.map((i, n) => {
+              return (
+                <li
+                  key={n}
+                  onClick={() => {
+                    window.location.href = `${i.url}`
+                  }}
+                >
+                  {`${city}${i.name}`}
+                </li>
+              )
+            })}
           </div>
           <div className={style.hotCompanyu}>
-            <li>资源部经理资</li>
-            <li>资源部资源</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
-            <li>资源部经理</li>
+            {hotCities.map((i, n) => {
+              return (
+                <li
+                  key={n}
+                  onClick={() => {
+                    window.location.href = `${i.url}`
+                  }}
+                >{`${i.name}招聘`}</li>
+              )
+            })}
           </div>
         </Tabs>
       </div>
     )
   }
 }
+
+export default withRouter(HotTopic)

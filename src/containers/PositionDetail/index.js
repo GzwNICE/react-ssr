@@ -129,6 +129,7 @@ class PositionDetail extends PureComponent {
 
   componentDidMount() {
     // const href = window.location.href
+    const companyId = this.props.match.params.company_id
     const jobId = this.props.match.params.job_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
@@ -136,6 +137,7 @@ class PositionDetail extends PureComponent {
       .dispatch(
         positiondetail({
           job_id: jobId,
+          company_id: companyId,
           from: from,
           appchannel: 'web',
         })
@@ -154,10 +156,12 @@ class PositionDetail extends PureComponent {
     let lastpathname = this.props.location.pathname
     if (nowpathname !== lastpathname) {
       let job_id = nestprops.match.params.job_id
+      let companyId = this.props.match.params.company_id
       this.props
         .dispatch(
           positiondetail({
             job_id: job_id,
+            company_id: companyId,
             appchannel: 'web',
           })
         )
@@ -186,6 +190,7 @@ class PositionDetail extends PureComponent {
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
     const is_valid = this.props.position.is_valid  //职位是否有效
+    const hotData = this.props.position.hotData || {}
     return (
       <div className={style.PositionDetailWrap}>
         <SearchUser
@@ -299,7 +304,7 @@ class PositionDetail extends PureComponent {
             data={list}
           />
 
-          {is_valid === 1 ? <HotTopic /> : null}
+          {is_valid === 1 ? <HotTopic data={hotData}/> : null}
           {is_valid === 0 ? (
             <div className={style.guidance}>
               <div className={style.finishApp}>
@@ -307,7 +312,6 @@ class PositionDetail extends PureComponent {
               </div>
             </div>
           ): null}
-
           
         </div>
         <PositionBar {...this.props} valid={is_valid}/>
