@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { famCompany } from '../../../actions/home'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter,Link } from 'react-router-dom'
+import companyLogo from '../../../static/detailLogo.png'
 import style from '../style.less'
 
 @connect(state => ({
@@ -25,18 +26,14 @@ class FamousCompany extends Component {
             {CompanyData
               ? CompanyData.map(item => {
                   return (
+                      
+                    <Link rel="stylesheet" to={`/bloc/${item.c_userid}?redirect=${this.props.location.pathname}`} key={item.id}>
                     <div
                       className={style.CompanyCard}
-                      key={item.id}
-                      onClick={() => {
-                        this.props.history.push(
-                          `/bloc/${item.c_userid}`
-                        )
-                      }}
                     >
                       <div className={style.CompanyCent}>
                         <div className={style.top}>
-                          <img src={item.company_logo} alt="Img" />
+                          <img src={item.company_logo ? item.company_logo : companyLogo} alt="Img" />
                         </div>
                         <div className={style.bot}>
                           <h4 className={style.Companyname}>
@@ -50,12 +47,15 @@ class FamousCompany extends Component {
                         </div>
                       </div>
                     </div>
+                    </Link>
                   )
                 })
               : null}
+              
           </div>
         </div>
       </div>
+      
     )
   }
 }

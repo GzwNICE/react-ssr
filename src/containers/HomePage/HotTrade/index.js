@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Flex } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { hotTrade } from '../../../actions/home'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import hotjobs from '../../../static/hotJobs@3x.png'
 
 import style from '../style.less'
@@ -20,57 +20,30 @@ class HotTrade extends Component {
     this.props.dispatch(hotTrade({}))
   }
 
-  getImgData(data) {
-    const { TradeData } = this.state
-    let Trade = [
-      {
-        logosrc: [],
-      },
-      {
-        logosrc: [],
-      },
-      {
-        logosrc: [],
-      },
-      {
-        logosrc: [],
-      },
-      {
-        logosrc: [],
-      },
-    ]
-    Trade[0].logosrc = data[0]
-    Trade[1].logosrc = data[1]
-    Trade[2].logosrc = data[2]
-    Trade[3].logosrc = data[3]
-    Trade[4].logosrc = data[4]
-    let arr = []
-    TradeData.map((item, index) => {
-      return arr.push(Object.assign(item, Trade[index]))
-    })
-  }
-
   render() {
     const imgData = this.props.tradeDtata
+    console.log(imgData)
     return (
       <div className={style.Hottrade}>
         {imgData.list
           ? imgData.list.map((item, index) => {
               return (
                 <div className={style.tradeModule} key={index}>
-                  <h1 className={style.subtitle} >{item.keyArray.industry}</h1>
+                  <h1 className={style.subtitle}>{item.keyArray.industry}</h1>
                   <div className={style.tradeLogo}>
                     <Flex>
                       {item.logoArray
                         ? item.logoArray.map((item, index) => {
                             return (
-                              <Flex.Item
-                                key={index}
-                                onClick={() => {
-                                  this.props.history.push(`/${item.c_userid}`)
-                                }}
-                              >
-                                <img src={item.company_logo} alt="img" />
+                              <Flex.Item key={index}>
+                                <Link
+                                  rel="stylesheet"
+                                  to={`/${item.c_userid}?redirect=${
+                                    this.props.location.pathname
+                                  }`}
+                                >
+                                  <img src={item.company_logo} alt="img" />
+                                </Link>
                               </Flex.Item>
                             )
                           })
@@ -80,16 +53,13 @@ class HotTrade extends Component {
                   <div className={style.tradePost}>
                     {item.keyArray.key.map((item, index) => {
                       return (
-                        <span
+                        <Link
+                          rel="stylesheet"
+                          to={`/search/${item}?keyword=${item}`}
                           key={index}
-                          onClick={() => {
-                            this.props.history.push(
-                              `/search/${item}?keyword=${item}`
-                            )
-                          }}
                         >
                           {item}
-                        </span>
+                        </Link>
                       )
                     })}
                   </div>
@@ -106,16 +76,13 @@ class HotTrade extends Component {
               {imgData.jobKey
                 ? imgData.jobKey.map((item, index) => {
                     return (
-                      <span
+                      <Link
+                        rel="stylesheet"
+                        to={`/search/${item}?keyword=${item}`}
                         key={index}
-                        onClick={() => {
-                          this.props.history.push(
-                            `/search/${item}?keyword=${item}`
-                          )
-                        }}
                       >
                         {item}
-                      </span>
+                      </Link>
                     )
                   })
                 : null}

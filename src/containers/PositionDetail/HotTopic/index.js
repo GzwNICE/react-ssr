@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Tabs, Badge } from 'antd-mobile'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import style from '../style.less'
 
 class HotTopic extends Component {
@@ -19,26 +19,18 @@ class HotTopic extends Component {
           <div className={style.hotJobs}>
             {hotPosts.map((i, n) => {
               return (
-                <li
-                  key={n}
-                  onClick={() => {
-                    window.location.href = `${i.url}`
-                  }}
-                >
+                <Link rel="stylesheet" to={`${i.url}`} key={n}>
                   {`${city}${i.name}`}
-                </li>
+                </Link>
               )
             })}
           </div>
           <div className={style.hotCompanyu}>
             {hotCities.map((i, n) => {
               return (
-                <li
-                  key={n}
-                  onClick={() => {
-                    window.location.href = `${i.url}`
-                  }}
-                >{`${i.name}招聘`}</li>
+                <Link rel="stylesheet" to={`${i.url}`} key={n}>
+                  {`${i.name}招聘`}
+                </Link>
               )
             })}
           </div>

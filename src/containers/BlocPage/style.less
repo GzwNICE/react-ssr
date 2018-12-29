@@ -25,7 +25,7 @@
         height: 16px;
       }
       .selRule {
-        width: 1Px;
+        width: 1px;
         height: 14px;
         background-color: #d8d8d8;
       }
@@ -51,91 +51,94 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     .individuation {
-    width: 100%;
-    height: 100px;
-    img {
-      display: block;
       width: 100%;
       height: 100px;
-    }
-  }
-  .companyList {
-    background-color: #fff;
-    padding: 0 20px;
-    box-sizing: border-box;
-    .ContentModule:last-child {
-      border-bottom: none;
-    }
-    .ContentModule {
-      height: 100px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 10px 10px 0;
-      box-sizing: border-box;
-      border-bottom: 1Px solid #f0f0f0;
       img {
-        width: 70px;
-        height: 70px;
+        display: block;
+        width: 100%;
+        height: 100px;
       }
-      .inviteInfo {
-        width: 230px;
-        height: 100%;
-        h1 {
+    }
+    .companyList {
+      background-color: #fff;
+      padding: 0 20px;
+      box-sizing: border-box;
+      a:last-child .ContentModule {
+        border-bottom: none;
+      }
+      a {
+        .ContentModule {
+          height: 100px;
           width: 100%;
-          font-family: PingFangSC-Semibold;
-          font-size: 16px;
-          color: #333333;
-          letter-spacing: 0.8px;
-          font-weight: normal;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .scale {
-          width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          font-family: PingFangSC-Regular;
-          font-size: 12px;
-          color: #777777;
-          line-height: 26px;
-          >span:last-child{
-            padding: 0;
+          display: flex;
+          justify-content: space-between;
+          padding: 20px 10px 10px 0;
+          box-sizing: border-box;
+          border-bottom: 1px solid #f0f0f0;
+          img {
+            width: 70px;
+            height: 70px;
+            border: 1px solid #f0f0f0;
+            border-radius: 2px;
+            // box-sizing: border-box;
           }
-          >span:last-child::after{
-            display: none;
-          }
-          span{
-            position: relative;
-            padding-right: 10px;
-          }
+          .inviteInfo {
+            width: 230px;
+            height: 100%;
+            h1 {
+              width: 100%;
+              font-family: PingFangSC-Semibold;
+              font-size: 16px;
+              color: #333333;
+              letter-spacing: 0.8px;
+              font-weight: normal;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .scale {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-family: PingFangSC-Regular;
+              font-size: 12px;
+              color: #777777;
+              line-height: 26px;
+              > span:last-child {
+                padding: 0;
+              }
+              > span:last-child::after {
+                display: none;
+              }
+              span {
+                position: relative;
+                padding-right: 10px;
+              }
 
-          span::after{
-            content: '';
-            width: 1Px;
-            height: 12px;
-            background-color: #dfdfdf;
-            position: absolute;
-            top: 3px;
-            right: 5px;
-          }
-
-        }
-        .inRecruit {
-          font-family: PingFangSC-Regular;
-          font-size: 14px;
-          color: #000000;
-          span {
-            font-family: PingFangSC-Medium;
-            font-size: 16px;
-            color: #ff4f00;
+              span::after {
+                content: '';
+                width: 1px;
+                height: 12px;
+                background-color: #dfdfdf;
+                position: absolute;
+                top: 3px;
+                right: 5px;
+              }
+            }
+            .inRecruit {
+              font-family: PingFangSC-Regular;
+              font-size: 14px;
+              color: #000000;
+              span {
+                font-family: PingFangSC-Medium;
+                font-size: 16px;
+                color: #ff4f00;
+              }
+            }
           }
         }
       }
     }
   }
-  }
-  
 }
