@@ -35,6 +35,7 @@ import RegisterWrap from '../../components/RegisterWrap'
   homeDate: state.home,
   userStatus: state.userStatus,
   supers: state.supers,
+  is_login: state.userStatus.is_login,
 }))
 class HomePage extends PureComponent {
   static propTypes = {
@@ -53,7 +54,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
-      showAd: false, //是否登录
+      showRegWrap: true, //是否登录
     }
   }
 
@@ -69,7 +70,7 @@ class HomePage extends PureComponent {
   // 关闭底部引导注册弹框
   handleCloseReg() {
     this.setState({
-      showAd: true,
+      showRegWrap: false,
     })
   }
 
@@ -202,7 +203,6 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -247,7 +247,8 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { show, showAd } = this.state
+    const { show, showRegWrap } = this.state
+    const isLogin = this.props.is_login
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow
@@ -266,7 +267,6 @@ class HomePage extends PureComponent {
               placeholder="搜索职位/公司"
               SearchUser="true"
             />
-            
           </div>
         </div>
 
@@ -278,12 +278,14 @@ class HomePage extends PureComponent {
           <HotTrade />
         </div>
 
-        {showAd ? null : (
-          <RegisterWrap
-            onCloseReg={this.handleCloseReg.bind(this)}
-            location={this.props.history.location.pathname}
-          />
-        )}
+        {isLogin === 0 ? (
+          showRegWrap ? (
+            <RegisterWrap
+              onCloseReg={this.handleCloseReg.bind(this)}
+              location={this.props.history.location.pathname}
+            />
+          ) : null
+        ) : null}
       </div>
     )
   }

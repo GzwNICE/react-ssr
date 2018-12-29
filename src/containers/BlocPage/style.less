@@ -1,12 +1,15 @@
 .CompanyArea {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   .selHead {
     width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
     box-sizing: border-box;
     background-color: #fff;
     z-index: 2;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02);
     .selectInfo {
       width: 100%;
       height: 40px;
@@ -41,8 +44,13 @@
       }
     }
   }
-  .individuation {
-    margin-top: 150px;
+  .blocCentent {
+    flex: 1 1;
+    height: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    .individuation {
     width: 100%;
     height: 100px;
     img {
@@ -55,7 +63,6 @@
     background-color: #fff;
     padding: 0 20px;
     box-sizing: border-box;
-    margin-bottom: 60px;
     .ContentModule:last-child {
       border-bottom: none;
     }
@@ -80,7 +87,7 @@
           font-size: 16px;
           color: #333333;
           letter-spacing: 0.8px;
-          // font-weight: normal;
+          font-weight: normal;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -124,10 +131,11 @@
             font-family: PingFangSC-Medium;
             font-size: 16px;
             color: #ff4f00;
-            font-weight: 600;
           }
         }
       }
     }
   }
+  }
+  
 }

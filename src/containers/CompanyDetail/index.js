@@ -30,12 +30,13 @@ import { companyCollect, companyUnCollect } from '../../actions/company'
     company: state.company,
     list: state.company.list,
     pageScroll: state.pageScroll,
+    is_login: state.userStatus.is_login,
   }
 })
 @PageScroll
 class CompanyDetail extends PureComponent {
   state = {
-    showAd: false, //引导注册
+    showRegWrap: true, //引导注册
     searchShow: false, //顶部搜索框默认隐藏
     data2: [
       'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
@@ -133,7 +134,7 @@ class CompanyDetail extends PureComponent {
 
   handleCloseReg() {
     this.setState({
-      showAd: true,
+      showRegWrap: false,
     })
   }
 
@@ -204,11 +205,12 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const { searchShow, show, albumShow, current, attention } = this.state
+    const { searchShow, show, albumShow, current, attention, showRegWrap} = this.state
     const tabs = [
       { title: <Badge key="1">企业信息</Badge> },
       { title: <Badge key="2">在招职位</Badge> },
     ]
+    const isLogin = this.props.is_login
     return (
       <div className={style.CompanyDetailWrap}>
         <SearchUser
@@ -274,9 +276,14 @@ class CompanyDetail extends PureComponent {
           </div>
         </div>
 
-        {this.state.showAd ? null : (
-          <RegisterWrap onCloseReg={this.handleCloseReg.bind(this)} />
-        )}
+        {isLogin === 0 ? (
+          showRegWrap ? (
+            <RegisterWrap
+              onCloseReg={this.handleCloseReg.bind(this)}
+              location={this.props.history.location.pathname}
+            />
+          ) : null
+        ) : null}
 
         {albumShow ? (
           <div className={style.albumDetails}>

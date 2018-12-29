@@ -30,7 +30,7 @@ class FamousCompany extends Component {
                       key={item.id}
                       onClick={() => {
                         this.props.history.push(
-                          `/companyArea?id=${item.id}`
+                          `/bloc/${item.c_userid}`
                         )
                       }}
                     >

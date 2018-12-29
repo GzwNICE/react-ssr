@@ -1,14 +1,35 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { blocList, blocCategory } from '../../../actions/company'
 import style from '../style.less'
 
-export default class CompanyList extends Component {
-  state = {
-    companyLogo:
-      'https://p3-v.veimg.cn/sysimg/20180628/55465e8e4fc72ac2f821ad0cfac439af.jpg',
-      
+@connect(state => {
+  return {
+    
   }
-
+})
+class CompanyList extends Component {
+  constructor(props){
+    super(props)
+    this.state= {
+      companyLogo:
+      'https://p3-v.veimg.cn/sysimg/20180628/55465e8e4fc72ac2f821ad0cfac439af.jpg',
+    }
+  }
   
+  componentDidMount(){
+    const c_userid = this.props.match.params.c_userid
+    this.props.dispatch(
+      blocList({
+        // page: 1,
+        // pageSize: 10,
+        c_userid: c_userid,
+
+      })).then(data=>{
+        console.log(data);
+      })
+  }
 
   render() {
     const { companyLogo } = this.state
@@ -131,3 +152,4 @@ export default class CompanyList extends Component {
     )
   }
 }
+export default withRouter(CompanyList)

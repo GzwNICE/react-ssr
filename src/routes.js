@@ -228,8 +228,8 @@ const HomePage = Loadable({
   loader: () => import("./containers/HomePage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const CompanyArea = Loadable({
-  loader: () => import("./containers/CompanyArea"),
+const BlocPage = Loadable({
+  loader: () => import("./containers/BlocPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const routes = [
@@ -238,8 +238,8 @@ const routes = [
     component: BindExistAccount,
   },
   {
-    path: '/companyArea',
-    component: CompanyArea,
+    path: '/bloc/:c_userid',
+    component: BlocPage,
   },
   {
     path: '/activityRegister',
@@ -456,7 +456,7 @@ const routes = [
 ]
 export default (
   <Switch>
-    <Redirect exact from="/" to="/user/login" />
+    <Redirect exact from="/" to="/tabs/home" />
     {
       routes.map((route, index) => {
         return (
