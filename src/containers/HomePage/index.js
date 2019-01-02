@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
@@ -34,6 +35,7 @@ import RegisterWrap from '../../components/RegisterWrap'
   homeDate: state.home,
   userStatus: state.userStatus,
   supers: state.supers,
+  is_login: state.userStatus.is_login,
 }))
 class HomePage extends PureComponent {
   static propTypes = {
@@ -52,7 +54,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
-      showAd: false,
+      showRegWrap: true, //是否登录
     }
   }
 
@@ -68,9 +70,8 @@ class HomePage extends PureComponent {
   // 关闭底部引导注册弹框
   handleCloseReg() {
     this.setState({
-      showAd: false,
+      showRegWrap: false,
     })
-    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   onTouchList = (data, name) => {
@@ -163,20 +164,20 @@ class HomePage extends PureComponent {
   }
 
   /* 记录滚动条的位置 */
-  onScroll = e => {
-    // let top = document.body.scrollTop || document.documentElement.scrollTop
-    // this.scrollTop = top
-    let scroll = window.scrollY
-    if (scroll > 360) {
-      this.setState({
-        showAd: true,
-      })
-    } else {
-      this.setState({
-        showAd: false,
-      })
-    }
-  }
+  // onScroll = e => {
+  //   // let top = document.body.scrollTop || document.documentElement.scrollTop
+  //   // this.scrollTop = top
+  //   let scroll = e.scrollY
+  //   if (scroll > 360) {
+  //     this.setState({
+  //       showAd: true,
+  //     })
+  //   } else {
+  //     this.setState({
+  //       showAd: false,
+  //     })
+  //   }
+  // }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
@@ -202,7 +203,6 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
-    window.addEventListener('scroll', this.onScroll, false)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -244,20 +244,11 @@ class HomePage extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
-    window.removeEventListener('scroll', this.onScroll, false)
   }
 
   render() {
-    const { show, showAd } = this.state
-    // const Row = d => {
-    //   return (
-    //     <div className={style.listitem}>
-    //       <div onClick={() => this.goPosition(d)}>
-    //         <JobCard data={d} />
-    //       </div>
-    //     </div>
-    //   )
-    // }
+    const { show, showRegWrap } = this.state
+    const isLogin = this.props.is_login
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow
@@ -265,30 +256,39 @@ class HomePage extends PureComponent {
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
-        <div className={style.searchBar}>
-          <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-          <MySearchBar
-            searchFocus={this.searchFocus}
-            onChangeCity={this.onChangeCity}
-            showCity="true"
-            defaultValue="" // 输入框的默认值
-            placeholder="请输入职位或者公司"
-          />
+        <div className={style.homehead}>
+          <div className={style.searchBar}>
+            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+            <MySearchBar
+              searchFocus={this.searchFocus}
+              onChangeCity={this.onChangeCity}
+              showCity="true"
+              defaultValue="" // 输入框的默认值
+              placeholder="搜索职位/公司"
+              SearchUser="true"
+            />
+          </div>
         </div>
-        <Carousels {...this.props} />
-        <WhiteSpace size="sm" />
-        <FamousCompany />
-        <WhiteSpace size="sm" />
-        <HotTrade />
-        {showAd ? (
-          <RegisterWrap
-            onCloseReg={this.handleCloseReg.bind(this)}
-            location={this.props.history.location.pathname}
-          />
+
+        <div className={style.homecentent}>
+          <Carousels {...this.props} />
+          <WhiteSpace size="sm" />
+          <FamousCompany />
+          <WhiteSpace size="sm" />
+          <HotTrade />
+        </div>
+
+        {isLogin === 0 ? (
+          showRegWrap ? (
+            <RegisterWrap
+              onCloseReg={this.handleCloseReg.bind(this)}
+              location={this.props.history.location.pathname}
+            />
+          ) : null
         ) : null}
       </div>
     )
   }
 }
 
-export default HomePage
+export default withRouter(HomePage)

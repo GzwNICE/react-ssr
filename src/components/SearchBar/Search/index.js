@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { SearchBar } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import personal from '../../../static/headimg@3x.png'
 import back from '../../../static/back.png'
 import { loggingStatus } from '../../../actions/userStatus'
@@ -12,7 +12,7 @@ import style from './style.less'
   is_login: state.userStatus.is_login,
   photo: state.userStatus.photo,
 }))
-export default class Search extends Component {
+class Search extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,9 +20,10 @@ export default class Search extends Component {
       photo: '',
     }
   }
+  
 
   handleSearch() {
-    console.log()
+    
   }
 
   componentDidMount() {
@@ -38,11 +39,18 @@ export default class Search extends Component {
     const { photo, is_login } = this.state
     return (
       <div className={style.Search}>
-        <div className={style.goBack} onClick={() => {}}>
+        <div className={style.goBack} onClick={this.props.goBack}>
           <img src={back} alt="bank" />
         </div>
         <SearchBar placeholder="搜索职位/品牌" onSubmit={this.handleSearch} />
-        <Link rel="stylesheet" to={`/tabs/user`}>
+        <Link
+          rel="stylesheet"
+          to={
+            is_login === 1
+              ? `/tabs/user?redirect=${this.props.location.pathname}`
+              : `/user/register?redirect=${this.props.location.pathname}`
+          }
+        >
           <img
             src={is_login ? photo : personal}
             alt="img"
@@ -53,3 +61,5 @@ export default class Search extends Component {
     )
   }
 }
+
+export default withRouter(Search)

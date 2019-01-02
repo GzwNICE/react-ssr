@@ -7,6 +7,8 @@ import {
   UN_FLLOW_COMPANY,
   GET_COMPANYDETAIL_LIST,
   DELETE_COMPANY_INFO,
+  GET_BLOCDETAIL_CATEGORY,
+  GET_BLOCDETAIL_LIST,
 } from '../actions/company'
 
 const initState = {
@@ -37,6 +39,28 @@ export default (state = initState, action) => {
       }
     case DELETE_COMPANY_INFO:
       return {}
+    case GET_BLOCDETAIL_CATEGORY:
+      return {
+        ...state,
+        list: [...action.data.list],
+        pager: {
+          allPage: action.data.pager.allpages,
+          cur: action.data.pager.cur,
+          per: action.data.pager.per,
+          total: action.data.pager.total,
+        },
+      }
+    case GET_BLOCDETAIL_LIST:
+      return {
+        ...state,
+        list: [...action.data.list],
+        pager: {
+          allPage: action.data.pager.allpages,
+          cur: action.data.pager.cur,
+          per: action.data.pager.per,
+          total: action.data.pager.total,
+        },
+      }
     default:
       return state
   }

@@ -1,60 +1,110 @@
-import React from 'react'
-import logo from '../../static/weixin@3x.png'
+import React, { Component } from 'react'
+import detailLogo from '../../static/detailLogo.png'
+import { withRouter, Link } from 'react-router-dom'
 import style from './style.less'
 
-const JobList = props => {
-  // const data = props.data || {}
-  return (
-    <div className={style.single}>
-      <div className={style.payJob}>
-        <h1 className={style.Job}>
-          前厅副经理前厅副经理前厅副经理前厅副经理前厅副经理
-        </h1>
-        <span className={style.Pay}>2万-3万</span>
+class JobList extends Component {
+  render() {
+    const { data } = this.props
+    let list = data || []
+    return (
+      <div className={style.JobList}>
+        {list
+          ? list.map((item, index) => {
+              return (
+                <Link
+                  rel="stylesheet"
+                  to={`/${item.company_id}/${item.job_id}`}
+                  key={index}
+                >
+                  <div className={style.single}>
+                    <div className={style.payJob}>
+                      <h1 className={style.Job}>{item.job_name}</h1>
+                      <span className={style.Pay}>{item.salary}</span>
+                    </div>
+                    <div className={style.benefits}>
+                      <div className={style.scale}>
+                        {item.work_place ? (
+                          <span>{item.work_place}</span>
+                        ) : null}
+                        {item.exp ? <span>{item.exp}</span> : null}
+                        {item.education ? <span>{item.education}</span> : null}
+                        {item.room_board ? (
+                          <span>{item.room_board}</span>
+                        ) : null}
+                      </div>
+                      <span className={style.time}>{item.update_time}</span>
+                    </div>
+                    <div className={style.hotelInfo}>
+                      <img
+                        src={item.company_logo ? item.company_logo : detailLogo}
+                        alt="img"
+                      />
+                      <div className={style.right}>
+                        <h1>{item.company_name}</h1>
+                        <div className={style.scale}>
+                          {item.industry_star ? (
+                            <span>{item.industry_star}</span>
+                          ) : null}
+                          {item.company_size ? (
+                            <span>{item.company_size}</span>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })
+          : null}
       </div>
-      <div className={style.benefits}>
-        <div className={style.scale}>
-          <span>北京</span>
-          <span>3年以上</span>
-          <span>大专</span>
-          <span>包吃住</span>
-        </div>
-        <span className={style.time}>15:30</span>
-      </div>
-      <div className={style.hotelInfo}>
-        <img src={logo} alt="" />
-        <div className={style.right}>
-          <h1>丽思卡尔顿酒店</h1>
-          <div className={style.scale}>
-            <span>国际高端酒店/5星级</span>
-            <span>500-2000人</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
-const PostList = props => {
-  return (
-    <div className={style.PostList}>
-      <div className={style.PostCard}>
-        <div className={style.PostTop}>
-          <h1>总机领班Operator Captain</h1>
-          <span>2万-3万</span>
-        </div>
-        <div className={style.PostBot}>
-          <div className={style.scale}>
-            <span>北京</span>
-            <span>3年以上</span>
-            <span>大专</span>
-            <span>包吃住</span>
-          </div>
-          <span className={style.day}>06-20</span>
-        </div>
+class PostList extends Component {
+  render() {
+    let { data } = this.props
+    let list = data || []
+    return (
+      <div className={style.PostList}>
+        {list
+          ? list.map((item, index) => {
+              return (
+                <Link
+                  rel="stylesheet"
+                  to={`/${item.company_id}/${item.job_id}`}
+                  key={index}
+                >
+                  <div className={style.PostCard}>
+                    <div className={style.PostTop}>
+                      <h1>{item.job_name}</h1>
+                      <span>{item.salary}</span>
+                    </div>
+                    <div className={style.PostBot}>
+                      <div className={style.scale}>
+                        {item.work_place ? (
+                          <span>{item.work_place}</span>
+                        ) : null}
+                        {item.exp ? <span>{item.exp}</span> : null}
+                        {item.education ? <span>{item.education}</span> : null}
+                        {item.room_board ? (
+                          <span>{item.room_board}</span>
+                        ) : null}
+                      </div>
+                      <span className={style.day}>{item.update_time}</span>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })
+          : null}
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export { JobList, PostList }
+export default {
+  JobList: withRouter(JobList),
+  PostList: withRouter(PostList),
+}

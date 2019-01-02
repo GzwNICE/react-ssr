@@ -1,38 +1,81 @@
 import React, { Component } from 'react'
 import { SearchBar } from 'antd-mobile'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import * as Ad from '../../Ad'
 import back from '../../../static/back.png'
 import unHome from '../../../static/unHome@3x.png'
-import personal from '../../../static/headimg@3x.png'
+import personal from '../../../static/personal.png'
+import PropTypes from 'prop-types'
 import style from '../style.less'
+import { loggingStatus } from '../../../actions/userStatus'
 
-
-export default class SearchUser extends Component {
-  constructor(props){
+@connect(state => ({
+  is_login: state.userStatus.is_login,
+  photo: state.userStatus.photo,
+}))
+class SearchUser extends Component {
+  static propTypes = {
+    autoFocus: PropTypes.bool,
+  }
+  constructor(props) {
     super(props)
-    this.state={
-      show: true, 
-      searchShow: true,  //顶部搜索框默认隐藏
+    this.state = {
+      show: true,
+      is_login: 0, //登录状态
     }
   }
 
+  
+
+  componentDidMount() {
+    // if (this.props.autoFocus) {
+    //   this.autoFocusInst.onFocus()
+    // }
+    this.props.dispatch(loggingStatus({})).then(() => {
+      this.setState({
+        is_login: this.props.is_login,
+        photo: this.props.photo,
+      })
+    })
+  }
+
   render() {
-    const {show,searchShow} =this.state
+    const { show, is_login, photo } = this.state
+    const { searchShow } = this.props
+    // let { searchFocus = function() {} } = this.props
     return (
-      <div className={style.PositionHead}>
+      <div className={searchShow ? style.headScoll : style.positionHead}>
         <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
         <div className={style.searchbar}>
-          <div className={style.goBack}>
+          <div className={style.goBack} onClick={this.props.goBack}>
             <img src={back} alt="bank" />
           </div>
-          {searchShow ? <SearchBar placeholder="搜索职位/品牌" /> : null}
+          {searchShow ? (
+            <SearchBar
+              placeholder="搜索职位/公司"
+              onFocus={this.props.searchFocus}
+            />
+          ) : (
+            <div className={style.companyTitle}>{this.props.title}</div>
+          )}
           <div className={style.navLink}>
             <Link rel="stylesheet" to={`/tabs/home`}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
-            <Link rel="stylesheet" to={`/tabs/user`}>
-              <img src={personal} alt="img" className={style.personal} />
+            <Link
+              rel="stylesheet"
+              to={
+                is_login === 1
+                  ? `/tabs/user?redirect=${this.props.location.pathname}`
+                  : `/user/register?redirect=${this.props.location.pathname}`
+              }
+            >
+              <img
+                src={is_login ? photo : personal}
+                alt="img"
+                className={style.personal}
+              />
             </Link>
           </div>
         </div>
@@ -40,3 +83,5 @@ export default class SearchUser extends Component {
     )
   }
 }
+
+export default withRouter(SearchUser)

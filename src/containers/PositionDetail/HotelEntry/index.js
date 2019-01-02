@@ -12,11 +12,11 @@ const HotelEntry = (props) => {
         style={{background: `url(${company.company_logo ? company.company_logo : share}) center/ cover no-repeat`}}
       />
       <div className={style.center}>
-        <div className={style.hotelName}>{company.company_name}</div>
+        <h1 className={style.hotelName}>{company.company_name}</h1>
         <div className={style.hotelSize}>
-          {company.company_nature} {company.company_size ? " | " : null}
-          {company.company_size} {company.industry ? " | " : null}
-          {company.industry}
+          {company.industry_star} {company.company_size ? " | " : null}
+          {company.company_size} {company.company_nature ? " | " : null}
+          {company.company_nature}
         </div>
       </div>
       <div className={style.right}>

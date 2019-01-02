@@ -10,7 +10,7 @@
   height: 100%;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
- 
+
   .guidance {
     background-color: #fff;
     padding: 30px 0;
@@ -42,7 +42,7 @@
   flex: 1;
   height: 0;
   overflow-y: scroll;
-  margin-top: 110px;
+  -webkit-overflow-scrolling: touch;
   .workplace {
     width: 100%;
     padding: 25px 0 20px 0;
@@ -114,7 +114,6 @@
   .cardHeader {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin: 20px 0 18px 0;
     position: relative;
     .name {
@@ -122,15 +121,11 @@
       font-size: 18px;
       color: #333333;
       width: 76%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       font-weight: 200;
     }
     .salary {
       color: #ff4f00;
       font-size: 14x;
-      // font-weight: 600;
       text-align: right;
     }
     .finish {
@@ -138,7 +133,7 @@
       height: 60px;
       position: absolute;
       right: 0;
-      top: -10px;
+      top: -12px;
     }
   }
   .inner {
@@ -149,6 +144,7 @@
       color: #4a4a4a;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       li {
         margin-right: 14px;
         height: 20px;
@@ -168,26 +164,29 @@
       line-height: 15px;
     }
   }
-  .welfare {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    padding-bottom: 25px;
+  .companyDet {
+    padding: 25px 0;
+    border-top: 1px solid #f0f0f0;
     border-bottom: 1px solid #f0f0f0;
-    li {
-      height: 24px;
-      padding: 0 10px;
-      box-sizing: border-box;
-      border: 1px solid #e7e7e7;
-      border-radius: 2px;
-      font-family: PingFangSC-Regular;
-      font-size: 12px;
-      color: #4a4a4a;
-      text-align: center;
-      line-height: 24px;
-      border-radius: 2px;
-      margin: 8px 10px 0 0;
-      overflow: hidden;
+    .welfare {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      li {
+        height: 24px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border: 1px solid #e7e7e7;
+        border-radius: 2px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #4a4a4a;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 2px;
+        margin: 8px 10px 0 0;
+        overflow: hidden;
+      }
     }
   }
 }
@@ -195,10 +194,8 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding-top: 25px;
   display: flex;
   background-color: #fff;
-  border-top: 1px solid #f0f0f0;
   &:after {
     content: '';
     clear: both;
@@ -223,9 +220,10 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: normal;
     }
     .hotelSize {
-      width: 90%;
+      width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       font-family: PingFangSC-Regular;
@@ -314,20 +312,20 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-top: 15px;
-    li {
+    a {
+      display: block;
       list-style: none;
       font-family: PingFangSC-Regular;
       font-size: 14px;
       color: #4a4a4a;
       width: 100px;
       line-height: 26px;
-      text-align: center;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       margin-right: 15px;
     }
-    li:nth-child(3n) {
+    a:nth-child(3n) {
       margin-right: 0;
     }
   }
@@ -353,65 +351,5 @@
     .am-tabs-default-bar-top .am-tabs-default-bar-tab {
       border-bottom: none;
     }
-  }
-}
-.deliverSuccess {
-  height: 160px;
-  .deliver {
-    display: block;
-    width: 36px;
-    height: 36px;
-    margin: 15px auto 10px;
-  }
-  span {
-    display: block;
-    font-family: PingFangSC-Regular;
-    font-size: 18px;
-    color: #333333;
-  }
-  p {
-    text-align: center;
-    font-family: PingFangSC-Regular;
-    font-size: 12px;
-    color: #9b9b9b;
-    margin-top: 8px;
-  }
-  div {
-    margin: 20px auto 0;
-    background: #ff4f00;
-    border: 1px solid #ff4f00;
-    border-radius: 2px;
-    width: 120px;
-    line-height: 34px;
-    font-family: PingFangSC-Medium;
-    font-size: 12px;
-    color: #ffffff;
-  }
-}
-.deliveryFailure {
-  height: 120px;
-  span {
-    display: block;
-    margin: 15px auto 10px;
-    font-family: PingFangSC-Regular;
-    font-size: 18px;
-    color: #333333;
-  }
-  p {
-    font-family: PingFangSC-Regular;
-    font-size: 12px;
-    color: #9b9b9b;
-  }
-  div {
-    width: 120px;
-    line-height: 34px;
-    text-align: center;
-    background: #ff4f00;
-    border: 1px solid #ff4f00;
-    border-radius: 2px;
-    font-family: PingFangSC-Medium;
-    font-size: 12px;
-    color: #ffffff;
-    margin: 20px auto 0;
   }
 }

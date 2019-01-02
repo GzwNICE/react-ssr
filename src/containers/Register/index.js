@@ -234,7 +234,7 @@ class Register extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form;
-    console.log(this.props.bindExistAccount)
+    // console.log(this.props.bindExistAccount)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>

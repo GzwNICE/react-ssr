@@ -12,8 +12,10 @@ import { createForm } from 'rc-form'
 import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
 import angleDown from '../../static/angleDown@3x.png'
-import personal from '../../static/headimg@3x.png'
+import personal from '../../static/personalHome.png'
 import { loggingStatus } from '../../actions/userStatus'
+import SearchUser from './SearchUser'
+import { domainToASCII } from 'url';
 
 @withRouter
 @connect(state => ({
@@ -48,7 +50,7 @@ class MySearchBar extends PureComponent {
 
   componentDidMount() {
     if (this.props.autoFocus) {
-      this.autoFocusInst.onFocus()
+      this.autoFocusInst.focus()
     }
     this.props.dispatch(loggingStatus({})).then(() => {
       this.setState({
@@ -113,16 +115,22 @@ class MySearchBar extends PureComponent {
             placeholder={placeholder}
           />
         </div>
-        <Link
-          rel="stylesheet"
-          to={`/tabs/user?redirect=${this.props.location.pathname}`}
-        >
-          <img
-            src={is_login ? photo : personal}
-            alt="img"
-            className={style.personal}
-          />
-        </Link>
+        {this.props.SearchUser ? (
+          <Link
+            rel="stylesheet"
+            to={
+              is_login
+                ? `/tabs/user?redirect=${this.props.location.pathname}`
+                : `/user/register?redirect=${this.props.location.pathname}`
+            }
+          >
+            <img
+              src={is_login ? photo : personal}
+              alt="img"
+              className={style.personal}
+            />
+          </Link>
+        ) : null}
       </div>
     )
   }
