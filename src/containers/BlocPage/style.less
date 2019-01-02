@@ -50,6 +50,14 @@
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    .Loaded {
+      display: block;
+      width: 100%;
+      line-height: 30px;
+      text-align: center;
+      font-size: 0.14rem;
+      color: #888;
+    }
     .individuation {
       width: 100%;
       height: 100px;
@@ -61,7 +69,7 @@
     }
     .companyList {
       background-color: #fff;
-      padding: 0 20px;
+      // padding: 0 20px;
       box-sizing: border-box;
       a:last-child .ContentModule {
         border-bottom: none;
@@ -136,6 +144,20 @@
                 color: #ff4f00;
               }
             }
+          }
+        }
+      }
+
+      .override-am-list-view-scrollview-content {
+        :global {
+          .am-list-view-scrollview-content{
+            position: inherit !important;
+          }
+          .am-list-body {
+            padding: 0 20px;
+          }
+          .am-list-body::before {
+            display: none;
           }
         }
       }
