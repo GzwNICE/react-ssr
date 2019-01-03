@@ -1,6 +1,6 @@
 import React from 'react'
 import ComplexFormField from '../../components/Complex/ComplexFormField'
-import { NavBar, List, TextareaItem } from 'antd-mobile'
+import { NavBar, List, TextareaItem, Icon } from 'antd-mobile'
 import style from './style.less'
 
 class TextareaField extends ComplexFormField {
@@ -27,6 +27,7 @@ class TextareaField extends ComplexFormField {
   }
 
   allView() {
+    console.log(this.props)
     return (
       <List>
         <TextareaItem
@@ -35,7 +36,9 @@ class TextareaField extends ComplexFormField {
           placeholder={this.props.placeholder}
           maxLength={this.props.maxLength}
           onChange={this.handleValueChange}
+          count={this.props.count}
         ></TextareaItem>
+        <div></div>
       </List>
     )
   }
@@ -53,12 +56,14 @@ class TextareaField extends ComplexFormField {
     return (
       <div className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
           {this.props.title || this.props.children.props.children}
         </NavBar>
+        {/*{this.allView(this.props.options)}*/}
         {this.wrapView(
           this.allView(this.props.options)
         )}

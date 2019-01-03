@@ -12,6 +12,7 @@ import passwordno from '../../static/paswordno@3x.png'
 import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import * as auth from '../../actions/auth'
+import { loggingStatus } from "../../actions/userStatus";
 
 // @createForm()
 class Login extends PureComponent {
@@ -125,6 +126,8 @@ class Login extends PureComponent {
                 this.props.history.push('/tabs/user')
               }
             },1200)
+
+            this.props.dispatch(loggingStatus({}))
           }
         })
           .catch(err => {

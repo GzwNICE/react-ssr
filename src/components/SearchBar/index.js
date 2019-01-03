@@ -52,6 +52,7 @@ class MySearchBar extends PureComponent {
     if (this.props.autoFocus) {
       this.autoFocusInst.focus()
     }
+
     this.props.dispatch(loggingStatus({})).then(() => {
       this.setState({
         is_login: this.props.is_login,
