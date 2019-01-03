@@ -457,16 +457,10 @@ const routes = [
 export default (
   <Switch>
     <Redirect exact from="/" to="/tabs/home" />
-    {
-      routes.map((route, index) => {
-        return (
-          <Route
-            key={index}
-            path={route.path}
-            render={(props) => <route.component {...props}/>}
-          />
-        )
-      })
-    }
+    {routes.map(({ path, exact, component: Component, ...rest }) => (
+      <Route key={path} path={path} render={(props) => (
+        <Component {...props} {...rest} />
+      )} />
+    ))}
   </Switch>
 )

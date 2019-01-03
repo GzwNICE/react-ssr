@@ -62,21 +62,24 @@ export default function configureStore( url='/') {
   }
 
 // 项目初始化前先加载配置文件
-  store.dispatch(option.load()).then(option => {
-    supersLocation.getCoords().then(payload => {
-      _optIndex(option.data.areas, payload.address.city)
-      store.dispatch({
-        type: supersLocation.$.location_load,
-        payload: {
-          ...payload,
-          address: {
-            ...payload.address,
-            code: cityCode,
+  if (!isServer) {
+    store.dispatch(option.load()).then(option => {
+      supersLocation.getCoords().then(payload => {
+        _optIndex(option.data.areas, payload.address.city)
+        store.dispatch({
+          type: supersLocation.$.location_load,
+          payload: {
+            ...payload,
+            address: {
+              ...payload.address,
+              code: cityCode,
+            },
           },
-        },
+        })
       })
     })
-  })
+  }
+
 
   return { store, history }
 }

@@ -16,16 +16,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(cookieParser())
 
-app.use('/s', require('./routes/interface'));
-
+// app.use('/s', require('./routes/interface'));
+// console.log(express.Router())
 app.use(express.Router().get('/', loader))
 // app.use(express.Router().get('/s', require('./routes/interface')))
 app.use(express.static(path.resolve(__dirname, '../build')))
-
 app.use(loader)
 
 Loadable.preloadAll().then(() => {
-  console.log(222222222222222222222222222222)
   app.listen(PORT, console.log(`App listening on port ${PORT}!`))
 });
 
