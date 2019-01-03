@@ -84,12 +84,8 @@ export default class CompanyArea extends Component {
             </div>
           </div>
         </div>
-        <div className={style.blocCentent}>
-          <WhiteSpace size="sm" />
-          <div className={style.individuation}>
-            <img src={individuation} alt="" />
-          </div>
-          <WhiteSpace size="md" />
+        <div className={style.blocCentent} >
+          
           <CompanyList />
         </div>
 
