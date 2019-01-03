@@ -237,9 +237,10 @@ class ResumeExperienceEdit extends PureComponent {
             {...getFieldProps('job_responsibilities_cn', {
               initialValue: item.job_responsibilities_cn,
             })}
-            placeholder="请简要描述您的岗位职责，400个字以内。"
-            extra="请输入"
-            maxLength={400}
+            placeholder="90%的HR通过岗位职责了解您的工作能力，完整的岗位职责可增加面试机率，最少输入10个字，最多输入2000个字。"
+            extra="选填"
+            maxLength={2000}
+            count={2000}
           >
             <List.Item arrow="horizontal">岗位职责</List.Item>
           </TextareaField>

@@ -35,8 +35,8 @@ import {
 
 const initState = {
   code: [],
-  // is_login: '',
-  // photo: '',
+  is_login: '',
+  photo: '',
 }
 
 export default (state = initState, action) => {
@@ -72,7 +72,9 @@ export default (state = initState, action) => {
     case GET_USER_LOGIN:
       return {
         ...state,
-        ...action.data,
+        // ...action.data,
+        is_login: action.data.is_login,
+        photo: action.data.photo,
       }
     case HOME_CHANGE_CITY:
       return {

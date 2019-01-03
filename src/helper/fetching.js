@@ -69,10 +69,14 @@ export const baseUrl = '/s'
  */
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
+  // console.log(sUrl)
+  // console.log(params)
+
   // const headers = new Headers()
   // headers.append('X-Requested-With', 'XMLHttpRequest')
   // headers.append('Accept', '*/*')
   // headers.append('Content-Type', 'application/x-www-form-urlencoded')
+
   return axios({
     url: sUrl,
     credentials: "include",
@@ -80,6 +84,8 @@ export function pipeline(uri, params, opt = {}) {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
       'Accept': '*/*',
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Content-Type': 'application/json',
     },
     data: parseBody(params),
     ...opt,
@@ -94,7 +100,33 @@ export function pipeline(uri, params, opt = {}) {
  * @param {*} uri
  */
 export function toRealUrl(uri) {
-  return /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
+  // h5-new的是新接口，旧接口加上/client
+  if (uri.indexOf('h5-new') === -1) {
+    if (/^:ve.sso/.test(uri)) {
+      return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
+    } else if (/^:ve.mobile.interface/.test(uri)){
+      return `http://mobile.interface.veryeast.cn/client${uri.replace(':ve.mobile.interface', '')}`
+    } else if (/^:ve.m/.test(uri)){
+      return `http://m.veryeast.cn/client${uri.replace(':ve.m', '')}`
+    } else if (/^:ve.my/.test(uri)){
+      return `http://my.veryeast.cn/client${uri.replace(':ve.my', '')}`
+    } else {
+      return uri
+    }
+  } else {
+    if (/^:ve.sso/.test(uri)) {
+      return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
+    } else if (/^:ve.mobile.interface/.test(uri)){
+      return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
+    } else if (/^:ve.m/.test(uri)){
+      return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
+    } else if (/^:ve.my/.test(uri)){
+      return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
+    } else {
+      return uri
+    }
+  }
+  // return /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
 }
 
 /**
