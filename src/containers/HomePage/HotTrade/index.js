@@ -22,7 +22,6 @@ class HotTrade extends Component {
 
   render() {
     const imgData = this.props.tradeDtata
-    console.log(imgData)
     return (
       <div className={style.Hottrade}>
         {imgData.list

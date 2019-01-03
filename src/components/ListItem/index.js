@@ -30,12 +30,12 @@ const ListItem = (props) => {
               {rightcontant}
             </span>
           </div>
-          {rightangle === 'false'
+          {/*{rightangle === 'false'
             ? null
             : <div className={style.RightAngle}>
               <img src={AngleRight} alt="img" />
             </div>
-          }
+          }*/}
         </div>
       </div>
     </div>

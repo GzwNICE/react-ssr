@@ -13,6 +13,10 @@ import {
 
 const initState = {
   list: [],
+  pager: {},
+  listPhoto: {},
+  brand: [],
+  brand_index: [],
 }
 
 export default (state = initState, action) => {
@@ -42,13 +46,8 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_CATEGORY:
       return {
         ...state,
-        list: [...action.data.list],
-        pager: {
-          allPage: action.data.pager.allpages,
-          cur: action.data.pager.cur,
-          per: action.data.pager.per,
-          total: action.data.pager.total,
-        },
+        brand: [],
+        brand_index: [],
       }
     case GET_BLOCDETAIL_LIST:
       return {
@@ -59,6 +58,9 @@ export default (state = initState, action) => {
           cur: action.data.pager.cur,
           per: action.data.pager.per,
           total: action.data.pager.total,
+        },
+        listPhoto: {
+          company_file: action.data.listPhoto.company_file,
         },
       }
     default:

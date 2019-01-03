@@ -28,7 +28,11 @@ const MassagePage = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 const UserPage = Loadable({
-  loader: () => import("./containers/UserPage"),
+  loader: () => import("./containers/UserPage/index"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const UserPage2 = Loadable({
+  loader: () => import("./containers/UserPage/index2"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const SearchEnd = Loadable({
@@ -260,6 +264,10 @@ const routes = [
   {
     path: '/tabs/user',
     component: UserPage,
+  },
+  {
+    path: '/tabs/user2',
+    component: UserPage2,
   },
   {
     path: '/search/:keyword',

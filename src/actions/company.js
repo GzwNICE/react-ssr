@@ -57,7 +57,7 @@ export const companyList = singleApi({
   },
 })
 
-// 名企列表页分类
+// 名企列表页品牌分类
 export const blocCategory = singleApi({
   url: CATEGORY,
   action: (args, json) => {
@@ -78,6 +78,7 @@ export const blocList = singleApi({
     }
   },
 })
+
 
 
 export const emptyInfo = {
