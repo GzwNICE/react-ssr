@@ -102,6 +102,8 @@ export function toRealUrl(uri) {
       // url = url.replace('ve.mobile.interface','ve.sso')
     } else if (url.indexOf('h5-new/') !== -1) {
       // url = url.replace('ve.mobile.interface','ve.m')
+    } else if (url.indexOf('data/options') !== -1) {
+      url = 'http://mobile.interface.veryeast.cn/data/options'
     }
   } else {
     url = uri

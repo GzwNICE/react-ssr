@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
-import { edit as workExpsEdit } from '../../actions/work_exps'
+import {edit as workExpsEdit, remove as workExpsRemove} from '../../actions/work_exps'
 import { NavBar, Icon, Flex, List, InputItem, DatePicker, Toast, Checkbox, Picker, Modal } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
@@ -21,6 +21,7 @@ import initDate from '../../helper/datePlugin'
 const YING_JIE_SHENG = '至今'
 const maxDate = new Date();
 let minDate = new Date(maxDate - 99*365*24*60*60*1000);
+// console.log(moment().month().format('MM'))
 
 @connect(state => {
   // console.log(state)
@@ -38,6 +39,8 @@ class ResumeExperienceEdit extends PureComponent {
       endTimedata: [],
       visible: false,
       sValue: [],
+      deletModal: false,
+      showModal: false,
     }
   }
   componentDidMount() {
@@ -48,7 +51,7 @@ class ResumeExperienceEdit extends PureComponent {
     console.log(initData)
     this.setState({
       endTimedata: initData.data,
-      sValue: initData.val,
+      // sValue: initData.val,
     })
   }
   handleFormat = (val) => {
@@ -56,7 +59,9 @@ class ResumeExperienceEdit extends PureComponent {
       if ( item === YING_JIE_SHENG ) {
         return item
       } else {
-        return item.substr(0, item.length -1)
+        let str = item.substr(0, item.length -1)
+        str = str.length === 1 ? `0${str}` : str
+        return str
       }
     })
     val =  val.join('.')
@@ -64,41 +69,145 @@ class ResumeExperienceEdit extends PureComponent {
   }
 
   changeValue() {
+    const { sValue } = this.state
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
-      if (values.begin.valueOf() > values.end.valueOf()) {
-        return Toast.info('开始时间需小于结束时间', 2)
-      }
-      if(values.company_name_cn === undefined || values.company_name_cn === '') {
+
+      if (values.company_name_cn === undefined || values.company_name_cn === '' ) {
         return Toast.info('请输入企业名称', 2)
+      }
+
+      if (values.position_cn === undefined || values.position_cn === '' ) {
+        return Toast.info('请输入职位名称', 2)
+      }
+
+      if (values.begin === null || values.position_cn === '' ) {
+        return Toast.info('请输入开始时间', 2)
+      }
+
+      if (sValue.length === 0 ) {
+        return Toast.info('请输入结束时间', 2)
+      }
+
+      if (values.begin !== null && sValue.length >= 0) {
+        let beginTime = values.begin
+        let beginYear = new Date(beginTime).getFullYear()
+        let beginMonth = new Date(beginTime).getMonth()
+        let endTime = sValue.map((item) => {
+          if ( item === YING_JIE_SHENG ) {
+            return item
+          } else {
+            let str = item.substr(0, item.length -1)
+            str = str.length === 1 ? `${str}` : str
+            return str
+          }
+        })
+        let endYear = Number(endTime[0])
+        let endMonth = Number(endTime[1]) - 1
+        // console.log(beginTime)
+        // console.log(beginYear)
+        // console.log(beginMonth)
+        // console.log(endYear)
+        // console.log(endMonth)
+        if (endTime[0] !== YING_JIE_SHENG) {
+
+          if (beginYear > endYear) {
+            return Toast.info('结束时间必须大于开始时间', 2)
+          }
+          if (beginYear === endYear && beginMonth > endMonth) {
+            return Toast.info('结束时间必须大于开始时间', 2)
+          }
+        }
       }
 
       if(values.company_industry[0] === undefined) {
         return Toast.info('请选择所属行业', 2)
       }
 
-      if(values.position_id.length === 0) {
-        return Toast.info('请选择您的职位', 2)
+      if (values.salary === undefined || values.salary === '' ) {
+        return Toast.info('请输入税前薪资', 2)
       }
+
       window.zhuge.track('我的简历', { '模块': '工作经历' })
+
+
+      let beginTime = values.begin
+      let endTime = sValue.map((item) => {
+        if ( item === YING_JIE_SHENG ) {
+          return item
+        } else {
+          let str = item.substr(0, item.length -1)
+          str = str.length === 1 ? `0${str}` : str
+          return str
+        }
+      })
+
+      console.log(endTime)
+      console.log(moment(beginTime).format('YYYY'))
+      console.log(moment(beginTime).format('MM'))
 
       this.props.dispatch(workExpsEdit({
         ...values,
-        id: this.props.match.params.id,
-        begin_year: values.begin.format('YYYY'),
-        begin_month: values.begin.format('MM'),
-        end_year: values.end.format('YYYY'),
-        end_month: values.end.format('MM'),
-        position_cn: this.props.option.positions_index[values.position_id],
-        job_responsibilities_cn: values.job_responsibilities_cn || '',
-        job_performance_cn: values.job_performance_cn || '',
+        // id: this.props.match.params.id,
+        begin_year: moment(beginTime).format('YYYY'),
+        begin_month: moment(beginTime).format('MM'),
+        end_year: endTime[0],
+        end_month: endTime.length > 1 ? endTime[0] : '',
+        salary_type: values.salary_type ? 0 : 1,
+        // position_cn: this.props.option.positions_index[values.position_id],
+        // job_responsibilities_cn: values.job_responsibilities_cn || '',
+        // job_performance_cn: values.job_performance_cn || '',
       })).then(data => {
         this.props.history.goBack()
       })
     })
   }
-
+  // 删除
+  handleDelete = () => {
+    this.setState({
+      deletModal: true,
+    })
+  }
+  // 取消删除
+  handleCancel = () => {
+    this.setState({
+      deletModal: false,
+    })
+  }
+  // 确认删除
+  handleDeleteOk = (item) => {
+    console.log(item)
+    this.setState({
+      deletModal: false,
+    })
+    this.props.dispatch(workExpsRemove({
+      work_exp_id: item.id,
+    }))
+  }
+  // 退出
+  handleExit = () => {
+    this.setState({
+      showModal: false,
+    })
+    this.props.history.goBack()
+  }
+  // 继续填写
+  handleContinue = () => {
+    this.setState({
+      showModal: false,
+    })
+  }
+  // 返回
+  goBack = () => {
+    const { operation } = this.state
+    if (operation) {
+      this.setState({
+        showModal: true,
+      })
+    } else {
+      this.props.history.goBack()
+    }
+  }
   render() {
     const {
       form,
@@ -110,10 +219,11 @@ class ResumeExperienceEdit extends PureComponent {
     const item = work_exps.filter(item => {
       return item.id === match.params.id
     })[0] || {}
-    const { endTimedata, sValue } = this.state
+    const { endTimedata, sValue, deletModal, showModal } = this.state
 
-    console.log(item)
-    console.log(option)
+    // console.log(work_exps)
+    // console.log(item)
+    // console.log(option)
     // console.log(item.end_month)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -121,7 +231,7 @@ class ResumeExperienceEdit extends PureComponent {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.goBack()}
+          onLeftClick={() => this.goBack()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           工作经历
@@ -137,15 +247,15 @@ class ResumeExperienceEdit extends PureComponent {
           {/*</InputItem>*/}
           <Company
             {...getFieldProps('company_name_cn', {
-              initialValue: '111',
+              initialValue: item.company_name_cn,
             })}
           >
             <List.Item arrow="horizontal">企业名称</List.Item>
           </Company>
           {/*这边想用之前定义的方法Post组件那个，但是没怎么看懂*/}
           <Job
-            {...getFieldProps('position_id', {
-              initialValue: '职位名称1',
+            {...getFieldProps('position_cn', {
+              initialValue: item.position_cn,
             })}
           >
             <List.Item arrow="horizontal">职位名称</List.Item>
@@ -162,9 +272,9 @@ class ResumeExperienceEdit extends PureComponent {
           <DatePicker
             {...getFieldProps('begin', {
               initialValue: (item.begin_year && item.begin_year !== '0') ?
-                new Date(Date.parse(`${item.begin_year}/${item.begin_month}`)) : maxDate,
+                new Date(Date.parse(`${item.begin_year}/${item.begin_month}`)) : null,
             })}
-            mode="date"
+            mode="month"
             title="开始时间"
             extra="请选择"
             format={s => moment(s).format('YYYY.MM')}
@@ -225,8 +335,8 @@ class ResumeExperienceEdit extends PureComponent {
           <List.Item className={style.checkbox}>
             <label>
               <Checkbox
-                {...getFieldProps('overseas', {
-                  initialValue: '1' === '1' ? true : false,
+                {...getFieldProps('salary_type', {
+                  initialValue: item.salary_type === '1' ? true : false,
                   valuePropName: 'checked',
                 })}
               />
@@ -247,26 +357,42 @@ class ResumeExperienceEdit extends PureComponent {
 
 
         </List>
+        {
+          item.id ? <div className={style.bottom} onClick={this.handleDelete}>
+            删除此工作经历
+          </div> : null
+        }
 
-        <div className={style.bottom}>
-          删除此工作经历
-        </div>
-        {/*<Modal*/}
-          {/*visible={true}*/}
-          {/*transparent*/}
-          {/*maskClosable={false}*/}
-          {/*animationType="slide-down"*/}
-          {/*className={style2.moadlWrap}*/}
-        {/*>*/}
-          {/*<div style={{ height: 100, overflow: 'scroll' }}>*/}
-            {/*scoll content...<br />*/}
-            {/*scoll content...<br />*/}
-            {/*scoll content...<br />*/}
-            {/*scoll content...<br />*/}
-            {/*scoll content...<br />*/}
-            {/*scoll content...<br />*/}
-          {/*</div>*/}
-        {/*</Modal>*/}
+        <Modal
+          visible={deletModal}
+          transparent
+          maskClosable={false}
+          className={style2.modal}
+          title="删除此工作经历将无法恢复"
+        >
+          <div className={style2.modalBody}>
+            <p>确认删除吗?</p>
+            <div>
+              <div onClick={this.handleCancel}>取消</div>
+              <div onClick={this.handleDeleteOk.bind(this, item)}>删除</div>
+            </div>
+          </div>
+        </Modal>
+        <Modal
+          visible={showModal}
+          transparent
+          maskClosable={false}
+          className={style.modal}
+          title="内容尚未保存"
+        >
+          <div className={style.modalBody}>
+            <p>你确定要退出吗?</p>
+            <div>
+              <div onClick={this.handleExit}>退出</div>
+              <div onClick={this.handleContinue}>继续填写</div>
+            </div>
+          </div>
+        </Modal>
       </Flex>
     )
   }
