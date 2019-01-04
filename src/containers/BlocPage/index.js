@@ -5,20 +5,26 @@ import Search from '../../components/SearchBar/Search'
 import { createForm } from 'rc-form'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-import Salary from '../../inputs/Salary'
+// import Salary from '../../inputs/Salary'
+import {changeAllCity} from '../../actions/home'
+import { saveCityCode } from '../../actions/userStatus'
+import { saveQuery } from '../../actions/jobPage'
 import Area from '../../inputs/Area'
+import Brand from '../../inputs/Brand'
 import SimpleItem from '../../inputs/SimpleItem'
 import CompanyList from './CompanyList'
+import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
-import Down from '../../static/angleDownGray@3x.png'
 import style from './style.less'
+
+
 
 @connect(state => ({
   is_login: state.userStatus.is_login,
   userStatus: state.userStatus,
   supers: state.supers,
 }))
-@createForm()
+
 export default class CompanyArea extends Component {
   state = {
     show: true,
@@ -37,7 +43,9 @@ export default class CompanyArea extends Component {
       showRegWrap: false,
     })
   }
-
+  handleFilerSearch(querys){
+    console.log(querys)
+  }
   /* 记录滚动条的位置 */
   onScroll = e => {
     // let top = document.body.scrollTop || document.documentElement.scrollTop
@@ -53,6 +61,8 @@ export default class CompanyArea extends Component {
     //   })
     // }
   }
+
+  
 
   whereWillIGo = () => {
     const { pathSearch } = queryString.parse(window.location.search)
@@ -75,7 +85,10 @@ export default class CompanyArea extends Component {
     this.props.form.validateFields((err, values) => {
       if (err) return
       if (values.areas && nextProps.userStatus.code !== values.areas) {
-        this.props.onChangeCity && this.props.onChangeCity(values)
+        this.onChangeCity && this.onChangeCity(values)
+      }
+      if (values.brand) {
+        this.props.onChangBrand && this.props.onChangeBrand(values)
       }
     })
   }
@@ -90,34 +103,7 @@ export default class CompanyArea extends Component {
         <div className={style.selHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <Search goBack={this.whereWillIGo} />
-          <div className={style.selectInfo}>
-            <div className={style.selCity}>
-              <div className={style.city}>
-                <Area
-                  {...getFieldProps('areas', {
-                    initialValue: supers.location.address.code,
-                  })} // 触发form，调用onChangeCity
-                  format={this.formatArea}
-                >
-                  <SimpleItem arrow="horizontal" />
-                </Area>
-              </div>
-              <img src={Down} alt="down" />
-            </div>
-            <span className={style.selRule} />
-            <div className={style.selBrand}>
-              <div className={style.Brand}>
-                <Salary.SearchBrand
-                  {...getFieldProps('salary', {})}
-                  extra=""
-                  format={this.format}
-                >
-                  <SimpleItem arrow="horizontal">选择品牌</SimpleItem>
-                </Salary.SearchBrand>    
-              </div>
-              <img src={Down} alt="down" />
-            </div>
-          </div>
+          <FilterList  FilterList={this.handleFilerSearch} />
         </div>
         <div className={style.blocCentent}>
           <CompanyList />

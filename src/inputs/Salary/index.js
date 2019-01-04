@@ -116,33 +116,8 @@ Salary.SearchSalarys = SalarySearchSalarys
 
 @connect(state => {
   return {
-    options: [
-      {
-        code: 0,
-        value: '不限',
-        hassub: 0,
-        mode: 1,
-      },
-      {
-        code: 1,
-        value: '酒店',
-        hassub: 0,
-        mode: 1,
-      },
-      {
-        code: 2,
-        value: '销售',
-        hassub: 0,
-        mode: 1,
-      },
-      {
-        code: 3,
-        value: '卖肉',
-        hassub: 0,
-        mode: 1,
-      },
-    ],
-    optIndex: ['不限','酒店','销售','卖肉'],
+    options: state.company.brand,
+    optIndex:  state.company.brand_index,
   }
 })
 class SalarySearchBrand extends ComplexSelView {}
