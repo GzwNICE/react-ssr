@@ -8,7 +8,7 @@ import style from './style.less'
 import AngleRight from '../../static/Rectangle@3x.png'
 
 const ListItem = (props) => {
-  let {img, num, underline, titleleft, righttitle, rightcontant, rightangle} = props
+  let {img, num, underline, titleleft, rightNum, rightcontant, rightangle} = props
   return (
     <div className={style.ListItemWrap}>
       {
@@ -23,20 +23,22 @@ const ListItem = (props) => {
         <div className={style.leftBox}>
           {titleleft}
         </div>
-        <div className={style.rightBox}>
+        {rightNum ? (<div className={style.rightIcon}>{ rightNum ? `${rightNum}` : null}</div>):null}
+        
+        {/*<div className={style.rightBox}>
           <div className={style.rightTitle}>
-            { righttitle ? `${righttitle}：` : null}
+            { righttitle ? `${righttitle}` : null}
             <span>
               {rightcontant}
             </span>
           </div>
-          {/*{rightangle === 'false'
+          {rightangle === 'false'
             ? null
             : <div className={style.RightAngle}>
               <img src={AngleRight} alt="img" />
             </div>
-          }*/}
-        </div>
+          }
+        </div>*/}
       </div>
     </div>
   )

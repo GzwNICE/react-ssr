@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import LisetItem from '../../components/ListItem'
 import Clipboard from 'clipboard'
@@ -19,7 +19,7 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import { Modal, Toast } from 'antd-mobile'
-import {getUserStatus, userRefResume} from '../../actions/userStatus'
+import { getUserStatus, userRefResume } from '../../actions/userStatus'
 
 @connect(state => {
   return {
@@ -28,7 +28,6 @@ import {getUserStatus, userRefResume} from '../../actions/userStatus'
   }
 })
 class UserPage extends PureComponent {
-
   state = {
     refresh: false,
   }
@@ -38,11 +37,14 @@ class UserPage extends PureComponent {
     this.setState({
       refresh: true,
     })
-    this.props.dispatch(userRefResume({
-      resume_status: this.props.userStatus.resume_status,
-    }))
-      .then((data) => {
-        if(data) {
+    this.props
+      .dispatch(
+        userRefResume({
+          resume_status: this.props.userStatus.resume_status,
+        })
+      )
+      .then(data => {
+        if (data) {
           window.zhuge.track('刷新简历')
           Toast.info('刷新成功', 2)
           _that.setState({
@@ -52,49 +54,42 @@ class UserPage extends PureComponent {
       })
   }
 
-  shareApp = () => { // 弹窗分享
-    const shareLink = window.location.href
-    // const shareImg = this.props.user.portrait_url
-    if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) { // uc  浏览器
-      const shareArgs = ['app分享', '快来找找我的工作吧', shareLink, '', '', '\n@' + window.location.host, '']
-      return window.ucbrowser.web_share(...shareArgs)
-    }
-    Modal.alert(
-      Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
-      <p style={{wordWrap: 'break-word'}}>{shareLink}</p>, [
-        { text: '确定', style: 'default' },
-      ])
-    window.zhuge.track('应用分享')
-  }
+  // shareApp = () => { // 弹窗分享
+  //   const shareLink = window.location.href
+  //   // const shareImg = this.props.user.portrait_url
+  //   if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) { // uc  浏览器
+  //     const shareArgs = ['app分享', '快来找找我的工作吧', shareLink, '', '', '\n@' + window.location.host, '']
+  //     return window.ucbrowser.web_share(...shareArgs)
+  //   }
+  //   Modal.alert(
+  //     Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
+  //     <p style={{wordWrap: 'break-word'}}>{shareLink}</p>, [
+  //       { text: '确定', style: 'default' },
+  //     ])
+  //   window.zhuge.track('应用分享')
+  // }
 
   goLogin = () => {
-    if(!this.props.userStatus.true_name) {
+    if (!this.props.userStatus.true_name) {
       this.props.history.push('/user/login')
     }
   }
 
   ShowRefBtn = () => {
-    if(this.props.user.user_id) {
-      return <div className={style.btn}>
-          <div className={style.btnLeft}>
-            <img src={back} alt="back"/>
-          </div>
-          <div className={style.btnRight}>
-            <img className={this.state.refresh ? style.addFrames : null} src={refresh} alt="刷新" onClick={this.reFreshResume}/>
-            <div className={style.messages}>
-              <img src={inform} alt="inform" onClick={() => {this.goNextpage('/person/message', '系统消息')}}/>
-            </div>
-          </div>
-        </div>
+    if (this.props.user.user_id) {
+      return
     }
   }
 
   goNextpage = (url, key) => {
     window.zhuge.track(key)
-    if(this.props.user.user_id && Cookies.get('ticket')) {
+    if (this.props.user.user_id && Cookies.get('ticket')) {
       this.props.history.push(url)
     } else {
-      this.props.history.push('/user/register?redirect=' + this.props.history.location.pathname, {key: '我的'})
+      this.props.history.push(
+        '/user/register?redirect=' + this.props.history.location.pathname,
+        { key: '我的' }
+      )
       // Modal.alert('', '请先登录', [
       //   { text: '稍后', style: 'default' },
       //   { text: '登录', onPress: () =>  },
@@ -109,13 +104,16 @@ class UserPage extends PureComponent {
 
   componentDidMount() {
     // this.clipboard = Clipboard.isSupported() && new Clipboard(this.refs.share, {
-        // text: () => window.location.href,
+    // text: () => window.location.href,
     // })
     // 获取用户状态
-    if(this.props.user){
+    if (this.props.user) {
       this.props.dispatch(getUserStatus()).then(json => {
         if (json.errCode === 2002) {
-          this.props.history.push('/user/register?redirect=' + this.props.history.location.pathname, {key: '我的'})
+          this.props.history.push(
+            '/user/register?redirect=' + this.props.history.location.pathname,
+            { key: '我的' }
+          )
           // Modal.alert('', '请先登录', [
           //   { text: '稍后', style: 'default' },
           //   { text: '登录', onPress: () => this.props.history.push('/user/register?redirect=' + this.props.history.location.pathname, {key: '我的'}) },
@@ -131,33 +129,65 @@ class UserPage extends PureComponent {
 
   render() {
     const userStatus = this.props.userStatus
-    const deliver = userStatus.deliver_success_num + userStatus.enterprise_view_num + userStatus.invitation_for_an_interview_num + userStatus.not_appropriate_num
+    const deliver =
+      userStatus.deliver_success_num +
+      userStatus.enterprise_view_num +
+      userStatus.invitation_for_an_interview_num +
+      userStatus.not_appropriate_num
     // console.log(this.props.user)
     return (
       <div className={style.UserPageWrap}>
         <div className={style.top}>
           <div className={style.hasLogin}>
             <div className={style.right}>
-              {this.ShowRefBtn()}
+              <div className={style.btn}>
+                <div className={style.btnLeft} onClick={()=>{this.props.history.go(-1)}}>
+                  <img src={back} alt="back" />
+                </div>
+                <div className={style.btnRight}>
+                  <img
+                    className={this.state.refresh ? style.addFrames : null}
+                    src={refresh}
+                    alt="刷新"
+                    onClick={this.reFreshResume}
+                  />
+                  <div className={style.messages}>
+                    <img
+                      src={inform}
+                      alt="inform"
+                      onClick={() => {
+                        this.goNextpage('/person/message', '系统消息')
+                      }}
+                    />
+                    <span>99</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className={style.left} onClick={this.goLogin}>
-              <div className={style.imgBox}
-                   style={{backgroundImage: `url(${this.props.userStatus.avatar || headimg})`}}>
-              </div>
+              <div
+                className={style.imgBox}
+                style={{
+                  backgroundImage: `url(${this.props.userStatus.avatar ||
+                    headimg})`,
+                }}
+              />
             </div>
           </div>
         </div>
-        <div className={style.resumeBox}>
-          
-        </div>
+        <div className={style.resumeBox} />
         <div className={style.middleBox}>
-          <div onClick={() => {this.goNextpage('/resume', '我的简历')}}>
+          <div
+            onClick={() => {
+              this.goNextpage('/resume', '我的简历')
+            }}
+          >
             <LisetItem
               img={Resume}
               titleleft="我的简历"
               // righttitle="完整度"
               // rightcontant={(Math.round(this.props.userStatus.resume_complete * 100) || 0) + '%'}
-               />
+            />
           </div>
           {/*<div onClick={() => {this.goNextpage('/person/followedCompanies', '关注企业')}}>
             <LisetItem
@@ -166,15 +196,26 @@ class UserPage extends PureComponent {
               underline="true"
             />
           </div>*/}
-          <div onClick={() => {this.goNextpage('/person/applyRecord', '投递记录')}}>
+          <div
+            onClick={() => {
+              this.goNextpage('/person/applyRecord', '投递记录')
+            }}
+          >
             <LisetItem
               img={delivce}
               titleleft="投递进展"
               underline="true"
               num={deliver}
+              // rightNum="···"
+              rightNum="99"
+              // rightcontant={(Math.round(this.props.userStatus.resume_complete * 100) || 0) + '%'}
             />
           </div>
-          <div onClick={() => {this.goNextpage('/person/jobFavorites', '收藏职位')}}>
+          <div
+            onClick={() => {
+              this.goNextpage('/person/jobFavorites', '收藏职位')
+            }}
+          >
             <LisetItem
               img={collectpost}
               titleleft="关注/收藏"
@@ -202,7 +243,7 @@ class UserPage extends PureComponent {
               underline="false"
             />
           </div>*/}
-          <div >
+          <div>
             <LisetItem
               img={systemMassage}
               titleleft="意见反馈"
@@ -231,4 +272,3 @@ class UserPage extends PureComponent {
 }
 
 export default UserPage
-
