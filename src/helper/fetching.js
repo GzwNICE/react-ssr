@@ -60,7 +60,7 @@ export default (options) => {
 /**
  * 代理服务
  */
-export const baseUrl = '/s'
+export const baseUrl = 'http://m.veryeast.cn/s'
 
 /**
  * 数据请求
@@ -69,13 +69,6 @@ export const baseUrl = '/s'
  */
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
-  // console.log(sUrl)
-  // console.log(params)
-
-  // const headers = new Headers()
-  // headers.append('X-Requested-With', 'XMLHttpRequest')
-  // headers.append('Accept', '*/*')
-  // headers.append('Content-Type', 'application/x-www-form-urlencoded')
 
   return axios({
     url: sUrl,
@@ -99,17 +92,32 @@ export function pipeline(uri, params, opt = {}) {
  */
 export function toRealUrl(uri) {
   // h5-new的是新接口，旧接口加上/client
-  if (/^:ve.sso/.test(uri)) {
-    return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
-  } else if (/^:ve.mobile.interface/.test(uri)){
-    return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
-  } else if (/^:ve.m/.test(uri)){
-    return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
-  } else if (/^:ve.my/.test(uri)){
-    return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
+  // console.log(uri)
+
+
+  let url
+  if (/^:/.test(uri)) {
+    url = /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
+    if (url.indexOf('user/login') !== -1) {
+      // url = url.replace('ve.mobile.interface','ve.sso')
+    } else if (url.indexOf('h5-new/') !== -1) {
+      // url = url.replace('ve.mobile.interface','ve.m')
+    }
   } else {
-    return uri
+    url = uri
   }
+  return url
+  // if (/^:ve.sso/.test(uri)) {
+  //   return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
+  // } else if (/^:ve.mobile.interface/.test(uri)){
+  //   return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
+  // } else if (/^:ve.m/.test(uri)){
+  //   return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
+  // } else if (/^:ve.my/.test(uri)){
+  //   return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
+  // } else {
+  //   return uri
+  // }
   // if (uri.indexOf('h5-new') === -1) {
   //   if (/^:ve.sso/.test(uri)) {
   //     return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
