@@ -3,16 +3,17 @@
  */
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
-import Rectangle from '../../static/Rectangle@3x.png'
+import { Link } from 'react-router-dom'
+import Rectangle from '../../static/back.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import F from '../../helper/tool'
 import style from './style.less'
 import Loginstyle from '../Login/style.less'
-import {captcha} from '../../actions/auth'
-import {mobile, register} from '../../actions/auth'
-import {errCode} from '../../helper/errCode'
-import {connect} from "react-redux";
+import { captcha } from '../../actions/auth'
+import { mobile, register } from '../../actions/auth'
+import { errCode } from '../../helper/errCode'
+import { connect } from 'react-redux'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -45,9 +46,9 @@ class Register extends PureComponent {
 
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
-      if(err) return
+      if (err) return
       // console.log(value) && value.imgCode
-      if(value.number && value.massageCode) {
+      if (value.number && value.massageCode) {
         this.setState({
           disabled: true,
         })
@@ -68,14 +69,16 @@ class Register extends PureComponent {
     clearInterval(this.timer)
   }
 
-  getCode = () => { // 获取验证码
+  getCode = () => {
+    // 获取验证码
     this.props.form.validateFields((err, value) => {
-      if(err) return
-      if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
+      if (err) return
+      if (!F.changePhoneNumber(value.number))
+        return Toast.info('请输入正确的手机号码', 2)
       window.zhuge.track('获取验证码')
 
-      let send = (res) => {
-        if (this.state.disableCode){
+      let send = res => {
+        if (this.state.disableCode) {
           mobile({
             mobile: value.number,
             captcha: '',
@@ -83,31 +86,29 @@ class Register extends PureComponent {
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
             tx_type: 1,
-          }).then((data) => {
-            if(data.flag === 0) {
+          }).then(data => {
+            if (data.flag === 0) {
               this.setState({
                 disableCode: false,
               })
               this.timer = setInterval(() => {
-
-                if(this.state.index <= 0) {
+                if (this.state.index <= 0) {
                   return this.Clear()
                 }
 
                 this.setState({
-                  index: this.state.index -1,
-                  tipFont: `${this.state.index -1}秒后重新获取`,
+                  index: this.state.index - 1,
+                  tipFont: `${this.state.index - 1}秒后重新获取`,
                 })
-
               }, 999)
-            } else if(data.flag === 5012) {
+            } else if (data.flag === 5012) {
               Toast.info('号码已注册', 2)
               window.zhuge.track('注册失败', {
-                '手机号已注册': '',
+                手机号已注册: '',
               })
             } else {
               window.zhuge.track('注册失败', {
-                '验证码错误': '',
+                验证码错误: '',
               })
               const flag = data.flag
               const errMs = errCode[flag]
@@ -119,11 +120,10 @@ class Register extends PureComponent {
             }
           })
         }
-
       }
 
       let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
-        if(res.ret === 0){
+        if (res.ret === 0) {
           send(res)
         }
       })
@@ -131,14 +131,17 @@ class Register extends PureComponent {
     })
   }
 
-  onRegister = () => { // 注册
-    if(this.state.disabled) {
+  onRegister = () => {
+    // 注册
+    if (this.state.disabled) {
       this.props.form.validateFields((err, value) => {
-        if(err) return
-        const {register_page_source} = queryString.parse(window.location.search)
+        if (err) return
+        const { register_page_source } = queryString.parse(
+          window.location.search
+        )
         // console.log(value)
         register({
-          register_page_source:register_page_source || 'https://m.veryeast.cn',
+          register_page_source: register_page_source || 'https://m.veryeast.cn',
           username: value.number,
           mobile: value.number,
           code: value.massageCode,
@@ -148,30 +151,38 @@ class Register extends PureComponent {
           platform: 3,
           is_verify: this.state.needVerify,
           appchannel: 'web',
-        }).then(data => {
-          if(data.status) {
-            Toast.info('注册成功', 2)
-            window.zhuge.track('注册成功', {
-              '用户ID': data.user_id,
-              '手机号': data.phone,
-              '邮箱': data.email,
-            })
-            setTimeout(() => {
-              this.props.history.replace(`/resume/micro${this.props.history.location.search}`)
-            }, 1200)
-          }
         })
+          .then(data => {
+            if (data.status) {
+              Toast.info('注册成功', 2)
+              window.zhuge.track('注册成功', {
+                用户ID: data.user_id,
+                手机号: data.phone,
+                邮箱: data.email,
+              })
+              setTimeout(() => {
+                this.props.history.replace(
+                  `/resume/micro${this.props.history.location.search}`
+                )
+              }, 1200)
+            }
+          })
           .catch(err => {
             window.zhuge.track('注册失败', {
-              '服务器返回原因': err.errMsg,
+              服务器返回原因: err.errMsg,
             })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
               console.log(payload)
-              this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
-              this.props.dispatch({type: 'ACCOUNT_GET_MOBILE', payload: value.number })
+              this.props.dispatch({ type: 'GET_ACCOUNT_PAGE_DATA', payload })
+              this.props.dispatch({
+                type: 'ACCOUNT_GET_MOBILE',
+                payload: value.number,
+              })
               setTimeout(() => {
-                this.props.history.replace(`/user/bindExistAccount${this.props.history.location.search}`)
+                this.props.history.replace(
+                  `/user/bindExistAccount${this.props.history.location.search}`
+                )
               }, 1200)
             } else {
               Toast.info(err.errMsg, 2)
@@ -184,41 +195,41 @@ class Register extends PureComponent {
   goRegister = (url, key) => {
     const search = window.location.search
 
-    if(search) {
-      this.props.history.replace(`${url}` + search, {key: '登录弹窗'})
+    if (search) {
+      this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
     } else {
-      this.props.history.replace(url, {key: '登录弹窗'})
+      this.props.history.replace(url, { key: '登录弹窗' })
     }
   }
 
   goBack = () => {
-    const {redirect, sss, one} = queryString.parse(window.location.search)
-    let patt1 = new RegExp("service")
-    if(sss) {
-      return window.location.href = sss
+    const { redirect, sss, one } = queryString.parse(window.location.search)
+    let patt1 = new RegExp('service')
+    if (sss) {
+      return (window.location.href = sss)
     }
-    if(one) {
+    if (one) {
       return this.props.history.go(-1)
     }
 
-    if(patt1.test(redirect)) {
+    if (patt1.test(redirect)) {
       return this.props.history.go(-1)
-    } else if(redirect){
+    } else if (redirect) {
       return this.props.history.replace(redirect)
     }
   }
 
   componentDidMount() {
-    const {key} = this.props.location.state || {}
-    const {sss} = queryString.parse(window.location.search)
+    const { key } = this.props.location.state || {}
+    const { sss } = queryString.parse(window.location.search)
     // const TriggerSource = ''
-    if(sss) {
+    if (sss) {
       window.zhuge.track('注册页面打开', {
-        '触发来源': '首页浮窗',
+        触发来源: '首页浮窗',
       })
     } else {
       window.zhuge.track('注册页面打开', {
-        '触发来源': key || '其他来源',
+        触发来源: key || '其他来源',
       })
     }
     // captcha().then(data => {
@@ -233,47 +244,66 @@ class Register extends PureComponent {
   }
 
   render() {
-    const { getFieldProps } = this.props.form;
+    const { getFieldProps } = this.props.form
     // console.log(this.props.bindExistAccount)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>
           <img src={Rectangle} alt="返回" />
         </div>
-        <div className={style.title}>手机号注册</div>
+        <div className={style.title}>注册最佳东方</div>
         <div className={style.forms}>
-          <InputItem
-            {...getFieldProps('number', {onChange: this.onPhoneNumber})}
-            className={style.inputHei}
-            clear
-            placeholder="手机号"
-            maxLength="11"
-          />
+          <div className={style.phoneCode}>
+            <InputItem
+              {...getFieldProps('number', { onChange: this.onPhoneNumber })}
+              className={style.inputHei}
+              clear
+              placeholder="请输入常用手机号"
+              maxLength="11"
+            />
+          </div>
           <div className={style.massageCode}>
             <InputItem
-              {...getFieldProps('massageCode', {onChange: this.onPhoneNumber})}
+              {...getFieldProps('massageCode', {
+                onChange: this.onPhoneNumber,
+              })}
               className={`${style.inputHei} ${style.massageLeft}`}
               clear
-              placeholder="短信验证码"
+              placeholder="请输入短信验证码"
             />
             <div
               onClick={this.getCode}
-              id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
-              className={`${style.massage} ${this.state.disableCode ? null : style.disabledCode}`}>
+              id="TencentCaptcha"
+              data-appid="2096087700"
+              data-cbfn="callbackdfws"
+              className={`${style.massage} ${
+                this.state.disableCode ? null : style.disabledCode
+              }`}
+            >
               {this.state.tipFont}
             </div>
           </div>
         </div>
         <div onClick={this.onRegister} className={style.subBtn}>
-          <a className={this.state.disabled ? null : `${style.disabled}`}>注 册</a>
+          <a className={this.state.disabled ? null : `${style.disabled}`}>
+            注 册
+          </a>
 
           <div className={Loginstyle.otherLogin}>
-            <div>
-            </div>
+            <div />
             <div onClick={() => this.goRegister('/user/login')}>
               <span>直接登录</span>
             </div>
           </div>
+        </div>
+        <div className={style.agreement}>
+          注册代表你已同意
+          <Link
+            rel="stylesheet"
+            to={`http://mobile.interface.veryeast.cn/user/mobagree`}
+          >
+            《最佳东方用户协议》
+          </Link>
         </div>
       </div>
     )

@@ -52,20 +52,20 @@ class UserPage extends PureComponent {
       })
   }
 
-  shareApp = () => { // 弹窗分享
-    const shareLink = window.location.href
-    // const shareImg = this.props.user.portrait_url
-    if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) { // uc  浏览器
-      const shareArgs = ['app分享', '快来找找我的工作吧', shareLink, '', '', '\n@' + window.location.host, '']
-      return window.ucbrowser.web_share(...shareArgs)
-    }
-    Modal.alert(
-      Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
-      <p style={{wordWrap: 'break-word'}}>{shareLink}</p>, [
-        { text: '确定', style: 'default' },
-      ])
-    window.zhuge.track('应用分享')
-  }
+  // shareApp = () => { // 弹窗分享
+  //   const shareLink = window.location.href
+  //   // const shareImg = this.props.user.portrait_url
+  //   if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) { // uc  浏览器
+  //     const shareArgs = ['app分享', '快来找找我的工作吧', shareLink, '', '', '\n@' + window.location.host, '']
+  //     return window.ucbrowser.web_share(...shareArgs)
+  //   }
+  //   Modal.alert(
+  //     Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
+  //     <p style={{wordWrap: 'break-word'}}>{shareLink}</p>, [
+  //       { text: '确定', style: 'default' },
+  //     ])
+  //   window.zhuge.track('应用分享')
+  // }
 
   goLogin = () => {
     if(!this.props.userStatus.true_name) {
@@ -83,6 +83,7 @@ class UserPage extends PureComponent {
             <img className={this.state.refresh ? style.addFrames : null} src={refresh} alt="刷新" onClick={this.reFreshResume}/>
             <div className={style.messages}>
               <img src={inform} alt="inform" onClick={() => {this.goNextpage('/person/message', '系统消息')}}/>
+              <span>99</span>
             </div>
           </div>
         </div>
@@ -172,6 +173,9 @@ class UserPage extends PureComponent {
               titleleft="投递进展"
               underline="true"
               num={deliver}
+              // rightNum="···"
+              rightNum="99"
+              // rightcontant={(Math.round(this.props.userStatus.resume_complete * 100) || 0) + '%'}
             />
           </div>
           <div onClick={() => {this.goNextpage('/person/jobFavorites', '收藏职位')}}>
