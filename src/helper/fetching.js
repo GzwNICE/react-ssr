@@ -82,10 +82,8 @@ export function pipeline(uri, params, opt = {}) {
     credentials: "include",
     method: "post",
     headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Accept': '*/*',
-      // 'Access-Control-Allow-Origin': '*',
-      // 'Content-Type': 'application/json',
+      // 'X-Requested-With': 'XMLHttpRequest',
+      // 'Accept': '*/*',
     },
     data: parseBody(params),
     ...opt,
@@ -101,31 +99,32 @@ export function pipeline(uri, params, opt = {}) {
  */
 export function toRealUrl(uri) {
   // h5-new的是新接口，旧接口加上/client
-  if (uri.indexOf('h5-new') === -1) {
-    if (/^:ve.sso/.test(uri)) {
-      return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
-    } else if (/^:ve.mobile.interface/.test(uri)){
-      return `http://mobile.interface.veryeast.cn/client${uri.replace(':ve.mobile.interface', '')}`
-    } else if (/^:ve.m/.test(uri)){
-      return `http://m.veryeast.cn/client${uri.replace(':ve.m', '')}`
-    } else if (/^:ve.my/.test(uri)){
-      return `http://my.veryeast.cn/client${uri.replace(':ve.my', '')}`
-    } else {
-      return uri
-    }
+  if (/^:ve.sso/.test(uri)) {
+    return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
+  } else if (/^:ve.mobile.interface/.test(uri)){
+    return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
+  } else if (/^:ve.m/.test(uri)){
+    return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
+  } else if (/^:ve.my/.test(uri)){
+    return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
   } else {
-    if (/^:ve.sso/.test(uri)) {
-      return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
-    } else if (/^:ve.mobile.interface/.test(uri)){
-      return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
-    } else if (/^:ve.m/.test(uri)){
-      return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
-    } else if (/^:ve.my/.test(uri)){
-      return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
-    } else {
-      return uri
-    }
+    return uri
   }
+  // if (uri.indexOf('h5-new') === -1) {
+  //   if (/^:ve.sso/.test(uri)) {
+  //     return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
+  //   } else if (/^:ve.mobile.interface/.test(uri)){
+  //     return `http://mobile.interface.veryeast.cn/client${uri.replace(':ve.mobile.interface', '')}`
+  //   } else if (/^:ve.m/.test(uri)){
+  //     return `http://m.veryeast.cn/client${uri.replace(':ve.m', '')}`
+  //   } else if (/^:ve.my/.test(uri)){
+  //     return `http://my.veryeast.cn/client${uri.replace(':ve.my', '')}`
+  //   } else {
+  //     return uri
+  //   }
+  // } else {
+  //
+  // }
   // return /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
 }
 
