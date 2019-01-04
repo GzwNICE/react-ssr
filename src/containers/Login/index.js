@@ -13,8 +13,11 @@ import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import * as auth from '../../actions/auth'
 import { loggingStatus } from "../../actions/userStatus";
+import {connect} from "react-redux";
 
 // @createForm()
+@connect(state => ({
+}))
 class Login extends PureComponent {
   state = {
     focused: true,
@@ -126,9 +129,9 @@ class Login extends PureComponent {
                 this.props.history.push('/tabs/user')
               }
             },1200)
-
-            this.props.dispatch(loggingStatus({}))
+            this.props.dispatch(loggingStatus())
           }
+
         })
           .catch(err => {
             window.zhuge.track('登录页面填写', {
@@ -145,6 +148,7 @@ class Login extends PureComponent {
       }
 
       let { loginNum } = this.state
+
       if (loginNum >= 3) {
         let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
           if(res.ret === 0){
