@@ -12,6 +12,7 @@ import style from '../style.less'
     list: state.company.list,
     pagers: state.company.pager,
     listPhoto: state.company.listPhoto,
+    brand: state.company.brand,
   }
 })
 class CompanyList extends Component {
@@ -85,10 +86,10 @@ class CompanyList extends Component {
     // 请求名企品牌分类
     this.props.dispatch(blocCategory({
       c_userid: c_userid,
-    })).then(data => {
-      console.log(data)
-    })
+    }))
   }
+
+  
 
   render() {
     const individuation = this.props.listPhoto.company_file

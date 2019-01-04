@@ -31,6 +31,7 @@ class Area extends ComplexSelView {
         }
       })
     }
+
     return (
       <div className={viewStyle.allView}>
         {this.myCity &&

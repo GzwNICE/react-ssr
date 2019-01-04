@@ -46,8 +46,17 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_CATEGORY:
       return {
         ...state,
-        brand: [],
-        brand_index: [],
+        brand: action.data.map(i=>{
+          return {
+            code: i.id,
+            value: i.category_name,
+            hassub: 0,
+            mode: 1,
+          }
+        }),
+        brand_index: action.data.map(i=>{
+          return i.category_name
+        }),
       }
     case GET_BLOCDETAIL_LIST:
       return {
