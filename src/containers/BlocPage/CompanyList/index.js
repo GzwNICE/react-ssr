@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { ListView ,WhiteSpace} from 'antd-mobile'
+import { ListView } from 'antd-mobile'
 import { blocList, blocCategory } from '../../../actions/company'
 import companyLogo from '../../../static/detailLogo.png'
 import style from '../style.less'
@@ -11,6 +11,7 @@ import style from '../style.less'
   return {
     list: state.company.list,
     pagers: state.company.pager,
+    listPhoto: state.company.listPhoto,
   }
 })
 class CompanyList extends Component {
@@ -24,8 +25,6 @@ class CompanyList extends Component {
       page: 1,
       isLoading: true,
       height: 0,
-      individuation:
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544442642838&di=c8f9fe705e692237102ddfc3c5fcb07b&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D4916d4fafe1f4134e0620d7a102fb9fc%2F96dda144ad3459825dbfac8b0ff431adcbef84f6.jpg',
     }
   }
 
@@ -53,6 +52,7 @@ class CompanyList extends Component {
         isLoading: false,
       })
     }
+    
   }
 
   onScroll = () => {
@@ -74,12 +74,24 @@ class CompanyList extends Component {
       )
       .then(data => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(data.data.list),
+          dataSource: this.state.dataSource.cloneWithRows(data.data.list && data.data.list),
         })
+        if(data.data.list.length <= 20 && data.data.pager.allpages === 1){
+          this.setState({
+            isLoading: false,
+          })
+        }
       })
+    // 请求名企品牌分类
+    this.props.dispatch(blocCategory({
+      c_userid: c_userid,
+    })).then(data => {
+      console.log(data)
+    })
   }
 
   render() {
+    const individuation = this.props.listPhoto.company_file
     const Row = d => {
       return (
         <Link
@@ -95,9 +107,9 @@ class CompanyList extends Component {
             <div className={style.inviteInfo}>
               <h1>{d.company_name}</h1>
               <div className={style.scale}>
-                <span>{d.current_location}</span>
-                <span>{d.company_type}</span>
-                <span>{d.employees_number}</span>
+                {d.current_location ? <span>{d.current_location}</span> : null}
+                {d.company_type ? <span>{d.company_type}</span> : null}
+                {d.employees_number ? <span>{d.employees_number}</span> : null}
               </div>
               <div className={style.inRecruit}>
                 <span>{d.jobNum}</span>个在招职位
@@ -115,7 +127,7 @@ class CompanyList extends Component {
           dataSource={this.state.dataSource}
           renderRow={Row}
           scrollRenderAheadDistance={100}
-          onEndReachedThreshold={20}
+          onEndReachedThreshold={200}
           scrollEventThrottle={100}
           initialListSize={0}
           pageSize={2000}
@@ -126,10 +138,10 @@ class CompanyList extends Component {
           }}
           renderHeader={() => (
             <div className={style.individuation}>
-              <img src={this.state.individuation} alt="" />
+              <img src={individuation} alt="" />
             </div>)
           }
-          onEndReached={this.onEndReached} // 上拉加载
+          onEndReached={this.onEndReached}   // 上拉加载
           renderFooter={() => (
             <div style={{ padding: 5, textAlign: 'center' }}>
               {this.state.isLoading ? 'Loading...' : '没有更多了'}

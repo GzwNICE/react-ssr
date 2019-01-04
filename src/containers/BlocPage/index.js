@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import * as Ad from '../../components/Ad'
 import Search from '../../components/SearchBar/Search'
-import { WhiteSpace } from 'antd-mobile'
+// import { WhiteSpace } from 'antd-mobile'
+import { createForm } from 'rc-form'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
+import Salary from '../../inputs/Salary'
+import Area from '../../inputs/Area'
+import SimpleItem from '../../inputs/SimpleItem'
 import CompanyList from './CompanyList'
 import RegisterWrap from '../../components/RegisterWrap'
 import Down from '../../static/angleDownGray@3x.png'
@@ -11,12 +15,13 @@ import style from './style.less'
 
 @connect(state => ({
   is_login: state.userStatus.is_login,
+  userStatus: state.userStatus,
+  supers: state.supers,
 }))
+@createForm()
 export default class CompanyArea extends Component {
   state = {
     show: true,
-    individuation:
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544442642838&di=c8f9fe705e692237102ddfc3c5fcb07b&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D4916d4fafe1f4134e0620d7a102fb9fc%2F96dda144ad3459825dbfac8b0ff431adcbef84f6.jpg',
     showRegWrap: true,
   }
 
@@ -60,13 +65,26 @@ export default class CompanyArea extends Component {
     }
   }
 
-  componentDidMount() {}
-
   componentWillUnmount() {}
 
+  componentDidMount() {
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.form.validateFields((err, values) => {
+      if (err) return
+      if (values.areas && nextProps.userStatus.code !== values.areas) {
+        this.props.onChangeCity && this.props.onChangeCity(values)
+      }
+    })
+  }
+
   render() {
-    const { show, individuation, showRegWrap } = this.state
+    const { show, showRegWrap } = this.state
     const isLogin = this.props.is_login
+    const { form, supers } = this.props
+    const { getFieldProps } = form
     return (
       <div className={style.CompanyArea}>
         <div className={style.selHead}>
@@ -74,18 +92,34 @@ export default class CompanyArea extends Component {
           <Search goBack={this.whereWillIGo} />
           <div className={style.selectInfo}>
             <div className={style.selCity}>
-              <span>城市</span>
+              <div className={style.city}>
+                <Area
+                  {...getFieldProps('areas', {
+                    initialValue: supers.location.address.code,
+                  })} // 触发form，调用onChangeCity
+                  format={this.formatArea}
+                >
+                  <SimpleItem arrow="horizontal" />
+                </Area>
+              </div>
               <img src={Down} alt="down" />
             </div>
             <span className={style.selRule} />
             <div className={style.selBrand}>
-              <span>品牌</span>
+              <div className={style.Brand}>
+                <Salary.SearchBrand
+                  {...getFieldProps('salary', {})}
+                  extra=""
+                  format={this.format}
+                >
+                  <SimpleItem arrow="horizontal">选择品牌</SimpleItem>
+                </Salary.SearchBrand>    
+              </div>
               <img src={Down} alt="down" />
             </div>
           </div>
         </div>
-        <div className={style.blocCentent} >
-          
+        <div className={style.blocCentent}>
           <CompanyList />
         </div>
 

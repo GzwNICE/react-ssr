@@ -24,7 +24,6 @@ class Area extends ComplexSelView {
   }
 
   allView(sublist) {
-    // console.log(this.props)
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
         if (new RegExp(this.props.optIndex[key]).test(this.props.coord.address.city)) {

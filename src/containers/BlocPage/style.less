@@ -30,10 +30,19 @@
         background-color: #d8d8d8;
       }
       > div {
-        width: 49%;
+        width: 49.4%;
         display: flex;
         align-items: center;
         justify-content: center;
+        .city,.Brand {
+          >div {
+            padding: 0 6px;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
         > span {
           padding: 0 6px;
           max-width: 80px;
@@ -68,7 +77,7 @@
       }
     }
     .companyList {
-      background-color: #fff;
+      // background-color: #fff;
       // padding: 0 20px;
       box-sizing: border-box;
       a:last-child .ContentModule {
@@ -147,9 +156,13 @@
           }
         }
       }
-
+      
       .override-am-list-view-scrollview-content {
         :global {
+          .am-list-header {
+            padding: 0 !important; 
+            margin: 5px 0;
+          }
           .am-list-view-scrollview-content{
             position: inherit !important;
           }
@@ -158,6 +171,10 @@
           }
           .am-list-body::before {
             display: none;
+          }
+          .am-whitespace {
+            width: 100%;
+            background-color: #f0f0f0 !important;
           }
         }
       }
