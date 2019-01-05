@@ -16,6 +16,7 @@ import StarLevel from '../../inputs/StarLevel'
 import ArrivalTime from '../../inputs/ArrivalTime'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
+import Job from './components/jobSearch'
 
 @connect(state => {
   let DesiredLocations = new Set(state.DesiredPositions.list.map(item => item.position))
@@ -111,6 +112,13 @@ class ResumeIntention extends PureComponent {
         </NavBar>
         <List>
           {/*数据都是undefined*/}
+          <Job
+            {...getFieldProps('desired_positions', {
+              initialValue: DesiredPositions,
+            })}
+          >
+            <List.Item arrow="horizontal">职位名称</List.Item>
+          </Job>
           <Post
             {...getFieldProps('desired_positions', {
               initialValue: DesiredPositions,

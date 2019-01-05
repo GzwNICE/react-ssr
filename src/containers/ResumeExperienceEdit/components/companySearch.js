@@ -22,8 +22,12 @@ class ComplexSelView extends ComplexFormField {
 
   save = () => {
     const { value } = this.state
-    this.props.onChange(value)
-    this.changeVisible(false, true)
+    if (value.length > 0) {
+      this.props.onChange(value)
+      this.changeVisible(false, true)
+    } else {
+      Toast.info('请输入内容', 2)
+    }
   }
   onChange = (value) => {
     const parmas = {

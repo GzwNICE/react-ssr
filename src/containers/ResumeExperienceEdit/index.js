@@ -46,7 +46,25 @@ class ResumeExperienceEdit extends PureComponent {
   componentDidMount() {
     this.props.dispatch(getAllInfo({
       appchannel: 'web',
-    }))
+    })).then(() => {
+      const {
+        work_exps=[],
+        match,
+      } = this.props
+      const item = work_exps.filter(item => {
+        return item.id === match.params.id
+      })[0] || {}
+      let endTime = []
+      if (item.end_year) {
+        endTime.push(`${item.end_year}年`)
+      }
+      if (item.end_year) {
+        endTime.push(`${item.end_month}月`)
+      }
+      this.setState({
+        sValue: endTime,
+      })
+    })
     const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
     console.log(initData)
     this.setState({
@@ -142,18 +160,18 @@ class ResumeExperienceEdit extends PureComponent {
         }
       })
 
-      console.log(endTime)
-      console.log(moment(beginTime).format('YYYY'))
-      console.log(moment(beginTime).format('MM'))
-
+      // console.log(endTime)
+      // console.log(moment(beginTime).format('YYYY'))
+      // console.log(moment(beginTime).format('MM'))
+      // todo overseas 1 2 还是0 没搞清楚
       this.props.dispatch(workExpsEdit({
         ...values,
-        // id: this.props.match.params.id,
+        id: this.props.match.params.id,
         begin_year: moment(beginTime).format('YYYY'),
         begin_month: moment(beginTime).format('MM'),
         end_year: endTime[0],
         end_month: endTime.length > 1 ? endTime[0] : '',
-        salary_type: values.salary_type ? 0 : 1,
+        salary_type: values.salary_type ?  '1' : '2',
         // position_cn: this.props.option.positions_index[values.position_id],
         // job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',

@@ -15,6 +15,7 @@ import addIcon from '../../static/add@3x.png'
 import circleIcon from '../../static/circle.png'
 import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
+import {Toast} from "antd-mobile/lib/index";
 
 const Pla = (props) =>
   <i style={{display: 'inline-block', width: props.w + 'em'}} />
@@ -23,6 +24,7 @@ const progressStyle = {
   borderRadius: '4px',
 }
 @connect(state => {
+
   return {
     option: state.option,
     resume: state.resume,
@@ -45,6 +47,12 @@ class Resume extends PureComponent {
   }
 
   componentDidMount() {
+    this.bitmapMin = new BitmapMin({
+      width: 360,  // 最大宽度
+      height: 360, // 最大高度
+      jpeg: false,  // 强制转为 jpeg|jpg
+      quality: .7, // jpeg|jpg 图片的质量
+    })
     this.props.dispatch(getAllInfo({
       appchannel: 'web',
     }))
@@ -56,6 +64,28 @@ class Resume extends PureComponent {
           ])
         }
       })
+  }
+  handleFaceChange = (ev) => {
+    this.bitmapMin.load(ev.target.files[0], (base64, blob) => {
+      this.props.dispatch(avatar({
+        avatar: blob,
+      })).then(() => {
+        this.props.dispatch(getAllInfo({
+          appchannel: 'web',
+        }))
+      })
+    })
+  }
+  handleRefresh = () => {
+    this.props.dispatch(getAllInfo({
+      appchannel: 'web',
+    }))
+      .then( () => {
+        Toast.info('刷新成功', 2)
+      })
+  }
+  handleGoto = (item) => {
+    this.props.history.push(item)
   }
   handleToogle() {
     this.setState({
@@ -79,7 +109,8 @@ class Resume extends PureComponent {
       other_exps,
     } = this.props
     const { toogle } = this.state
-
+    console.log(DesiredLocations)
+    // todo 设置、预览的链接还没写, 意向行业没有找到
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -95,6 +126,11 @@ class Resume extends PureComponent {
               <div className={style.firstcard}>
                 <div className={style.photo}>
                   <img src={resume.photo ? resume.photo : portraitIcon} />
+                  <input
+                    className={style.face}
+                    type="file"
+                    accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                    onChange={this.handleFaceChange} />
                 </div>
                 <p className={style.title}>张杰的简历</p>
                 <p className={style.subTitle}>简历完善度:<span>70%</span></p>
@@ -108,7 +144,7 @@ class Resume extends PureComponent {
                     <p>预览</p>
                   </Flex.Item>
                   <Flex.Item>
-                    <img src={refreshIcon} />
+                    <img onClick={this.handleRefresh} src={refreshIcon} />
                     <p>刷新</p>
                   </Flex.Item>
                 </Flex>
@@ -120,46 +156,31 @@ class Resume extends PureComponent {
                   extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
                 <Card.Body className={style['card-body']}>
                   <div>
-                    <span>姓<Pla w={2} />名：</span>{resume.true_name_cn}
+                    <span>姓<Pla w={2} />名：</span>{resume.true_name_cn ? resume.true_name_cn : '暂无'}
                   </div>
                   <div>
                     <span>性<Pla w={2} />别：</span>{option.opts_gender ? option.opts_gender.filter(item => parseInt(resume.gender, 10) === item.code).map(item => item.value)[0] || '未知' : '未知'}
                   </div>
                   <div>
                     <span>年<Pla w={2} />龄：</span>
-                    {/*(() => {
-                    const now = new Date()
-                    const birthday = new Date(resume.birthday)
-                    return parseInt((now.getFullYear() - birthday.getFullYear()) +
-                      (now.getMonth() - birthday.getMonth()) / 100 +
-                      (now.getDate() - birthday.getDate()) / 10000, 10)
-                  })()*/}
-                    {resume.age}
-                  </div>
-                  {/*<div>*/}
-                  {/*<span>所在城市：</span>*/}
-                  {/*{option.areas_index[resume.current_location]}*/}
-                  {/*</div>*/}
-                  <div>
-                    <span>工作年限：</span>{resume.work_year}
+                    {resume.age ? resume.age : '暂无'}
                   </div>
                   <div>
-                    <span>手机号码：</span>{resume.mobile}
+                    <span>工作年限：</span>{resume.work_year ? resume.work_year : '暂无'}
                   </div>
                   <div>
-                    <span>联系邮箱：</span>{resume.email}
+                    <span>手机号码：</span>{resume.hidden_mobile ? resume.hidden_mobile : '暂无'}
                   </div>
-                  {/*<div>*/}
-                  {/*<span>求职状态：</span>*/}
-                  {/*{option.opts_job_status_index[resume.job_status]}*/}
-                  {/*</div>*/}
+                  <div>
+                    <span>联系邮箱：</span>{resume.hidden_email ? resume.hidden_email : '暂无'}
+                  </div>
                 </Card.Body>
               </Card>
               <Card
                 className={style.card}>
                 <Card.Header
                   title={<span>求职意向 <span>(必填)</span></span>}
-                  extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
+                  extra={<Link to="/resume/intention"><img src={editIcon} /></Link>} />
                 <Card.Body className={style['card-body']}>
                   <div>
                     <span>意向职位：</span>{DesiredPositions.map(item => option.positions_index[item]).join(', ')}
@@ -183,16 +204,24 @@ class Resume extends PureComponent {
                 <Card.Header
                   title={<span>工作经历 <span>(必填)</span></span>}/>
                 <Card.Body className={style['card-job']}>
-                  <div className={style['card-job-wraper']}>
-                    <img src={circleIcon} className={style['card-job-wraper-circle']}/>
-                    <span>大唐福利 | 杭州香1111122222111港酒店</span>
-                    <img src={editIcon} className={style['card-job-wraper-editor']}/>
-                    <p>2018.03-至今</p>
-                    <p>1.的房间卡了发的卡拉夫看了发的卡手机付款了大家快来</p>
-                  </div>
+                  {work_exps.map((item, key) =>
+                    <div key={key} className={style['card-job-wraper']}>
+                      <img src={circleIcon} className={style['card-job-wraper-circle']}/>
+                      <span>{item.company_name_cn} | {option.positions_index[item.position_id]}</span>
+                      <img src={editIcon} onClick={this.handleGoto.bind(this, `/resume/experience/${item.id}`)} className={style['card-job-wraper-editor']}/>
+                      <p>{`${item.begin_year}.${item.begin_month}`}-{item.end_year !== '0' ? `${item.end_year}.${item.end_month}` : '至今'}</p>
+                      <p>{item.job_responsibilities_cn}</p>
+                      {
+                        work_exps.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null
+                      }
+
+                    </div>
+                  )}
                   <div className={style['card-job-footer']}>
                     <img src={addIcon}/>
-                    添加工作经验
+                    <Link to="/resume/experience/add">
+                      添加工作经验
+                    </Link>
                   </div>
                 </Card.Body>
               </Card>
@@ -201,24 +230,23 @@ class Resume extends PureComponent {
                 <Card.Header
                   title={<span>教育经历 <span>(必填)</span></span>}/>
                 <Card.Body className={style['card-education']}>
-                  <div className={style['card-education-wraper']}>
-                    <img src={circleIcon} className={style['card-education-wraper-circle']}/>
-                    <p>中国能放得开学院</p>
-                    <img src={editIcon} className={style['card-education-wraper-editor']}/>
-                    <p>本科 | 环境的房间的咖啡</p>
-                    <p>2014年毕业</p>
-                    <div className={style['card-education-wraper-line']}></div>
-                  </div>
-                  <div className={style['card-education-wraper']}>
-                    <img src={circleIcon} className={style['card-education-wraper-circle']}/>
-                    <p>中国能放得开学院</p>
-                    <img src={editIcon} className={style['card-education-wraper-editor']}/>
-                    <p>本科 | 环境的房间的咖啡</p>
-                    <p>2014年毕业</p>
-                  </div>
+                  {educationals.map((item, key) =>
+                    <div key={key} className={style['card-education-wraper']}>
+                      <img src={circleIcon} className={style['card-education-wraper-circle']}/>
+                      <p>{item.school_cn || '学校名称'}</p>
+                      <img src={editIcon} onClick={this.handleGoto.bind(this, `/resume/education/${item.id}`)} className={style['card-education-wraper-editor']}/>
+                      <p>{option.opts_education_index[item.degree] || '不限'} | { item.major_cn || option.opts_edu_major[item.major_id].value || '不限'}</p>
+                      <p>{`${item.begin_year}.${item.begin_month}-${item.end_year}.${item.end_month}`}</p>
+                      {
+                        educationals.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null
+                      }
+                    </div>
+                  )}
                   <div className={style['card-education-footer']}>
                     <img src={addIcon}/>
-                    添加工作经验
+                    <Link to="/resume/education/add">
+                      添加教育经历
+                    </Link>
                   </div>
                 </Card.Body>
               </Card>

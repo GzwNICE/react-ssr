@@ -13,6 +13,9 @@ import Area from '../../inputs/Area'
 import Education from '../../inputs/Education'
 import EduMajor from '../../inputs/EduMajor'
 import TextareaField from '../../inputs/TextareaField'
+import School from './components/schoolSearch'
+import Specialty from './components/specialtySearch'
+
 
 // const minDate = moment().year(moment().year() - 99)
 // const maxDate = moment()
@@ -40,23 +43,36 @@ class ResumeEducationEdit extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
+      console.log(values)
+      if (values.school_cn === undefined || values.school_cn === '' ) {
+        return Toast.info('请输入学校名称', 2)
+      }
+      if (values.major_cn === undefined || values.major_cn === '' ) {
+        return Toast.info('请输入专业名称', 2)
+      }
+      if (values.degree[0] === undefined || values.degree[0] === '' ) {
+        return Toast.info('请输入最高学历', 2)
+      }
+      if (values.begin === undefined || values.begin === null ) {
+        return Toast.info('请输入开始时间', 2)
+      }
+      if (values.end === undefined || values.end === null ) {
+        return Toast.info('请输入结束时间', 2)
+      }
       if (values.begin.valueOf() > values.end.valueOf()) {
         return Toast.info('开始时间需小于结束时间', 2)
       }
 
-      if(values.school_cn === undefined) {
-        return Toast.info('请输入您的学校名称', 2)
-      }
       window.zhuge.track('我的简历', { '模块': '教育经历' })
-      console.log(values)
+      // overseas 1 是无海外经历，2是有海外经历
       this.props.dispatch(educationalsEdit({
         ...values,
-        // id: this.props.match.params.id,
-        // is_overseas: values.overseas ? '1' : '2',
-        // begin_year: values.begin.format('YYYY'),
-        // begin_month: values.begin.format('MM'),
-        // end_year: values.end.format('YYYY'),
-        // end_month: values.end.format('MM'),
+        id: this.props.match.params.id,
+        is_overseas: values.overseas ? '1' : '2',
+        begin_year: moment(values.begin).format('YYYY'),
+        begin_month: moment(values.begin).format('MM'),
+        end_year:  moment(values.end).format('YYYY'),
+        end_month: moment(values.end).format('MM'),
         detail_cn: '', // values.detail_cn || ''
       })).then(data => {
         this.props.history.goBack()
@@ -75,16 +91,16 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
-    let save
-    this.props.form.validateFields((err, values) => {
-      if (err) return
-      if (values.school_cn && values.major_id && values.major_id[0] && values.degree && values.degree[0] && values.begin && values.end) {
-        save = (<span style={{color: '#FF4F00'  }}>保存</span>)
-      } else {
-        save = (<span>保存</span>)
-      }
-
-    })
+    // let save
+    // this.props.form.validateFields((err, values) => {
+    //   if (err) return
+    //   if (values.school_cn && values.major_cn && values.major_cn[0] && values.degree && values.degree[0] && values.begin && values.end) {
+    //     save = (<span style={{color: '#FF4F00'  }}>保存</span>)
+    //   } else {
+    //     save = (<span>保存</span>)
+    //   }
+    // })
+    console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -92,30 +108,25 @@ class ResumeEducationEdit extends PureComponent {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.goBack()}
-          rightContent={<span onClick={() => this.changeValue()}>{save}</span>}
+          rightContent={<span onClick={() => this.changeValue()}><span>保存</span></span>}
         >
           教育经历
         </NavBar>
         <List>
-          <InputItem
+          <School
             {...getFieldProps('school_cn', {
               initialValue: item.school_cn,
             })}
-            clear placeholder="请填写"
           >
-            学校名称
-          </InputItem>
-
-          <EduMajor
-            {...getFieldProps('major_id', {
-              initialValue: [item.major_id],
+            <List.Item arrow="horizontal">学校名称</List.Item>
+          </School>
+          <Specialty
+            {...getFieldProps('major_cn', {
+              initialValue: item.major_cn,
             })}
-            title="专业名称"
-            extra="请填写"
           >
             <List.Item arrow="horizontal">专业名称</List.Item>
-          </EduMajor>
-
+          </Specialty>
           <Education
             {...getFieldProps('degree', {
               initialValue: [item.degree],
@@ -129,9 +140,9 @@ class ResumeEducationEdit extends PureComponent {
           <DatePicker
             {...getFieldProps('begin', {
               initialValue: (item.begin_year && item.begin_year !== '0') ?
-                new Date(Date.parse(`${item.begin_year}/${item.begin_month}`)) : maxDate,
+                new Date(Date.parse(`${item.begin_year}/${item.begin_month}`)) : null,
             })}
-            mode="date"
+            mode="month"
             title="开始时间"
             extra="请选择"
             format={s => moment(s).format('YYYY.MM')}
@@ -145,9 +156,9 @@ class ResumeEducationEdit extends PureComponent {
             <DatePicker
               {...getFieldProps('end', {
                 initialValue: (item.end_year && item.end_year !== '0') ?
-                  new Date(Date.parse(`${item.end_year}/${item.end_month}`)) : maxDate,
+                  new Date(Date.parse(`${item.end_year}/${item.end_month}`)) : null,
               })}
-              mode="date"
+              mode="month"
               title="结束时间"
               extra="请选择"
               format={s => moment(s).format('YYYY.MM')}

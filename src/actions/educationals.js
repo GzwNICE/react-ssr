@@ -13,11 +13,37 @@ export const $ = constants('educationals', [
   'edit', // 编辑用户信息
   'add',
   'remove',
+  'get_school_tips', // 学校联想
+  'get_major_tips', // 专业联想
 ])
 
+const URL_MAJOR_TIPS = ':ve.mobile.interface/resume/get_major_tips'
+const URL_SChOOL_TIPS = ':ve.mobile.interface/resume/get_school_tips'
 const URL_LOAD = ':ve.mobile.interface/resume/get_edu_exps'
 const URL_EDIT = ':ve.mobile.interface/resume/set_edu_exp'
 const URL_REMOVE = ':ve.mobile.interface/resume/delete_edu_exp'
+
+export const get_major_tips = transport({
+  url: URL_MAJOR_TIPS,
+  type: $.get_major_tips,
+  done(payload, params, getState) {
+    return {
+      params,
+      payload: payload.data,
+    }
+  },
+})
+
+export const get_school_tips = transport({
+  url: URL_SChOOL_TIPS,
+  type: $.get_school_tips,
+  done(payload, params, getState) {
+    return {
+      params,
+      payload: payload.data,
+    }
+  },
+})
 
 export const load = transport({
   url: URL_LOAD,
