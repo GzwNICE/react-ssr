@@ -1,0 +1,79 @@
+.loginPage {
+  height: 100%;
+  background-color: #fff;
+  .back{
+    padding: 10px 20px;
+    img{
+      width: 16px;
+    }
+  }
+  .loginTab {
+    margin-top: 40px;
+    :global {
+      .am-tabs-tab-bar-wrap {
+        padding: 0 40px;
+        margin-bottom: 20px; 
+      }
+      .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+        display: none;
+      }
+      .am-tabs-default-bar-underline {
+        display: none;
+      }
+      .am-tabs-default-bar-tab {
+        .am-badge {
+          font-family: PingFangSC-Regular;
+          font-size: 22px;
+          color: #9B9B9B;
+        }
+      }
+      .am-tabs-default-bar-tab {
+        width: auto !important;
+        margin-right: 26px;
+        .am-badge {
+          font-family: PingFangSC-Regular;
+          font-size: 20px;
+          color: #9B9B9B;
+        }
+      }
+      .am-tabs-default-bar-tab-active {
+        .am-badge {
+          color: #333333;
+        }
+      }
+      .am-tabs-default-bar-content::after  {
+        content: '';
+        display: block;
+        width: 2px;
+        height: 14px;
+        background-color: #4A4A4A;
+        position: absolute;
+        top: 16px;
+        left: 110px;
+      }
+      // .am-tabs-default-bar-tab:first-child::after{
+      //   content: '';
+      //   display: block;
+      //   width: 2px;
+      //   height: 14px;
+      //   background-color: #4a4a4a;
+      //   position: absolute;
+      //   right: 0;
+  
+      // }
+    }
+  }
+  .goRegister{
+    width: 100%;
+    padding: 15px 40px;
+    box-sizing: border-box;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #FF4F00;
+    text-align: right;
+    .rule {
+      display: block;
+    }
+  }
+}
+

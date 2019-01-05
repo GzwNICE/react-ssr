@@ -14,9 +14,11 @@ import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
+import { withRouter } from 'react-router-dom'
 import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
 
 @createForm()
+@withRouter
 @connect(state => ({
 }))
 class LoginCode extends PureComponent {
@@ -187,6 +189,18 @@ class LoginCode extends PureComponent {
     }
   }
 
+  goRegister = (url, key) => {
+    const search = window.location.search
+    if(key) {
+      window.zhuge.track('手机号注册')
+    }
+    if(search) {
+      this.props.history.replace(`${url}` + search, {key: '登录弹窗'})
+    } else {
+      this.props.history.replace(url, {key: '登录弹窗'})
+    }
+  }
+
   componentDidMount() {
     captcha().then(data => {
       this.setState({
@@ -203,24 +217,26 @@ class LoginCode extends PureComponent {
     const { getFieldProps } = this.props.form
     return (
       <div className={style.RegisterWrap}>
-        <div className={style.back} onClick={this.goBack}>
+        {/*<div className={style.back} onClick={this.goBack}>
           <img src={Rectangle} alt="返回" />
         </div>
-        <div className={style.title}>验证码登录</div>
+        <div className={style.title}>验证码登录</div>*/}
         <div className={style.forms}>
-          <InputItem
-            {...getFieldProps('number', {onChange: this.onPhoneNumber})}
-            className={style.inputHei}
-            clear
-            placeholder="手机号"
-            maxLength="11"
-          />
+          <div className={style.numberCode}>
+            <InputItem
+              {...getFieldProps('number', {onChange: this.onPhoneNumber})}
+              className={style.inputHei}
+              clear
+              placeholder="请输入常用手机号"
+              maxLength="11"
+            />
+          </div>
           <div className={style.massageCode}>
             <InputItem
               {...getFieldProps('massageCode', {onChange: this.onPhoneNumber})}
               className={`${style.inputHei} ${style.massageLeft}`}
               clear
-              placeholder="请输入获取验证码"
+              placeholder="请输入短信验证码"
             />
             <div onClick={this.getCode}
                  id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
@@ -231,6 +247,9 @@ class LoginCode extends PureComponent {
         </div>
         <div onClick={this.login} className={style.subBtn}>
           <a className={this.state.disabled ? null : `${style.disabled}`}>登 录</a>
+        </div>
+        <div onClick={() => this.props.history.replace(`/user/register${window.location.search}`)} className={style.goRegister}>
+          <span>立即注册</span>
         </div>
         {/*<div className={style.bottom}>*/}
         {/*<ThirdPartyLogin />*/}

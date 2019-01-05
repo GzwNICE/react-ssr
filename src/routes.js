@@ -31,10 +31,10 @@ const UserPage = Loadable({
   loader: () => import("./containers/UserPage/index"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const UserPage2 = Loadable({
-  loader: () => import("./containers/UserPage/index2"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
+// const UserPage2 = Loadable({
+//   loader: () => import("./containers/UserPage/index2"),
+//   loading: () => loading, // 自定义的Loading动画组件
+// });
 const SearchEnd = Loadable({
   loader: () => import("./containers/SearchEnd"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -196,6 +196,12 @@ const LoginCode = Loadable({
   loader: () => import("./containers/LoginCode"),
   loading: () => loading, // 自定义的Loading动画组件
 });
+
+const LoginPage = Loadable({
+  loader: () => import("./containers/LoginPage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+
 const Register = Loadable({
   loader: () => import("./containers/Register"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -265,10 +271,10 @@ const routes = [
     path: '/tabs/user',
     component: UserPage,
   },
-  {
-    path: '/tabs/user2',
-    component: UserPage2,
-  },
+  // {
+  //   path: '/tabs/user2',
+  //   component: UserPage2,
+  // },
   {
     path: '/search/:keyword',
     component: SearchEnd,
@@ -424,6 +430,10 @@ const routes = [
   {
     path: '/user/logincode',
     component: LoginCode,
+  },
+  {
+    path: '/login',
+    component: LoginPage,
   },
   {
     path: '/user/register',

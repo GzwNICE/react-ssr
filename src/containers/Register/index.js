@@ -203,19 +203,26 @@ class Register extends PureComponent {
   }
 
   goBack = () => {
-    const { redirect, sss, one } = queryString.parse(window.location.search)
-    let patt1 = new RegExp('service')
-    if (sss) {
-      return (window.location.href = sss)
-    }
-    if (one) {
-      return this.props.history.go(-1)
-    }
+    // const { redirect, sss, one } = queryString.parse(window.location.search)
+    // let patt1 = new RegExp('service')
+    // if (sss) {
+    //   return (window.location.href = sss)
+    // }
+    // if (one) {
+    //   return this.props.history.go(-1)
+    // }
 
-    if (patt1.test(redirect)) {
-      return this.props.history.go(-1)
-    } else if (redirect) {
-      return this.props.history.replace(redirect)
+    // if (patt1.test(redirect)) {
+    //   return this.props.history.go(-1)
+    // } else if (redirect) {
+    //   return this.props.history.replace(redirect)
+    // }
+
+    const {redirect} = queryString.parse(window.location.search)
+    if(redirect){
+      this.props.history.push(redirect)
+    }else {
+      this.props.history.push('/')
     }
   }
 
@@ -291,7 +298,7 @@ class Register extends PureComponent {
 
           <div className={Loginstyle.otherLogin}>
             <div />
-            <div onClick={() => this.goRegister('/user/login')}>
+            <div onClick={() => this.goRegister('/login')}>
               <span>直接登录</span>
             </div>
           </div>

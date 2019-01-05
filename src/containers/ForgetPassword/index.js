@@ -142,20 +142,27 @@ class ForgetPassword extends PureComponent {
   }
 
   goBack = () => {
-    const {redirect, sss, one} = queryString.parse(window.location.search)
-    let patt1 = new RegExp("service")
-    if(sss) {
-      return window.location.href = sss
-    }
-    if(one) {
-      return this.props.history.go(-1)
-    }
+    // const {redirect, sss, one} = queryString.parse(window.location.search)
+    // let patt1 = new RegExp("service")
+    // if(sss) {
+    //   return window.location.href = sss
+    // }
+    // if(one) {
+    //   return this.props.history.go(-1)
+    // }
 
-    if(patt1.test(redirect)) {
-      return this.props.history.go(-1)
-    } else if(redirect){
-      return this.props.history.replace(redirect)
+    // if(patt1.test(redirect)) {
+    //   return this.props.history.go(-1)
+    // } else if(redirect){
+    //   return this.props.history.replace(redirect)
+    // }
+    const {redirect} = queryString.parse(window.location.search)
+    if(redirect){
+      this.props.history.push(redirect)
+    }else {
+      this.props.history.push('/')
     }
+    
   }
 
   componentDidMount() {

@@ -17,15 +17,14 @@
 }
 .inputHei{
   padding: 0 !important;
-  height: 53px !important;
+  height: 60px !important;
   font-size: 12px !important;
 }
 .inputHei::after{
   left: 0 !important;
 }
 .forms{
-  //border: 1px solid red;
-  padding: 0 30px;
+  padding: 0 40px;
   input {
     text-align: left !important;
   }
@@ -48,21 +47,32 @@
     }
   }
 }
-
+.numberCode {
+  border-bottom: 1Px solid rgba(200,199,204,0.50);
+}
 .massageCode{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1Px solid rgba(200,199,204,0.50);
   .massageLeft{
     flex: 1;
+    :global{
+      .am-list-line {
+        border-bottom: none !important;
+      }
+      .am-list-line::after {
+        display: none !important;
+      }
+    }
   }
   .massage{
-    width: 105px;
-    height: 53px;
-    text-align: left;
-    line-height: 73px;
+    height: 60px;
+    text-align: right;
+    line-height: 60px;
+    font-family: PingFangSC-Regular;
     font-size: 14px;
-    color: #FF4F00;
+    color: #4A4A4A;
   }
 }
 
@@ -86,20 +96,28 @@
 .subBtn{
   margin-top: 40px;
   height: 40px;
-  padding: 0 30px;
+  padding: 0 40px;
   a{
     display: block;
     height: 100%;
     line-height: 40px;
     background: #FF4F00;
-    border-radius: 8px;
-    font-size: 17px;
+    border-radius: 2px;
+    font-family: PingFangSC-Regular;
+    font-size: 18px;
     color: #FFFFFF;
     text-align: center;
   }
 }
 .disabled{
   color: rgb(244,128,81) !important;
+}
+.goRegister {
+  padding: 15px 40px 0;
+  text-align: right;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #FF4F00;
 }
 .bottom{
   margin-top: 100px;

@@ -15,7 +15,7 @@ const ListItem = (props) => {
         img
           ? <div className={style.titleImg}>
             <img src={img} alt="img" />
-            {Number(num)> 0 ? <span>{num}</span> : null}
+            
           </div>
           : null
       }
@@ -23,7 +23,8 @@ const ListItem = (props) => {
         <div className={style.leftBox}>
           {titleleft}
         </div>
-        {rightNum ? (<div className={style.rightIcon}>{ rightNum ? `${rightNum}` : null}</div>):null}
+        {Number(num)> 0 ? <span className={style.rightIcon}>{num}</span> : null}
+        {/*{rightNum ? (<div className={style.rightIcon}>{ rightNum ? `${rightNum}` : null}</div>):null}*/}
         
         {/*<div className={style.rightBox}>
           <div className={style.rightTitle}>

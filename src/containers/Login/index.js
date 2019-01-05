@@ -12,10 +12,12 @@ import passwordno from '../../static/paswordno@3x.png'
 import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import * as auth from '../../actions/auth'
+import { withRouter } from 'react-router-dom'
 import { loggingStatus } from "../../actions/userStatus";
 import {connect} from "react-redux";
 
-// @createForm()
+@createForm()
+@withRouter
 @connect(state => ({
 }))
 class Login extends PureComponent {
@@ -163,26 +165,23 @@ class Login extends PureComponent {
     })
   }
 
-  componentDidMount() {
-    const {key} = this.props.location.state || {}
-    window.zhuge.track('登录页面打开', {
-      '触发来源': key || '我的',
-    })
-  }
+  // componentDidMount() {
+  //   const {key} = this.props.location.state || {}
+  //   window.zhuge.track('登录页面打开', {
+  //     '触发来源': key || '我的',
+  //   })
+  // }
 
   render() {
     const { getFieldProps } = this.props.form
     return (
       <div className={style.LoginWrap}>
-        <div className={style.back}>
+        {/*<div className={style.back}>
           <img src={Rectangle} alt="返回" onClick={this.goBack} />
-        </div>
-        <div className={style.logon}>
-          <img src={logopng} alt="logon" />
-        </div>
+        </div>*/}
+        
         <div className={style.forms}>
           <div className={style.userName}>
-            <div className={style.title}>账号</div>
             <InputItem
               {...getFieldProps('username', {onChange: this.onUserName})}
               className={`${style.inputHei} ${style.name}`}
@@ -191,7 +190,6 @@ class Login extends PureComponent {
             />
           </div>
           <div className={style.passwordBox}>
-            <div className={style.title}>密码</div>
             <InputItem
               {...getFieldProps('password', {onChange: this.onUserName})}
               className={`${style.inputHei} ${style.name}`}
@@ -203,19 +201,20 @@ class Login extends PureComponent {
               <img src={this.state.password ? passwordno : paswordimg} alt="显示" />
             </div>
           </div>
-          <div onClick={() => this.goRegister('/user/forgetPassword')}>
+          {/*<div onClick={() => this.goRegister('/user/forgetPassword')}>
             <div className={style.forgetPassword}>忘记密码？</div>
-          </div>
+          </div>*/}
           <div className={style.subBtn} onClick={this.handleLogin}>
             <a id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
                className={this.state.disabled ? null : `${style.disabled}` }>登 录</a>
           </div>
           <div className={style.otherLogin}>
-            <div onClick={() => this.goRegister('/user/logincode')}>
-              <span>验证码登录</span>
+            <div onClick={() => this.goRegister(`/user/register`, "手机号注册")} >
+              <span>立即注册</span>
             </div>
-            <div onClick={() => this.goRegister('/user/register', "手机号注册")}>
-              <span>手机注册</span>
+            <div className={style.rule}></div>
+            <div onClick={() => this.goRegister(`/user/forgetPassword`)}>
+              <div className={style.forgetPassword}>忘记密码</div>
             </div>
           </div>
           {/*<Link className={style.activityRegister} to="/activityRegister">
@@ -230,4 +229,4 @@ class Login extends PureComponent {
   }
 }
 
-export default createForm()(Login)
+export default Login
