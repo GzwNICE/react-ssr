@@ -17,6 +17,7 @@ import ArrivalTime from '../../inputs/ArrivalTime'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
 import Job from './components/jobSearch'
+// import Job from '../../components/SelectPosition'
 
 @connect(state => {
   let DesiredLocations = new Set(state.DesiredPositions.list.map(item => item.position))
@@ -43,7 +44,7 @@ class ResumeIntention extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      // console.log(values)
+      console.log(values)
 
       if(values.desired_locations.length === 0) {
         return Toast.info('请选择意工作地点', 2)
@@ -83,7 +84,7 @@ class ResumeIntention extends PureComponent {
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
         PersonDesiredPosition: JSON.stringify(values.desired_positions),
       })).then(data => {
-        this.props.history.goBack()
+        // this.props.history.goBack()
       })
     })
   }
@@ -112,15 +113,9 @@ class ResumeIntention extends PureComponent {
         </NavBar>
         <List>
           {/*数据都是undefined*/}
-          <Job
-            {...getFieldProps('desired_positions', {
-              initialValue: DesiredPositions,
-            })}
-          >
-            <List.Item arrow="horizontal">职位名称</List.Item>
-          </Job>
+
           <Post
-            {...getFieldProps('desired_positions', {
+            {...getFieldProps('desired_positions2', {
               initialValue: DesiredPositions,
             })}
             maxLength={5}
@@ -136,6 +131,14 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向行业</List.Item>
           </Industry>
+          {/*<Job*/}
+            {/*{...getFieldProps('desired_positions', {*/}
+              {/*initialValue: DesiredLocations,*/}
+            {/*})}*/}
+            {/*maxLength={5}*/}
+          {/*>*/}
+            {/*<List.Item arrow="horizontal">意向地点121</List.Item>*/}
+          {/*</Job>*/}
           <Area
             {...getFieldProps('desired_locations', {
               initialValue: DesiredLocations,

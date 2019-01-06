@@ -6,7 +6,7 @@
 }
 
 .nav {
-  margin-bottom: 10px;
+  border-bottom: 1PX solid #F0F0F0;
   :global {
     .am-icon {
       color: #555555;
@@ -25,44 +25,122 @@
     }
   }
 }
+.selected {
+  padding: 0 25px 16px 25px;
+  position: relative;
+  background-color: #ffffff;
+  //margin-top: 1PX;
+  text-align: left;
+  margin-bottom: 10px;
+  .title {
+    font-size: 15px;
+    color: #4A4A4A;
+    padding: 16px 0 0 0;
+  }
+  .num {
+    font-size: 14px;
+    color: #FF4F00;
+    position: absolute;
+    top: 16px;
+    right: 25px;
+    span {
+      color: #777777;
+    }
+  }
+  .select-content {
+    font-size: 13px;
+    padding: 16px 30px 0 0;
+    display: inline-block;
+    :global {
+      .am-icon {
+        vertical-align: middle;
+      }
+    }
 
+  }
+}
 .wrap {
   display: flex;
-  height: 300px;
+  //height: 300px;
   color: #4A4A4A;
-  padding-top: 8px;
   background-color: #ffffff;
+  position: absolute;
+  left: 0;
+  top: 110px;
+  right: 0;
+  bottom: 0;
   > ul {
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    padding-top: 18px;
+    box-sizing: border-box;
   }
   .left {
-    flex: 46;
+    flex: 27;
     border-right: 1Px solid  #F0F0F0;
     font-size: 15px;
     > li {
-      padding: 25px 30px 0 30px;
+      padding: 12px 0 12px 0;
       position: relative;
       > i {
         display: inline-block;
         width: 6px;
         height: 18px;
         position: absolute;
-        bottom: 0;
+        top: 50%;
         right: 0;
         background-color: #FF4F00;
+        transform: translateY(-50%);
       }
     }
   }
   .right {
-    flex: 54;
+    flex: 73;
     font-size: 13px;
+    text-align: center;
     > li {
       padding: 26px 15px 5px 15px;
+
+    }
+    .mycity {
+      display: flex;
+      justify-content: space-between;
+      > span:first-of-type {
+        font-size: 15px;
+        color: #777777;
+      }
+      > span:last-of-type {
+        font-size: 13px;
+        color: #4A4A4A;
+        display: inline-block;
+        padding: 3px 20px;
+        background: #F8F8F8;
+        border-radius: 2px;
+      }
+    }
+    .citymode {
+      font-size: 13px;
+      color: #4A4A4A;
+      display: inline-block;
+      padding: 3px 20px;
+      background: #F8F8F8;
+      border-radius: 2px;
+      margin: 36px 12px 0 12px;
+      //text-align: center;
+      //> span {
+      //  display: inline-block;
+      //  padding: 3px 20px;
+      //  background: #F8F8F8;
+      //  border-radius: 2px;
+      //}
+
     }
   }
   .checked {
     color: #FF4F00;
   }
+}
+.toprest {
+  top: 146px;
 }

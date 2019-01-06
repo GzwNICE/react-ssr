@@ -35,7 +35,6 @@ class ComplexFormField extends PureComponent {
       </ComplexModal>,
     ]
     const formatExtra = format.call(this, this.serialize(this.props.value))
-    console.log(this.serialize(this.props.value))
 
     return React.cloneElement(children, {
       ...(isFn ? null : {

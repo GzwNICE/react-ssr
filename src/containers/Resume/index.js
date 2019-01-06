@@ -38,6 +38,7 @@ const progressStyle = {
     training_exps: state.training_exps.list || [],
     certificates: state.certificates.list || [],
     other_exps: state.other_exps.list || [],
+    DesiredCompanyTypes: state.DesiredCompanyTypes.list,
   }
 })
 @withRouter
@@ -54,6 +55,7 @@ class Resume extends PureComponent {
       quality: .7, // jpeg|jpg 图片的质量
     })
     this.props.dispatch(getAllInfo({
+      version:'5.2.1',
       appchannel: 'web',
     }))
       .then( data => {
@@ -107,10 +109,11 @@ class Resume extends PureComponent {
       training_exps,
       certificates,
       other_exps,
+      DesiredCompanyTypes=[],
     } = this.props
     const { toogle } = this.state
-    console.log(DesiredLocations)
-    // todo 设置、预览的链接还没写, 意向行业没有找到
+
+    // todo 设置、预览的链接还没写
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -186,7 +189,7 @@ class Resume extends PureComponent {
                     <span>意向职位：</span>{DesiredPositions.map(item => option.positions_index[item]).join(', ')}
                   </div>
                   <div>
-                    <span>意向行业：</span>
+                    <span>意向行业：</span>{DesiredCompanyTypes.length ? DesiredCompanyTypes.map(item => option.opts_company_industry_all_index[item.industry]) : '暂无'}
                   </div>
                   <div>
                     <span>意向地点：</span>{DesiredLocations.map(item => option.areas_index[item]).join(', ')}

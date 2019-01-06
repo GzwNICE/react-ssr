@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import ComplexSelView from '../../components/Complex/ComplexSelView'
+// import ComplexSelView from '../../components/Complex/ComplexSelView'
+import ComplexSelView from '../../components/SelectPosition'
 
 @connect(state => {
   return {

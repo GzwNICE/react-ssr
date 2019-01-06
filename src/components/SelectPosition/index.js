@@ -1,18 +1,9 @@
 import React from 'react'
-import ComplexFormField from '../../../components/Complex/ComplexFormField'
+import ComplexFormField from '../Complex/ComplexFormField'
 import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
-import { connect } from 'react-redux'
 import {Toast} from "antd-mobile/lib/index";
 
-@connect(state => {
-  return {
-    options: state.option.areas,
-    optIndex: state.option.areas_index,
-    hot: state.option.opts_hot_area,
-    coord: state.supers.location,
-  }
-})
 class ComplexSelView extends ComplexFormField {
   static defaultProps = {
     value: [],
@@ -26,27 +17,15 @@ class ComplexSelView extends ComplexFormField {
       maxLength: 1,
       root: true,
       optionsSubChil: [], // 右侧数据
-      clickCode: 'hot', // 右侧点击省份的code
-      hotData: [], // 热门城市
-      selectedHight: 0, // 顶部被选中城市框的高度
+      clickCode: '0100', // 右侧点击省份的code
+      selectedHight: 60, // 顶部被选中城市框的高度
     }
     this.saveRef = ref => {this.refDom = ref}
-
   }
   componentDidMount() {
-    const { options, hot, coord } = this.props
-    // console.log(options)
-    // console.log(coord)
-    let hotData = {
-      value: '热门城市',
-      code: 'hot',
-      sublist: hot,
-    }
-    // console.log(hotData)
-
+    const { options } = this.props
     this.setState({
-      optionsSubChil: hot,
-      hotData,
+      optionsSubChil: options[0].sublist,
     })
   }
   format(value=[]) {
@@ -88,7 +67,7 @@ class ComplexSelView extends ComplexFormField {
         }
       }
       this.setState({ value }, () => {
-        const {clientHeight} = this.refDom;
+        const {clientHeight} = this.refDom
         this.setState({
           selectedHight: clientHeight,
         })
@@ -102,8 +81,6 @@ class ComplexSelView extends ComplexFormField {
       this.setState({ value: [code] }, () => this.changeValue())
       // setTimeout(() => this.changeValue())
     }
-
-
   }
 
   changeValue = () => {
@@ -123,6 +100,14 @@ class ComplexSelView extends ComplexFormField {
   componentWillReceiveProps(nextProps) {
     if (this.props.root && JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)) {
       this.setState({ value: nextProps.value })
+    }
+  }
+  componentDidUpdate(){
+    if (this.refDom) {
+      const {clientHeight} = this.refDom
+      this.setState({
+        selectedHight: clientHeight,
+      })
     }
   }
 
@@ -179,15 +164,11 @@ class ComplexSelView extends ComplexFormField {
 
   mainView() {
     const { options = [] } = this.props
-    const { value, optionsSubChil, clickCode, hotData, selectedHight } = this.state
-    if (this.props.coord && this.props.coord.address) {
-      Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (new RegExp(this.props.optIndex[key]).test(this.props.coord.address.city)) {
-          this.myCity = key
-        }
-      })
-    }
+    const { value, optionsSubChil, selectedHight, clickCode } = this.state
 
+    let styleObj = {
+      top: `${60 + selectedHight}px`,
+    }
     return (
       <div className={style.root}>
         <NavBar
@@ -199,12 +180,8 @@ class ComplexSelView extends ComplexFormField {
           选择职位
         </NavBar>
         {this.optView()}
-        <div className={`${style.wrap} ${selectedHight >= 70 ? style.toprest : null}`}>
+        <div className={style.wrap} style={styleObj}>
           <ul className={style.left}>
-            <li onClick={this.handleChangeSubChil.bind(this, hotData)}>
-              热门
-              {clickCode === 'hot' ? <i/> : null}
-            </li>
             {
               options.map((item, index) =>
                 <li key={index} onClick={this.handleChangeSubChil.bind(this, item)}>
@@ -224,13 +201,6 @@ class ComplexSelView extends ComplexFormField {
           </ul>
           <ul className={style.right}>
             {
-              (this.myCity && clickCode === 'hot') ? <li className={style.mycity}>
-                <span>当前定位</span>
-                <span>{this.props.optIndex[this.myCity]}</span>
-              </li> : null
-            }
-
-            {
               optionsSubChil.map((item, index) =>{
                 let isChecked = false
                 value.map((item2, index2) => {
@@ -239,7 +209,6 @@ class ComplexSelView extends ComplexFormField {
                   }
                 })
                 return <li
-                  className={style.citymode}
                   onClick={() => (this.props.onSelect || this.selectValue)(item.code)}
                   style={{color: isChecked ? "#FF4F00" : "#4A4A4A"}}
                   key={index}>

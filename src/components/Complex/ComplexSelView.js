@@ -1,6 +1,6 @@
 import React from 'react'
 import ComplexFormField from './ComplexFormField'
-import { NavBar, Toast, Accordion, List } from 'antd-mobile'
+import { NavBar, Toast, Accordion, List, Icon } from 'antd-mobile'
 import style from './style.less'
 import xialaIcon from '../../static/xiala@3x.png'
 import okIcon from '../../static/ok@3x.png'
@@ -180,12 +180,14 @@ class ComplexSelView extends ComplexFormField {
     return (
       <div className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
           {this.props.title || this.props.children.props.children}
         </NavBar>
+
         {this.wrapView(
           this.props.maxLength > 1 ?
             this.optView() : null,

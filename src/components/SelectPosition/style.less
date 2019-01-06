@@ -6,7 +6,6 @@
 }
 
 .nav {
-  border-bottom: 1PX solid #F0F0F0;
   :global {
     .am-icon {
       color: #555555;
@@ -24,6 +23,7 @@
       }
     }
   }
+  border-bottom: 1Px solid #F0F0F0;
 }
 .selected {
   padding: 0 25px 16px 25px;
@@ -49,8 +49,7 @@
   }
   .select-content {
     font-size: 13px;
-    padding: 16px 30px 0 0;
-    display: inline-block;
+    padding: 16px 53px 0 0;
     :global {
       .am-icon {
         vertical-align: middle;
@@ -61,8 +60,8 @@
 }
 .wrap {
   display: flex;
-  //height: 300px;
   color: #4A4A4A;
+  //padding-top: 8px;
   background-color: #ffffff;
   position: absolute;
   left: 0;
@@ -73,15 +72,15 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-top: 18px;
     box-sizing: border-box;
   }
   .left {
-    flex: 27;
+    flex: 46;
     border-right: 1Px solid  #F0F0F0;
     font-size: 15px;
+    padding-top: 12px;
     > li {
-      padding: 12px 0 12px 0;
+      padding: 12px 30px 12px 30px;
       position: relative;
       > i {
         display: inline-block;
@@ -96,51 +95,25 @@
     }
   }
   .right {
-    flex: 73;
+    flex: 54;
     font-size: 13px;
-    text-align: center;
     > li {
       padding: 26px 15px 5px 15px;
-
-    }
-    .mycity {
-      display: flex;
-      justify-content: space-between;
-      > span:first-of-type {
-        font-size: 15px;
-        color: #777777;
-      }
-      > span:last-of-type {
-        font-size: 13px;
-        color: #4A4A4A;
-        display: inline-block;
-        padding: 3px 20px;
-        background: #F8F8F8;
-        border-radius: 2px;
-      }
-    }
-    .citymode {
-      font-size: 13px;
-      color: #4A4A4A;
-      display: inline-block;
-      padding: 3px 20px;
-      background: #F8F8F8;
-      border-radius: 2px;
-      margin: 36px 12px 0 12px;
-      //text-align: center;
-      //> span {
-      //  display: inline-block;
-      //  padding: 3px 20px;
-      //  background: #F8F8F8;
-      //  border-radius: 2px;
-      //}
-
     }
   }
   .checked {
     color: #FF4F00;
   }
 }
-.toprest {
+.toprest2 {
   top: 146px;
+}
+.toprest3 {
+  top: 186px;
+}
+.toprest4 {
+  top: 224px;
+}
+.toprest5 {
+  top: 252px;
 }
