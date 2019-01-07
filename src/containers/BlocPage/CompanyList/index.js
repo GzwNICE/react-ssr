@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { ListView } from 'antd-mobile'
 import { blocList, blocCategory } from '../../../actions/company'
 import companyLogo from '../../../static/detailLogo.png'
+import missing from '../../../static/missing.png'
 import style from '../style.less'
 
 @connect(state => {
@@ -67,34 +68,30 @@ class CompanyList extends Component {
     this.setState({
       height: height,
     })
-    this.props
-      .dispatch(
-        blocList({
-          c_userid: c_userid,
-        })
-      )
-      .then(data => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(data.data.list && data.data.list),
-        })
-        if(data.data.list.length <= 20 && data.data.pager.allpages === 1){
-          this.setState({
-            isLoading: false,
-          })
-        }
-      })
     // 请求名企品牌分类
     this.props.dispatch(blocCategory({
       c_userid: c_userid,
     }))
   }
 
-  
+  componentWillReceiveProps(nextProps) {
+    if(this.props.list !== nextProps.list){
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.list && nextProps.list),
+      })
+      if(nextProps.list.length <= 20 && nextProps.pagers.allPage === 1){
+        this.setState({
+          isLoading: false,
+          
+        })
+      }
+    }
+  }
 
   render() {
     const individuation = this.props.listPhoto.company_file
     const Row = d => {
-      return (
+      return this.state.dataSource ?  (
         <Link
           rel="stylesheet"
           to={`/${d.c_userid}?redirect=${this.props.location.pathname}`}
@@ -118,7 +115,10 @@ class CompanyList extends Component {
             </div>
           </div>
         </Link>
-      )
+      ) : (<div className={style.missing}>
+        <img src={missing} alt="" />
+        <p>暂无职位，可以切换条件试试哦~</p>
+      </div>)
     }
     return (
       <div className={style.companyList}>
@@ -138,8 +138,9 @@ class CompanyList extends Component {
             overflow: 'auto',
           }}
           renderHeader={() => (
-            <div className={style.individuation}>
-              <img src={individuation} alt="" />
+            <div className={style.individuation} style={{
+              backgroundImage: `url(${individuation})`,
+            }}>
             </div>)
           }
           onEndReached={this.onEndReached}   // 上拉加载

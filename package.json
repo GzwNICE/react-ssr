@@ -37,6 +37,7 @@
     "md5": "^2.2.1",
     "object-assign": "^4.1.1",
     "object.values": "^1.0.4",
+    "path-to-regexp": "^2.4.0",
     "promise": "8.0.1",
     "query-string": "^5.0.1",
     "rc-form": "^1.4.8",
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.55",
     "autoprefixer": "7.1.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",

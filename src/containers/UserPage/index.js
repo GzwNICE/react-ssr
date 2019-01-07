@@ -104,6 +104,8 @@ class UserPage extends PureComponent {
         setTimeout(() => {
           this.props.history.go(-1)
         },1200)
+        sessionStorage.removeItem('is_login')
+        sessionStorage.removeItem('photo')
       }
     })
       .catch(err => {

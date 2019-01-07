@@ -19,18 +19,18 @@ class HotTopic extends Component {
           <div className={style.hotJobs}>
             {hotPosts.map((i, n) => {
               return (
-                <Link rel="stylesheet" to={`${i.url}`} key={n}>
+                <a href={`${i.url}`} key={n}>
                   {`${city}${i.name}`}
-                </Link>
+                </a>
               )
             })}
           </div>
           <div className={style.hotCompanyu}>
             {hotCities.map((i, n) => {
               return (
-                <Link rel="stylesheet" to={`${i.url}`} key={n}>
+                <a href={`${i.url}`} key={n}>
                   {`${i.name}招聘`}
-                </Link>
+                </a>
               )
             })}
           </div>

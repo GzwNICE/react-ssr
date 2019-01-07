@@ -21,8 +21,8 @@ import { domainToASCII } from 'url';
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
-  is_login: state.userStatus.is_login,
-  photo: state.userStatus.photo,
+  // is_login: state.userStatus.is_login,
+  // photo: state.userStatus.photo,
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -52,13 +52,12 @@ class MySearchBar extends PureComponent {
     if (this.props.autoFocus) {
       this.autoFocusInst.focus()
     }
-
-    this.props.dispatch(loggingStatus({})).then(() => {
-      this.setState({
-        is_login: this.props.is_login,
-        photo: this.props.photo,
-      })
-    })
+    // this.props.dispatch(loggingStatus({})).then(() => {
+    //   this.setState({
+    //     is_login: this.props.is_login,
+    //     photo: this.props.photo,
+    //   })
+    // })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +81,8 @@ class MySearchBar extends PureComponent {
       touchCancel = function() {},
       onChange = function() {},
     } = this.props
-    const { photo, is_login } = this.state
+    const is_login = sessionStorage.getItem("is_login")
+    const photo = sessionStorage.getItem("photo")
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (

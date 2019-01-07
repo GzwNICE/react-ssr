@@ -54,7 +54,7 @@ class HomePage extends PureComponent {
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
       show: false,
-      showRegWrap: true, //是否登录
+      showRegWrap: true, //是否显示引导注册
     }
   }
 
@@ -248,7 +248,7 @@ class HomePage extends PureComponent {
 
   render() {
     const { show, showRegWrap } = this.state
-    const isLogin = this.props.is_login
+    const is_login = sessionStorage.getItem("is_login")
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow
@@ -278,14 +278,14 @@ class HomePage extends PureComponent {
           <HotTrade />
         </div>
 
-        {isLogin === 0 ? (
+        {is_login ? null : (
           showRegWrap ? (
             <RegisterWrap
               onCloseReg={this.handleCloseReg.bind(this)}
               location={this.props.history.location.pathname}
             />
           ) : null
-        ) : null}
+        )}
       </div>
     )
   }

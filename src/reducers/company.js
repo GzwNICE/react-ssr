@@ -61,7 +61,7 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_LIST:
       return {
         ...state,
-        list: [...action.data.list],
+        list: action.data.list || [],
         pager: {
           allPage: action.data.pager.allpages,
           cur: action.data.pager.cur,

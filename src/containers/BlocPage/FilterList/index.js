@@ -18,11 +18,6 @@ const querys ={
   area:null,
   brand:0,
 }
-
-@connect(state => ({
-  supers: state.supers,
-}))
-
 @createForm({
   onValuesChange(props, values) {
    if(values.areas){
@@ -31,10 +26,12 @@ const querys ={
    if(values.brand){
       querys.brand=values.brand[0]
    }
-   console.log(querys)
-   props.handleFilerSearch(querys)
+   props.filterList(querys)
   },
 })
+@connect(state => ({
+  supers: state.supers,
+}))
 class FilterList extends (PureComponent || Component) {
 
   formatBrand(value) {

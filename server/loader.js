@@ -15,8 +15,11 @@ import createStore from '../src/store'
 import routes from '../src/routes'
 // import Root from '../src/pages/Root'
 import manifest from '../build/asset-manifest.json'
-import {getPostInit, HOME_POST_INIT} from "../src/actions/home";
+import { getPostInit } from '../src/actions/home'
+import { companydetail, companyList } from '../src/actions/company'
+import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
+import pathToRegexp from 'path-to-regexp'
 
 export default (req, res, next) => {
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
@@ -31,7 +34,7 @@ export default (req, res, next) => {
 
     return data
   }
-  console.log(req.url)
+
   fs.readFile(
     path.resolve(__dirname, '../build/index.html'),
     'utf8',
@@ -44,14 +47,16 @@ export default (req, res, next) => {
       const { store } = createStore(req.url)
       const context = {}
       const modules = []
+
+      const isNumber = obj => {
+        return typeof obj === 'number' && isFinite(obj)
+      }
       const serverRender = () => {
         frontloadServerRender(() =>
           renderToString(
             <Provider store={store}>
               <StaticRouter location={req.url} context={context}>
-                <Frontload isServer>
-                  {routes}
-                </Frontload>
+                <Frontload isServer>{routes}</Frontload>
               </StaticRouter>
             </Provider>
           )
@@ -70,7 +75,9 @@ export default (req, res, next) => {
               // Let's give ourself a function to load all our page-specific JS assets for code splitting
               const extractAssets = (assets, chunks) =>
                 Object.keys(assets)
-                  .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
+                  .filter(
+                    asset => chunks.indexOf(asset.replace('.js', '')) > -1
+                  )
                   .map(k => assets[k])
 
               // Let's format those assets into pretty <script> tags
@@ -106,18 +113,68 @@ export default (req, res, next) => {
             console.log('error: ' + error)
           })
       }
-      if (req.url.indexOf('tabs/home') !== -1) {
+
+      const jobUrl = pathToRegexp('/:company_id/:job_id(.*)')
+      const companyUrl2 = pathToRegexp('/:company_id')
+      const companyUrl = pathToRegexp('/:company_id\\?(.*)')
+      let job = jobUrl.exec(req.url)
+      let com2 = companyUrl2.exec(req.url)
+      let com1 = companyUrl.exec(req.url)
+      let com = null
+      if (job) {
+        com = {
+          key: 1,
+          value: job[1]
+        }
+      }
+      if (com2) {
+        com = {
+          key: 2,
+          value: com2[1]
+        }
+      }
+      if (com1) {
+        com = {
+          key: 3,
+          value: com1[1]
+        }
+      }
+
+      if (isNumber(parseInt(com.value, 10))) {
+        if (com.key === 1) {
+          // 职位详情页
+          store.dispatch(positiondetail()).then(() => {
+            serverRender()
+          })
+        } else {
+          // 企业详情页
+          store.dispatch(companydetail()).then(() => {
+            store.dispatch(companyList()).then(() => {
+              serverRender()
+            })
+          })
+        }
+      }
+
+      // 首页
+      const homePage = pathToRegexp('/tabs/home')
+
+      if (homePage.exec(req.url)) {
         store.dispatch(getPostInit()).then(() => {
           store.dispatch(getBanner()).then(() => {
             serverRender()
           })
         })
-      } else {
-        serverRender()
       }
-
-
-
+      // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
+      //   store.dispatch(getPostInit()).then(() => {
+      //     store.dispatch(getBanner()).then(() => {
+      //       serverRender()
+      //     })
+      //   })
+      // } else {
+      //   serverRender()
+      // }
     }
   )
 }

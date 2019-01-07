@@ -39,6 +39,19 @@ export default class CompanyDuce extends Component {
     })
   }
 
+  replacleHtml = (d = '') => {
+    return d.replace(/style/g, 'styles')
+  }
+
+  filterHTMLTag = msg => {
+    if (msg) {
+      let res = msg.replace(/<\/?[^>]*>/g, '') //去除HTML Tag
+      res = res.replace(/[|]*\n/, '') //去除行尾空格
+      res = res.replace(/&npsp;/gi, '') //去掉npsp
+      return res
+    }
+  }
+
   render() {
     const { open, introduced } = this.state
     const { company = {} } = this.props
@@ -48,22 +61,34 @@ export default class CompanyDuce extends Component {
           <div className={style.companyFerral}>
             <div className={style.companycent}>
               <div className={style.title}>企业介绍</div>
-              <div
-                className={open ? style.particulars : style.unfold}
-                ref={e => {
-                  this.otext = e
-                }}
-              >
-                {company.description}
-                {open ? (
-                  <span
-                    className={style.lookAll}
-                    onClick={this.handleUnfold.bind(this)}
-                  >
-                    <i>...</i>查看全部
-                  </span>
-                ) : null}
-              </div>
+              {open ? (
+                <div
+                  className={open ? style.particulars : style.unfold}
+                  ref={e => {
+                    this.otext = e
+                  }}
+                >
+                  {this.filterHTMLTag(company.description)}
+                  {open ? (
+                    <span
+                      className={style.lookAll}
+                      onClick={this.handleUnfold.bind(this)}
+                    >
+                      <i>...</i>查看全部
+                    </span>
+                  ) : null}
+                </div>
+              ) : (
+                <div
+                  className={open ? style.particulars : style.unfold}
+                  ref={e => {
+                    this.otext = e
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: this.replacleHtml(company.description),
+                  }}
+                />
+              )}
             </div>
           </div>
         ) : null}

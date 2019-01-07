@@ -17,6 +17,7 @@ import SearchUser from '../../components/SearchBar/SearchUser'
 import CompanyDuce from './CompanyDuce'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
+import missing from '../../static/missing.png'
 import * as Ad from '../../components/Ad'
 import { companydetail, companyList } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
@@ -205,12 +206,19 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const { searchShow, show, albumShow, current, attention, showRegWrap} = this.state
+    const {
+      searchShow,
+      show,
+      albumShow,
+      current,
+      attention,
+      showRegWrap,
+    } = this.state
     const tabs = [
       { title: <Badge key="1">企业信息</Badge> },
       { title: <Badge key="2">在招职位</Badge> },
     ]
-    const isLogin = this.props.is_login
+    const is_login = sessionStorage.getItem('is_login')
     return (
       <div className={style.CompanyDetailWrap}>
         <SearchUser
@@ -270,19 +278,24 @@ class CompanyDetail extends PureComponent {
                 <Album />
               </div>
               <div className={style.PostList}>
-                <JobList.PostList data={this.props.list} />
+                {this.props.list.length ? (
+                  <JobList.PostList data={this.props.list} />
+                ) : (
+                  <div className={style.noMore}>
+                    <img src={missing} alt="" />
+                    <p>暂无职位发布，先关注看看吧~</p>
+                  </div>
+                )}
               </div>
             </Tabs>
           </div>
         </div>
 
-        {isLogin === 0 ? (
-          showRegWrap ? (
-            <RegisterWrap
-              onCloseReg={this.handleCloseReg.bind(this)}
-              location={this.props.history.location.pathname}
-            />
-          ) : null
+        {is_login ? null : showRegWrap ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
+          />
         ) : null}
 
         {albumShow ? (

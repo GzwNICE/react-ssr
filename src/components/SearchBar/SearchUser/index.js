@@ -26,24 +26,23 @@ class SearchUser extends Component {
     }
   }
 
-  
-
   componentDidMount() {
     // if (this.props.autoFocus) {
     //   this.autoFocusInst.onFocus()
     // }
-    this.props.dispatch(loggingStatus({})).then(() => {
-      this.setState({
-        is_login: this.props.is_login,
-        photo: this.props.photo,
-      })
-    })
+    // this.props.dispatch(loggingStatus({})).then(() => {
+    //   this.setState({
+    //     is_login: this.props.is_login,
+    //     photo: this.props.photo,
+    //   })
+    // })
   }
 
   render() {
-    const { show, is_login, photo } = this.state
+    const { show } = this.state
     const { searchShow } = this.props
-    // let { searchFocus = function() {} } = this.props
+    const is_login = sessionStorage.getItem("is_login")
+    const photo = sessionStorage.getItem("photo")
     return (
       <div className={searchShow ? style.headScoll : style.positionHead}>
         <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
@@ -66,7 +65,7 @@ class SearchUser extends Component {
             <Link
               rel="stylesheet"
               to={
-                is_login === 1
+                is_login
                   ? `/tabs/user?redirect=${this.props.location.pathname}`
                   : `/user/register?redirect=${this.props.location.pathname}`
               }

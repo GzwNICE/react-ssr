@@ -6,25 +6,25 @@ import { createForm } from 'rc-form'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 // import Salary from '../../inputs/Salary'
-import {changeAllCity} from '../../actions/home'
+import { changeAllCity } from '../../actions/home'
 import { saveCityCode } from '../../actions/userStatus'
 import { saveQuery } from '../../actions/jobPage'
 import Area from '../../inputs/Area'
 import Brand from '../../inputs/Brand'
 import SimpleItem from '../../inputs/SimpleItem'
+import { blocList } from '../../actions/company'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
 import style from './style.less'
 
-
-
 @connect(state => ({
   is_login: state.userStatus.is_login,
   userStatus: state.userStatus,
   supers: state.supers,
+  list: state.company.list,
+  pagers: state.company.pager,
 }))
-
 export default class CompanyArea extends Component {
   state = {
     show: true,
@@ -43,8 +43,17 @@ export default class CompanyArea extends Component {
       showRegWrap: false,
     })
   }
-  handleFilerSearch(querys){
-    console.log(querys)
+
+  handleFilerSearch = (value = {}) => {
+    console.log(value)
+    const c_userid = this.props.match.params.c_userid
+    this.props.dispatch(
+      blocList({
+        c_userid: c_userid,
+        local: value.area ? value.area : '',
+        c_id: value.brand ? value.brand : '',
+      })
+    )
   }
   /* 记录滚动条的位置 */
   onScroll = e => {
@@ -62,8 +71,6 @@ export default class CompanyArea extends Component {
     // }
   }
 
-  
-
   whereWillIGo = () => {
     const { pathSearch } = queryString.parse(window.location.search)
     if (pathSearch) {
@@ -78,44 +85,46 @@ export default class CompanyArea extends Component {
   componentWillUnmount() {}
 
   componentDidMount() {
-
+    const c_userid = this.props.match.params.c_userid
+    this.props.dispatch(
+      blocList({
+        c_userid: c_userid,
+      })
+    )
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.form.validateFields((err, values) => {
-      if (err) return
-      if (values.areas && nextProps.userStatus.code !== values.areas) {
-        this.onChangeCity && this.onChangeCity(values)
-      }
-      if (values.brand) {
-        this.props.onChangBrand && this.props.onChangeBrand(values)
-      }
-    })
+    // this.props.form.validateFields((err, values) => {
+    //   if (err) return
+    //   if (values.areas && nextProps.userStatus.code !== values.areas) {
+    //     this.onChangeCity && this.onChangeCity(values)
+    //   }
+    //   if (values.brand) {
+    //     this.props.onChangBrand && this.props.onChangeBrand(values)
+    //   }
+    // })
   }
 
   render() {
     const { show, showRegWrap } = this.state
-    const isLogin = this.props.is_login
-    const { form, supers } = this.props
-    const { getFieldProps } = form
+    const is_login = sessionStorage.getItem('is_login')
+    // const hasList = this.props.list.length
+    // console.log(hasList);
     return (
       <div className={style.CompanyArea}>
         <div className={style.selHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <Search goBack={this.whereWillIGo} />
-          <FilterList  FilterList={this.handleFilerSearch} />
+          <FilterList filterList={this.handleFilerSearch} />
         </div>
         <div className={style.blocCentent}>
           <CompanyList />
         </div>
-
-        {isLogin === 0 ? (
-          showRegWrap ? (
-            <RegisterWrap
-              onCloseReg={this.handleCloseReg.bind(this)}
-              location={this.props.history.location.pathname}
-            />
-          ) : null
+        {is_login ? null : showRegWrap ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
+          />
         ) : null}
       </div>
     )
