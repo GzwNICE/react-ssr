@@ -46,8 +46,7 @@ class County extends Component {
   }
   render() {
     const { opt_phone_rules = [] } = this.props.options
-    const { visible, country, name } = this.state
-    console.log(opt_phone_rules)
+    const { visible, country } = this.state
     return (
       <div>
         <span onClick={this.handleShow} className={style.label}>

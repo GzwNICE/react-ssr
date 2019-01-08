@@ -16,6 +16,7 @@ import circleIcon from '../../static/circle.png'
 import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import {Toast} from "antd-mobile/lib/index";
+import { getUserStatus } from '../../actions/userStatus'
 
 const Pla = (props) =>
   <i style={{display: 'inline-block', width: props.w + 'em'}} />
@@ -45,6 +46,7 @@ const progressStyle = {
 class Resume extends PureComponent {
   state = {
     toogle: true, // 默认收起
+    percentage: '',
   }
 
   componentDidMount() {
@@ -62,10 +64,31 @@ class Resume extends PureComponent {
         if(data.errMsg === '未登陆') {
           return Modal.alert('', '请先登录', [
             { text: '稍后', style: 'default' },
-            { text: '登录', onPress: () => this.props.history.replace('/user/login?redirect=' + this.props.history.location.pathname) },
+            { text: '登录', onPress: () => this.props.history.replace('/login?redirect=' + this.props.history.location.pathname) },
           ])
         }
       })
+
+    this.props
+      .dispatch(
+        getUserStatus({
+          appchannel: 'web',
+        })
+      )
+      .then(data => {
+        if(data.errMsg === '未登陆') {
+
+        } else {
+          console.log(data.data.resume_complete)
+          let resume_complete = Number(data.data.resume_complete) * 100
+          this.setState({
+            percentage: `${resume_complete}%`,
+          })
+        }
+
+
+      })
+
   }
   handleFaceChange = (ev) => {
     this.bitmapMin.load(ev.target.files[0], (base64, blob) => {
@@ -111,7 +134,7 @@ class Resume extends PureComponent {
       other_exps,
       DesiredCompanyTypes=[],
     } = this.props
-    const { toogle } = this.state
+    const { toogle, percentage } = this.state
 
     // todo 设置、预览的链接还没写
     return (
@@ -135,14 +158,14 @@ class Resume extends PureComponent {
                     accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
                     onChange={this.handleFaceChange} />
                 </div>
-                <p className={style.title}>张杰的简历</p>
-                <p className={style.subTitle}>简历完善度:<span>70%</span></p>
+                <p className={style.title}>{resume.true_name_cn ? `${resume.true_name_cn}的简历` : '暂无'}</p>
+                <p className={style.subTitle}>简历完善度:<span>{percentage}</span></p>
                 <Flex>
                   <Flex.Item>
                     <img src={setIcon} />
                     <p>设置</p>
                   </Flex.Item>
-                  <Flex.Item>
+                  <Flex.Item onClick={this.handleGoto.bind(this, `/resumepreview`)}>
                     <img src={previewIcon} />
                     <p>预览</p>
                   </Flex.Item>
@@ -155,6 +178,7 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
+                  className={style.boder1px}
                   title={<span>基本信息 <span>(必填)</span></span>}
                   extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
                 <Card.Body className={style['card-body']}>
@@ -182,6 +206,7 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
+                  className={style.boder1px}
                   title={<span>求职意向 <span>(必填)</span></span>}
                   extra={<Link to="/resume/intention"><img src={editIcon} /></Link>} />
                 <Card.Body className={style['card-body']}>
@@ -205,6 +230,7 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
+                  className={style.boder1px}
                   title={<span>工作经历 <span>(必填)</span></span>}/>
                 <Card.Body className={style['card-job']}>
                   {work_exps.map((item, key) =>

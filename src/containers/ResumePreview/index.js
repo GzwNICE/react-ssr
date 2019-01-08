@@ -5,7 +5,8 @@ import { getAllInfo, avatar } from '../../actions/resume'
 import { NavBar, Card, Flex, Modal, TextareaItem, Icon, Progress } from 'antd-mobile'
 // import queryString from 'query-string'
 import BitmapMin from 'bitmap-min'
-import style from './style.less'
+import style from '../Resume/style.less'
+import style2 from './style.less'
 import editIcon from '../../static/edit@3x.png'
 import setIcon from '../../static/set.png'
 import refreshIcon from '../../static/refresh2@3x.png'
@@ -94,7 +95,9 @@ class Resume extends PureComponent {
       toogle: !this.state.toogle,
     })
   }
-
+  handleGoBack = () => {
+    this.props.history.goBack()
+  }
   render() {
     const {
       option,
@@ -115,47 +118,29 @@ class Resume extends PureComponent {
     // todo 设置、预览的链接还没写
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
-        <div className={style.header}>
-          <Icon
-            type="left"
-            onClick={() => {this.whereWillIGo()}}
-            className={style.nav}/>
-        </div>
-        <Flex.Item onScroll={this.onScroll} id="page" className={style.content}>
+        <NavBar
+          mode="light"
+          className={style2.nav}
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.handleGoBack()}
+        >
+          简历预览
+        </NavBar>
+        <Flex.Item onScroll={this.onScroll} id="page" className={[style.content, style2.content]}>
           <div>
-            <div className={style.backdrop}/>
-            <div className={style.contentWrp}>
-              <div className={style.firstcard}>
-                <div className={style.photo}>
+            <div className={[style.contentWrp, style2.content]}>
+              <div className={style2.firstcard}>
+                <div className={style2.photo}>
                   <img src={resume.photo ? resume.photo : portraitIcon} />
-                  <input
-                    className={style.face}
-                    type="file"
-                    accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-                    onChange={this.handleFaceChange} />
                 </div>
-                <p className={style.title}>张杰的简历</p>
-                <p className={style.subTitle}>简历完善度:<span>70%</span></p>
-                <Flex>
-                  <Flex.Item>
-                    <img src={setIcon} />
-                    <p>设置</p>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <img src={previewIcon} />
-                    <p>预览</p>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <img onClick={this.handleRefresh} src={refreshIcon} />
-                    <p>刷新</p>
-                  </Flex.Item>
-                </Flex>
+
+                  <p className={style2.title}>{resume.true_name_cn}</p>
               </div>
               <Card
                 className={style.card}>
                 <Card.Header
-                  title={<span>基本信息 <span>(必填)</span></span>}
-                  extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
+                  title={<span>基本信息 </span>}
+                 />
                 <Card.Body className={style['card-body']}>
                   <div>
                     <span>姓<Pla w={2} />名：</span>{resume.true_name_cn ? resume.true_name_cn : '暂无'}
@@ -181,8 +166,8 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
-                  title={<span>求职意向 <span>(必填)</span></span>}
-                  extra={<Link to="/resume/intention"><img src={editIcon} /></Link>} />
+                  title={<span>求职意向 </span>}
+                  />
                 <Card.Body className={style['card-body']}>
                   <div>
                     <span>意向职位：</span>{DesiredPositions.map(item => option.positions_index[item]).join(', ')}
@@ -204,59 +189,49 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
-                  title={<span>工作经历 <span>(必填)</span></span>}/>
+                  className={style.boder1px}
+                  title={<span>工作经历 </span>}/>
                 <Card.Body className={style['card-job']}>
-                  {/*{work_exps.map((item, key) =>*/}
-                    {/*<div key={key} className={style['card-job-wraper']}>*/}
-                      {/*<img src={circleIcon} className={style['card-job-wraper-circle']}/>*/}
-                      {/*<span>{item.company_name_cn} | {option.positions_index[item.position_id]}</span>*/}
-                      {/*<img src={editIcon} onClick={this.handleGoto.bind(this, `/resume/experience/${item.id}`)} className={style['card-job-wraper-editor']}/>*/}
-                      {/*<p>{`${item.begin_year}.${item.begin_month}`}-{item.end_year !== '0' ? `${item.end_year}.${item.end_month}` : '至今'}</p>*/}
-                      {/*<p>{item.job_responsibilities_cn}</p>*/}
-                      {/*{*/}
-                        {/*work_exps.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null*/}
-                      {/*}*/}
+                  {work_exps.map((item, key) =>
+                    <div key={key} className={style['card-job-wraper']}>
+                      <img src={circleIcon} className={style['card-job-wraper-circle']}/>
+                      <span>{item.company_name_cn} | {option.positions_index[item.position_id]}</span>
+                      <p>{`${item.begin_year}.${item.begin_month}`}-{item.end_year !== '0' ? `${item.end_year}.${item.end_month}` : '至今'}</p>
+                      <p>{item.job_responsibilities_cn}</p>
+                      {
+                        work_exps.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null
+                      }
 
-                    {/*</div>*/}
-                  {/*)}*/}
-                  <div className={style['card-job-footer']}>
-                    <img src={addIcon}/>
-                    <Link to="/resume/experience/add">
-                      添加工作经验
-                    </Link>
-                  </div>
+                    </div>
+                  )}
+
                 </Card.Body>
               </Card>
               <Card
                 className={style.card}>
                 <Card.Header
-                  title={<span>教育经历 <span>(必填)</span></span>}/>
+                  className={style.boder1px}
+                  title={<span>教育经历 </span>}/>
                 <Card.Body className={style['card-education']}>
-                  {/*{educationals.map((item, key) =>*/}
-                    {/*<div key={key} className={style['card-education-wraper']}>*/}
-                      {/*<img src={circleIcon} className={style['card-education-wraper-circle']}/>*/}
-                      {/*<p>{item.school_cn || '学校名称'}</p>*/}
-                      {/*<img src={editIcon} onClick={this.handleGoto.bind(this, `/resume/education/${item.id}`)} className={style['card-education-wraper-editor']}/>*/}
-                      {/*<p>{option.opts_education_index[item.degree] || '不限'} | { item.major_cn || option.opts_edu_major[item.major_id].value || '不限'}</p>*/}
-                      {/*<p>{`${item.begin_year}.${item.begin_month}-${item.end_year}.${item.end_month}`}</p>*/}
-                      {/*{*/}
-                        {/*educationals.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null*/}
-                      {/*}*/}
-                    {/*</div>*/}
-                  {/*)}*/}
-                  <div className={style['card-education-footer']}>
-                    <img src={addIcon}/>
-                    <Link to="/resume/education/add">
-                      添加教育经历
-                    </Link>
-                  </div>
+                  {educationals.map((item, key) =>
+                    <div key={key} className={style['card-education-wraper']}>
+                      <img src={circleIcon} className={style['card-education-wraper-circle']}/>
+                      <p>{item.school_cn || '学校名称'}</p>
+                      <p>{option.opts_education_index[item.degree] || '不限'} | { item.major_cn || option.opts_edu_major[item.major_id].value || '不限'}</p>
+                      <p>{`${item.begin_year}.${item.begin_month}-${item.end_year}.${item.end_month}`}</p>
+                      {
+                        educationals.length-1 !== key ? <div className={style['card-education-wraper-line']} /> : null
+                      }
+                    </div>
+                  )}
+
                 </Card.Body>
               </Card>
               {
                 toogle ?  <Card className={style.card}>
                 <Card.Header
-                title={<span>语言/技能</span>}
-                extra={<Link to="/resume/language"><img src={editIcon} /></Link>} />
+                  className={style.boder1px}
+                  title={<span>语言/技能</span>}/>
                 <Card.Body className={style['card-language']}>
                 {languages.map((item, index) => (
                   <div key={index} className={style['card-language-content']}>
@@ -284,7 +259,7 @@ class Resume extends PureComponent {
                   className={style.card}>
                   <Card.Header
                     title={<span>自我描述</span>}
-                    extra={<Link to="/resume/description"><img src={editIcon} /></Link>} />
+                  />
                   <Card.Body className={style['card-body']}>
                     {
                       other_exps.length > 0 ?
@@ -303,18 +278,10 @@ class Resume extends PureComponent {
                           </Flex>
                         )) : '请简明扼要地描述你的职业优势,让企业HR快速了解你~'
                     }
-                    {/*<p className={style['card-body-describe']}>jdfkldjaskf放开了大家分开了打手机放开了  1fdafdasfdasf放大发生的范德萨范德萨发的 </p>*/}
                   </Card.Body>
                 </Card> : null
               }
 
-              <div className={style.toogle} onClick={this.handleToogle}>
-                <div>
-                  <img src={toogle ? upIcon : downIcon} />
-                  收起更多模块
-                </div>
-                <p>更多简历信息请前往最佳东方官网编辑</p>
-              </div>
             </div>
 
           </div>
