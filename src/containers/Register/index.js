@@ -14,6 +14,7 @@ import { captcha } from '../../actions/auth'
 import { mobile, register } from '../../actions/auth'
 import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
+import County from '../../inputs/County'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -27,6 +28,7 @@ class Register extends PureComponent {
     disableCode: true,
     index: 60,
     needVerify: this.props.bindExistAccount.needVerify,
+    phoneCounty: '0086',
   }
 
   changePasswordType = () => {
@@ -34,7 +36,12 @@ class Register extends PureComponent {
       password: !this.state.password,
     })
   }
-
+  setSst = obj => {
+    console.log(obj)
+    this.setState({
+      phoneCounty: obj.country,
+    })
+  }
   changeImg = () => {
     captcha().then(data => {
       this.setState({
@@ -151,6 +158,7 @@ class Register extends PureComponent {
           platform: 3,
           is_verify: this.state.needVerify,
           appchannel: 'web',
+          country: this.state.phoneCounty,
         })
           .then(data => {
             if (data.status) {
@@ -259,16 +267,23 @@ class Register extends PureComponent {
           <img src={Rectangle} alt="返回" />
         </div>
         <div className={style.title}>注册最佳东方</div>
+        
+        
         <div className={style.forms}>
           <div className={style.phoneCode}>
+            
+            
             <InputItem
               {...getFieldProps('number', { onChange: this.onPhoneNumber })}
               className={style.inputHei}
               clear
               placeholder="请输入常用手机号"
               maxLength="11"
-            />
+            >
+            <County setSet={this.setSst.bind(this)}/>
+            </InputItem>
           </div>
+
           <div className={style.massageCode}>
             <InputItem
               {...getFieldProps('massageCode', {
@@ -307,7 +322,7 @@ class Register extends PureComponent {
           注册代表你已同意
           <Link
             rel="stylesheet"
-            to={`http://mobile.interface.veryeast.cn/user/mobagree`}
+            to={`/user/mobagree`}
           >
             《最佳东方用户协议》
           </Link>

@@ -175,6 +175,10 @@ const Resume = Loadable({
   loader: () => import("./containers/Resume"),
   loading: () => loading, // 自定义的Loading动画组件
 });
+const ResumePreview = Loadable({
+  loader: () => import("./containers/ResumePreview"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const JobDetails_pan = Loadable({
   loader: () => import("./containers/JobDetails_pan"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -414,6 +418,10 @@ const routes = [
   {
     path: '/resume',
     component: Resume,
+  },
+  {
+    path: '/resumepreview',
+    component: ResumePreview,
   },
   {
     path: '/jobdetails',
