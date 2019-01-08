@@ -3,9 +3,14 @@ import React from 'react'
 // import path from 'path'
 import { Switch, Route, Redirect } from 'react-router-dom'
 // import isServer from './helper/isServer'
-import First from './containers/Login'
-
-const loading = (<div>Loading...</div>)
+// import loading from './containers/Login'
+const styleObj = {
+  height: '100%',
+  width: '100%',
+  textAlign: 'center',
+  lineHeight: '400px',
+}
+const loading = (<div style={styleObj}>Loading...</div>)
 /** 下面是代码分割异步加载的方式引入各页面 **/
 const BindExistAccount = Loadable({
   loader: () => import("./containers/BindExistAccount"),
@@ -173,6 +178,10 @@ const MicroResume = Loadable({
 });
 const Resume = Loadable({
   loader: () => import("./containers/Resume"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ResumePreview = Loadable({
+  loader: () => import("./containers/ResumePreview"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const JobDetails_pan = Loadable({
@@ -426,6 +435,10 @@ const routes = [
   {
     path: '/resume',
     component: Resume,
+  },
+  {
+    path: '/resumepreview',
+    component: ResumePreview,
   },
   {
     path: '/jobdetails',

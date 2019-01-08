@@ -69,7 +69,6 @@ export const baseUrl = 'http://m.veryeast.cn/s'
  */
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
-
   return axios({
     url: sUrl,
     credentials: "include",
@@ -103,7 +102,7 @@ export function toRealUrl(uri) {
     } else if (url.indexOf('h5-new/') !== -1) {
       // url = url.replace('ve.mobile.interface','ve.m')
     } else if (url.indexOf('data/options') !== -1) {
-      url = 'http://mobile.interface.veryeast.cn/data/options'
+      // url = 'http://mobile.interface.veryeast.cn/data/options'
     }
   } else {
     url = uri

@@ -46,21 +46,31 @@ class ResumeIntention extends PureComponent {
       if (err) return
       console.log(values)
 
-      if(values.desired_locations.length === 0) {
-        return Toast.info('请选择意工作地点', 2)
-      }
-
       if(values.desired_positions.length === 0) {
         return Toast.info('请选择意向职位', 2)
       }
 
-      if(values.company_industry.length === 0) {
-        return Toast.info('请选择意向行业', 2)
+      // if(values.DesiredCompanyTypes.length === 0) {
+      //   return Toast.info('请选择意向行业', 2)
+      // }
+
+
+      if(values.desired_locations.length === 0) {
+        return Toast.info('请选择意工作地点', 2)
       }
 
-      // if(values.current_salary[2] === '') {
-      //   return Toast.info('请输入目前薪资', 2)
+      if(values.desired_salary[2] === '') {
+        return Toast.info('请输入期望月薪', 2)
+      }
+
+      // if(values.work_mode === '') {
+      //   return Toast.info('请输入工作类型', 2)
       // }
+      //
+      // if(values.job_status === '') {
+      //   return Toast.info('请输入求职状态', 2)
+      // }
+
       window.zhuge.track('我的简历', { '模块': '求职意向' })
 
       this.props.dispatch(intentionEdit({
@@ -115,7 +125,7 @@ class ResumeIntention extends PureComponent {
           {/*数据都是undefined*/}
 
           <Post
-            {...getFieldProps('desired_positions2', {
+            {...getFieldProps('desired_positions', {
               initialValue: DesiredPositions,
             })}
             maxLength={5}

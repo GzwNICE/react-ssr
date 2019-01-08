@@ -75,7 +75,7 @@ class ResumeEducationEdit extends PureComponent {
         end_month: moment(values.end).format('MM'),
         detail_cn: '', // values.detail_cn || ''
       })).then(data => {
-        this.props.history.goBack()
+        // this.props.history.goBack()
       })
     })
   }

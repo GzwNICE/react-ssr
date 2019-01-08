@@ -56,7 +56,10 @@ function initYears() {
 
 function initMonths(year, defaultModal) {
   let months = []
-  for (let i=1;i<=12;i++) {
+  let nowYear = new Date().getFullYear()
+  let nowMonth = new Date().getMonth()
+  let len = Number(year) === nowYear ? nowMonth + 1 : 12
+  for (let i=1;i<=len;i++) {
     let days = []
     let obj = {}
     if (defaultModal[2]) {
