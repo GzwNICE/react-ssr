@@ -17,6 +17,7 @@ import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
 // import Salary from '../../inputs/Salary';
 import initDate from '../../helper/datePlugin'
+import dayjs from "dayjs"
 
 const YING_JIE_SHENG = '至今'
 const maxDate = new Date();
@@ -64,9 +65,10 @@ class ResumeExperienceEdit extends PureComponent {
       this.setState({
         sValue: endTime,
       })
+      console.log(endTime)
     })
     const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-    console.log(initData)
+
     this.setState({
       endTimedata: initData.data,
       // sValue: initData.val,
@@ -90,6 +92,7 @@ class ResumeExperienceEdit extends PureComponent {
     const { sValue } = this.state
     this.props.form.validateFields((err, values) => {
       if (err) return
+      console.log(values)
 
       if (values.company_name_cn === undefined || values.company_name_cn === '' ) {
         return Toast.info('请输入企业名称', 2)
@@ -107,35 +110,19 @@ class ResumeExperienceEdit extends PureComponent {
         return Toast.info('请输入结束时间', 2)
       }
 
-      if (values.begin !== null && sValue.length >= 0) {
-        let beginTime = values.begin
-        let beginYear = new Date(beginTime).getFullYear()
-        let beginMonth = new Date(beginTime).getMonth()
-        let endTime = sValue.map((item) => {
-          if ( item === YING_JIE_SHENG ) {
-            return item
-          } else {
-            let str = item.substr(0, item.length -1)
-            str = str.length === 1 ? `${str}` : str
-            return str
-          }
-        })
-        let endYear = Number(endTime[0])
-        let endMonth = Number(endTime[1]) - 1
-        // console.log(beginTime)
-        // console.log(beginYear)
-        // console.log(beginMonth)
-        // console.log(endYear)
-        // console.log(endMonth)
-        if (endTime[0] !== YING_JIE_SHENG) {
+      if (values.begin !== null && sValue.length >= 0 && sValue[0] !== YING_JIE_SHENG) {
+        let beginTime = moment(values.begin).valueOf()
 
-          if (beginYear > endYear) {
-            return Toast.info('结束时间必须大于开始时间', 2)
-          }
-          if (beginYear === endYear && beginMonth > endMonth) {
-            return Toast.info('结束时间必须大于开始时间', 2)
-          }
+        let endTime = sValue.map((item) => {
+          let str = item.substr(0, item.length -1)
+          // str = str.length === 1 ? `${str}` : str
+          return str
+        })
+        endTime = moment(dayjs(endTime).format('YYYY-M')).valueOf()
+        if (beginTime > endTime) {
+          return Toast.info('结束时间必须大于开始时间', 2)
         }
+
       }
 
       if(values.company_industry[0] === undefined) {
@@ -176,7 +163,7 @@ class ResumeExperienceEdit extends PureComponent {
         // job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       })).then(data => {
-        this.props.history.goBack()
+        // this.props.history.goBack()
       })
     })
   }

@@ -3,9 +3,14 @@ import React from 'react'
 // import path from 'path'
 import { Switch, Route, Redirect } from 'react-router-dom'
 // import isServer from './helper/isServer'
-import First from './containers/Login'
-
-const loading = (<div>Loading...</div>)
+// import loading from './containers/Login'
+const styleObj = {
+  height: '100%',
+  width: '100%',
+  textAlign: 'center',
+  lineHeight: '400px',
+}
+const loading = (<div style={styleObj}>Loading...</div>)
 /** 下面是代码分割异步加载的方式引入各页面 **/
 const BindExistAccount = Loadable({
   loader: () => import("./containers/BindExistAccount"),

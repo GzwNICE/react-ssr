@@ -11,6 +11,7 @@ import {
   InputItem,
   Button,
   Toast,
+  Icon,
 } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import store from 'store'
@@ -21,6 +22,7 @@ import { bindMobile } from '../../actions/auth'
 import { mobile } from '../../actions/bind'
 import F from '../../helper/tool'
 import style from './style.less'
+import County from '../../inputs/County'
 
 @connect(state => {
   return {
@@ -40,6 +42,7 @@ class MobileBind extends PureComponent {
     hidden_mobile: '',
     text: '立即绑定',
     mobilePlacehold: '请输入手机号',
+    phoneCounty: '0086',
   }
 
   componentDidMount() {
@@ -66,7 +69,11 @@ class MobileBind extends PureComponent {
       }
     }
   }
-
+  setSst = obj => {
+    this.setState({
+      phoneCounty: obj.country,
+    })
+  }
   componentWillUnmount() {
     clearInterval(this.timer)
   }
@@ -85,8 +92,9 @@ class MobileBind extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault()
+    const { phoneCounty } = this.state
     this.props.form.validateFields((err, values) => {
-      if (this.props.form.getFieldValue('country')[0] === '0086' && !/^1[3456789]\d{9}$/.test(values.mobile)) {
+      if (phoneCounty === '0086' && !/^1[3456789]\d{9}$/.test(values.mobile)) {
         Toast.fail('请输入正确的手机号', 2)
         return 
       }
@@ -125,15 +133,17 @@ class MobileBind extends PureComponent {
 
   getCode = () => {
     const { options } = this.props
-    this.props.form.validateFields(['mobile', 'country'], (err, value) => {
-      if (value.country[0] === '0086') {
+    const { phoneCounty } = this.state
+
+    this.props.form.validateFields(['mobile'], (err, value) => {
+      if (phoneCounty === '0086') {
         if(!/^1[3456789]\d{9}$/.test(value.mobile)) {
           Toast.fail('请输入正确的手机号', 2)
           return
         }
       }
-      const opt = options.filter(item => parseInt(item.country,10) ===parseInt(value.country,10))
-      if(opt && value.mobile.length!==parseInt(opt[0].length,10)) return Toast.fail(value.country[0]==='0086' ? '请输入正确的手机号' : '该手机号与归属地不匹配', 2)
+      const opt = options.filter(item => parseInt(phoneCounty,10) ===parseInt(phoneCounty,10))
+      if(opt && value.mobile.length!==parseInt(opt[0].length,10)) return Toast.fail(phoneCounty==='0086' ? '请输入正确的手机号' : '该手机号与归属地不匹配', 2)
 
       if (err) {
         this.alertFail(err)
@@ -142,6 +152,7 @@ class MobileBind extends PureComponent {
       if (this.state.disableCode) {
         mobile({
           ...value,
+          country: phoneCounty,
           sms_type: 3,
           page_source: 3,
           user_id: this.props.user_id,
@@ -196,15 +207,15 @@ class MobileBind extends PureComponent {
         <div>当前手机号未绑定，绑定后，可用于帐号登录、找回密码等</div>
       ) : (
         <div>
-          <p>当前绑定手机号：{hidden_mobile}</p>
-          <p>更改后请用新手机号登录</p>
+          <p>当前绑定手机号：{hidden_mobile},更改后请用新手机号登录</p>
         </div>
       )
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.replace('/resume/info')}
         >
           绑定手机
@@ -213,14 +224,7 @@ class MobileBind extends PureComponent {
           <div>
             <WingBlank size="md">{desc}</WingBlank>
             <div className={style.list}>
-              <List>
-                <PrefixMobile
-                  {...getFieldProps('country', {
-                    initialValue: ['0086'],
-                  })}
-                >
-                  <List.Item arrow="horizontal"></List.Item>
-                </PrefixMobile>
+              <div>
                 <InputItem
                   {...getFieldProps('mobile', {
                     initialValue: '',
@@ -234,6 +238,7 @@ class MobileBind extends PureComponent {
                   clear
                   placeholder={mobilePlacehold}
                 >
+                  <County setSet={this.setSst.bind(this)}/>
                 </InputItem>
                 <InputItem
                   {...getFieldProps('code', {
@@ -260,12 +265,13 @@ class MobileBind extends PureComponent {
                 >
                   {tipFont}
                 </Button>
-                <List.Item>
-                  <Button type="primary" onClick={this.handleSubmit}>
-                    {text}
-                  </Button>
-                </List.Item>
-              </List>
+
+              </div>
+              <div className={style.btn}>
+                <Button type="primary" onClick={this.handleSubmit}>
+                  {text}
+                </Button>
+              </div>
             </div>
           </div>
         </Flex.Item>

@@ -9,14 +9,17 @@
   background-color: #fff;
   margin-left: 0 !important;
   > div {
-    margin: 20px 10px;
+    margin: 20px 20px;
   }
 }
 
 .list {
   margin-top: 24px;
+  > div {
+    position: relative;
+  }
   .authCode {
-    width: 60%;
+    //width: 60%;
   }
   :global{
     .am-list-item .am-list-line .am-list-extra {
@@ -26,22 +29,38 @@
     .am-input-item > .am-input-control > input {
       text-align: left;
     }
+    .am-list-item.am-input-item {
+      padding-left: 10px!important;
+    }
   }
 }
 .mobieCode {
-  position: absolute;
+  position: absolute!important;
   right: 0;
-  bottom: 67px;
+  bottom: 7px;
 }
 
 .nav {
+  border-bottom: 1PX solid #F0F0F0;
   :global {
+    .am-icon {
+      color: #555555;
+    }
+    .am-navbar-title {
+      font-size: 16px;
+      color: #333333;
+    }
     .am-navbar-right {
       span {
         padding: 12px;
         margin-right: -12px;
+        font-size: 15px;
+        //color: #9B9B9B;
+        color: #FF4F00;
       }
     }
-    
   }
+}
+.btn {
+  padding-top: 40px;
 }

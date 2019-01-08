@@ -69,7 +69,6 @@ export const baseUrl = 'http://m.veryeast.cn/s'
  */
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
-
   return axios({
     url: sUrl,
     credentials: "include",

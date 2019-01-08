@@ -11,6 +11,7 @@ import {
   InputItem,
   Button,
   Toast,
+  Icon,
 } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import store from 'store'
@@ -121,6 +122,7 @@ class EmailBind extends PureComponent {
           ...value,
         }).then(data => {
           const { msg, errMsg, status } = data
+          console.log(data)
           if (status === 0) {
             if (msg || errMsg) {
               Toast.fail(msg || errMsg, 2)
@@ -179,8 +181,9 @@ class EmailBind extends PureComponent {
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.replace('/resume/info')}
         >
           绑定邮箱
@@ -189,7 +192,7 @@ class EmailBind extends PureComponent {
           <div>
             <WingBlank size="md">{desc}</WingBlank>
             <div className={style.list}>
-              <List>
+              <div>
                 <InputItem
                   {...getFieldProps('email', {
                     initialValue: '',
@@ -235,12 +238,12 @@ class EmailBind extends PureComponent {
                   {tipFont}
                 </Button>
 
-                <List.Item>
-                  <Button type="primary" onClick={this.handleSubmit}>
-                    {text}
-                  </Button>
-                </List.Item>
-              </List>
+              </div>
+              <div className={style.btn}>
+                <Button type="primary" onClick={this.handleSubmit}>
+                  {text}
+                </Button>
+              </div>
             </div>
           </div>
         </Flex.Item>

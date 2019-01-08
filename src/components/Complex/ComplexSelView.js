@@ -48,6 +48,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   selectValue = (code) => {
+    console.log(code)
     code = String(code)
     if (this.props.maxLength > 1) {
       const { maxLength } = this.props
@@ -103,6 +104,7 @@ class ComplexSelView extends ComplexFormField {
 
   optView() {
     const selected = this.getValue() || []
+    console.log(selected)
     return (
       <Accordion
         className={style.optView}

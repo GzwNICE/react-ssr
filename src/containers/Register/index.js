@@ -37,7 +37,6 @@ class Register extends PureComponent {
     })
   }
   setSst = obj => {
-    console.log(obj)
     this.setState({
       phoneCounty: obj.country,
     })

@@ -79,14 +79,11 @@ class Resume extends PureComponent {
         if(data.errMsg === '未登陆') {
 
         } else {
-          console.log(data.data.resume_complete)
           let resume_complete = Number(data.data.resume_complete) * 100
           this.setState({
             percentage: `${resume_complete}%`,
           })
         }
-
-
       })
 
   }
