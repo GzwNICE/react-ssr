@@ -19,6 +19,7 @@ import { getPostInit } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
+import { blocList } from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 
 export default (req, res, next) => {
@@ -166,6 +167,15 @@ export default (req, res, next) => {
           })
         })
       }
+
+      // 名企专区列表
+      const blocPage = pathToRegexp('/bloc/:c_userid')
+      if (blocPage.exec(req.url)) {
+        store.dispatch(blocList()).then(() => {
+            serverRender()
+        })
+      }
+
       // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
       //   store.dispatch(getPostInit()).then(() => {
       //     store.dispatch(getBanner()).then(() => {

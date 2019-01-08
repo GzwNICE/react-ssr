@@ -9,6 +9,7 @@ export const GET_COMPANYDETAIL_LIST = 'GET_COMPANYDETAIL_LIST' // 该企业其�
 export const DELETE_COMPANY_INFO = 'DELETE_COMPANY_INFO' // 清楚数据
 export const GET_BLOCDETAIL_CATEGORY = 'GET_BLOCDETAIL_CATEGORY' // 名企专区品牌分类
 export const GET_BLOCDETAIL_LIST = 'GET_BLOCDETAIL_LIST' // 名企专区
+export const GET_BLOCDETAIL_SEARCH = 'GET_BLOCDETAIL_SEARCH' // 名企专区搜索
 
 const URLPOST = ':ve.mobile.interface/job/company_detail'
 const URLLIST = ':ve.mobile.interface/job/company_recruit_jobs'
@@ -16,6 +17,7 @@ const FLLOW = ':ve.mobile.interface/user/follow_company'
 const UN_FLOOW = ':ve.mobile.interface/user/unfollow_company'
 const CATEGORY = ':ve.mobile.interface/h5-new/company-mobile-index/child_category'
 const BLOCLIST = ':ve.mobile.interface/h5-new/company-mobile-index/child'
+const BLOCSEARCH = ':ve.mobile.interface/h5-new/company-mobile-index/search'
 
 export const companydetail = singleApi({
   url: URLPOST,
@@ -74,6 +76,18 @@ export const blocList = singleApi({
   action: (args, json) => {
     return {
       type: GET_BLOCDETAIL_LIST,
+      data: json.data,
+    }
+  },
+})
+
+
+// 名企搜索
+export const blocSearch = singleApi({
+  url: BLOCSEARCH,
+  action: (args, json) => {
+    return {
+      type: GET_BLOCDETAIL_SEARCH,
       data: json.data,
     }
   },

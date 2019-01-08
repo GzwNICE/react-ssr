@@ -4,60 +4,64 @@ import { withRouter, Link } from 'react-router-dom'
 import style from './style.less'
 
 class JobList extends Component {
+
   render() {
-    const { data } = this.props
-    let list = data || []
+    const d = this.props.data
     return (
-      <div className={style.JobList}>
-        {list
-          ? list.map((item, index) => {
-              return (
-                <Link
-                  rel="stylesheet"
-                  to={`/${item.company_id}/${item.job_id}`}
-                  key={index}
-                >
+      // <div className={style.JobList}>
+      //   {list
+      //     ? list.map((item, index) => {
+      //         return (
+      //           <Link
+      //             rel="stylesheet"
+      //             to={`/${item.company_id}/${item.job_id}`}
+      //             key={index}
+      //           >
                   <div className={style.single}>
                     <div className={style.payJob}>
-                      <h1 className={style.Job}>{item.job_name}</h1>
-                      <span className={style.Pay}>{item.salary}</span>
+                      <h1 className={style.Job}>{d.job_name}</h1>
+                      <span className={style.Pay}>{d.salary}</span>
                     </div>
                     <div className={style.benefits}>
                       <div className={style.scale}>
-                        {item.work_place ? (
-                          <span>{item.work_place}</span>
+                        {d.work_place ? (
+                          <span>{d.work_place}</span>
                         ) : null}
-                        {item.exp ? <span>{item.exp}</span> : null}
-                        {item.education ? <span>{item.education}</span> : null}
-                        {item.room_board ? (
-                          <span>{item.room_board}</span>
+                        {d.exp ? <span>{d.exp}</span> : null}
+                        {d.education ? <span>{d.education}</span> : null}
+                        {d.room_board ? (
+                          <span>{d.room_board}</span>
                         ) : null}
                       </div>
-                      <span className={style.time}>{item.update_time}</span>
+                      <span className={style.time}>{d.update_time}</span>
                     </div>
                     <div className={style.hotelInfo}>
                       <img
-                        src={item.company_logo ? item.company_logo : detailLogo}
+                        src={
+                          d.company_logo === ''
+                            ? detailLogo
+                            : d.company_logo
+                        }
                         alt="img"
                       />
                       <div className={style.right}>
-                        <h1>{item.company_name}</h1>
+                        <h1>{d.company_name}</h1>
                         <div className={style.scale}>
-                          {item.industry_star ? (
-                            <span>{item.industry_star}</span>
+                          {d.industry_star ? (
+                            <span>{d.industry_star}</span>
                           ) : null}
-                          {item.company_size ? (
-                            <span>{item.company_size}</span>
+                          {d.company_size ? (
+                            <span>{d.company_size}</span>
                           ) : null}
                         </div>
                       </div>
                     </div>
                   </div>
-                </Link>
-              )
-            })
-          : null}
-      </div>
+      //           </Link>
+      //         )
+      //       })
+      //     : null}
+      // </div>
     )
   }
 }

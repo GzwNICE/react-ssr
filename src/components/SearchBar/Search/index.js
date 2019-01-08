@@ -20,11 +20,8 @@ class Search extends Component {
       photo: '',
     }
   }
-  
 
-  handleSearch() {
-    
-  }
+  handleSearch() {}
 
   componentDidMount() {
     // this.props.dispatch(loggingStatus({})).then(() => {
@@ -33,18 +30,24 @@ class Search extends Component {
     //     photo: this.props.photo,
     //   })
     // })
+    // this.autoFocusInst.focus()
   }
 
   render() {
     // const { photo, is_login } = this.state
-    const is_login = sessionStorage.getItem("is_login")
-    const photo = sessionStorage.getItem("photo")
+    const is_login = sessionStorage.getItem('is_login')
+    const photo = sessionStorage.getItem('photo')
     return (
       <div className={style.Search}>
         <div className={style.goBack} onClick={this.props.goBack}>
           <img src={back} alt="bank" />
         </div>
-        <SearchBar placeholder="搜索职位/品牌" onSubmit={this.handleSearch} />
+        <SearchBar
+          placeholder="搜索职位/品牌"
+          onSubmit={this.props.Search}
+          onCancel={this.props.Cancel}
+          onChange={this.props.Change}
+        />
         <Link
           rel="stylesheet"
           to={

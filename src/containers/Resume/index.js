@@ -62,7 +62,7 @@ class Resume extends PureComponent {
         if(data.errMsg === '未登陆') {
           return Modal.alert('', '请先登录', [
             { text: '稍后', style: 'default' },
-            { text: '登录', onPress: () => this.props.history.replace('/user/login?redirect=' + this.props.history.location.pathname) },
+            { text: '登录', onPress: () => this.props.history.replace('?redirect=' + this.props.history.location.pathname) },
           ])
         }
       })

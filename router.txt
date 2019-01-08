@@ -34,8 +34,8 @@
 /resume
 /jobdetails
 /companyintroduce
-/user/login
-/user/logincode
+
+code
 /user/register
 /user/forgetPassword
 /chat/:id

@@ -9,6 +9,7 @@ import {
   DELETE_COMPANY_INFO,
   GET_BLOCDETAIL_CATEGORY,
   GET_BLOCDETAIL_LIST,
+  GET_BLOCDETAIL_SEARCH,
 } from '../actions/company'
 
 const initState = {
@@ -17,6 +18,8 @@ const initState = {
   listPhoto: {},
   brand: [],
   brand_index: [],
+  searchList: [],
+  searchPager: {},
 }
 
 export default (state = initState, action) => {
@@ -61,7 +64,7 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_LIST:
       return {
         ...state,
-        list: action.data.list || [],
+        list: action.data ? action.data.list : [],
         pager: {
           allPage: action.data.pager.allpages,
           cur: action.data.pager.cur,
@@ -71,6 +74,12 @@ export default (state = initState, action) => {
         listPhoto: {
           company_file: action.data.listPhoto.company_file,
         },
+      }
+    case GET_BLOCDETAIL_SEARCH:
+      return {
+        ...state,
+        searchList: action.data.data,
+        searchPager:  action.data.pager,
       }
     default:
       return state

@@ -73,7 +73,7 @@ class UserPage extends PureComponent {
 
   goLogin = () => {
     if (!this.props.userStatus.true_name) {
-      this.props.history.push('/user/login')
+      this.props.history.push('')
     }
   }
 

@@ -184,18 +184,18 @@ const CompanyIntroduce = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 // console.log(path.join(__dirname, './containers/Login'))
-let Login = Loadable({
-  loader: () => import("./containers/Login"),
-  loading: () => loading, // 自定义的Loading动画组件
-  // delay: 300,
-  // timeout: 10000, // 10 seconds
-  // serverSideRequirePath: path.join(__dirname, './containers/Login'),
-});
+// let Login = Loadable({
+//   loader: () => import("./containers/Login"),
+//   loading: () => loading, // 自定义的Loading动画组件
+//   // delay: 300,
+//   // timeout: 10000, // 10 seconds
+//   // serverSideRequirePath: path.join(__dirname, './containers/Login'),
+// });
 
-const LoginCode = Loadable({
-  loader: () => import("./containers/LoginCode"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
+// const LoginCode = Loadable({
+//   loader: () => import("./containers/LoginCode"),
+//   loading: () => loading, // 自定义的Loading动画组件
+// });
 
 const LoginPage = Loadable({
   loader: () => import("./containers/LoginPage"),
@@ -242,6 +242,14 @@ const BlocPage = Loadable({
   loader: () => import("./containers/BlocPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
+const BlocSearch = Loadable({
+  loader: () => import("./containers/BlocSearch"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const Agreement = Loadable({
+  loader: () => import("./containers/Agreement"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const routes = [
   {
     path: '/user/bindExistAccount',
@@ -250,6 +258,10 @@ const routes = [
   {
     path: '/bloc/:c_userid',
     component: BlocPage,
+  },
+  {
+    path: '/blocSearch/:c_userid',
+    component: BlocSearch,
   },
   {
     path: '/activityRegister',
@@ -271,10 +283,10 @@ const routes = [
     path: '/tabs/user',
     component: UserPage,
   },
-  // {
-  //   path: '/tabs/user2',
-  //   component: UserPage2,
-  // },
+  {
+    path: '/agreement',
+    component: Agreement,
+  },
   {
     path: '/search/:keyword',
     component: SearchEnd,
@@ -423,14 +435,14 @@ const routes = [
     path: '/companyintroduce',
     component: CompanyIntroduce,
   },
-  {
-    path: '/user/login',
-    component: Login,
-  },
-  {
-    path: '/user/logincode',
-    component: LoginCode,
-  },
+  // {
+  //   path: '/user/login',
+  //   component: Login,
+  // },
+  // {
+  //   path: '/user/logincode',
+  //   component: LoginCode,
+  // },
   {
     path: '/login',
     component: LoginPage,
@@ -471,6 +483,7 @@ const routes = [
     path: '/',
     component: HomePage,
   },
+  
 ]
 export default (
   <Switch>
