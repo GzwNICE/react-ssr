@@ -17,6 +17,7 @@ import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import {Toast} from "antd-mobile/lib/index";
 import { getUserStatus } from '../../actions/userStatus'
+import queryString from "query-string";
 
 const Pla = (props) =>
   <i style={{display: 'inline-block', width: props.w + 'em'}} />
@@ -114,7 +115,16 @@ class Resume extends PureComponent {
       toogle: !this.state.toogle,
     })
   }
-
+  whereWillIGo = () => {
+    const { pathSearch } = queryString.parse(window.location.search)
+    if (pathSearch) {
+      this.props.history.go(-1)
+    } else {
+      this.props.history.length === 2 || this.props.history.length === 1
+        ? this.props.history.push('/tabs/home')
+        : this.props.history.go(-1)
+    }
+  }
   render() {
     const {
       option,

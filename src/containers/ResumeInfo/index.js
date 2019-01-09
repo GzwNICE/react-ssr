@@ -52,6 +52,7 @@ class ResumeInfo extends PureComponent {
       work_date,
     } = this.props.resume
     let endTime = []
+    console.log(work_date)
     if (work_date === YING_JIE_SHENG) {
       endTime.push(YING_JIE_SHENG)
     } else {
@@ -128,7 +129,7 @@ class ResumeInfo extends PureComponent {
           if (data.status === 0) {
             return Toast.info(data.errMsg, 2)
           }
-          this.props.history.goBack()
+          // this.props.history.goBack()
         })
     })
   }
