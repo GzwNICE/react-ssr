@@ -73,7 +73,7 @@ class LoginCode extends PureComponent {
     this.setState({
       disableCode: true,
       index: 60,
-      tipFont: '获取验证码',
+      tipFont: '重新发送',
     })
     clearInterval(this.timer)
   }
@@ -96,7 +96,6 @@ class LoginCode extends PureComponent {
       if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
       let send = (res) => {
         if (this.state.disableCode){
-          upperLimit()
           mobile({
             mobile: value.number,
             captcha: '',
@@ -116,16 +115,20 @@ class LoginCode extends PureComponent {
                 }
                 this.setState({
                   index: this.state.index -1,
-                  tipFont: `${this.state.index -1}秒后重新获取`,
+                  tipFont: `${this.state.index -1}s`,
                 })
               }, 999)
             } else {
               const flag = data.flag
               const errMs = errCode[flag]
-              if (errMs) {
-                Toast.info(errMs, 2)
-              } else {
-                Toast.info('验证码错误', 2)
+              if(data.flag === 5117 && errMs){
+                upperLimit()
+              }else {
+                if (errMs) {
+                  Toast.info(errMs, 2)
+                } else {
+                  Toast.info('验证码错误', 2)
+                }
               }
             }
           })

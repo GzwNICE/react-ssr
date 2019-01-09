@@ -26,32 +26,27 @@ class FamousCompany extends Component {
             {CompanyData
               ? CompanyData.map(item => {
                   return (
-                      
                     <Link rel="stylesheet" to={`/bloc/${item.c_userid}?redirect=${this.props.location.pathname}`} key={item.id}>
-                    <div
-                      className={style.CompanyCard}
-                    >
                       <div className={style.CompanyCent}>
                         <div className={style.top}>
+                          <div className={style.topLeft}>
+                            <h4 className={style.Companyname}>
+                              {item.company_name}
+                            </h4>
+                            <span>{item.jobNum}个在招职位</span>
+                          </div>
                           <img src={item.company_logo ? item.company_logo : companyLogo} alt="Img" />
                         </div>
-                        <div className={style.bot}>
-                          <h4 className={style.Companyname}>
-                            {item.company_name}
-                          </h4>
-                          <span>{item.jobNum}个在招职位</span>
-                          <div className={style.welfare}>
-                            <span>{item.company_welfare1}</span>
-                            <span>{item.company_welfare2}</span>
-                          </div>
+                        <div className={style.welfare}>
+                          <span>{item.company_welfare1}</span>
+                          <span>{item.company_welfare2}</span>
+                          <span>{item.company_welfare2}</span>
                         </div>
                       </div>
-                    </div>
                     </Link>
                   )
                 })
               : null}
-              
           </div>
         </div>
       </div>
