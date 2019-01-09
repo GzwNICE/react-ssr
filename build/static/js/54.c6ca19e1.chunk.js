@@ -1,6 +1,10 @@
 /*!
  * ****************************************
+<<<<<<< HEAD
  * hash       : 1fe8792dec1d642572b6
+=======
+ * hash       : 6c396c6e7d394df4aee1
+>>>>>>> dev
  * name       : 54
  * file       : static/js/54.c6ca19e1.chunk.js
  * author     : 黄超-Faker,运帅-Mark,朱少林-Grabb

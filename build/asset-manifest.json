@@ -1,5 +1,6 @@
 {
   "main.css": "static/css/main.b2a77cf5.css",
+<<<<<<< HEAD
   "main.js": "static/js/main.0f0bd237.js",
   "static/js/0.a71cdcec.chunk.js": "static/js/0.a71cdcec.chunk.js",
   "static/js/1.1cb71844.chunk.js": "static/js/1.1cb71844.chunk.js",
@@ -27,6 +28,35 @@
   "static/js/3.33bde035.chunk.js": "static/js/3.33bde035.chunk.js",
   "static/js/30.61e4fc1b.chunk.js": "static/js/30.61e4fc1b.chunk.js",
   "static/js/31.509a5611.chunk.js": "static/js/31.509a5611.chunk.js",
+=======
+  "main.js": "static/js/main.d6eade87.js",
+  "static/js/0.17c35a54.chunk.js": "static/js/0.17c35a54.chunk.js",
+  "static/js/1.ce9da65f.chunk.js": "static/js/1.ce9da65f.chunk.js",
+  "static/js/10.26359a3d.chunk.js": "static/js/10.26359a3d.chunk.js",
+  "static/js/11.5a4b1460.chunk.js": "static/js/11.5a4b1460.chunk.js",
+  "static/js/12.1ef73b53.chunk.js": "static/js/12.1ef73b53.chunk.js",
+  "static/js/13.651b7070.chunk.js": "static/js/13.651b7070.chunk.js",
+  "static/js/14.48357adf.chunk.js": "static/js/14.48357adf.chunk.js",
+  "static/js/15.5940ffe6.chunk.js": "static/js/15.5940ffe6.chunk.js",
+  "static/js/16.2053deba.chunk.js": "static/js/16.2053deba.chunk.js",
+  "static/js/17.149c5ba4.chunk.js": "static/js/17.149c5ba4.chunk.js",
+  "static/js/18.00443d35.chunk.js": "static/js/18.00443d35.chunk.js",
+  "static/js/19.6ce4327b.chunk.js": "static/js/19.6ce4327b.chunk.js",
+  "static/js/2.7fa732dd.chunk.js": "static/js/2.7fa732dd.chunk.js",
+  "static/js/20.195d737c.chunk.js": "static/js/20.195d737c.chunk.js",
+  "static/js/21.fca54e98.chunk.js": "static/js/21.fca54e98.chunk.js",
+  "static/js/22.505eea05.chunk.js": "static/js/22.505eea05.chunk.js",
+  "static/js/23.b00f09b6.chunk.js": "static/js/23.b00f09b6.chunk.js",
+  "static/js/24.b8737d41.chunk.js": "static/js/24.b8737d41.chunk.js",
+  "static/js/25.f5cb4157.chunk.js": "static/js/25.f5cb4157.chunk.js",
+  "static/js/26.a2d04b1f.chunk.js": "static/js/26.a2d04b1f.chunk.js",
+  "static/js/27.38c8d030.chunk.js": "static/js/27.38c8d030.chunk.js",
+  "static/js/28.fdd4b553.chunk.js": "static/js/28.fdd4b553.chunk.js",
+  "static/js/29.139c3035.chunk.js": "static/js/29.139c3035.chunk.js",
+  "static/js/3.3c7a1b72.chunk.js": "static/js/3.3c7a1b72.chunk.js",
+  "static/js/30.88000ded.chunk.js": "static/js/30.88000ded.chunk.js",
+  "static/js/31.cbbc3812.chunk.js": "static/js/31.cbbc3812.chunk.js",
+>>>>>>> dev
   "static/js/32.0c2432c1.chunk.js": "static/js/32.0c2432c1.chunk.js",
   "static/js/33.4a46f160.chunk.js": "static/js/33.4a46f160.chunk.js",
   "static/js/34.3e89cbf9.chunk.js": "static/js/34.3e89cbf9.chunk.js",
@@ -35,7 +65,11 @@
   "static/js/37.a19c4e89.chunk.js": "static/js/37.a19c4e89.chunk.js",
   "static/js/38.6d9bbf62.chunk.js": "static/js/38.6d9bbf62.chunk.js",
   "static/js/39.13954c3a.chunk.js": "static/js/39.13954c3a.chunk.js",
+<<<<<<< HEAD
   "static/js/4.a76a0203.chunk.js": "static/js/4.a76a0203.chunk.js",
+=======
+  "static/js/4.ad4863e6.chunk.js": "static/js/4.ad4863e6.chunk.js",
+>>>>>>> dev
   "static/js/40.93e101b1.chunk.js": "static/js/40.93e101b1.chunk.js",
   "static/js/41.a3e81d2d.chunk.js": "static/js/41.a3e81d2d.chunk.js",
   "static/js/42.f6ef950b.chunk.js": "static/js/42.f6ef950b.chunk.js",
@@ -46,16 +80,27 @@
   "static/js/47.408a6428.chunk.js": "static/js/47.408a6428.chunk.js",
   "static/js/48.64d2fc09.chunk.js": "static/js/48.64d2fc09.chunk.js",
   "static/js/49.79bf30f3.chunk.js": "static/js/49.79bf30f3.chunk.js",
+<<<<<<< HEAD
   "static/js/5.94a44d92.chunk.js": "static/js/5.94a44d92.chunk.js",
+=======
+  "static/js/5.ab524dc5.chunk.js": "static/js/5.ab524dc5.chunk.js",
+>>>>>>> dev
   "static/js/50.96763ba1.chunk.js": "static/js/50.96763ba1.chunk.js",
   "static/js/51.e8d4f291.chunk.js": "static/js/51.e8d4f291.chunk.js",
   "static/js/52.a287a818.chunk.js": "static/js/52.a287a818.chunk.js",
   "static/js/53.5a51842d.chunk.js": "static/js/53.5a51842d.chunk.js",
   "static/js/54.c6ca19e1.chunk.js": "static/js/54.c6ca19e1.chunk.js",
+<<<<<<< HEAD
   "static/js/6.653ded2e.chunk.js": "static/js/6.653ded2e.chunk.js",
   "static/js/7.a24c76d0.chunk.js": "static/js/7.a24c76d0.chunk.js",
   "static/js/8.e2ddc48e.chunk.js": "static/js/8.e2ddc48e.chunk.js",
   "static/js/9.baf58793.chunk.js": "static/js/9.baf58793.chunk.js",
+=======
+  "static/js/6.f0a5054a.chunk.js": "static/js/6.f0a5054a.chunk.js",
+  "static/js/7.a1962c84.chunk.js": "static/js/7.a1962c84.chunk.js",
+  "static/js/8.2adac2c2.chunk.js": "static/js/8.2adac2c2.chunk.js",
+  "static/js/9.753e5e51.chunk.js": "static/js/9.753e5e51.chunk.js",
+>>>>>>> dev
   "static\\media\\bac.png": "static/media/bac.31ca3428.png",
   "static\\media\\bg.png": "static/media/bg.88826131.png",
   "static\\media\\downbg.png": "static/media/downbg.76ff54d7.png",
