@@ -321,7 +321,7 @@ class Register extends PureComponent {
           注册代表你已同意
           <Link
             rel="stylesheet"
-            to={`/user/mobagree`}
+            to={`/agreement`}
           >
             《最佳东方用户协议》
           </Link>

@@ -1,6 +1,3 @@
-/**
- * Created by huangchao on 2017/11/4.
- */
 import React,{PureComponent, Component} from 'react'
 import style from '../style.less'
 import { createForm } from 'rc-form'
@@ -15,17 +12,16 @@ import Down from '../../../static/angleDownGray@3x.png'
 import { connect } from 'react-redux'
 
 const querys ={
-  area:[],
+  area:null,
   brand:0,
 }
-
 @createForm({
   onValuesChange(props, values) {
    if(values.areas){
-     querys.area=values.areas
+     querys.area=values.areas[0]
    }
    if(values.brand){
-      querys.brand=values.brand
+      querys.brand=values.brand[0]
    }
    props.filterList(querys)
   },

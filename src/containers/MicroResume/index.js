@@ -108,7 +108,7 @@ class MicroResume extends PureComponent {
   goLogin = () => {
     const search = this.props.history.location.search ? this.props.history.location.search : '?'
     const pathname = this.props.history.location.pathname
-    const url = `/user/login${search}${search === '?' ? '' : '&'}redirect=${pathname}`
+    const url = `${search}${search === '?' ? '' : '&'}redirect=${pathname}`
     console.log(url)
     Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },

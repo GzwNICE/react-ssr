@@ -7,14 +7,13 @@ import { Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 // import Salary from '../../inputs/Salary'
-// import { changeAllCity } from '../../actions/home'
-// import { saveCityCode } from '../../actions/userStatus'
-// import { saveQuery } from '../../actions/jobPage'
-// import Area from '../../inputs/Area'
-// import Brand from '../../inputs/Brand'
-// import SimpleItem from '../../inputs/SimpleItem'
+import { changeAllCity } from '../../actions/home'
+import { saveCityCode } from '../../actions/userStatus'
+import { saveQuery } from '../../actions/jobPage'
+import Area from '../../inputs/Area'
+import Brand from '../../inputs/Brand'
+import SimpleItem from '../../inputs/SimpleItem'
 import { blocList, blocSearch } from '../../actions/company'
-import { saveQuery } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
@@ -28,16 +27,11 @@ import style from './style.less'
   pagers: state.company.pager,
   searchList: state.company.searchList,
   searchPager: state.company.searchPager,
-  query: state.search.query,
 }))
 export default class CompanyArea extends Component {
   state = {
     show: true,
     showRegWrap: true,
-    search: false,
-    keyWords: '',
-    local: '',
-    c_id: '',
   }
 
   /* 下载或者打开app */
@@ -54,38 +48,15 @@ export default class CompanyArea extends Component {
   }
 
   handleFilerSearch = (value = {}) => {
-    console.log(this.props)
-    this.props
-      .dispatch(
-        saveQuery({
-          area: value.area,
-          brand: value.brand,
-          keywords: this.state.keyWords,
-        })
-      )
-      .then(data => {
-        console.log(data)
+    console.log(value)
+    const c_userid = this.props.match.params.c_userid
+    this.props.dispatch(
+      blocList({
+        c_userid: c_userid,
+        local: value.area ? value.area : '',
+        c_id: value.brand ? value.brand : '',
       })
-
-    // const c_userid = this.props.match.params.c_userid
-    // if (this.state.search) {
-    //   this.props.dispatch(
-    //     blocSearch({
-    //       c_userid: c_userid,
-    //       local: this.props.query.area[0] ? this.props.query.area[0] : '',
-    //       c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-    //       key_words: this.props.query.key_words && this.props.query.key_words,
-    //     })
-    //   )
-    // } else {
-    //   this.props.dispatch(
-    //     blocList({
-    //       c_userid: c_userid,
-    //       local: this.props.query.area[0] ? this.props.query.area[0] : '',
-    //       c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-    //     })
-    //   )
-    // }
+    )
   }
   /* 记录滚动条的位置 */
   onScroll = e => {
@@ -119,50 +90,32 @@ export default class CompanyArea extends Component {
       Toast.info('请输入搜索职位/品牌', 2)
       return
     } else {
-      this.setState({
-        search: true,
-        keyWords: value,
-      })
-      this.props.dispatch(
-        saveQuery({
-          keywords: value,
-        })
-      )
-      this.props.dispatch(
-        blocSearch({
-          c_userid: this.props.match.params.c_userid,
-          local: this.props.query.area[0] ? this.props.query.area[0] : '',
-          c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-          key_words: value,
-        })
-      )
+      const c_userid = this.props.match.params.c_userid
+      this.props
+        .dispatch(
+          blocSearch({
+            c_userid: c_userid,
+            local: '',
+            c_id: '',
+            key_words: value,
+          })
+        )
+        // .then(data => {
+        //   console.log( data)
+        // })
     }
   }
 
-  onCancel = () => {
-    this.setState({
-      search: false,
-    })
-  }
-
   onChange = value => {
-    this.setState({
-      keywords: value,
-    })
-    this.props.dispatch(
-      saveQuery({
-        keywords: value,
-      })
-    )
+    console.log(value)
   }
+ 
 
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
     this.props.dispatch(
       blocList({
         c_userid: c_userid,
-        local: '',
-        c_id: '',
       })
     )
   }
@@ -182,6 +135,8 @@ export default class CompanyArea extends Component {
   render() {
     const { show, showRegWrap } = this.state
     const is_login = sessionStorage.getItem('is_login')
+    console.log(this.props.searchList);
+    console.log(this.props.searchPager);
     return (
       <div className={style.CompanyArea}>
         <div className={style.selHead}>
@@ -189,13 +144,12 @@ export default class CompanyArea extends Component {
           <Search
             goBack={this.whereWillIGo}
             Search={this.onSubmit}
-            Cancel={this.onCancel}
             Change={this.onChange}
           />
           <FilterList filterList={this.handleFilerSearch} />
         </div>
         <div className={style.blocCentent}>
-          <CompanyList searchEnd={this.state.search} />
+          <CompanyList />
         </div>
         {is_login ? null : showRegWrap ? (
           <RegisterWrap

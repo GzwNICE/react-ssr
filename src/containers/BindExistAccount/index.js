@@ -84,10 +84,10 @@ class BindExistAccount extends PureComponent {
       return null
     })
     if(parsed.redirect) {
-      _url = `/user/logincode?redirect=${_url}`
+      _url = `code?redirect=${_url}`
       this.props.history.replace(_url)
     } else {
-      this.props.history.replace('/user/logincode')
+      this.props.history.replace('code')
     }
   }
   render() {

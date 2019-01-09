@@ -64,7 +64,7 @@ class Chat extends PureComponent {
             })
             Modal.alert('', '请先登录', [
               { text: '稍后', style: 'default' },
-              { text: '登录', onPress: () => this.props.history.push('/user/login', {rediact: this.props.location.pathname}) },
+              { text: '登录', onPress: () => this.props.history.push('', {rediact: this.props.location.pathname}) },
             ])
           }
         }

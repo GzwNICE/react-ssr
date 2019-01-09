@@ -30,6 +30,8 @@ const initState = {
   query: {
     area:[],
     more: {},
+    brand: [],
+    keywords: '',
   },
   pager: {
     cur:1,
@@ -75,6 +77,7 @@ export default (state = initState, action) => {
           query: {
             ...state.query,
             ...action.args,
+            keywords: action.args.keywords,
             more: {
               // ...state.query.more,
               ...action.args.more,
@@ -87,6 +90,7 @@ export default (state = initState, action) => {
           query: {
             ...state.query,
             ...action.args,
+            keywords: action.args.keywords,
             more: {
               ...state.query.more,
               // ...action.args.more,

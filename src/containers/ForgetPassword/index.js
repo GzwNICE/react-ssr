@@ -120,7 +120,7 @@ class ForgetPassword extends PureComponent {
           if(data.status) {
             Toast.info('密码重置成功', 2)
             setTimeout(() => {
-              this.props.history.replace(`/user/login${this.props.history.location.search}`)
+              this.props.history.replace(`${this.props.history.location.search}`)
             }, 1200)
           } else {
             Modal.alert('密码重置失败', '请联系0571-88866108', [
