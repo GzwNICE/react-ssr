@@ -14,7 +14,7 @@ class Education extends PureComponent {
       <ComplexPicker
         {...this.props}
         data={options
-          // .filter(item => item.code !== 0)
+          .filter(item => item.code !== 0)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,

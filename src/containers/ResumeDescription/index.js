@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { edit as otherExpsEdit } from '../../actions/other_exps'
-import { NavBar, Flex, List, TextareaItem,Toast } from 'antd-mobile'
+import { NavBar, Flex, List, TextareaItem,Toast, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import style from './style.less'
 
@@ -54,15 +54,17 @@ class ResumeDescription extends PureComponent {
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
-          mode="dark"
+          mode="light"
           className={style.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.goBack()}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           自我描述
         </NavBar>
+
         <Flex.Item className={style.wrap}>
-          <List renderHeader={() => ''}>
+          <List>
             <div onselectstart="return false;">
               <TextareaItem
                 {...getFieldProps('content_cn', {

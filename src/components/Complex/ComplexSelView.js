@@ -48,8 +48,8 @@ class ComplexSelView extends ComplexFormField {
   }
 
   selectValue = (code) => {
-    console.log(code)
-    code = String(code)
+    // code = String(code)
+
     if (this.props.maxLength > 1) {
       const { maxLength } = this.props
       let value = [...this.getValue()]
@@ -79,6 +79,10 @@ class ComplexSelView extends ComplexFormField {
   }
 
   changeValue = () => {
+    const { value } = this.state
+    if(value.length === 0) {
+      return Toast.info('请至少选择一项', 2)
+    }
     if (this.props.onChange) {
       this.props.onChange(this.serialize(this.getValue()))
       this.changeVisible(false, true)
@@ -99,12 +103,13 @@ class ComplexSelView extends ComplexFormField {
   }
 
   getValue() {
+    // console.log(this.state.value)
+    // console.log(this.props.value)
     return this.props.root ? this.state.value : this.props.value
   }
 
   optView() {
     const selected = this.getValue() || []
-    console.log(selected)
     return (
       <Accordion
         className={style.optView}
@@ -152,7 +157,7 @@ class ComplexSelView extends ComplexFormField {
       </ComplexSelView> :
       <List.Item className={style.listItem} key={item.code}
         onClick={() => (this.props.onSelect || this.selectValue)(item.code)}>
-        <img src={selected.includes(String(item.code)) ? okIcon : unsetIcon} />
+        <img src={selected.includes(item.code) ? okIcon : unsetIcon} />
         <span>{item.value}</span>
       </List.Item>
   }

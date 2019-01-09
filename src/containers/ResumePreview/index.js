@@ -258,6 +258,7 @@ class Resume extends PureComponent {
                 toogle ? <Card
                   className={style.card}>
                   <Card.Header
+                    className={style.boder1px}
                     title={<span>自我描述</span>}
                   />
                   <Card.Body className={style['card-body']}>

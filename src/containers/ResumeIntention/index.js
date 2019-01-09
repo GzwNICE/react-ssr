@@ -44,57 +44,60 @@ class ResumeIntention extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
+      console.log(values.job_status[0])
 
       if(values.desired_positions.length === 0) {
         return Toast.info('请选择意向职位', 2)
       }
 
-      // if(values.DesiredCompanyTypes.length === 0) {
-      //   return Toast.info('请选择意向行业', 2)
-      // }
+      if(values.company_industry.length === 0) {
+        return Toast.info('请选择意向行业', 2)
+      }
 
 
       if(values.desired_locations.length === 0) {
         return Toast.info('请选择意工作地点', 2)
       }
 
-      if(values.desired_salary[2] === '') {
+      if(values.desired_salary[0] === '') {
         return Toast.info('请输入期望月薪', 2)
       }
 
-      // if(values.work_mode === '') {
-      //   return Toast.info('请输入工作类型', 2)
-      // }
-      //
-      // if(values.job_status === '') {
-      //   return Toast.info('请输入求职状态', 2)
-      // }
+      if(values.work_mode[0] === '' || values.work_mode[0] === undefined) {
+        return Toast.info('请输入工作类型', 2)
+      }
+
+      if(values.job_status[0] === '' || values.job_status[0] === undefined) {
+        return Toast.info('请输入求职状态', 2)
+      }
 
       window.zhuge.track('我的简历', { '模块': '求职意向' })
 
       this.props.dispatch(intentionEdit({
-        PersonDesiredJob: JSON.stringify({
-          // arrival_time: `${values.arrival_time}`,
-          // current_salary: `${values.current_salary[2]}`,
-          // current_salary_currency: values.current_salary[1],
-          // current_salary_is_show: values.current_salary_is_show ? 2 : 1,
-          // current_salary_mode: values.current_salary[0],
-          // desired_salary: values.desired_salary[2],
-          // desired_salary_currency: values.desired_salary[1],
-          // desired_salary_is_show: values.desired_salary_is_show ? 2 : 1,
-          // desired_salary_mode: values.desired_salary[0],
-          // work_mode: `${values.work_mode}`,
-        }),
+        PersonDesiredPosition: JSON.stringify(values.desired_positions),
         PersonDesiredCompanyType: JSON.stringify(values.company_industry.map(item => ({
           company_type: item,
           industry: item,
           star: '', // values.star_level[0]
         }))),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
-        PersonDesiredPosition: JSON.stringify(values.desired_positions),
+
+        PersonDesiredJob: JSON.stringify({
+          // arrival_time: `${values.arrival_time}`,
+          // current_salary: `${values.current_salary[2]}`,
+          // current_salary_currency: values.current_salary[1],
+          // current_salary_is_show: values.current_salary_is_show ? 2 : 1,
+          // current_salary_mode: values.current_salary[0],
+          desired_salary: values.desired_salary[0],
+          desired_salary_currency: 1,
+          desired_salary_is_show: values.desired_salary_is_show ? 2 : 1,
+          desired_salary_mode: 1,
+          work_mode: values.work_mode[0],
+          job_status: values.job_status[0],
+        }),
+
       })).then(data => {
-        // this.props.history.goBack()
+        this.props.history.goBack()
       })
     })
   }
@@ -161,7 +164,8 @@ class ResumeIntention extends PureComponent {
             <Salary
               auto
               {...getFieldProps('desired_salary', {
-                initialValue: [DesiredJob.desired_salary_mode, DesiredJob.desired_salary_currency, DesiredJob.desired_salary],
+                initialValue: [DesiredJob.desired_salary],
+                // DesiredJob.desired_salary_mode, DesiredJob.desired_salary_currency, DesiredJob.desired_salary
                 // {
                 //   mode: '1',
                 //   currency: '1',
@@ -186,7 +190,7 @@ class ResumeIntention extends PureComponent {
           </List.Item>
           <WorkMode
             {...getFieldProps('work_mode', {
-              initialValue: [parseInt(DesiredJob.work_mode || 0, 10)],
+              initialValue: [DesiredJob.work_mode || 0],
             })}
             title="工作类型"
             extra="请选择"

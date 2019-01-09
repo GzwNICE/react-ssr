@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 let yearNow = Number(moment().format('YYYY'))
-let lastYear = yearNow - 30
+let lastYear = yearNow - 80
 let monthNow = Number(moment().format('M'))
 let dayNow = Number(moment().format('D'))
 let selectDays = 0 // 选择年月后这个月有多少天
@@ -30,7 +30,7 @@ export default function init(defaultModal='MMMM-YY-DD', defaultVal, lastVal='') 
     val = [`${yearNow}年`, `${monthNow}月`, `${dayNow}日`]
   }
   let obj = {
-    data: years,
+    data: years.reverse(),
     val: val,
   }
   return obj

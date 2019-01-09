@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { edit as educationalsEdit } from '../../actions/educationals'
-import { NavBar, Flex, List, InputItem, DatePicker, Checkbox, Toast, Icon } from 'antd-mobile'
+import { NavBar, Flex, List, InputItem, DatePicker, Checkbox, Toast, Icon, Modal } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
 import style from '../ResumeInfo/style.less'
@@ -15,7 +15,7 @@ import EduMajor from '../../inputs/EduMajor'
 import TextareaField from '../../inputs/TextareaField'
 import School from './components/schoolSearch'
 import Specialty from './components/specialtySearch'
-
+import { remove as educationalsRemove } from '../../actions/educationals'
 
 // const minDate = moment().year(moment().year() - 99)
 // const maxDate = moment()
@@ -34,6 +34,12 @@ let minDate = new Date(maxDate - 99*365*24*60*60*1000);
 @createForm()
 @withRouter
 class ResumeEducationEdit extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      deletModal: false,
+    }
+  }
   componentDidMount() {
     this.props.dispatch(getAllInfo({
       appchannel: 'web',
@@ -75,8 +81,32 @@ class ResumeEducationEdit extends PureComponent {
         end_month: moment(values.end).format('MM'),
         detail_cn: '', // values.detail_cn || ''
       })).then(data => {
-        // this.props.history.goBack()
+        this.props.history.goBack()
       })
+    })
+  }
+
+  // 删除
+  handleDelete = () => {
+    this.setState({
+      deletModal: true,
+    })
+  }
+  // 取消删除
+  handleCancel = () => {
+    this.setState({
+      deletModal: false,
+    })
+  }
+  // 确认删除
+  handleDeleteOk = (item) => {
+    this.setState({
+      deletModal: false,
+    })
+    this.props.dispatch(educationalsRemove({
+      edu_exp_id: item.id,
+    })).then(() => {
+      this.props.history.goBack()
     })
   }
 
@@ -88,6 +118,7 @@ class ResumeEducationEdit extends PureComponent {
       match,
     } = this.props
     const { getFieldProps } = form
+    const { deletModal } = this.state
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
@@ -100,7 +131,7 @@ class ResumeEducationEdit extends PureComponent {
     //     save = (<span>保存</span>)
     //   }
     // })
-    console.log(item)
+    // 1143469
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -180,8 +211,29 @@ class ResumeEducationEdit extends PureComponent {
               <span>海外学习经历</span>
             </label>
           </List.Item>
-
         </List>
+
+        {
+          (educationals.length > 1 && item.id) ? <div className={style.bottom} onClick={this.handleDelete}>
+            删除此工作经历
+          </div> : null
+        }
+
+        <Modal
+          visible={deletModal}
+          transparent
+          maskClosable={false}
+          className={style2.modal}
+          title="删除此工作经历将无法恢复"
+        >
+          <div className={style2.modalBody}>
+            <p>确认删除吗?</p>
+            <div>
+              <div onClick={this.handleCancel}>取消</div>
+              <div onClick={this.handleDeleteOk.bind(this, item)}>删除</div>
+            </div>
+          </div>
+        </Modal>
       </Flex>
     )
   }

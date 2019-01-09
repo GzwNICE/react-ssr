@@ -67,8 +67,8 @@ class ResumeInfo extends PureComponent {
         languages,
         skills,
       } = this.props
-      console.log(languages)
-      console.log(skills)
+      // console.log(languages)
+      // console.log(skills)
 
       let arrLan = languages.map(item => {
         let obj = {
@@ -219,10 +219,8 @@ class ResumeInfo extends PureComponent {
   }
 
   onSkillChange = (value, key) => {
-    // console.log(value, key)
     let { skill } = this.state
     const skillArr = this.onChange(skill, value, key)
-
     this.setState({
       skill: skillArr,
       operation: true,
@@ -330,18 +328,20 @@ class ResumeInfo extends PureComponent {
       this.setState({
         operation: false,
       })
+      this.props.history.goBack()
     })
   }
 
   goBack = () => {
-    const { operation } = this.state
-    if (operation) {
-      this.setState({
-        showModal: true,
-      })
-    } else {
-      this.props.history.goBack()
-    }
+    this.props.history.goBack()
+    // const { operation } = this.state
+    // if (operation) {
+    //   this.setState({
+    //     showModal: true,
+    //   })
+    // } else {
+    //   this.props.history.goBack()
+    // }
   }
   // 退出
   handleExit = () => {
@@ -392,12 +392,14 @@ class ResumeInfo extends PureComponent {
         skillArr: arr,
         showAddSkillModal: false,
         operation: true,
+      }, () => {
+        this.onSkillChange('3', obj.key)
       })
     }
 
   }
   render() {
-    const { showModal, showAddSkillModal } = this.state
+    const { showModal, showAddSkillModal, inputChangeVal } = this.state
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -410,7 +412,7 @@ class ResumeInfo extends PureComponent {
         </NavBar>
 
         <Tabs tabs={tabs}
-              initialPage={1}
+              initialPage={0}
               onChange={(tab, index) => { console.log('onChange', index, tab); }}
               onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
         >
@@ -453,7 +455,7 @@ class ResumeInfo extends PureComponent {
             placeholder="请输入30个字以内的技能"
             maxLength={30}/>
           <div className={style.confirm}>
-            <div onClick={this.handleAddSkill}>确定</div>
+            <div onClick={this.handleAddSkill} className={`${inputChangeVal.length > 0 ? style.white : null}`}>确定</div>
           </div>
         </Modal>
       </Flex>
