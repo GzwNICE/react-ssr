@@ -35,7 +35,6 @@ import RegisterWrap from '../../components/RegisterWrap'
   homeDate: state.home,
   userStatus: state.userStatus,
   supers: state.supers,
-  is_login: state.userStatus.is_login,
 }))
 class HomePage extends PureComponent {
   static propTypes = {
@@ -55,6 +54,7 @@ class HomePage extends PureComponent {
       Loaded: 'Loading',
       show: false,
       showRegWrap: true, //是否显示引导注册
+      is_login: '',
     }
   }
 
@@ -203,6 +203,9 @@ class HomePage extends PureComponent {
         show: true,
       })
     }
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -247,8 +250,7 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { show, showRegWrap } = this.state
-    const is_login = sessionStorage.getItem("is_login")
+    const { show, showRegWrap, is_login } = this.state
     return (
       <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
         <Ad.AdWindow

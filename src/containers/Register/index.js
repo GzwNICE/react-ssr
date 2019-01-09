@@ -41,14 +41,14 @@ class Register extends PureComponent {
       phoneCounty: obj.country,
     })
   }
-  changeImg = () => {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-    window.zhuge.track('图形验证码')
-  }
+  // changeImg = () => {
+  //   captcha().then(data => {
+  //     this.setState({
+  //       url: data,
+  //     })
+  //   })
+  //   window.zhuge.track('图形验证码')
+  // }
 
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
@@ -266,12 +266,8 @@ class Register extends PureComponent {
           <img src={Rectangle} alt="返回" />
         </div>
         <div className={style.title}>注册最佳东方</div>
-        
-        
         <div className={style.forms}>
           <div className={style.phoneCode}>
-            
-            
             <InputItem
               {...getFieldProps('number', { onChange: this.onPhoneNumber })}
               className={style.inputHei}

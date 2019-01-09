@@ -16,7 +16,7 @@ class Search extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      is_login: false,
+      is_login: '',
       photo: '',
     }
   }
@@ -24,19 +24,15 @@ class Search extends Component {
   handleSearch() {}
 
   componentDidMount() {
-    // this.props.dispatch(loggingStatus({})).then(() => {
-    //   this.setState({
-    //     is_login: this.props.is_login,
-    //     photo: this.props.photo,
-    //   })
-    // })
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+    })
     // this.autoFocusInst.focus()
   }
 
   render() {
-    // const { photo, is_login } = this.state
-    const is_login = sessionStorage.getItem('is_login')
-    const photo = sessionStorage.getItem('photo')
+    const {is_login,photo} =this.state
     return (
       <div className={style.Search}>
         <div className={style.goBack} onClick={this.props.goBack}>

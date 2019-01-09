@@ -6,8 +6,8 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import {connect} from 'react-redux'
 import style from './style.less'
-import Rectangle from '../../static/Rectangle@3x.png'
 import queryString from 'query-string'
+import Alert from '../../components/Alert'
 import F from '../../helper/tool'
 import { createForm } from 'rc-form'
 import {captcha} from '../../actions/auth'
@@ -15,7 +15,8 @@ import {captcha} from '../../actions/auth'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
 import { withRouter } from 'react-router-dom'
-import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
+import County from '../../inputs/County'
+// import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
 
 @createForm()
 @withRouter
@@ -30,10 +31,26 @@ class LoginCode extends PureComponent {
     tipFont: '获取验证码',
     disableCode: true,
     index: 60,
+    phoneCounty: '0086',
+    upperLimit: false,
+    number: '',
   }
   changePasswordType = () => {
     this.setState({
       password: !this.state.password,
+    })
+  }
+
+  showModal = key => e => {
+    if (e) e.preventDefault() // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    })
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
     })
   }
 
@@ -60,17 +77,26 @@ class LoginCode extends PureComponent {
     })
     clearInterval(this.timer)
   }
+  setSst = obj => {
+    this.setState({
+      phoneCounty: obj.country,
+    })
+  }
 
   getCode = () => {
+    const upperLimit = this.showModal('upperLimit')
     window.zhuge.track('验证码登录', {
       '获取验证码': '',
     })
-
     this.props.form.validateFields((err, value) => {
+      this.setState({
+        number: value.number,
+      })
       if(err) return
       if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
       let send = (res) => {
         if (this.state.disableCode){
+          upperLimit()
           mobile({
             mobile: value.number,
             captcha: '',
@@ -78,6 +104,7 @@ class LoginCode extends PureComponent {
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
             tx_type: 1,
+            country: this.state.phoneCounty,
           }).then((data) => {
             if(data.flag === 0) {
               this.setState({
@@ -87,15 +114,12 @@ class LoginCode extends PureComponent {
                 if(this.state.index <= 0) {
                   return this.Clear()
                 }
-
                 this.setState({
                   index: this.state.index -1,
                   tipFont: `${this.state.index -1}秒后重新获取`,
                 })
-
               }, 999)
             } else {
-              // this.changeImg()
               const flag = data.flag
               const errMs = errCode[flag]
               if (errMs) {
@@ -134,6 +158,7 @@ class LoginCode extends PureComponent {
           password: value.massageCode,
           platform: 2,
           appchannel: 'web',
+          country: this.state.phoneCounty,
         }).then(data => {
           console.log(data)
           if(data) {
@@ -201,13 +226,13 @@ class LoginCode extends PureComponent {
     }
   }
 
-  componentDidMount() {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-  }
+  // componentDidMount() {
+  //   captcha().then(data => {
+  //     this.setState({
+  //       url: data,
+  //     })
+  //   })
+  // }
 
   componentWillUnmount() {
     this.timer && this.Clear()
@@ -217,10 +242,6 @@ class LoginCode extends PureComponent {
     const { getFieldProps } = this.props.form
     return (
       <div className={style.RegisterWrap}>
-        {/*<div className={style.back} onClick={this.goBack}>
-          <img src={Rectangle} alt="返回" />
-        </div>
-        <div className={style.title}>验证码登录</div>*/}
         <div className={style.forms}>
           <div className={style.numberCode}>
             <InputItem
@@ -229,7 +250,9 @@ class LoginCode extends PureComponent {
               clear
               placeholder="请输入常用手机号"
               maxLength="11"
-            />
+            >
+            <County setSet={this.setSst.bind(this)}/>
+            </InputItem>
           </div>
           <div className={style.massageCode}>
             <InputItem
@@ -251,9 +274,21 @@ class LoginCode extends PureComponent {
         <div onClick={() => this.props.history.replace(`/user/register${window.location.search}`)} className={style.goRegister}>
           <span>立即注册</span>
         </div>
-        {/*<div className={style.bottom}>*/}
-        {/*<ThirdPartyLogin />*/}
-        {/*</div>*/}
+        <Alert
+          title="验证码上限提醒"
+          height={140}
+          closable={0}
+          visible={this.state.upperLimit}
+          onClose={this.onClose('upperLimit')}
+          message={`手机号${this.state.number}验证码达到上限(5次）,今日无法继续发送`}
+          actions={[
+            {
+              text: '我知道了',
+              onPress: this.onClose('upperLimit'),
+              type: 'know', 
+            },
+          ]}
+        />
       </div>
     )
   }

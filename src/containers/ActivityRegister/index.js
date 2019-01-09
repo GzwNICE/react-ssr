@@ -9,7 +9,7 @@ import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import F from '../../helper/tool'
-import {captcha} from '../../actions/auth'
+// import {captcha} from '../../actions/auth'
 import {mobile, register} from '../../actions/auth'
 import logo from '../../static/veryeast-logo.png'
 import moment from 'moment'
@@ -44,11 +44,11 @@ class Register extends PureComponent {
   }
 
   changeImg = () => {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
+    // captcha().then(data => {
+    //   this.setState({
+    //     url: data,
+    //   })
+    // })
   }
 
   Clear = () => {
@@ -87,7 +87,7 @@ class Register extends PureComponent {
           } else if(data.flag === 5012) {
             Toast.info('号码已注册', 2)
           } else {
-            this.changeImg()
+            // this.changeImg()
             Toast.info('验证码错误', 2)
           }
         })
@@ -178,11 +178,11 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
+    // captcha().then(data => {
+    //   this.setState({
+    //     url: data,
+    //   })
+    // })
     this.setState({
       parcel: queryString.parse(window.location.search),
     })

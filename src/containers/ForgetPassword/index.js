@@ -165,13 +165,13 @@ class ForgetPassword extends PureComponent {
     
   }
 
-  componentDidMount() {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
-  }
+  // componentDidMount() {
+  //   captcha().then(data => {
+  //     this.setState({
+  //       url: data,
+  //     })
+  //   })
+  // }
 
   componentWillUnmount() {
     this.timer && this.Clear()

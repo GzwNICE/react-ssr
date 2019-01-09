@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { ListView } from 'antd-mobile'
-import { blocList, blocCategory } from '../../../actions/company'
+import { blocList, blocCategory, blocSearch } from '../../../actions/company'
 import JobList from '../../../components/JobList'
 import companyLogo from '../../../static/detailLogo.png'
 import detailLogo from '../../../static/detailLogo.png'
@@ -18,6 +18,7 @@ import style from '../style.less'
     brand: state.company.brand,
     searchList: state.company.searchList,
     searchPager: state.company.searchPager,
+    query: state.search.query,
   }
 })
 class CompanyList extends Component {
@@ -28,7 +29,7 @@ class CompanyList extends Component {
     })
     this.state = {
       dataSource,
-      page: 1,
+      // page: 1,
       isLoading: true,
       height: 0,
     }
@@ -36,25 +37,24 @@ class CompanyList extends Component {
 
   /* 上拉加载 */
   onEndReached = () => {
-    const page = this.state.page + 1
     const c_userid = this.props.match.params.c_userid
-    this.setState({
-      page: page,
-    })
     if (this.props.searchEnd) {
-      const allPage = this.props.searchPager && this.props.searchPager.allPage
+      const page = this.props.searchPager.page + 1 
+      const allPage = this.props.searchPager.allpages
       if (page <= allPage) {
         this.props
           .dispatch(
-            blocList({
+            blocSearch({
               c_userid: c_userid,
               page: page,
-              // location: this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
+              local: this.props.query.area ?  this.props.query.area : '',
+              c_id: this.props.query.brand ?  this.props.query.brand : '',
+              key_words: this.props.query.keywords ? this.props.query.keywords : '',
             })
           )
           .then(data => {
             let Source = this.state.dataSource._dataBlob.s1.concat(
-              data.data.list
+              data.data.data
             )
             this.setState({
               dataSource: this.state.dataSource.cloneWithRows(Source),
@@ -66,14 +66,14 @@ class CompanyList extends Component {
         })
       }
     } else {
-      const allPage = this.props.pagers && this.props.pagers.allPage
+      const page = this.props.pagers.cur + 1 
+      const allPage = this.props.pagers.allPage
       if (page <= allPage) {
         this.props
           .dispatch(
             blocList({
               c_userid: c_userid,
               page: page,
-              // location: this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
             })
           )
           .then(data => {
@@ -114,22 +114,23 @@ class CompanyList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.searchEnd)
     if (this.props.searchEnd) {
-      if (this.props.searchList !== nextProps.searchList) {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(
-            nextProps.searchList && nextProps.searchList
-          ),
-        })
-        if (
-          nextProps.searchList.length <= 20 &&
-          nextProps.searchPager.allPage === 1
-        ) {
+        if(this.props.searchList !== nextProps.searchList){
           this.setState({
-            isLoading: false,
+            dataSource: this.state.dataSource.cloneWithRows(
+              nextProps.searchList && nextProps.searchList
+            ),
           })
+          if (
+            nextProps.searchList.length <= 20 &&
+            nextProps.searchPager.allPage === 1
+          ) {
+            this.setState({
+              isLoading: false,
+            })
+          }
         }
-      }
     } else {
       if (this.props.list !== nextProps.list) {
         this.setState({
@@ -152,37 +153,9 @@ class CompanyList extends Component {
       return this.props.searchEnd ? (
         <Link
           rel="stylesheet"
-          to={`/${d.c_userid}?redirect=${this.props.location.pathname}`}
-          key={d.c_userid}
+          to={`/${d.c_userid}/${d.job_id}?redirect=${this.props.location.pathname}`}
+          key={d.job_id}
         >
-          {/*<div className={style.single}>
-            <div className={style.payJob}>
-              <h1 className={style.Job}>{d.company_job_name}</h1>
-              <span className={style.Pay}>{d.salary}</span>
-            </div>
-            <div className={style.benefits}>
-              <div className={style.scale}>
-                {d.job_city ? <span>{d.job_city}</span> : null}
-                {d.work_year ? <span>{d.work_year}</span> : null}
-                {d.degree_id ? <span>{d.degree_id}</span> : null}
-                {d.room_board ? <span>{d.room_board}</span> : null}
-              </div>
-              <span className={style.time}>{d.modify_time}</span>
-            </div>
-            <div className={style.hotelInfo}>
-              <img
-                src={d.company_logo ? d.company_logo : detailLogo}
-                alt="img"
-              />
-              <div className={style.right}>
-                <h1>{d.company_name}</h1>
-                <div className={style.scale}>
-                  {d.company_type ? <span>{d.company_type}</span> : null}
-                  {d.employees_number ? <span>{d.employees_number}</span> : null}
-                </div>
-              </div>
-            </div>
-          </div>*/}
           <JobList.JobList data={d} />
         </Link>
       ) : (

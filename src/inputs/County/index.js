@@ -10,7 +10,7 @@ import {
 } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import checkeIcon from '../../static/checked@3x.png'
+import checkeIcon from '../../static/circleSelected.png'
 
 @connect(state => {
   return {

@@ -251,10 +251,7 @@ const BlocPage = Loadable({
   loader: () => import("./containers/BlocPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const BlocSearch = Loadable({
-  loader: () => import("./containers/BlocSearch"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
+
 const Agreement = Loadable({
   loader: () => import("./containers/Agreement"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -268,10 +265,7 @@ const routes = [
     path: '/bloc/:c_userid',
     component: BlocPage,
   },
-  {
-    path: '/blocSearch/:c_userid',
-    component: BlocSearch,
-  },
+
   {
     path: '/activityRegister',
     component: ActivityRegister,

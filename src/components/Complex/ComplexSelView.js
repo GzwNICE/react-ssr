@@ -48,7 +48,6 @@ class ComplexSelView extends ComplexFormField {
   }
 
   selectValue = (code) => {
-    console.log(code)
     code = String(code)
     if (this.props.maxLength > 1) {
       const { maxLength } = this.props

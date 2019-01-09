@@ -7,7 +7,7 @@ import store from 'store'
 import style from './style.less'
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form'
-import {captcha} from '../../actions/auth'
+// import {captcha} from '../../actions/auth'
 import F from '../../helper/tool'
 import {bindMobile} from '../../actions/auth'
 import { mobile as mobile_bind } from '../../actions/bind'
@@ -26,7 +26,7 @@ import PrefixMobile from '../../inputs/PrefixMobile'
 class BindMoblePhone extends PureComponent {
 
   state = {
-    url: '',
+    // url: '',
     disable:false,
     mobile: '',
     code: '',
@@ -37,11 +37,11 @@ class BindMoblePhone extends PureComponent {
   }
 
   changeImg = () => {
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
+    // captcha().then(data => {
+    //   this.setState({
+    //     url: data,
+    //   })
+    // })
   }
 
   onChange = () => {
@@ -111,11 +111,11 @@ class BindMoblePhone extends PureComponent {
             if (msg) {
               Toast.fail(msg, 2)
             }
-            captcha().then(data => {
-              this.setState({
-                url: data,
-              })
-            })
+            // captcha().then(data => {
+            //   this.setState({
+            //     url: data,
+            //   })
+            // })
           }
         })
       }
@@ -178,11 +178,11 @@ class BindMoblePhone extends PureComponent {
 
   componentDidMount() {
     // console.log(this.props.auth.phone)
-    captcha().then(data => {
-      this.setState({
-        url: data,
-      })
-    })
+    // captcha().then(data => {
+    //   this.setState({
+    //     url: data,
+    //   })
+    // })
   }
 
   componentWillUnmount() {

@@ -21,7 +21,6 @@ import RegisterWrap from '../../components/RegisterWrap'
 import style from './style.less'
 
 @connect(state => ({
-  is_login: state.userStatus.is_login,
   userStatus: state.userStatus,
   supers: state.supers,
   list: state.company.list,
@@ -38,6 +37,7 @@ export default class CompanyArea extends Component {
     keyWords: '',
     local: '',
     c_id: '',
+    is_login: '',
   }
 
   /* 下载或者打开app */
@@ -54,38 +54,16 @@ export default class CompanyArea extends Component {
   }
 
   handleFilerSearch = (value = {}) => {
-    console.log(this.props)
     this.props
       .dispatch(
         saveQuery({
-          area: value.area,
-          brand: value.brand,
+          area: value.area ? value.area : [],
+          brand: value.brand ? value.brand : [],
           keywords: this.state.keyWords,
         })
-      )
-      .then(data => {
-        console.log(data)
-      })
-
-    // const c_userid = this.props.match.params.c_userid
-    // if (this.state.search) {
-    //   this.props.dispatch(
-    //     blocSearch({
-    //       c_userid: c_userid,
-    //       local: this.props.query.area[0] ? this.props.query.area[0] : '',
-    //       c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-    //       key_words: this.props.query.key_words && this.props.query.key_words,
-    //     })
-    //   )
-    // } else {
-    //   this.props.dispatch(
-    //     blocList({
-    //       c_userid: c_userid,
-    //       local: this.props.query.area[0] ? this.props.query.area[0] : '',
-    //       c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-    //     })
-    //   )
-    // }
+      ) 
+      console.log(this.props)
+    
   }
   /* 记录滚动条的位置 */
   onScroll = e => {
@@ -155,7 +133,7 @@ export default class CompanyArea extends Component {
       })
     )
   }
-
+  
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
     this.props.dispatch(
@@ -165,6 +143,9 @@ export default class CompanyArea extends Component {
         c_id: '',
       })
     )
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -177,11 +158,33 @@ export default class CompanyArea extends Component {
     //     this.props.onChangBrand && this.props.onChangeBrand(values)
     //   }
     // })
+
+    // 选择城市和品牌筛选数据
+    if(nextProps.query.area !== this.props.query.area || nextProps.query.brand !== this.props.query.brand){
+      const c_userid = this.props.match.params.c_userid
+      if (this.state.search) {
+        this.props.dispatch(
+          blocSearch({
+            c_userid: c_userid,
+            local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
+            c_id: nextProps.query.brand[0] ?nextProps.query.brand[0] : '',
+            key_words: nextProps.query.keywords && nextProps.query.keywords,
+          })
+        )
+      } else {
+        this.props.dispatch(
+          blocList({
+            c_userid: c_userid,
+            local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
+            c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+          })
+        )
+      }
+    }
   }
 
   render() {
-    const { show, showRegWrap } = this.state
-    const is_login = sessionStorage.getItem('is_login')
+    const { show, showRegWrap ,is_login} = this.state
     return (
       <div className={style.CompanyArea}>
         <div className={style.selHead}>

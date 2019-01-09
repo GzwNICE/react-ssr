@@ -186,25 +186,25 @@ export const handleBindEmail = (params) => {
 /**
  * 获取图片验证码
  */
-export const captcha = () => {
-  return fetch(toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`), {
-    credentials: 'include',
-  }).then(res => {
-    return res.blob()
-  }).then(blob => {
-    return new Promise((resolve, reject) => {
-      let s = new FileReader()
-      s.onload = function() {
-        resolve(s.result)
-      }
-      s.readAsDataURL(blob)
-    })
-  })
+// export const captcha = () => {
+//   return fetch(toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`), {
+//     credentials: 'include',
+//   }).then(res => {
+//     return res.blob()
+//   }).then(blob => {
+//     return new Promise((resolve, reject) => {
+//       let s = new FileReader()
+//       s.onload = function() {
+//         resolve(s.result)
+//       }
+//       s.readAsDataURL(blob)
+//     })
+//   })
   // return axios({
   //   url: toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`),
   //   credentials: 'include',
   // }).then(res => res.data)
-}
+// }
 
 /*
 * 获取微信分享配置信息

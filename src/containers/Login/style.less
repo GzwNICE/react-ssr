@@ -1,6 +1,19 @@
 .LoginWrap{
   height: 100%;
   background-color: #fff;
+  :global {
+    .am-list-line {
+      height: 60px;
+      .am-input-control  {
+        margin-top: 14px;
+      }
+    }
+    .am-list-item.am-input-item {
+      height: 60px;
+      border-bottom: 1Px solid rgba(200,199,204,0.50);
+    }
+    
+  }
 }
 .back{
   padding: 10px 20px;
@@ -11,7 +24,6 @@
 }
 .inputHei{
   padding: 0 !important;
-  //height: 104px !important;
   font-size: 12px !important;
 }
 .inputHei::after{
@@ -34,11 +46,11 @@
   input{
     text-align: left !important;
   }
+
 }
 
 .userName{
   height: 60px;
-  border-bottom: 1px solid rgba(200,199,204,0.30);
   display: flex;
   align-items: center;
   .title{
@@ -50,11 +62,13 @@
 }
 .passwordBox{
   height: 60px;
-  border-bottom: 1px solid rgba(200,199,204,0.30);
   display: flex;
   align-items: center;
   .title{
     width: 60px;
+  }
+  .massageLeft{
+    flex: 1;
   }
   .name{
     flex: 1;
@@ -66,21 +80,14 @@
   }
 }
 .changeType{
-  width: 25px;
-  height: 53px;
+  height: 60px;
   text-align: center;
-  line-height: 53px;
-  margin-left: 7.5px;
+  line-height: 76px;
+  border-bottom: 1Px solid rgba(200,199,204,0.50);
   img{
-    width: 22.5px;
+    width: 20px;
   }
 }
-// .forgetPassword{
-//   font-size: 13px;
-//   color: #FF4F00;
-//   text-align: right;
-//   margin: 12px 0;
-// }
 .subBtn{
   height: 40px;
   margin-top: 40px;

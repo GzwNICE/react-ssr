@@ -13,16 +13,15 @@ import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
-import { loggingStatus } from '../../actions/userStatus'
-import SearchUser from './SearchUser'
-import { domainToASCII } from 'url';
+import Userdefault from '../../static/portrait@3x.png'
+// import { loggingStatus } from '../../actions/userStatus'
+// import SearchUser from './SearchUser'
+// import { domainToASCII } from 'url';
 
 @withRouter
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
-  // is_login: state.userStatus.is_login,
-  // photo: state.userStatus.photo,
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -39,7 +38,7 @@ class MySearchBar extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      is_login: false,
+      is_login: '',
       photo: '',
     }
   }
@@ -52,12 +51,11 @@ class MySearchBar extends PureComponent {
     if (this.props.autoFocus) {
       this.autoFocusInst.focus()
     }
-    // this.props.dispatch(loggingStatus({})).then(() => {
-    //   this.setState({
-    //     is_login: this.props.is_login,
-    //     photo: this.props.photo,
-    //   })
-    // })
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+    })
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,8 +79,7 @@ class MySearchBar extends PureComponent {
       touchCancel = function() {},
       onChange = function() {},
     } = this.props
-    const is_login = sessionStorage.getItem("is_login")
-    const photo = sessionStorage.getItem("photo")
+    const {is_login,photo} =this.state
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
@@ -126,7 +123,7 @@ class MySearchBar extends PureComponent {
             }
           >
             <img
-              src={is_login ? photo : personal}
+              src={is_login ? (photo ? photo : Userdefault) : personal}
               alt="img"
               className={style.personal}
             />

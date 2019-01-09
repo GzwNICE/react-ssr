@@ -48,6 +48,7 @@ class CompanyDetail extends PureComponent {
     current: 1, //相册当前页
     show: true, //引导下载框
     attention: '关注', //关注企业
+    is_login:'',
   }
 
   nextPost = (job_id, c_userid) => {
@@ -192,6 +193,9 @@ class CompanyDetail extends PureComponent {
         this.page.scrollTop = pageScroll['page'] || 0
       })
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+    })
   }
 
   componentWillUnmount() {
@@ -213,12 +217,12 @@ class CompanyDetail extends PureComponent {
       current,
       attention,
       showRegWrap,
+      is_login,
     } = this.state
     const tabs = [
       { title: <Badge key="1">企业信息</Badge> },
       { title: <Badge key="2">在招职位</Badge> },
     ]
-    const is_login = sessionStorage.getItem('is_login')
     return (
       <div className={style.CompanyDetailWrap}>
         <SearchUser

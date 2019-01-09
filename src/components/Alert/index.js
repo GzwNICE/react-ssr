@@ -7,6 +7,7 @@
  *  icon=""                                      弹框需要的img、logo、icon   空=> 不显示
     title=""                                     弹框标题
     height={176}                                 弹框主题内容高度    空=>  默认130px
+    closable={1}                                 弹框显示关闭按钮   closable=1 为显示，closable=0为隐藏
     visible={this.state.toPerfect}               弹框显示与隐藏   父组件中state控制显示与隐藏
     onClose={this.onClose('toPerfect')}          弹框关闭方法      
     message={`你的简历完整度<40%，通过率极低`}     弹框内容
@@ -24,11 +25,11 @@ import { Modal } from 'antd-mobile'
 import style from './style.less'
 
 const Alert = props => {
-  const { title, message, visible, actions, onClose, icon, height } = props
+  const { title, message, visible, actions, closable, onClose, icon, height } = props
   return (
     <Modal
       visible={visible}
-      closable={true}
+      closable={closable === 1 ? true : false}
       transparent
       maskClosable={false}
       onClose={onClose}
@@ -41,11 +42,7 @@ const Alert = props => {
           return (
             <div
               className={
-                item.type
-                  ? item.type === 'ok'
-                    ? style.go
-                    : style.wontGo
-                  : style.app
+                item.type ? (item.type === 'ok'? style.go: (item.type === 'know' ? style.know : style.wontGo )): style.app
               }
               style={item.width ? { width: item.width } : {}}
               onClick={item.onPress}

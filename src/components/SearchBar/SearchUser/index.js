@@ -22,7 +22,8 @@ class SearchUser extends Component {
     super(props)
     this.state = {
       show: true,
-      is_login: 0, //登录状态
+      is_login: '', 
+      photo: '',
     }
   }
 
@@ -30,19 +31,15 @@ class SearchUser extends Component {
     // if (this.props.autoFocus) {
     //   this.autoFocusInst.onFocus()
     // }
-    // this.props.dispatch(loggingStatus({})).then(() => {
-    //   this.setState({
-    //     is_login: this.props.is_login,
-    //     photo: this.props.photo,
-    //   })
-    // })
+    this.setState({
+      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+    })
   }
 
   render() {
-    const { show } = this.state
+    const { show ,is_login,photo} = this.state
     const { searchShow } = this.props
-    const is_login = sessionStorage.getItem("is_login")
-    const photo = sessionStorage.getItem("photo")
     return (
       <div className={searchShow ? style.headScoll : style.positionHead}>
         <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
