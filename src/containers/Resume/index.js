@@ -45,7 +45,7 @@ const progressStyle = {
 @withRouter
 class Resume extends PureComponent {
   state = {
-    toogle: true, // 默认收起
+    toogle: false, // 默认收起
     percentage: '',
   }
 
@@ -109,7 +109,7 @@ class Resume extends PureComponent {
   handleGoto = (item) => {
     this.props.history.push(item)
   }
-  handleToogle() {
+  handleToogle = () => {
     this.setState({
       toogle: !this.state.toogle,
     })
@@ -132,7 +132,6 @@ class Resume extends PureComponent {
       DesiredCompanyTypes=[],
     } = this.props
     const { toogle, percentage } = this.state
-
     // todo 设置、预览的链接还没写
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
@@ -243,7 +242,7 @@ class Resume extends PureComponent {
 
                     </div>
                   )}
-                  <div className={style['card-job-footer']}>
+                  <div className={style['card-education-footer']}>
                     <img src={addIcon}/>
                     <Link to="/resume/experience/add">
                       添加工作经验
@@ -254,6 +253,7 @@ class Resume extends PureComponent {
               <Card
                 className={style.card}>
                 <Card.Header
+                  className={style.boder1px}
                   title={<span>教育经历 <span>(必填)</span></span>}/>
                 <Card.Body className={style['card-education']}>
                   {educationals.map((item, key) =>
@@ -276,43 +276,72 @@ class Resume extends PureComponent {
                   </div>
                 </Card.Body>
               </Card>
-              <Card className={style.card}>
-                <Card.Header
+              {
+                toogle ? (
+                <Card className={style.card}>
+                  <Card.Header
                   title={<span>语言/技能</span>}
-                  extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
-                <Card.Body className={style['card-language']}>
-                  <div className={style['card-language-content']}>
-                    <div className={style['card-language-content-header']}>
-                      <span>普通话</span>
-                      <span>熟练</span>
-                    </div>
-                    <Progress style={progressStyle} percent={40} position="normal" unfilled={true} />
-                  </div>
-                  <div className={style['card-language-content']}>
-                    <div className={style['card-language-content-header']}>
-                      <span>英语</span>
-                      <span>熟练</span>
-                    </div>
-                    <Progress style={progressStyle} percent={40} position="normal" unfilled={true} />
-                  </div>
-                  <div className={style['card-language-content']}>
-                    <div className={style['card-language-content-header']}>
-                      <span>PPT</span>
-                      <span>熟练</span>
-                    </div>
-                    <Progress style={progressStyle} percent={40} position="normal" unfilled={true} />
-                  </div>
-                </Card.Body>
-              </Card>
-              <Card
-                className={style.card}>
-                <Card.Header
-                  title={<span>自我描述</span>}
-                  extra={<Link to="/resume/info"><img src={editIcon} /></Link>} />
-                <Card.Body className={style['card-body']}>
-                  <p className={style['card-body-describe']}>jdfkldjaskf放开了大家分开了打手机放开了  1fdafdasfdasf放大发生的范德萨范德萨发的 </p>
-                </Card.Body>
-              </Card>
+                  className={style.boder1px}
+                  extra={<Link to="/resume/language"><img src={editIcon} /></Link>} />
+                  <Card.Body className={style['card-language']}>
+                  {
+                    languages.map((item, index) => (
+                      <div key={index} className={style['card-language-content']}>
+                        <div className={style['card-language-content-header']}>
+                          <span>{option.opts_language_index[item.language]}</span>
+                          <span>{option.opts_master_degree_index[item.ability]}</span>
+                        </div>
+                        <Progress style={progressStyle} percent={Number(item.ability -1 ) * 25} position="normal" unfilled={true} />
+                      </div>
+                    ))
+                  }
+                  {
+                    skills.map((item, index) => (
+                      <div key={index} className={style['card-language-content']}>
+                        <div className={style['card-language-content-header']}>
+                          <span>{item.skill_cn}</span>
+                          <span>{option.opts_master_degree_index[item.ability]}</span>
+                        </div>
+                        <Progress style={progressStyle} percent={Number(item.ability - 1) * 25} position="normal" unfilled={true} />
+                      </div>
+                    ))
+                  }
+                  </Card.Body>
+                </Card>
+
+                ) : null
+              }
+              {
+                toogle ? (
+                  <Card
+                    className={style.card}>
+                    <Card.Header
+                      title={<span>自我描述</span>}
+                      className={style.boder1px}
+                      extra={<Link to="/resume/description"><img src={editIcon} /></Link>} />
+                    <Card.Body className={style['card-body']}>
+                      {
+                        other_exps.length > 0 ?
+                          other_exps.map(item => (
+                            <div key={item.id} className={style.panel}>
+                              {/*<div>{option.opts_topic_index[item.info_type]}</div>*/}
+                              <div className={style.info}>
+                                <TextareaItem
+                                  autoHeight
+                                  value={`${item.content_cn || ''}`}
+                                  rows={1}
+                                  editable={false}
+                                  placeholder={'请简明扼要地描述你的职业优势,让企业HR快速了解你~'}
+                                />
+                              </div>
+                            </div>
+                          )) : '请简明扼要地描述你的职业优势,让企业HR快速了解你~'}
+                      {/*<p className={style['card-body-describe']}>jdfkldjaskf放开了大家分开了打手机放开了  1fdafdasfdasf放大发生的范德萨范德萨发的 </p>*/}
+                    </Card.Body>
+                  </Card>
+                ) : null
+              }
+
               <div className={style.toogle} onClick={this.handleToogle}>
                 <div>
                   <img src={toogle ? upIcon : downIcon} />

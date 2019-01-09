@@ -21,10 +21,13 @@
     position: absolute;
     top: 55px;
     bottom: 0;
+    left: 0;
+    right: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     margin-left: 0 !important;
     padding: 38px 0 20px 0;
+
     > div {
       position: relative;
     }
@@ -303,4 +306,14 @@
 }
 .boder1px {
   border-bottom: 1Px solid rgba(200,199,204,0.50);
+}
+.panel {
+  :global {
+    .am-list-item {
+      padding-left: 0!important;
+    }
+    .am-textarea-control {
+      padding: 0!important;
+    }
+  }
 }

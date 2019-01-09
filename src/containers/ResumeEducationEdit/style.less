@@ -28,3 +28,40 @@
     }
   }
 }
+.modal {
+  :global{
+    .am-modal-title {
+      color: #030303!important;
+    }
+    .am-modal-header {
+      padding-top: 24px!important;
+    }
+    .am-modal-body {
+      padding: 0!important;
+    }
+  }
+  .modalBody {
+    text-align: center;
+    p {
+      font-size: 15px;
+      color: #030303;
+      padding-bottom: 18px;
+    }
+    > div {
+      height: 44px;
+      line-height: 44px;
+      display: flex;
+      font-size: 16px;
+      color: #007AFF;
+      border-top: 1Px solid rgba(200,199,204,0.50);
+      text-align: center;
+      > div {
+        flex: 1;
+        &:first-child {
+          border-right: 1Px solid rgba(200,199,204,0.50);
+        }
+      }
+    }
+  }
+}
+

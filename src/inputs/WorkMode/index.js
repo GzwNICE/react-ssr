@@ -1,5 +1,6 @@
+import React,{PureComponent} from 'react'
 import { connect } from 'react-redux'
-import ComplexSelView from '../../components/Complex/ComplexSelView'
+import ComplexPicker from '../../components/ComplexPicker'
 
 @connect(state => {
   return {
@@ -7,6 +8,23 @@ import ComplexSelView from '../../components/Complex/ComplexSelView'
     optIndex: state.option.opts_work_mode_index,
   }
 })
-class WrokMode extends ComplexSelView {}
+class JobStatus extends PureComponent {
+  render() {
+    const { options = [] } = this.props
+    return (
+      <ComplexPicker
+        {...this.props}
+        data={options
+        .filter(item => item.code !== 0)
+          .map(item => ({
+            label: item.value,
+            value: `${item.code}`,
+          }))}
+        cols={1}>
+        {this.props.children}
+      </ComplexPicker>
+    )
+  }
+}
 
-export default WrokMode
+export default JobStatus

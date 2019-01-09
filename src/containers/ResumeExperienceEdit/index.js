@@ -56,24 +56,29 @@ class ResumeExperienceEdit extends PureComponent {
         return item.id === match.params.id
       })[0] || {}
       let endTime = []
-      if (item.end_year) {
+      if (Number(item.end_year) === 0) {
+        endTime.push(YING_JIE_SHENG)
+      } else {
         endTime.push(`${item.end_year}年`)
-      }
-      if (item.end_year) {
         endTime.push(`${item.end_month}月`)
       }
+
       this.setState({
         sValue: endTime,
       })
-      console.log(endTime)
     })
     const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-
+    // console.log(initData)
+    // console.log(initData.data.reverse())
     this.setState({
       endTimedata: initData.data,
       // sValue: initData.val,
     })
   }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(this.props)
+  //   console.log(nextProps)
+  // }
   handleFormat = (val) => {
     val = val.map((item) => {
       if ( item === YING_JIE_SHENG ) {
@@ -147,23 +152,31 @@ class ResumeExperienceEdit extends PureComponent {
         }
       })
 
-      // console.log(endTime)
       // console.log(moment(beginTime).format('YYYY'))
       // console.log(moment(beginTime).format('MM'))
-      // todo overseas 1 2 还是0 没搞清楚
+
+      let end_year, end_month
+      if (endTime[0] === YING_JIE_SHENG) {
+        end_year = 0
+        end_month = 0
+      } else {
+        end_year = endTime[0]
+        end_month = endTime[1]
+      }
       this.props.dispatch(workExpsEdit({
         ...values,
         id: this.props.match.params.id,
         begin_year: moment(beginTime).format('YYYY'),
         begin_month: moment(beginTime).format('MM'),
-        end_year: endTime[0],
-        end_month: endTime.length > 1 ? endTime[0] : '',
-        salary_type: values.salary_type ?  '1' : '2',
+        end_year,
+        end_month,
+        salary_type: values.salary_type ?  2 : 1,
+
         // position_cn: this.props.option.positions_index[values.position_id],
         // job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       })).then(data => {
-        // this.props.history.goBack()
+        this.props.history.goBack()
       })
     })
   }
@@ -181,13 +194,14 @@ class ResumeExperienceEdit extends PureComponent {
   }
   // 确认删除
   handleDeleteOk = (item) => {
-    console.log(item)
     this.setState({
       deletModal: false,
     })
     this.props.dispatch(workExpsRemove({
       work_exp_id: item.id,
-    }))
+    })).then(() => {
+      this.props.history.goBack()
+    })
   }
   // 退出
   handleExit = () => {
@@ -225,7 +239,6 @@ class ResumeExperienceEdit extends PureComponent {
       return item.id === match.params.id
     })[0] || {}
     const { endTimedata, sValue, deletModal, showModal } = this.state
-
     // console.log(work_exps)
     // console.log(item)
     // console.log(option)
@@ -321,7 +334,7 @@ class ResumeExperienceEdit extends PureComponent {
             title="所属行业"
             extra="请选择"
           >
-            <List.Item arrow="horizontal">所属行业</List.Item>
+            <List.Item className={style['boder-bottom-1px']} arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
 
           <div className={style.noboderline}>
@@ -341,7 +354,7 @@ class ResumeExperienceEdit extends PureComponent {
             <label>
               <Checkbox
                 {...getFieldProps('salary_type', {
-                  initialValue: item.salary_type === '1' ? true : false,
+                  initialValue: item.salary_type === '2',
                   valuePropName: 'checked',
                 })}
               />
@@ -363,7 +376,7 @@ class ResumeExperienceEdit extends PureComponent {
 
         </List>
         {
-          item.id ? <div className={style.bottom} onClick={this.handleDelete}>
+          (work_exps.length > 1 && item.id) ? <div className={style.bottom} onClick={this.handleDelete}>
             删除此工作经历
           </div> : null
         }

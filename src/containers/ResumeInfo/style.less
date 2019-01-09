@@ -86,7 +86,7 @@
       height: 28px;
     }
     .am-list-line {
-      height: 28px;
+      height: 29px;
     }
     .am-list-content {
       text-align: right!important;
@@ -125,7 +125,16 @@
     }
   }
 }
+// todo 这边的boder 为什么会消失，这个颜色还有些出入
+.boder-bottom-1px {
+  :global {
+    .am-list-line {
+      border-bottom: 1PX solid #F0F0F0!important;
+    }
+  }
 
+
+}
 .bottom {
   height: 40px;
   line-height: 40px;
