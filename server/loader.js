@@ -15,7 +15,7 @@ import createStore from '../src/store'
 import routes from '../src/routes'
 // import Root from '../src/pages/Root'
 import manifest from '../build/asset-manifest.json'
-import { getPostInit } from '../src/actions/home'
+import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
@@ -115,13 +115,17 @@ export default (req, res, next) => {
           })
       }
 
+
       const jobUrl = pathToRegexp('/:company_id/:job_id(.*)')
       const companyUrl2 = pathToRegexp('/:company_id')
       const companyUrl = pathToRegexp('/:company_id\\?(.*)')
+      const homePage = pathToRegexp('/tabs/home')
+      const blocPage = pathToRegexp('/bloc/:c_userid(.*)')
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
       let com = null
+      let render = true
       if (job) {
         com = {
           key: 1,
@@ -140,15 +144,14 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
-
       if (isNumber(parseInt(com.value, 10))) {
-        if (com.key === 1) {
-          // 职位详情页
+        if (com.key === 1) { // 职位详情页
+          render = false
           store.dispatch(positiondetail()).then(() => {
             serverRender()
           })
-        } else {
-          // 企业详情页
+        } else {   // 企业详情页
+          render = false
           store.dispatch(companydetail()).then(() => {
             store.dispatch(companyList()).then(() => {
               serverRender()
@@ -156,26 +159,27 @@ export default (req, res, next) => {
           })
         }
       }
-
-      // 首页
-      const homePage = pathToRegexp('/tabs/home')
-
-      if (homePage.exec(req.url)) {
+      if (homePage.exec(req.url)) { // 首页
+        render = false
         store.dispatch(getPostInit()).then(() => {
           store.dispatch(getBanner()).then(() => {
-            serverRender()
+            store.dispatch(famCompany()).then(() => {
+              store.dispatch(hotTrade()).then(() => {
+                serverRender()
+              })
+            })
           })
         })
       }
-
-      // 名企专区列表
-      const blocPage = pathToRegexp('/bloc/:c_userid')
-      if (blocPage.exec(req.url)) {
+      if (blocPage.exec(req.url)) { // 名企专区列表
+        render = false
         store.dispatch(blocList()).then(() => {
-            serverRender()
+          serverRender()
         })
       }
-
+      if(render){
+        serverRender()
+      }
       // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
       //   store.dispatch(getPostInit()).then(() => {
       //     store.dispatch(getBanner()).then(() => {
