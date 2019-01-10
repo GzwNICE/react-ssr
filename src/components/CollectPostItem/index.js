@@ -2,7 +2,6 @@
  * Created by huangchao on 2017/11/1.
  * 仅用于收藏的职位ITEM
  */
-
 import React from 'react'
 import style from './style.less'
 // import text from '../../static/icon_feedback_im.png'
