@@ -52,7 +52,7 @@ class HomePage extends PureComponent {
       dataSource,
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
-      show: false,
+      show: true,
       showRegWrap: true, //是否显示引导注册
       is_login: '',
     }
@@ -112,7 +112,7 @@ class HomePage extends PureComponent {
   /* 关闭广告 */
   onCloseAd = () => {
     sessionStorage.setItem('ad', 'yes')
-    this.setState({ show: true })
+    this.setState({ show: false })
   }
 
   /* 下载或者打开app */
@@ -198,16 +198,16 @@ class HomePage extends PureComponent {
       )
     }
 
-    let yes = sessionStorage.getItem('ad') || false
-    if (!yes) {
-      this.setState({
-        show: false,
-      })
-    } else {
-      this.setState({
-        show: true,
-      })
-    }
+    // let yes = sessionStorage.getItem('ad') || false
+    // if (!yes) {
+    //   this.setState({
+    //     show: false,
+    //   })
+    // } else {
+    //   this.setState({
+    //     show: true,
+    //   })
+    // }
     this.setState({
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
     })
@@ -256,8 +256,9 @@ class HomePage extends PureComponent {
 
   render() {
     const { show, showRegWrap, is_login } = this.state
+    console.log(show)
     return (
-      <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
+      <div className={style.HomePageWrap}>
         <Ad.AdWindow
           show={show}
           onCloseAd={this.onCloseAd}
