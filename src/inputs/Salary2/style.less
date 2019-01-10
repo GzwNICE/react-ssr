@@ -1,11 +1,70 @@
 .wraper {
-  position: relative
+  position: relative;
 }
 .content {
-  position: absolute; 
+  position: absolute;
   top: 30px;
   left: -167px;
   height: 280px;
   width: 375px;
-  background-color: red;
+  background-color: #fff;
+}
+.title {
+  padding: 26px 0 0 25px;
+  font-size: 14px;
+  color: #4a4a4a;
+  > span {
+    color: #ff7214;
+    padding-left: 14px;
+  }
+}
+.slider {
+  width: 100%;
+  padding: 50px 40px 0 40px;
+  position: relative;
+  box-sizing: border-box;
+  :global {
+    .rc-slider-track {
+      background-color: #ff4f00;
+      z-index: 999;
+      border-radius: 0 !important;
+      height: 2px !important;
+    }
+    .rc-slider-handle {
+      border: none;
+      width: 0 !important;
+      height: 0 !important;
+      // background-color: none;
+    }
+    .rc-slider-rail {
+      border-radius: 0 !important;
+      height: 2px !important;
+    }
+  }
+}
+.mark {
+  position: relative;
+  .num {
+    position: absolute;
+    top: -40px;
+    width: 32px;
+    border-radius: 2px;
+    background-color: #ff4f00;
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+  }
+  .line {
+    position: absolute;
+    top: -5px;
+    left: 6px;
+    width: 30px;
+    border: 1px solid #ff4f00;
+    height: 12px;
+    width: 2px;
+  }
+  .icon {
+    position: absolute;
+    top: 20px;
+  }
 }
