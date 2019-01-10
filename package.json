@@ -9,20 +9,7 @@
   "description": "最佳东方触屏版",
   "license": "ISC",
   "private": true,
-  "proxy": {
-    "/s/ve.m/client-service": {
-      "target": "http://10.10.50.227",
-      "pathRewrite": {
-        "^/s/ve.m/": "/"
-      },
-      "secure": false
-    },
-    "/s/": {
-      "target": "http://localhost:3311",
-      "changeOrigin": true,
-      "secure": false
-    }
-  },
+
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "antd-mobile": "^2.2.6",

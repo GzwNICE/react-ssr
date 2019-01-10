@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar } from 'antd-mobile'
+import { NavBar, Icon } from 'antd-mobile'
 import { connect } from 'react-redux'
 import ComplexSelView, { style } from '../../components/Complex/ComplexSelView'
 import style2 from './style.less'
@@ -71,10 +71,17 @@ class More extends ComplexSelView {
 
   mainView() {
     return (
-      <div className={style.root}>
+      <div className={`${style.root} ${style2.root}`}>
+        {/*<NavBar*/}
+          {/*mode="dark"*/}
+          {/*className={style.nav}*/}
+          {/*onLeftClick={() => this.changeVisible()}>*/}
+          {/*{this.props.title || this.props.children.props.children}*/}
+        {/*</NavBar>*/}
         <NavBar
-          mode="dark"
-          className={style.nav}
+          mode="light"
+          className={style2.nav}
+          icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}>
           {this.props.title || this.props.children.props.children}
         </NavBar>
@@ -82,8 +89,8 @@ class More extends ComplexSelView {
           {this.allView()}
         </div>
         <div className={style2.bar}>
-          <div onClick={() => this.clearValue()}>清空</div>
-          <div onClick={() => this.changeValue()}>确定</div>
+          {/*<div onClick={() => this.clearValue()}>清空</div>*/}
+          <div onClick={() => this.changeValue()}>保存</div>
         </div>
       </div>
     )

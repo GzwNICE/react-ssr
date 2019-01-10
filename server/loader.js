@@ -23,6 +23,7 @@ import { blocList } from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 
 export default (req, res, next) => {
+  console.log(req.url)
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
@@ -94,7 +95,7 @@ export default (req, res, next) => {
               // console.log('THE TITLE', helmet.title.toString())
 
               // Pass all this nonsense into our HTML formatting function above
-              // console.log(1111111111111111111)
+              console.log(1111111111111111111)
               // console.log(helmet.htmlAttributes.toString())
 
               const html = injectHTML(htmlData, {

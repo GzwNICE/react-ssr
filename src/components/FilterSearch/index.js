@@ -34,24 +34,24 @@ class FilterSearch extends (PureComponent || Component) {
   }
   componentWillReceiveProps(nextProps) {
     if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
-      this.props.form.setFieldsValue(nextProps.query)
+      // this.props.form.setFieldsValue(nextProps.query)
     }
   }
 
   componentDidMount() {
-    this.props.form.setFieldsValue(this.props.query)
+    // this.props.form.setFieldsValue(this.props.query)
   }
 
   render() {
-    const { form } = this.props
+    const { form, query } = this.props
     const { getFieldProps } = form
-    // console.log(this.props)
+    // console.log(query)
     return (
       <div className={style.FilterSearchWrap}>
         
         <div className={style.item}>
           <Area {...getFieldProps('area', {
-           // initialValue: code ? code : [],
+           initialValue: query.area ? query.area : [],
           })}
             extra="" format={this.formatArea}>
             <SimpleItem arrow="horizontal" />
@@ -61,12 +61,11 @@ class FilterSearch extends (PureComponent || Component) {
           </div>
         </div>
         <div className={style.item}>
-          <Salary.SearchSalarys {...getFieldProps('salary', {
-            // initialValue: this.props.salary ? this.props.salary : [],
-          })}
-            extra="" format={this.format}>
-            <SimpleItem arrow="horizontal">薪资</SimpleItem>
-          </Salary.SearchSalarys>
+          <Salary {...getFieldProps('salary', {
+            initialValue: this.props.salary ? this.props.salary : [],
+          })}>
+           
+          </Salary>
           <div className={style.jiantou}>
             <img src={angleDownGray} alt="" />
           </div>
