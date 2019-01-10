@@ -96,10 +96,6 @@ class SelectCompany extends PureComponent {
     }
     return (
       <div className={style.SelectCompanyWrap}>
-        <NavBar
-          mode="dark"
-          onLeftClick={this.goBack}
-        >关注企业</NavBar>
         <div id="page" className={style.listbox} onScroll={this.onScroll}>
           {
             list.length > 0 ?
@@ -114,11 +110,11 @@ class SelectCompany extends PureComponent {
               pageSize={2000}
               style={{
                 overflow: 'auto',
-                height: 'calc(100vh - 1rem)',
+                height: 'calc(100vh - 0.95rem)',
               }}
               onScroll={this.onScroll}
               />
-              : <Nothing font="快去收藏更多的职位吧～"/>
+              : <Nothing font="关注企业后，第一时间收到企业发布的最新职位，快去关注吧！" botton="去关注" link="/"/>
           }
         </div>
       </div>

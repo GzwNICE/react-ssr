@@ -1,0 +1,36 @@
+.SelectPostWrap{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+.loginPage{
+  :global {
+    
+    .am-tabs-default-bar-underline {
+      width: 20px !important;
+      margin-left: 22.2%;
+    }
+    .am-tabs-default-bar-tab {
+      .am-badge {
+        font-family: PingFangSC-Regular;
+        color: #9B9B9B;
+      }
+    }
+    .am-tabs-default-bar-tab {
+      font-size: 16px !important;
+      .am-badge {
+        font-family: PingFangSC-Regular;
+        color: #9B9B9B;
+      }
+    }
+    .am-tabs-default-bar-tab-active {
+      .am-badge {
+        color: #333333;
+      }
+    }
+    .am-list-body::before {
+      display: none !important;
+    }
+  }
+}

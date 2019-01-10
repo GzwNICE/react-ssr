@@ -8,7 +8,7 @@ import style from './style.less'
 import text from '../../static/icon_feedback_im.png'
 
 const CollectCompanyItem = (props) => {
-  const {company_logo, company_name, followed_date, jobs_num, myfollowed_job_new } = props
+  const {company_logo, company_name, current_location, industry_star,employees_number,followed_date,new_job_name, jobs_num, myfollowed_job_new } = props
   return (
     <div className={style.CollectCompanyItemWrap}>
       <div className={style.innerContent}>
@@ -21,14 +21,20 @@ const CollectCompanyItem = (props) => {
             {company_name}
           </div>
           <div className={style.middle}>
-            <div className={style.middLeft}>
+            {/*<div className={style.middLeft}>
               <span>{jobs_num}个</span>在招职位
             </div>
             <div className={style.middRight}>
               {followed_date.split(' ')[0]}关注
-            </div>
+            </div>*/}
+            <span>{current_location}</span>
+            <span>{industry_star}</span>
+            <span>{employees_number}</span>
           </div>
         </div>
+      </div>
+      <div className={style.middLeft}>
+        热招：<span>{new_job_name}</span> 等{jobs_num}个在招职位
       </div>
     </div>
   )

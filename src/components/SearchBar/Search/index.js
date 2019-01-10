@@ -28,7 +28,6 @@ class Search extends Component {
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
       photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
     })
-    // this.autoFocusInst.focus()
   }
 
   render() {
