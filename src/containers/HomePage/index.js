@@ -274,12 +274,9 @@ class HomePage extends PureComponent {
 
         <div className={style.homecentent}>
           <Carousels {...this.props} />
-          <WhiteSpace size="sm" />
           <FamousCompany />
-          <WhiteSpace size="sm" />
           <HotTrade />
         </div>
-
         {is_login ? null : (
           showRegWrap ? (
             <RegisterWrap
