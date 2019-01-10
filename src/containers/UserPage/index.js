@@ -1,27 +1,22 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
+import * as auth from '../../actions/auth'
+import {login_out} from '../../actions/userStatus'
+import { Toast } from 'antd-mobile'
+import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
-// import Clipboard from 'clipboard'
-import style from './style.less'
-import Resume from '../../static/resume@3x.png'
-// import company from '../../static/attentioncompany@3x.png'
+import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
-// import addserver from '../../static/addserver@3x.png'
-// import appshear from '../../static/appshear@3x.png'
-// import privacyseeting from '../../static/privacyseeting@3x.png'
+import Resume from '../../static/resume@3x.png'
 import systemMassage from '../../static/systemMassage@3x.png'
-// import moreseeting from '../../static/moreseeting@3x.png'
-// import userbg from '../../static/userbg@3x.png'
 import headimg from '../../static/portrait@3x.png'
 import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
-import * as auth from '../../actions/auth'
-import {login_out} from '../../actions/userStatus'
-import { Toast } from 'antd-mobile'
-import { getUserStatus, userRefResume } from '../../actions/userStatus'
+import style from './style.less'
+
 
 @connect(state => {
   return {
@@ -96,6 +91,8 @@ class UserPage extends PureComponent {
   }
 
 
+
+
   loginOut = () => {
     auth.logout().then(data => {
       if(data) {
@@ -111,6 +108,18 @@ class UserPage extends PureComponent {
       .catch(err => {
         Toast.info(err.errMsg, 2)
       })
+  }
+
+  whereWillIGo = () => {
+    const { pathSearch }  = queryString.parse(window.location.search)
+    console.log(pathSearch)
+    if (pathSearch) {
+      this.props.history.go(-1)
+    } else {
+      this.props.history.length === 2 || this.props.history.length === 1
+        ? this.props.history.push('/tabs/home')
+        : this.props.history.go(-1)
+    }
   }
 
   componentDidMount() {
@@ -133,11 +142,7 @@ class UserPage extends PureComponent {
       })
     }
   }
-
-  componentWillUnmount() {
-    // Clipboard.isSupported() && this.clipboard.destroy()
-  }
-
+  
   render() {
     const userStatus = this.props.userStatus
     const deliver =
@@ -151,7 +156,7 @@ class UserPage extends PureComponent {
           <div className={style.hasLogin}>
             <div className={style.right}>
               <div className={style.btn}>
-                <div className={style.btnLeft} onClick={()=>{this.props.history.go(-1)}}>
+                <div className={style.btnLeft} onClick={this.whereWillIGo}>
                   <img src={back} alt="back" />
                 </div>
                 <div className={style.btnRight}>
@@ -220,14 +225,6 @@ class UserPage extends PureComponent {
               underline="true"
             />
           </div>
-
-          {/*<div onClick={() => {this.goNextpage('/person/followedCompanies', '关注企业')}}>
-            <LisetItem
-              img={company}
-              titleleft="关注企业"
-              underline="true"
-            />
-          </div>*/}
           
           <div onClick={() => {this.goNextpage('/feedback', '意见反馈')}}>
             <LisetItem

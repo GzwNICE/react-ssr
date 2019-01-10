@@ -10,7 +10,7 @@ import downbg from '../../static/downbg.png'
 
 const AdWindow = props => {
   return (
-    <div className={`${style.advertising} ${!props.show ? '' : style.hidden}`}>
+    <div className={`${style.advertising} ${props.show ? '' : style.hidden}`}>
       <div onClick={() => props.onCloseAd()} className={style.close}>
         <img src={close} alt="" />
       </div>
@@ -26,7 +26,7 @@ const AdWindow = props => {
 
 const AdTop = props => {
   return (
-    <div className={`${style.AdTopWrap} ${props.show ? '' : style.hidden}`}>
+    <div className={`${style.AdTopWrap}`}>
       <div className={style.keyword}>
         <div className={style.logo}>
           <img src={logo} alt="img" />

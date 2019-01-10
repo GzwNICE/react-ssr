@@ -198,16 +198,16 @@ class HomePage extends PureComponent {
       )
     }
 
-    // let yes = sessionStorage.getItem('ad') || false
-    // if (!yes) {
-    //   this.setState({
-    //     show: false,
-    //   })
-    // } else {
-    //   this.setState({
-    //     show: true,
-    //   })
-    // }
+    let yes = sessionStorage.getItem('ad') || false
+    if (!yes) {
+      this.setState({
+        show: true,
+      })
+    } else {
+      this.setState({
+        show: false,
+      })
+    }
     this.setState({
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
     })
@@ -256,7 +256,6 @@ class HomePage extends PureComponent {
 
   render() {
     const { show, showRegWrap, is_login } = this.state
-    console.log(show)
     return (
       <div className={style.HomePageWrap}>
         <Ad.AdWindow
@@ -266,7 +265,7 @@ class HomePage extends PureComponent {
         />
         <div className={style.homehead}>
           <div className={style.searchBar}>
-            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+            <Ad.AdTop downLoadAd={this.downLoadAd} />
             <MySearchBar
               searchFocus={this.searchFocus}
               onChangeCity={this.onChangeCity}

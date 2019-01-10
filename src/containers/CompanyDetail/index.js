@@ -84,6 +84,9 @@ class CompanyDetail extends PureComponent {
         )
         .then(data => {
           Toast.success('取消关注', 2)
+          this.setState({
+            attention: '关注',
+          })
         })
     } else {
       this.props
@@ -197,13 +200,13 @@ class CompanyDetail extends PureComponent {
   }
 
   componentWillUnmount() {
-    // this.props.dispatch(emptyInfo)
     this.props.handleSavePageScroll(this.key)
     clearTimeout(this.setScroll)
   }
 
   render() {
     const data = this.props.company
+    const is_followed = data.is_followed
     const pathname = this.props.location.pathname
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
@@ -263,7 +266,7 @@ class CompanyDetail extends PureComponent {
                   className={style.attention}
                   onClick={this.handleAttention.bind(this)}
                 >
-                  {attention}
+                  {is_followed=== 1 ? '已关注' : attention}
                 </div>
               </div>
             </div>
