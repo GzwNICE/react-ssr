@@ -24,12 +24,12 @@ class SelectConcern extends PureComponent {
       { title: <Badge key="2">收藏的职位</Badge> },
     ]
     return (
-      <div className={style.loginPage}>
+      <div className={style.concernPage}>
         <NavBack title="关注/收藏"/>
         <div className={style.loginTab}>
           <Tabs
             tabs={tabs}
-            initialPage={0}
+            initialPage={1}
             swipeable={false}
             // animated={false}
           >

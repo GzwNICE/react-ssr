@@ -61,11 +61,11 @@ class FilterSearch extends (PureComponent || Component) {
           </div>
         </div>
         <div className={style.item}>
-          <Salary {...getFieldProps('salary', {
+          {/*<Salary {...getFieldProps('salary', {
             initialValue: this.props.salary ? this.props.salary : [],
           })}>
            
-          </Salary>
+        </Salary>*/}
           <div className={style.jiantou}>
             <img src={angleDownGray} alt="" />
           </div>
