@@ -187,12 +187,17 @@ class HomePage extends PureComponent {
       userStatus.code && userStatus.code[0]
         ? userStatus.code
         : supers.location.address.code
-    this.props.dispatch(
-      getPostInit({
-        location,
-        page: 1,
-      })
-    )
+    const { homeList } = this.props
+    // console.log(homeList)
+    if (homeList.length === 0) {
+      this.props.dispatch(
+        getPostInit({
+          location,
+          page: 1,
+        })
+      )
+    }
+
     let yes = sessionStorage.getItem('ad') || false
     if (!yes) {
       this.setState({
