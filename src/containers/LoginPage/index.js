@@ -1,7 +1,3 @@
-/**
- * Created by huangchao on 2017/10/18.
- */
-
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 // import { InputItem, Toast } from 'antd-mobile'

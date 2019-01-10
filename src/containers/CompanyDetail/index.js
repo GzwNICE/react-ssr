@@ -157,9 +157,7 @@ class CompanyDetail extends PureComponent {
       ? this.props.history.location.search
       : '?'
     const pathname = this.props.history.location.pathname
-    const url = `/user/register${search}${
-      search === '?' ? '' : '&'
-    }redirect=${pathname}`
+    const url = search ? `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}` : `/user/register?redirect=${pathname}`
     this.props.history.replace(url, { key: '关注' })
   }
 

@@ -1,17 +1,14 @@
-/**
- * Created by huangchao on 2017/10/12.
- */
 import React, { PureComponent } from 'react'
 import style from './style.less'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-import { Tabs, Badge, NavBar } from 'antd-mobile'
+import { Tabs, Badge } from 'antd-mobile'
 import { deleteCache } from '../../actions/DeliveryRecord'
+import NavBack from '../../components/Back'
 import DeliveryAll from '../../components/Delivery/all'
 import DeliveryLook from '../../components/Delivery/havelook'
 import DeliveryInvite from '../../components/Delivery/invite'
 import DeliveryNo from '../../components/Delivery/inappropriate'
-import back from '../../static/back.png'
 
 @connect(state => ({}))
 class DeliveryRecord extends PureComponent {
@@ -63,13 +60,7 @@ class DeliveryRecord extends PureComponent {
     ]
     return (
       <div className={style.DeliveryRecordWrap}>
-        <NavBar
-          leftContent={<img src={back} alt="返回" />}
-          mode="dark"
-          onLeftClick={this.goBack}
-        >
-          我的投递
-        </NavBar>
+        <NavBack title="我的投递" />
         <Tabs
           tabs={tabs}
           className={style.title}

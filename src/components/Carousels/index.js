@@ -33,7 +33,11 @@ class Carousels extends (PureComponent || Component) {
     }
   }
   componentDidMount() {
-    this.props.dispatch(getBanner())
+    const {ad = []} = this.props.banner
+    console.log(ad)
+    if (ad.length === 0) {
+      this.props.dispatch(getBanner())
+    }
   }
   render() {
     let {ad = []} = this.props.banner

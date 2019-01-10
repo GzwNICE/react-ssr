@@ -1,0 +1,74 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: m-veryeast-cn
+  labels:
+    app: m-veryeast-cn
+spec:
+  selector:
+    app: m-veryeast-cn
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80  
+  type: NodePort
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: m-veryeast-cn
+  labels:
+    app: m-veryeast-cn
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: m-veryeast-cn
+  template:
+    metadata:
+      labels:
+        app: m-veryeast-cn
+    spec:
+      containers:
+      - name: m-veryeast-cn
+        image: 10.10.50.4/veryeast/ve-m-ssr
+        env:
+        - name: GIT_EMAIL
+          valie: zhengkui@dfwsgroup.com
+        - name: GIT_NAME
+          value: zhengkui
+        - name: GIT_REPO
+          value: git@gitee.com:veryeast/ve_m_ssr.git
+        - name: GIT_BRANCH
+          value: test
+
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        #resources:
+        #  requests:
+        #    memory: "64Mi"
+        #    cpu: "400m"
+        #  limits:
+        #    memory: "256Mi"
+        #    cpu: "500m"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: m-veryeast-cn
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  #tls:
+  #- hosts:
+  #  - hotel-dfws-manage.cluster.dfwsgroup.cn
+  #  secretName: hotel-dfws-manage-tls
+  rules:
+  - host: m.veryeast.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: m-veryeast-cn
+          servicePort: 80

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as Ad from '../../components/Ad'
 import Search from '../../components/SearchBar/Search'
 // import { WhiteSpace } from 'antd-mobile'
-import { createForm } from 'rc-form'
+// import { createForm } from 'rc-form'
 import { Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
@@ -82,7 +82,7 @@ export default class CompanyArea extends Component {
   }
 
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
+    const { pathSearch }  = queryString.parse(window.location.search)
     if (pathSearch) {
       this.props.history.go(-1)
     } else {

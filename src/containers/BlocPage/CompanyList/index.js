@@ -114,7 +114,6 @@ class CompanyList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.searchEnd)
     if (this.props.searchEnd) {
         if(this.props.searchList !== nextProps.searchList){
           this.setState({

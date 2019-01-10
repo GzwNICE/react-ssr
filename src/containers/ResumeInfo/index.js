@@ -52,8 +52,8 @@ class ResumeInfo extends PureComponent {
       work_date,
     } = this.props.resume
     let endTime = []
-    console.log(work_date)
-    if (work_date === YING_JIE_SHENG) {
+    console.log(this.props)
+    if (work_date === '0') {
       endTime.push(YING_JIE_SHENG)
     } else {
       let arr = dayjs(work_date).format('YYYY-M').split('-')
@@ -116,7 +116,7 @@ class ResumeInfo extends PureComponent {
       const parmas = {
         ...values,
         appchannel: 'web',
-        work_date: sValue[0] === YING_JIE_SHENG ? YING_JIE_SHENG : endTime.join('-'),
+        work_date: sValue[0] === YING_JIE_SHENG ? 0 : endTime.join('-'),
         birthday: values.birthday.join('-'),
         graduation_time: '', // values.graduation_time.join('-')
       }
@@ -129,7 +129,7 @@ class ResumeInfo extends PureComponent {
           if (data.status === 0) {
             return Toast.info(data.errMsg, 2)
           }
-          // this.props.history.goBack()
+          this.props.history.goBack()
         })
     })
   }

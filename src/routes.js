@@ -72,6 +72,10 @@ const SelectCompany = Loadable({
   loader: () => import("./containers/SelectCompany"),
   loading: () => loading, // 自定义的Loading动画组件
 });
+const SelectConcern = Loadable({
+  loader: () => import("./containers/SelectConcern"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const BusinessLetter = Loadable({
   loader: () => import("./containers/BusinessLetter"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -321,6 +325,10 @@ const routes = [
   {
     path: '/person/followedCompanies',
     component: SelectCompany,
+  },
+  {
+    path: '/person/concern',
+    component: SelectConcern,
   },
   {
     path: '/person/letter/:message_id',

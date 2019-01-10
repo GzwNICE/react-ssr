@@ -2,25 +2,25 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import LisetItem from '../../components/ListItem'
-import Clipboard from 'clipboard'
-import style from './style2.less'
+// import Clipboard from 'clipboard'
+import style from './style.less'
 import Resume from '../../static/resume@3x.png'
-import company from '../../static/attentioncompany@3x.png'
+// import company from '../../static/attentioncompany@3x.png'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
-import addserver from '../../static/addserver@3x.png'
-import appshear from '../../static/appshear@3x.png'
-import privacyseeting from '../../static/privacyseeting@3x.png'
+// import addserver from '../../static/addserver@3x.png'
+// import appshear from '../../static/appshear@3x.png'
+// import privacyseeting from '../../static/privacyseeting@3x.png'
 import systemMassage from '../../static/systemMassage@3x.png'
-import moreseeting from '../../static/moreseeting@3x.png'
-import userbg from '../../static/userbg@3x.png'
+// import moreseeting from '../../static/moreseeting@3x.png'
+// import userbg from '../../static/userbg@3x.png'
 import headimg from '../../static/portrait@3x.png'
 import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import * as auth from '../../actions/auth'
 import {login_out} from '../../actions/userStatus'
-import { Modal, Toast } from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 
 @connect(state => {
@@ -199,7 +199,7 @@ class UserPage extends PureComponent {
           </div>
           <div
             onClick={() => {
-              this.goNextpage('/person/applyRecord', '投递记录')
+              this.goNextpage('/person/applyRecord', '投递进展')
             }}
           >
             <LisetItem
@@ -211,7 +211,7 @@ class UserPage extends PureComponent {
           </div>
           <div
             onClick={() => {
-              this.goNextpage('/person/jobFavorites', '收藏职位')
+              this.goNextpage('/person/concern', '关注/收藏')
             }}
           >
             <LisetItem

@@ -1,24 +1,24 @@
 .CollectCompanyItemWrap{
   background-color: #fff;
-  padding: 0 20px;
+  padding: 15px 20px;
 }
 .innerContent{
   padding: 15px 0px 12px;
-  border-bottom: 1px solid #c8c7cc;
+  border-bottom: 1px solid #F0F0F0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .leftContent{
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   margin-right: 12.5px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border: 1Px solid #F0F0F0;
   img{
     width: 100%;
   }
@@ -36,9 +36,9 @@
   flex: 1;
   width: 0;
   .top{
-    //width: 90%;
+    font-family: PingFangSC-Medium;
     font-size: 16px;
-    color: #4A4A4A;
+    color: #333333;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -47,16 +47,23 @@
 .middle{
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
+  // justify-content: space-between;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #9B9B9B;
   margin-top: 9px;
-  .middLeft{
-    color: #AAAAAA;
-    span{
-      color: #ff7417;
-    }
+  span {
+    position: relative;
   }
   .middRight{
     color: #AAAAAA;
+  }
+}
+.middLeft{
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #9B9B9B;
+  span{
+    color: #FF4F00;
   }
 }
