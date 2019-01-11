@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/11/2.
+ * Created by Gaozhiwen on 2019/1/11 
  */
 import React from 'react'
 import style from './style.less'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import nothingImg from '../../static/missing.png'
 
 const Nothing = props => {
-  const { font, botton, link } = props
+  const { font, botton, link ,title} = props
   return (
     <div
       className={style.nothing}
@@ -17,6 +17,7 @@ const Nothing = props => {
       }}
     >
       <img src={nothingImg} alt="" />
+      {title ? (<p>{title}</p>) : null}
       <span>{font || '什么都没有'}</span>
       {botton ? <Link to={link}>{botton || `去看看`}</Link> : null}
     </div>

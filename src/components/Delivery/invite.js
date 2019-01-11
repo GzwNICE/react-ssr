@@ -108,7 +108,7 @@ class DeliveryInvite extends PureComponent {
               }}
               onScroll={this.onScroll}
             />
-            : <Nothing font="快去投递简历吧，获取更多机会～" />
+            : <Nothing font="快去投递简历，获取更多机会" title="暂无相关记录"/>
         }
       </div>
     )

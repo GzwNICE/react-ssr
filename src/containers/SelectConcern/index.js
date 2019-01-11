@@ -29,9 +29,8 @@ class SelectConcern extends PureComponent {
         <div className={style.loginTab}>
           <Tabs
             tabs={tabs}
-            initialPage={1}
+            initialPage={0}
             swipeable={false}
-            // animated={false}
           >
             <SelectCompany />
             <SelectPost />

@@ -3,11 +3,10 @@
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { NavBar, SwipeAction, ListView } from 'antd-mobile'
+import { SwipeAction, ListView } from 'antd-mobile'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CollectPostItem from '../../components/CollectPostItem'
-import JobList from '../../components/JobList'
 import Nothing from '../../components/Nothing'
 import {
   getCollectPostInit,
@@ -100,7 +99,6 @@ class SelectPost extends PureComponent {
         >
           <Link to={`/${data.company_id}/${data.job_id}`}>
             <CollectPostItem {...data} />
-            {/*<JobList.PostList data={this.props.list} />*/}
           </Link>
         </SwipeAction>
       )
