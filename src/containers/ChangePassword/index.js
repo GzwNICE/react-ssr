@@ -79,7 +79,7 @@ class ChangePasswprd extends PureComponent {
           this.props.dispatch(login_out)
           store.remove('m:auth')
           setTimeout(() => {
-            this.props.history.replace('/tabs/user')
+            this.props.history.replace('/user')
           }, 1200)
         }
       }).catch((err) => {
@@ -88,7 +88,7 @@ class ChangePasswprd extends PureComponent {
           store.remove('m:auth')
           Toast.info(err.errMsg, 2)
           setTimeout(() => {
-            this.props.history.replace('/tabs/user')
+            this.props.history.replace('/user')
           }, 1200)
         }
         Toast.info(err.errMsg, 2)

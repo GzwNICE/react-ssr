@@ -39,7 +39,7 @@ class ComInfor extends PureComponent {
   goLogin = () => {
     const search = this.props.history.location.search ? this.props.history.location.search : '?'
     const pathname = this.props.history.location.pathname
-    const url = `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
+    const url = `/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
     this.props.history.replace(url, {key: '关注'})
   }
 

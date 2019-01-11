@@ -69,7 +69,7 @@ class SearchPage extends PureComponent {
     const state = this.props.location.state || {}
     if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/tabs/job/?keyword=${item}`, {keyword:item})
+      this.props.history.push(`/job/?keyword=${item}`, {keyword:item})
     } else {
       this.props.history.push(`/search/${item}?keyword=${item}`, {keyword:item})
     }
@@ -83,7 +83,7 @@ class SearchPage extends PureComponent {
     const state = this.props.location.state || {}
     if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
      // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/tabs/job/?keyword=${val}`, {keyword:val})
+      this.props.history.push(`/job/?keyword=${val}`, {keyword:val})
     } else {
       this.props.history.push(`/search/${val}?keyword=${val}`, {keyword:val})
     }
@@ -102,7 +102,7 @@ class SearchPage extends PureComponent {
     const state = this.props.location.state || {}
     if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
      // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/tabs/job/?keyword=${val.keyword}`, {...val})
+      this.props.history.push(`/job/?keyword=${val.keyword}`, {...val})
     } else {
       this.props.history.push(`/search/${val.keyword}?keyword=${val.keyword}`, {...val})
     }
@@ -116,7 +116,7 @@ class SearchPage extends PureComponent {
     const state = this.props.location.state || {}
     if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/tabs/job/?keyword=${keyWord}`, {keyword: keyWord})
+      this.props.history.push(`/job/?keyword=${keyWord}`, {keyword: keyWord})
     } else {
       this.props.history.push(`/search/${keyWord}?keyword=${keyWord}`, {keyword: keyWord})
     }

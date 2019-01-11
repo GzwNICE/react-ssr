@@ -84,7 +84,7 @@ class UserPage extends PureComponent {
       this.props.history.push(url)
     } else {
       this.props.history.push(
-        '/user/register?redirect=' + this.props.history.location.pathname,
+        '/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }
       )
     }
@@ -114,7 +114,7 @@ class UserPage extends PureComponent {
       this.props.history.go(-1)
     } else {
       this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/tabs/home')
+        ? this.props.history.push('/home')
         : this.props.history.go(-1)
     }
   }
@@ -128,12 +128,12 @@ class UserPage extends PureComponent {
       this.props.dispatch(getUserStatus()).then(json => {
         if (json.errCode === 2002) {
           this.props.history.push(
-            '/user/register?redirect=' + this.props.history.location.pathname,
+            '/register?redirect=' + this.props.history.location.pathname,
             { key: '我的' }
           )
           // Modal.alert('', '请先登录', [
           //   { text: '稍后', style: 'default' },
-          //   { text: '登录', onPress: () => this.props.history.push('/user/register?redirect=' + this.props.history.location.pathname, {key: '我的'}) },
+          //   { text: '登录', onPress: () => this.props.history.push('/register?redirect=' + this.props.history.location.pathname, {key: '我的'}) },
           // ])
         }
       })

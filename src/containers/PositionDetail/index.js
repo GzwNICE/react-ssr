@@ -101,7 +101,7 @@ class PositionDetail extends PureComponent {
       this.props.history.go(-1)
     } else {
       this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/tabs/home')
+        ? this.props.history.push('/home')
         : this.props.history.go(-1)
     }
   }

@@ -154,7 +154,7 @@ class PositionBar extends PureComponent {
       ? this.props.history.location.search
       : '?'
     const pathname = this.props.history.location.pathname
-    const url = `/user/register${search}${
+    const url = `/register${search}${
       search === '?' ? '' : '&'
     }redirect=${pathname}`
     this.props.history.replace(url, { key: key })

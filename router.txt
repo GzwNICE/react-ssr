@@ -36,7 +36,7 @@
 /companyintroduce
 
 code
-/user/register
+/register
 /user/forgetPassword
 /chat/:id
 /tip-offs

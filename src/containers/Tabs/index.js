@@ -36,7 +36,7 @@ class Tabs extends PureComponent {
     if(name === 'massage' || name === 'user') {
       const ticket = Cookies.get('ticket')
       if(!ticket) {
-        this.props.history.replace(`/user/register?redirect=${this.props.history.location.pathname}`)
+        this.props.history.replace(`/register?redirect=${this.props.history.location.pathname}`)
       } else {
         this.props.history.replace(`/tabs/${name}`)
       }

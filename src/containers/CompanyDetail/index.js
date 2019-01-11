@@ -132,7 +132,7 @@ class CompanyDetail extends PureComponent {
       this.props.history.go(-1)
     } else {
       this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/tabs/home')
+        ? this.props.history.push('/home')
         : this.props.history.go(-1)
     }
   }
@@ -149,7 +149,7 @@ class CompanyDetail extends PureComponent {
   //     ? this.props.history.location.search
   //     : '?'
   //   const pathname = this.props.history.location.pathname
-  //   const url = `/user/register${search}${
+  //   const url = `/register${search}${
   //     search === '?' ? '' : '&'
   //   }redirect=${pathname}`
   //   this.props.history.replace(url, { key: '获取联系方式' })
@@ -161,10 +161,10 @@ class CompanyDetail extends PureComponent {
       : '?'
     const pathname = this.props.history.location.pathname
     const url = search
-      ? `/user/register${search}${
+      ? `/register${search}${
           search === '?' ? '' : '&'
         }redirect=${pathname}`
-      : `/user/register?redirect=${pathname}`
+      : `/register?redirect=${pathname}`
     this.props.history.replace(url, { key: '关注' })
   }
 

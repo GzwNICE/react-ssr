@@ -77,7 +77,7 @@ class HomePage extends PureComponent {
   onTouchList = (data, name) => {
     window.zhuge.track(name)
     let area = this.props.userStatus.code
-    this.props.history.push('/tabs/job', { ...data })
+    this.props.history.push('/job', { ...data })
     let more = {
       ...(data.company_industry
         ? { company_industry: parseInt(data.company_industry, 10) }

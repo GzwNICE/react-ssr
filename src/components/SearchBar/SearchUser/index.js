@@ -61,15 +61,15 @@ class SearchUser extends Component {
             <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
-            <Link rel="stylesheet" to={`/tabs/home`}>
+            <Link rel="stylesheet" to={`/home`}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
             <Link
               rel="stylesheet"
               to={
                 is_login
-                  ? `/tabs/user?redirect=${this.props.location.pathname}`
-                  : `/user/register?redirect=${this.props.location.pathname}`
+                  ? `/user?redirect=${this.props.location.pathname}`
+                  : `/register?redirect=${this.props.location.pathname}`
               }
             >
               <img
