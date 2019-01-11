@@ -6,6 +6,7 @@ import * as Ad from '../../Ad'
 import back from '../../../static/back.png'
 import unHome from '../../../static/unHome@3x.png'
 import personal from '../../../static/personal.png'
+import Userdefault from '../../../static/portrait@3x.png'
 import PropTypes from 'prop-types'
 import style from '../style.less'
 import { loggingStatus } from '../../../actions/userStatus'
@@ -22,7 +23,7 @@ class SearchUser extends Component {
     super(props)
     this.state = {
       show: true,
-      is_login: '', 
+      is_login: '',
       photo: '',
     }
   }
@@ -32,13 +33,17 @@ class SearchUser extends Component {
     //   this.autoFocusInst.onFocus()
     // }
     this.setState({
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
-      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
+      photo: sessionStorage.getItem('photo')
+        ? sessionStorage.getItem('photo')
+        : '',
     })
   }
 
   render() {
-    const { show ,is_login,photo} = this.state
+    const { show, is_login, photo } = this.state
     const { searchShow } = this.props
     return (
       <div className={searchShow ? style.headScoll : style.positionHead}>
@@ -68,7 +73,7 @@ class SearchUser extends Component {
               }
             >
               <img
-                src={is_login ? photo : personal}
+                src={is_login ? (photo ? photo : Userdefault) : personal}
                 alt="img"
                 className={style.personal}
               />

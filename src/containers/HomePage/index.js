@@ -52,7 +52,7 @@ class HomePage extends PureComponent {
       dataSource,
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
-      show: false,
+      show: true,
       showRegWrap: true, //是否显示引导注册
       is_login: '',
     }
@@ -112,7 +112,7 @@ class HomePage extends PureComponent {
   /* 关闭广告 */
   onCloseAd = () => {
     sessionStorage.setItem('ad', 'yes')
-    this.setState({ show: true })
+    this.setState({ show: false })
   }
 
   /* 下载或者打开app */
@@ -188,7 +188,6 @@ class HomePage extends PureComponent {
         ? userStatus.code
         : supers.location.address.code
     const { homeList } = this.props
-    // console.log(homeList)
     if (homeList.length === 0) {
       this.props.dispatch(
         getPostInit({
@@ -201,11 +200,11 @@ class HomePage extends PureComponent {
     let yes = sessionStorage.getItem('ad') || false
     if (!yes) {
       this.setState({
-        show: false,
+        show: true,
       })
     } else {
       this.setState({
-        show: true,
+        show: false,
       })
     }
     this.setState({
@@ -257,7 +256,7 @@ class HomePage extends PureComponent {
   render() {
     const { show, showRegWrap, is_login } = this.state
     return (
-      <div className={`${style.HomePageWrap} ${show ? style.height200x : ''}`}>
+      <div className={style.HomePageWrap}>
         <Ad.AdWindow
           show={show}
           onCloseAd={this.onCloseAd}
@@ -265,7 +264,7 @@ class HomePage extends PureComponent {
         />
         <div className={style.homehead}>
           <div className={style.searchBar}>
-            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
+            <Ad.AdTop downLoadAd={this.downLoadAd} />
             <MySearchBar
               searchFocus={this.searchFocus}
               onChangeCity={this.onChangeCity}

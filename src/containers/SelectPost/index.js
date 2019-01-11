@@ -99,8 +99,8 @@ class SelectPost extends PureComponent {
           ]}
         >
           <Link to={`/${data.company_id}/${data.job_id}`}>
-            {/*<CollectPostItem {...data} />*/}
-            <JobList.PostList data={this.props.list} />
+            <CollectPostItem {...data} />
+            {/*<JobList.PostList data={this.props.list} />*/}
           </Link>
         </SwipeAction>
       )

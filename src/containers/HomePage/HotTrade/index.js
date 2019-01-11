@@ -17,7 +17,10 @@ class HotTrade extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(hotTrade({}))
+    const { tradeDtata } = this.props
+    if(tradeDtata.length === 0){
+      this.props.dispatch(hotTrade({}))
+    }
   }
 
   render() {

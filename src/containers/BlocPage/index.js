@@ -136,13 +136,16 @@ export default class CompanyArea extends Component {
   
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
-    this.props.dispatch(
-      blocList({
-        c_userid: c_userid,
-        local: '',
-        c_id: '',
-      })
-    )
+    const {list} =this.props
+    if(list.length === 0){
+      this.props.dispatch(
+        blocList({
+          c_userid: c_userid,
+          local: '',
+          c_id: '',
+        })
+      )
+    }
     this.setState({
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
     })

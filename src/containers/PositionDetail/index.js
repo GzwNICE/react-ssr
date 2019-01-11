@@ -40,7 +40,6 @@ class PositionDetail extends PureComponent {
     this.state = {
       is_favorited: false,
       searchShow: false, //顶部搜索框默认隐藏
-     
     }
   }
   share = () => {
@@ -133,22 +132,25 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
-    this.props
-      .dispatch(
-        positiondetail({
-          job_id: jobId,
-          company_id: companyId,
-          from: from,
-          appchannel: 'web',
+    const { list } = this.props
+    if (!list) {
+      this.props
+        .dispatch(
+          positiondetail({
+            job_id: jobId,
+            company_id: companyId,
+            from: from,
+            appchannel: 'web',
+          })
+        )
+        .then(data => {
+          // 复原页面位置
+          const page = this.props.location.pathname
+          const pageScroll = this.props.pageScroll
+          this.page.scrollTop = pageScroll[page] || 0
+          this.shareWeixin(data)
         })
-      )
-      .then(data => {
-        // 复原页面位置
-        const page = this.props.location.pathname
-        const pageScroll = this.props.pageScroll
-        this.page.scrollTop = pageScroll[page] || 0
-        this.shareWeixin(data)
-      })
+    }
   }
 
   componentWillReceiveProps(nestprops) {
@@ -189,7 +191,7 @@ class PositionDetail extends PureComponent {
     const { searchShow } = this.state
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
-    const is_valid = this.props.position.is_valid  //职位是否有效
+    const is_valid = this.props.position.is_valid //职位是否有效
     const hotData = this.props.position.hotData || {}
     return (
       <div className={style.PositionDetailWrap}>
@@ -304,17 +306,16 @@ class PositionDetail extends PureComponent {
             data={list}
           />
 
-          {is_valid === 1 ? <HotTopic data={hotData}/> : null}
+          {is_valid === 1 ? <HotTopic data={hotData} /> : null}
           {is_valid === 0 ? (
             <div className={style.guidance}>
               <div className={style.finishApp}>
                 没有你想要的职位？打开APP查看更多
               </div>
             </div>
-          ): null}
-          
+          ) : null}
         </div>
-        <PositionBar {...this.props} valid={is_valid}/>
+        <PositionBar {...this.props} valid={is_valid} />
       </div>
     )
   }
