@@ -11,8 +11,9 @@ export function singleApi(...args) {
   // console.log(cache)
   return (args = {}) => (dispatch, getState) => {
     const storage = getState()
+ 
 
-    if(cache && cache().state !== 'jobpage') { // 读取缓存
+    if(cache && cache().state !== 'jobpage' && cache().state !== 'search') { // 读取缓存
       let s = cache().state
       let localState = storage[s]
       if(localState.list.length > 0) {

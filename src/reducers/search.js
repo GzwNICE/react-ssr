@@ -10,6 +10,9 @@ import {
   SEARCH_END_SAVE,
   SEAND_PAGE_UNMOUNT,
   SEAND_PAGE_GOBACK,
+  SEARCH_SALARYSHOW,
+  SEARCH_SALARYSTRING,
+  SEARCH_SALARYRANGE,
 } from '../actions/search'
 
 import {
@@ -40,10 +43,28 @@ const initState = {
     size: 20,
   },
   company: {},
+  salaryShow: false, // 薪资下拉框显示隐藏
+  salaryString: '',
+  defaultRange: [0, 20],
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case SEARCH_SALARYRANGE:
+    return {
+      ...state,
+      range: action.payload,
+    }
+    case SEARCH_SALARYSTRING:
+      return {
+        ...state,
+        salaryString: action.payload,
+      }
+    case SEARCH_SALARYSHOW: // 薪资下拉框显示隐藏
+      return {
+        ...state,
+        salaryShow: action.payload,
+      }
     case JOB_SEARCH_SAVE: // job_page 的条件保存
       if(action.args.more) { // more 里面有值的话，覆盖state
         return {
