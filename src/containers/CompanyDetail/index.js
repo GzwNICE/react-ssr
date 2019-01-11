@@ -185,9 +185,6 @@ class CompanyDetail extends PureComponent {
           from: from,
         })
       )
-    }
-    const { list } = this.props
-    if (list.length === 0) {
       this.props
         .dispatch(
           companyList({
@@ -203,6 +200,8 @@ class CompanyDetail extends PureComponent {
           this.page.scrollTop = pageScroll['page'] || 0
         })
     }
+   
+      
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
       is_login: sessionStorage.getItem('is_login')
