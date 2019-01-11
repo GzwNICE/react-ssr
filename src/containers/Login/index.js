@@ -129,7 +129,7 @@ class Login extends PureComponent {
                     this.props.history.replace(_url)
                   }
                 } else {
-                  this.props.history.push('/tabs/user')
+                  this.props.history.push('/user')
                 }
               }, 1200)
               this.props.dispatch(loggingStatus())
@@ -203,7 +203,7 @@ class Login extends PureComponent {
           </div>
           <div className={style.otherLogin}>
             <div
-              onClick={() => this.goRegister(`/user/register`, '手机号注册')}
+              onClick={() => this.goRegister(`/register`, '手机号注册')}
             >
               <span>立即注册</span>
             </div>

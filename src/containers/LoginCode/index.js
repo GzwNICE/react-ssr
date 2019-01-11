@@ -176,7 +176,7 @@ class LoginCode extends PureComponent {
               if(parsed.redirect) {
                 this.props.history.replace(_url)
               } else {
-                this.props.history.replace('/tabs/user')
+                this.props.history.replace('/user')
               }
             },1200)
           }
@@ -274,7 +274,7 @@ class LoginCode extends PureComponent {
         <div onClick={this.login} className={style.subBtn}>
           <a className={this.state.disabled ? null : `${style.disabled}`}>登 录</a>
         </div>
-        <div onClick={() => this.props.history.replace(`/user/register${window.location.search}`)} className={style.goRegister}>
+        <div onClick={() => this.props.history.replace(`/register${window.location.search}`)} className={style.goRegister}>
           <span>立即注册</span>
         </div>
         <Alert

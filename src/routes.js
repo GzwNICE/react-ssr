@@ -2,8 +2,6 @@ import Loadable from "react-loadable";
 import React from 'react'
 // import path from 'path'
 import { Switch, Route, Redirect } from 'react-router-dom'
-// import isServer from './helper/isServer'
-// import loading from './containers/Login'
 const styleObj = {
   height: '100%',
   width: '100%',
@@ -28,18 +26,10 @@ const JobPage = Loadable({
   loader: () => import("./containers/JobPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const MassagePage = Loadable({
-  loader: () => import("./containers/MassagePage"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
 const UserPage = Loadable({
-  loader: () => import("./containers/UserPage/index"),
+  loader: () => import("./containers/UserPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-// const UserPage2 = Loadable({
-//   loader: () => import("./containers/UserPage/index2"),
-//   loading: () => loading, // 自定义的Loading动画组件
-// });
 const SearchEnd = Loadable({
   loader: () => import("./containers/SearchEnd"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -196,20 +186,6 @@ const CompanyIntroduce = Loadable({
   loader: () => import("./containers/CompanyIntroduce"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-// console.log(path.join(__dirname, './containers/Login'))
-// let Login = Loadable({
-//   loader: () => import("./containers/Login"),
-//   loading: () => loading, // 自定义的Loading动画组件
-//   // delay: 300,
-//   // timeout: 10000, // 10 seconds
-//   // serverSideRequirePath: path.join(__dirname, './containers/Login'),
-// });
-
-// const LoginCode = Loadable({
-//   loader: () => import("./containers/LoginCode"),
-//   loading: () => loading, // 自定义的Loading动画组件
-// });
-
 const LoginPage = Loadable({
   loader: () => import("./containers/LoginPage"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -269,25 +245,20 @@ const routes = [
     path: '/bloc/:c_userid',
     component: BlocPage,
   },
-
   {
     path: '/activityRegister',
     component: ActivityRegister,
   },
   {
-    path: '/tabs/home',
+    path: '/home',
     component: Home,
   },
   {
-    path: '/tabs/job',
+    path: '/job',
     component: JobPage,
   },
   {
-    path: '/tabs/massage',
-    component: MassagePage,
-  },
-  {
-    path: '/tabs/user',
+    path: '/user',
     component: UserPage,
   },
   {
@@ -450,20 +421,12 @@ const routes = [
     path: '/companyintroduce',
     component: CompanyIntroduce,
   },
-  // {
-  //   path: '/user/login',
-  //   component: Login,
-  // },
-  // {
-  //   path: '/user/logincode',
-  //   component: LoginCode,
-  // },
   {
     path: '/login',
     component: LoginPage,
   },
   {
-    path: '/user/register',
+    path: '/register',
     component: Register,
   },
   {
@@ -502,7 +465,7 @@ const routes = [
 ]
 export default (
   <Switch>
-    <Redirect exact from="/" to="/tabs/home" />
+    <Redirect exact from="/" to="/home" />
     {routes.map(({ path, exact, component: Component, ...rest }) => (
       <Route key={path} path={path} render={(props) => (
         <Component {...props} {...rest} />

@@ -41,7 +41,7 @@ class Visity extends PureComponent {
       if (json.errCode === 2002) {
         // Modal.alert('', '请先登录', [
         //   { text: '稍后', style: 'default' },
-        //   { text: '登录', onPress: () => this.props.push('/user/register?key=2&redirect=' + this.props.history.location.pathname, {key: '消息'}) },
+        //   { text: '登录', onPress: () => this.props.push('/register?key=2&redirect=' + this.props.history.location.pathname, {key: '消息'}) },
         // ])
       }
 

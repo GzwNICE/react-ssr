@@ -15,7 +15,7 @@ class NavBack extends PureComponent {
           src={Rectangle}
           alt="返回"
           onClick={() => {
-            this.props.history.push(`/tabs/user`)
+            this.props.history.push(`/user`)
           }}
         />
         <span>{title}</span>

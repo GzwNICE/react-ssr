@@ -61,7 +61,7 @@ class BindExistAccount extends PureComponent {
             // window.location.href = redirect
             this.props.history.replace(_url)
           } else {
-            this.props.history.replace('/tabs/user')
+            this.props.history.replace('/user')
           }
         },1200)
       }
@@ -72,7 +72,7 @@ class BindExistAccount extends PureComponent {
   }
   goRegister = () => {
     this.props.dispatch({type: 'ACCOUNT_IS_VERIFY', payload: '1'})
-    this.props.history.replace(`/user/register${this.props.history.location.search}`)
+    this.props.history.replace(`/register${this.props.history.location.search}`)
   }
   goBack = () => {
     const parsed = queryString.parse(window.location.search)

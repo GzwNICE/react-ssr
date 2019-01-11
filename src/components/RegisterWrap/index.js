@@ -18,7 +18,7 @@ export default class RegisterWrap extends Component {
         </div>
         <div className={style.regist_btn}>
           <Link
-            to={`/user/register?redirect=${this.props.location}`}
+            to={`/register?redirect=${this.props.location}`}
           >
             立即注册
           </Link>

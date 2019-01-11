@@ -87,7 +87,7 @@ export default class CompanyArea extends Component {
       this.props.history.go(-1)
     } else {
       this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/tabs/home')
+        ? this.props.history.push('/home')
         : this.props.history.go(-1)
     }
   }
@@ -136,8 +136,8 @@ export default class CompanyArea extends Component {
   
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
-    const {list} =this.props
-    if(list.length === 0){
+    const {listPhoto} =this.props
+    if(!listPhoto){
       this.props.dispatch(
         blocList({
           c_userid: c_userid,

@@ -226,7 +226,7 @@ class MicroResume extends PureComponent {
             </Area>
 					</div>
           <div className={style.makeSure} onClick={ this.makeSure }>确定</div>
-          {/*<div className={style.pass}><Link to="/tabs/home">跳过》</Link></div>*/}
+          {/*<div className={style.pass}><Link to="/home">跳过》</Link></div>*/}
         </div>
       </div>
     )
