@@ -103,11 +103,11 @@ class DeliveryLook extends PureComponent {
               pageSize={2000}
               style={{
                 overflow: 'auto',
-                height: 'calc(100vh - 1.87rem)',
+                height: 'calc(100vh - 0.95rem)',
               }}
               onScroll={this.onScroll}
             />
-            : <Nothing font="快去投递简历吧，获取更多机会～" />
+            : <Nothing font="快去投递简历，获取更多机会" title="暂无相关记录"/>
         }
       </div>
     )

@@ -90,9 +90,6 @@ class UserPage extends PureComponent {
     }
   }
 
-
-
-
   loginOut = () => {
     auth.logout().then(data => {
       if(data) {
@@ -190,7 +187,6 @@ class UserPage extends PureComponent {
             </div>
           </div>
         </div>
-        {/*<div className={style.resumeBox} />*/}
         <div className={style.middleBox}>
           <div
             onClick={() => {

@@ -37,12 +37,12 @@ const JobCardThree = (props) => {
             {time}
           </div>
         </div>
-        <div className={style.footerBox}>
+        {/*<div className={style.footerBox}>
           <div className={style.chat}>
             <img src={leeter} alt="企业来信" />
             <span className={style.leeter}>企业来信</span>
           </div>
-        </div>
+        </div>*/}
         {is_stop ? <div className={style.end}>
             <img src={end} alt="结束" />
           </div> : null}
