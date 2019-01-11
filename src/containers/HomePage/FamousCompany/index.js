@@ -14,7 +14,10 @@ class FamousCompany extends Component {
     this.state = {}
   }
   componentDidMount() {
-    this.props.dispatch(famCompany({}))
+    const { photoData } = this.props
+    if (photoData.length === 0) {
+      this.props.dispatch(famCompany({}))
+    }
   }
   render() {
     const CompanyData = this.props.photoData

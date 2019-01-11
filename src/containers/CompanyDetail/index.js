@@ -48,7 +48,7 @@ class CompanyDetail extends PureComponent {
     current: 1, //相册当前页
     show: true, //引导下载框
     attention: '关注', //关注企业
-    is_login:'',
+    is_login: '',
   }
 
   nextPost = (job_id, c_userid) => {
@@ -160,7 +160,11 @@ class CompanyDetail extends PureComponent {
       ? this.props.history.location.search
       : '?'
     const pathname = this.props.history.location.pathname
-    const url = search ? `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}` : `/user/register?redirect=${pathname}`
+    const url = search
+      ? `/user/register${search}${
+          search === '?' ? '' : '&'
+        }redirect=${pathname}`
+      : `/user/register?redirect=${pathname}`
     this.props.history.replace(url, { key: '关注' })
   }
 
@@ -172,30 +176,38 @@ class CompanyDetail extends PureComponent {
     const id = this.props.match.params.company_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
-    this.props.dispatch(
-      companydetail({
-        // 企业详细信息
-        company_id: id,
-        from: from,
-      })
-    )
-    this.props
-      .dispatch(
-        companyList({
-          // 该企业其他职位
+    const { label } = this.props
+    if (!label) {
+      this.props.dispatch(
+        companydetail({
+          // 企业详细信息
           company_id: id,
-          appchannel: 'web',
+          from: from,
         })
       )
-      .then(() => {
-        // 复原页面位置
-        const pathname = this.props.location.pathname
-        const pageScroll = this.props.pageScroll[pathname] || {}
-        this.page.scrollTop = pageScroll['page'] || 0
-      })
+    }
+    const { list } = this.props
+    if (list.length === 0) {
+      this.props
+        .dispatch(
+          companyList({
+            // 该企业其他职位
+            company_id: id,
+            appchannel: 'web',
+          })
+        )
+        .then(() => {
+          // 复原页面位置
+          const pathname = this.props.location.pathname
+          const pageScroll = this.props.pageScroll[pathname] || {}
+          this.page.scrollTop = pageScroll['page'] || 0
+        })
+    }
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
     })
   }
 
@@ -266,7 +278,7 @@ class CompanyDetail extends PureComponent {
                   className={style.attention}
                   onClick={this.handleAttention.bind(this)}
                 >
-                  {is_followed=== 1 ? '已关注' : attention}
+                  {is_followed === 1 ? '已关注' : attention}
                 </div>
               </div>
             </div>

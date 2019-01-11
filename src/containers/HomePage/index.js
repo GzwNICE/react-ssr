@@ -188,7 +188,6 @@ class HomePage extends PureComponent {
         ? userStatus.code
         : supers.location.address.code
     const { homeList } = this.props
-    // console.log(homeList)
     if (homeList.length === 0) {
       this.props.dispatch(
         getPostInit({
