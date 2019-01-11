@@ -22,7 +22,7 @@ const  showType = (type, clickable, remindCallback, job_id, company_id) => {
   }
   if( type === 2) {
     return <div className={`${style.best}`}>
-      【已查看】
+      【被查看】
     </div>
   }
   if(type === 3) {
@@ -74,12 +74,12 @@ const JobCardTwo = (props) => {
           </div>
         </div>
         <div className={style.footerBox}>
-          {is_allow_contact ? is_stop ? null :
+          {/*{is_allow_contact ? is_stop ? null :
               <div onClick={(e) => chartCallback(e, job_id, company_id)} className={style.chat}>
                 <img src={chat} alt="聊天" />
                 <span>沟通</span>
               </div> : null
-          }
+          }*/}
           {showType(type, clickable, remindCallback, job_id, company_id)}
         </div>
         {is_stop ? <div className={style.end}>

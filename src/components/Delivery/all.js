@@ -136,7 +136,7 @@ class DeliveryAll extends PureComponent {
               pageSize={2000}
               style={{
                 overflow: 'auto',
-                height: 'calc(100vh - 1.87rem)',
+                height: 'calc(100vh - 0.95rem)',
               }}
               onScroll={this.onScroll}
             />

@@ -14,7 +14,7 @@ export const singleFetch = (uri, args = {}) => {
     })
     .catch(err => {
       if (err.errCode !== 2002) {
-        Toast.info(err.errMsg || '后端的code monkey又开小差了!', 2)
+        Toast.info(err.errMsg || '服务器又开小差了☹', 2)
       }
       throw err
     })
