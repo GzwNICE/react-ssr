@@ -4,9 +4,8 @@
 import React,{PureComponent, Component} from 'react'
 import style from './style.less'
 import { createForm } from 'rc-form'
-// import Post from '../../inputs/Post'
 import Area from '../../inputs/Area'
-import Salary from '../../inputs/SalarySearch'
+import Salary from '../../inputs/Salary2'
 import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'
 import angleDownGray from '../../static/Rectangle@3x.png'
@@ -45,10 +44,9 @@ class FilterSearch extends (PureComponent || Component) {
   render() {
     const { form, query } = this.props
     const { getFieldProps } = form
-    // console.log(query)
     return (
       <div className={style.FilterSearchWrap}>
-        
+
         <div className={style.item}>
           <Area {...getFieldProps('area', {
            initialValue: query.area ? query.area : [],
@@ -61,18 +59,16 @@ class FilterSearch extends (PureComponent || Component) {
           </div>
         </div>
         <div className={style.item}>
-          {/*<Salary {...getFieldProps('salary', {
-            initialValue: this.props.salary ? this.props.salary : [],
+          <Salary {...getFieldProps('salary', {
+            initialValue: { number: 0, currency: 'rmb' },
           })}>
-           
-        </Salary>*/}
-          <div className={style.jiantou}>
-            <img src={angleDownGray} alt="" />
-          </div>
+
+          </Salary>
+        
         </div>
         <div className={style.item}>
           <More {...getFieldProps('more', {
-            // initialValue: this.props.more ? this.props.more : {},
+            initialValue: this.props.more ? this.props.more : {},
           })}
             extra="" format={this.formatMore}>
             <SimpleItem arrow="horizontal">筛选</SimpleItem>
@@ -87,3 +83,4 @@ class FilterSearch extends (PureComponent || Component) {
 }
 
 export default FilterSearch
+// this.props.salary ? this.props.salary : []

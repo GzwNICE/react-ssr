@@ -10,6 +10,9 @@ export const SEARCH_LIST_ISLODING = 'SEARCH_LIST_ISLODING' // isloding
 export const SEARCH_END_SAVE = 'SEARCH_END_SAVE' // 保存搜索条件
 export const SEAND_PAGE_UNMOUNT = 'SEAND_PAGE_UNMOUNT' // 页面卸载，保存scrolltop
 export const SEAND_PAGE_GOBACK = 'SEAND_PAGE_GOBACK' // 返回删除数据
+export const SEARCH_SALARYSHOW = 'SEARCH_SALARYSHOW' // 薪资下拉框显示隐藏
+export const SEARCH_SALARYSTRING = 'SEARCH_SALARYSTRING' // 薪资显示的string
+export const SEARCH_SALARYRANGE = 'SEARCH_SALARYRANGE' // 薪资range
 
 const URLHOT = ':ve.mobile.interface/job/hotword'
 const URLTIP = ':ve.mobile.interface/job/searchtips'
