@@ -11,29 +11,26 @@ const Range = Slider.Range
 const Handle = Slider.Handle
 
 @connect(state => {
-  // console.log(state.option.opts_salary.salary_scope_index)
   return {
     options: state.option.opts_salary.salary_scope_index,
     salaryShow: state.search.salaryShow,
-    defaultRange: state.search.defaultRange,
+    searchEndSalary: state.search.searchEndSalary,
   }
 })
 class Salary extends PureComponent {
   constructor(props) {
     super(props)
-    // const value = props.value || {}
-    // console.log(value)
     this.state = {
       salary_scope_index: [], // 默认收起
       range: [0, 20], // 月薪范围
-      rangeString: '不限', // 月薪范围
-      rangeTitle: '薪资', // 顶部文字显示
-      defaultValue: [0, 20],
+      rangeString: props.searchEndSalary.rangeString, // 月薪范围
+      rangeTitle: props.searchEndSalary.rangeTitle, // 顶部文字显示
+      defaultRange: props.searchEndSalary.defaultRange,
     }
   }
 
   componentDidMount() {
-    console.log(this.props)
+
   }
   valNum = value => {
     let newVal = 0
@@ -52,11 +49,6 @@ class Salary extends PureComponent {
   }
   handle = props => {
     const { value, dragging, index, ...restProps } = props
-    // console.log(this.props)
-    // console.log(restProps)
-    // this.props.value = {
-    //   aa: 11,
-    // }
     let newVal = this.valNum(value)
     return (
       <Tooltip
@@ -117,10 +109,18 @@ class Salary extends PureComponent {
     if (onChange) {
       onChange(salay)
     }
-    console.log(this.state.rangeString)
     this.props.dispatch({
       type: 'SEARCH_SALARYSTRING',
       payload: this.state.rangeString,
+    })
+    const payload = {
+      defaultRange: e,
+      rangeString: this.state.rangeString,
+      rangeTitle,
+    }
+    this.props.dispatch({
+      type: 'SEARCH_SALARYRANGE',
+      payload: payload,
     })
   }
   // 薪资形式[1000, 3000]
@@ -143,12 +143,12 @@ class Salary extends PureComponent {
       type: 'SEARCH_SALARYSHOW',
       payload: !this.props.salaryShow,
     })
+    this.setState({
+      defaultRange: this.props.searchEndSalary.defaultRange,
+    })
   }
-  // todo defaultValue 这个要重写下
   contentRender = () => {
-    const { rangeString } = this.state
-    const { defaultRange } = this.state
-    console.log(defaultRange)
+    const { rangeString, defaultRange } = this.state
     return (
       <div>
         <div className={style.content}>
@@ -162,7 +162,7 @@ class Salary extends PureComponent {
               max={20}
               handle={this.handle}
               onChange={this.handleChange}
-              // defaultValue={defaultRange}
+              defaultValue={defaultRange}
             />
           </div>
         </div>

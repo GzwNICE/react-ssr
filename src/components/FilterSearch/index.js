@@ -60,7 +60,7 @@ class FilterSearch extends (PureComponent || Component) {
         </div>
         <div className={style.item}>
           <Salary {...getFieldProps('salary', {
-            initialValue: { number: 0, currency: 'rmb' },
+            initialValue: query.salary ? query.salary : {},
           })}>
 
           </Salary>
@@ -68,7 +68,7 @@ class FilterSearch extends (PureComponent || Component) {
         </div>
         <div className={style.item}>
           <More {...getFieldProps('more', {
-            initialValue: this.props.more ? this.props.more : {},
+            initialValue: query.more ? query.more : {},
           })}
             extra="" format={this.formatMore}>
             <SimpleItem arrow="horizontal">筛选</SimpleItem>

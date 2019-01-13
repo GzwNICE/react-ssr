@@ -2,17 +2,21 @@ import React from 'react'
 import F from '../../helper/tool'
 import style from './style.less'
 // import { Card } from 'antd-mobile'
-
+import jizhaoIcon from '../../static/jizhao@3x.png'
 
 const JobCard = (props) => {
   const data = props.data || {}
+  // console.log(data)
   const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
   return <div className={style.JobCardTwoWrap}>
     <div className={style.top}>
       <div className={style.left}>
-        <div className={style.position}>{job_name}</div>
+        <div className={style.position}>
+        {job_name}
         {data.is_urgent === '1'
-          ? <div className={style.hot}>热招</div> : null }
+          ? <img className={style.jizhao} src={jizhaoIcon} /> : null }
+        </div>
+        
       </div>
       <div className={style.salary}>
         {data.salary}
@@ -20,14 +24,18 @@ const JobCard = (props) => {
     </div>
     <div className={style.middle}>
       <div className={style.companyName}>
-        {data.company_name}
+        {data.job_area} | 3年以上 | 大专 | 包吃住
       </div>
       <div className={style.time}>
         {F.procesTime(data.update_time)}
       </div>
     </div>
     <div className={style.footerBox}>
-      {data.work_place || data.job_area}
+      <img src="https://f3-v.veimg.cn/company_picture/001/523/781/logo/18113021340241.jpg" />
+      <div>
+        <p>{data.company_name}</p>
+        <p>jiudian/5星急 | 500-2000人</p>
+      </div>
     </div>
   </div>
 }
