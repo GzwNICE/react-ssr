@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import * as auth from '../../actions/auth'
-import {login_out} from '../../actions/userStatus'
+import { login_out } from '../../actions/userStatus'
 import { Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
+import Alert from '../../components/Alert'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
 import Resume from '../../static/resume@3x.png'
@@ -17,7 +18,6 @@ import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
 
-
 @connect(state => {
   return {
     user: state.auth,
@@ -27,6 +27,7 @@ import style from './style.less'
 class UserPage extends PureComponent {
   state = {
     refresh: false,
+    messageQueue: false,
   }
 
   reFreshResume = () => {
@@ -49,6 +50,19 @@ class UserPage extends PureComponent {
           })
         }
       })
+  }
+
+  showModal = key => e => {
+    if (e) e.preventDefault() // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    })
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    })
   }
 
   // shareApp = () => { // 弹窗分享
@@ -91,24 +105,26 @@ class UserPage extends PureComponent {
   }
 
   loginOut = () => {
-    auth.logout().then(data => {
-      if(data) {
-        Toast.info('退出成功', 2)
-        this.props.dispatch(login_out)
-        setTimeout(() => {
-          this.props.history.go(-1)
-        },1200)
-        sessionStorage.removeItem('is_login')
-        sessionStorage.removeItem('photo')
-      }
-    })
+    auth
+      .logout()
+      .then(data => {
+        if (data) {
+          Toast.info('退出成功', 2)
+          this.props.dispatch(login_out)
+          setTimeout(() => {
+            this.props.history.go(-1)
+          }, 1200)
+          sessionStorage.removeItem('is_login')
+          sessionStorage.removeItem('photo')
+        }
+      })
       .catch(err => {
         Toast.info(err.errMsg, 2)
       })
   }
 
   whereWillIGo = () => {
-    const { pathSearch }  = queryString.parse(window.location.search)
+    const { pathSearch } = queryString.parse(window.location.search)
     console.log(pathSearch)
     if (pathSearch) {
       this.props.history.go(-1)
@@ -139,7 +155,7 @@ class UserPage extends PureComponent {
       })
     }
   }
-  
+
   render() {
     const userStatus = this.props.userStatus
     const deliver =
@@ -167,11 +183,14 @@ class UserPage extends PureComponent {
                     <img
                       src={inform}
                       alt="inform"
-                      onClick={() => {
-                        this.goNextpage('/person/message', '系统消息')
-                      }}
+                      onClick={
+                        this.showModal('messageQueue')
+                        // this.goNextpage('/person/message', '系统消息')
+                      }
                     />
-                    {this.props.userStatus.unread_message_num ? (<span>{this.props.userStatus.unread_message_num}</span>) : null}
+                    {this.props.userStatus.unread_message_num ? (
+                      <span>{this.props.userStatus.unread_message_num}</span>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -187,16 +206,36 @@ class UserPage extends PureComponent {
             </div>
           </div>
         </div>
+        <Alert
+          icon={deliver}
+          title={
+            this.props.userStatus.unread_message_num
+              ? `您有${this.props.userStatus.unread_message_num}条未读消息`
+              : `您暂时没有未读消息`
+          }
+          height={130}
+          closable={1}
+          visible={this.state.messageQueue}
+          onClose={this.onClose('messageQueue')}
+          message={
+            this.props.userStatus.unread_message_num
+              ? `请登录最佳东方APP查看`
+              : `可以登录最佳东方APP和HR在线聊天`
+          }
+          actions={[
+            {
+              text: '打开APP',
+              onPress: this.onClose('messageQueue'),
+            },
+          ]}
+        />
         <div className={style.middleBox}>
           <div
             onClick={() => {
               this.goNextpage('/resume', '我的简历')
             }}
           >
-            <LisetItem
-              img={Resume}
-              titleleft="我的简历"
-            />
+            <LisetItem img={Resume} titleleft="我的简历" />
           </div>
           <div
             onClick={() => {
@@ -221,17 +260,23 @@ class UserPage extends PureComponent {
               underline="true"
             />
           </div>
-          
-          <div onClick={() => {this.goNextpage('/feedback', '意见反馈')}}>
+
+          <div
+            onClick={() => {
+              this.goNextpage('/feedback', '帮助与反馈')
+            }}
+          >
             <LisetItem
               img={systemMassage}
-              titleleft="意见反馈"
+              titleleft="帮助与反馈"
               underline="true"
             />
           </div>
         </div>
         <div className={style.bottom}>
-          <div className={style.quit} onClick={this.loginOut}>退出登录</div>
+          <div className={style.quit} onClick={this.loginOut}>
+            退出登录
+          </div>
           <div className={style.contactWay}>
             <p>客服电话：400-826-0101</p>
             <p>工作时间：9:00-18:00</p>
