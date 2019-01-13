@@ -109,6 +109,7 @@ class DeliveryRecord extends PureComponent {
             <DeliveryNo {...this.props} />
           </div>
         </Tabs>
+        <div className={style.openApp}>打开APP，可以和HR在线沟通</div>
       </div>
     )
   }

@@ -127,6 +127,7 @@ class SelectPost extends PureComponent {
               font="关注的企业还没有最新发布的职位，先看看别的职位吧！"
               botton="去看看"
               link="/"
+              height="0.95rem"
             />
           )}
         </div>

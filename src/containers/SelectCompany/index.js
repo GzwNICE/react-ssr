@@ -114,7 +114,7 @@ class SelectCompany extends PureComponent {
               }}
               onScroll={this.onScroll}
               />
-              : <Nothing font="关注企业后，第一时间收到企业发布的最新职位，快去关注吧！" botton="去关注" link="/"/>
+              : <Nothing font="关注企业后，第一时间收到企业发布的最新职位，快去关注吧！" botton="去关注" link="/" height="0.95rem"/>
           }
         </div>
       </div>

@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom'
 import nothingImg from '../../static/missing.png'
 
 const Nothing = props => {
-  const { font, botton, link ,title} = props
+  const { font, botton, link ,title, height} = props
   return (
     <div
       className={style.nothing}
       style={{
         overflow: 'auto',
-        height: 'calc(100vh - 0.95rem)',
+        height: height ? `calc(100vh - ${height})` : `calc(100vh - 1.4rem)`,
       }}
     >
       <img src={nothingImg} alt="" />
