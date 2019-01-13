@@ -91,7 +91,15 @@ const BindEmail = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 const Opintion = Loadable({
+  loader: () => import("./containers/OpintionPage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const CoupleBack = Loadable({
   loader: () => import("./containers/Opintion"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ProblemPages = Loadable({
+  loader: () => import("./containers/ProblemPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const AboutOus = Loadable({
@@ -328,6 +336,14 @@ const routes = [
   {
     path: '/feedback',
     component: Opintion,
+  },
+  {
+    path: '/coupleBack',
+    component: CoupleBack,
+  },
+  {
+    path: '/problem',
+    component: ProblemPages,
   },
   {
     path: '/aboutous',

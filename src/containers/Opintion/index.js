@@ -1,32 +1,34 @@
 /**
- * Created by huangchao on 2017/9/27.
+ * Created by gaozhiwen on 2019/1/13
+ * 意见反馈
  */
 import React, { PureComponent } from 'react'
-import LisetItem from '../../components/ListItem'
-import {connect} from 'react-redux'
-import { NavBar, Toast } from 'antd-mobile'
+// import LisetItem from '../../components/ListItem'
+// import { ImagePicker, WingBlank, SegmentedControl } from 'antd-mobile';
+import { connect } from 'react-redux'
+import { Toast, ImagePicker } from 'antd-mobile'
+import NavBack from '../../components/Back'
 import style from './style.less'
-import feedback from '../../static/feedback@3x.png'
-import opintion from '../../static/opintion@3x.png'
-import phoneNumber from '../../static/pjoneNumber@3x.png'
-import {feedbackOpinion} from '../../actions/moreSeeting'
+import { feedbackOpinion } from '../../actions/moreSeeting'
 
-const type = [{
-  type: 1,
-  val: '功能建议',
-}, {
-  type: 2,
-  val: '页面建议',
-}, {
-  type: 3,
-  val: '新需求',
-}, {
-  type: 4,
-  val: 'BUG',
-}, {
-  type: 5,
-  val: '其他',
-}]
+const type = [
+  {
+    type: 1,
+    val: '性能问题',
+  },
+  {
+    type: 2,
+    val: '产品建议',
+  },
+  {
+    type: 3,
+    val: '吐槽',
+  },
+  {
+    type: 4,
+    val: '其他',
+  },
+]
 
 @connect(state => {
   return {
@@ -34,8 +36,9 @@ const type = [{
   }
 })
 class OPintion extends PureComponent {
-  state ={
+  state = {
     type: '',
+    files: [],
   }
   selItem = type => {
     this.setState({
@@ -43,49 +46,56 @@ class OPintion extends PureComponent {
     })
   }
 
+  onChange = (files, type, index) => {
+    console.log(files, type, index)
+    this.setState({
+      files,
+    })
+  }
+
   submitFeedback = () => {
     const content = this.refs.content.value
     const contact = this.refs.contact.value
     const _that = this
-    if(!this.state.type) return Toast.info('请选择反馈类型', 2)
-    if(!content) return Toast.info('请输入反馈意见', 2)
-    if(!contact) return Toast.info('请输入联系方式', 2)
-    this.props.dispatch(feedbackOpinion({
-      content,
-      contact,
-      questiontype: this.state.type,
-    })).then(() => {
-      Toast.success('感谢您的反馈', 2)
-      setTimeout(() => {
-        _that.props.history.go(-1)
-      }, 1200)
-    })
+    if (!this.state.type) return Toast.info('请选择反馈类型', 2)
+    if (!content) return Toast.info('请输入反馈意见', 2)
+    if (!contact) return Toast.info('请输入联系方式', 2)
+    this.props
+      .dispatch(
+        feedbackOpinion({
+          content,
+          contact,
+          questiontype: this.state.type,
+        })
+      )
+      .then(() => {
+        Toast.success('感谢您的反馈', 2)
+        setTimeout(() => {
+          _that.props.history.go(-1)
+        }, 1200)
+      })
   }
 
   render() {
-    const {phone, email} = this.props.auth
+    const { phone, email } = this.props.auth
+    const { files } = this.state
     return (
       <div className={style.OPintionWrap}>
-        <NavBar
-          mode="dark"
-          onLeftClick={() => {this.props.history.go(-1)}}
-          rightContent={[
-            <span key="0" onClick={this.submitFeedback}>提交</span>,
-          ]}
-        >意见反馈</NavBar>
+        <NavBack title="意见反馈" />
         <div className={style.feedtype}>
-          <LisetItem
-            img={feedback}
-            titleleft="反馈类型"
-            rightangle="false"
-            underline="true" />
+          <div className={style.feedtitle}>
+            <span>*</span> 反馈类型
+          </div>
           <div className={style.feedItem}>
             <div className={style.itemBox}>
               {type.map((d, i) => (
                 <div
                   onClick={() => this.selItem(d.type)}
                   key={d.type}
-                  className={`${style.item} ${this.state.type === d.type ? style.selet : null}`}>
+                  className={`${style.item} ${
+                    this.state.type === d.type ? style.selet : null
+                  }`}
+                >
                   {d.val}
                 </div>
               ))}
@@ -93,20 +103,36 @@ class OPintion extends PureComponent {
           </div>
         </div>
         <div className={style.connent}>
-          <LisetItem
-            img={opintion}
-            titleleft="反馈意见"
-            rightangle="false"
-            underline="true" />
-          <textarea ref="content" className={style.feedcontent} placeholder="你的意见将帮助我们更快成长。" />
+          <div className={style.feedtitle}>
+            <span>*</span> 反馈内容
+          </div>
+          <div className={style.feedBox}>
+            <textarea
+              ref="content"
+              className={style.feedcontent}
+              placeholder="你的意见将帮助我们更快成长。"
+            />
+            <ImagePicker
+              files={files}
+              onChange={this.onChange}
+              onImageClick={(index, fs) => console.log(index, fs)}
+              selectable={files.length < 3}
+              multiple
+            />
+          </div>
         </div>
         <div className={style.number}>
-          <LisetItem
-            img={phoneNumber}
-            titleleft="你的联系方式"
-            rightangle="false"
-            underline="true" />
-          <input className={style.phone} ref="contact" defaultValue={phone || email ||''} type="number"  placeholder="请输入您的联系方式（手机／QQ）" />
+          <div className={style.feedtitle}>联系方式</div>
+          <input
+            className={style.phone}
+            ref="contact"
+            defaultValue={phone || email || ''}
+            type="number"
+            placeholder="如需得到反馈，请输入你的联系方式"
+          />
+        </div>
+        <div className={style.commit} onClick={this.submitFeedback}>
+          提交反馈
         </div>
       </div>
     )
