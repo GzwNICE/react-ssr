@@ -71,7 +71,7 @@ class Register extends PureComponent {
     this.props.form.validateFields((err, value) => {
       if (err) return
       if (!F.changePhoneNumber(value.number))
-        return Toast.info('请输入正确的手机号码', 2)
+        return Toast.info('请输入手机号', 2)
       window.zhuge.track('获取验证码')
 
       let send = res => {

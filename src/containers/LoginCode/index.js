@@ -283,7 +283,8 @@ class LoginCode extends PureComponent {
           closable={0}
           visible={this.state.upperLimit}
           onClose={this.onClose('upperLimit')}
-          message={`手机号${this.state.number}验证码达到上限(5次）,今日无法继续发送`}
+          // message={`手机号${this.state.number}验证码达到上限(5次）,今日无法继续发送`}
+          message={`当前手机号请求验证码次数过多，请稍后再试`}
           actions={[
             {
               text: '我知道了',

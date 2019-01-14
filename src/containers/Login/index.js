@@ -90,7 +90,7 @@ class Login extends PureComponent {
       })
 
       if (!value.username) {
-        return Toast.info('请输入用户名', 2)
+        return Toast.info('请输入账号', 2)
       }
       if (!value.password) {
         return Toast.info('请输入密码', 2)
