@@ -24,10 +24,9 @@ export function singleApi(...args) {
 
     if (!should || should(args, storage)) {
       prelude && dispatch(prelude())
-     
-      if (url.indexOf('/job/search') !== -1) {
-        args = Object.assign(args, {appchannel: 'web'})
-      }
+      // if (url.indexOf('/job/search') !== -1) {
+      // }
+      args = Object.assign(args, {appchannel: 'web'})
       return singleFetch(url, args)
         .then(json => dispatch(action(args, json)))
         .catch(err => {return err})

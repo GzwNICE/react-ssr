@@ -10,6 +10,10 @@ const styleObj = {
 }
 const loading = (<div style={styleObj}>Loading...</div>)
 /** 下面是代码分割异步加载的方式引入各页面 **/
+const PerfectionResume = Loadable({
+  loader: () => import("./containers/PerfectionResume"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
 const BindExistAccount = Loadable({
   loader: () => import("./containers/BindExistAccount"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -245,6 +249,11 @@ const Agreement = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 const routes = [
+  {
+    path: '/perfectionresume',
+    exact: true,
+    component: PerfectionResume,
+  },
   {
     path: '/user/bindExistAccount',
     exact: true,

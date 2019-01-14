@@ -2,17 +2,29 @@ import moment from 'moment'
 
 let yearNow = Number(moment().format('YYYY'))
 let lastYear = yearNow - 80
+let lastYearMonth // 最小的那个年份的月份
 let monthNow = Number(moment().format('M'))
 let dayNow = Number(moment().format('D'))
 let selectDays = 0 // 选择年月后这个月有多少天
 let YING_JIE_SHENG = ''
 
-export default function init(defaultModal='MMMM-YY-DD', defaultVal, lastVal='') {
+export default function init(
+  defaultModal = 'MMMM-YY-DD',
+  defaultVal,
+  lastVal = '',
+  lastData = []
+) {
   let val = []
   YING_JIE_SHENG = lastVal
   defaultModal = defaultModal.split('-') // 已什么样的模式输出默认MMMM-YY-DD
+  if (lastData[0]) {
+    lastYear = Number(lastData[0])
+  }
+  if (lastData[1]) {
+    lastYearMonth = Number(lastData[1])
+  }
   let years = initYears()
-  years.map((item) => {
+  years.map(item => {
     if (item.value !== YING_JIE_SHENG) {
       if (defaultModal[1]) {
         const year = item.value.split('年')[0]
@@ -38,7 +50,7 @@ export default function init(defaultModal='MMMM-YY-DD', defaultVal, lastVal='') 
 
 function initYears() {
   let years = []
-  for (let i=lastYear;i<=yearNow;i++) {
+  for (let i = lastYear; i <= yearNow; i++) {
     let obj = {
       value: `${i}年`,
       label: `${i}年`,
@@ -58,8 +70,13 @@ function initMonths(year, defaultModal) {
   let months = []
   let nowYear = new Date().getFullYear()
   let nowMonth = new Date().getMonth()
+
   let len = Number(year) === nowYear ? nowMonth + 1 : 12
-  for (let i=1;i<=len;i++) {
+  let idefault = 1
+  if (Number(year) === lastYear && lastYearMonth) { 
+    idefault = lastYearMonth
+  }
+  for (let i = idefault; i <= len; i++) {
     let days = []
     let obj = {}
     if (defaultModal[2]) {

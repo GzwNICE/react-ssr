@@ -9,10 +9,8 @@ import moment from 'moment'
 import style2 from './style.less'
 import style from '../ResumeInfo/style.less'
 
-import Post from '../../inputs/Post'
 import Company from './components/companySearch'
 import Job from './components/jobSearch'
-import Area from '../../inputs/Area'
 import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
 // import Salary from '../../inputs/Salary';
@@ -21,7 +19,7 @@ import dayjs from "dayjs"
 
 const YING_JIE_SHENG = '至今'
 const maxDate = new Date();
-let minDate = new Date(maxDate - 99*365*24*60*60*1000);
+const minDate = new Date(maxDate - 99*365*24*60*60*1000);
 // console.log(moment().month().format('MM'))
 
 @connect(state => {
@@ -239,10 +237,6 @@ class ResumeExperienceEdit extends PureComponent {
       return item.id === match.params.id
     })[0] || {}
     const { endTimedata, sValue, deletModal, showModal } = this.state
-    // console.log(work_exps)
-    // console.log(item)
-    // console.log(option)
-    // console.log(item.end_month)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

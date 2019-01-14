@@ -59,7 +59,6 @@ class ComplexSelView extends ComplexFormField {
       item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
       arr.push(item)
     })
-
     return (
       <div className={style.root}>
         <NavBar
