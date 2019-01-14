@@ -4,6 +4,7 @@
 import React, { PureComponent } from 'react'
 import NavBack from '../../components/Back'
 import { connect } from 'react-redux'
+import {answerOpinion} from '../../actions/home'
 import { withRouter } from 'react-router-dom'
 import answer from '../../static/answer.png'
 import style from './style.less'
@@ -11,13 +12,24 @@ import style from './style.less'
 @withRouter
 @connect(state => {
   return {
-    issuesList: state.home.issuesList,
+    reply: state.home.reply,
   }
 })
 class ProblemPage extends PureComponent {
- 
+
+  componentDidMount(){
+    const id = this.props.match.params.id
+    this.props.dispatch(answerOpinion({
+      appchannel: "web",
+      id: id,
+    })).then((data)=>{
+      console.log(data);
+    })
+  }
+
   render() {
-    const data = this.props.issuesList.find((i)=>(i.id === this.props.match.params.id)) || ''
+    // const data = 'this.props.issuesList.find((i)=>(i.id === this.props.match.params.id))' || ''
+    const data = ''
     return (
       <div className={style.problemPage}>
         <NavBack title="常见问题解答" />
