@@ -6,6 +6,11 @@ import jizhaoIcon from '../../static/jizhao@3x.png'
 
 const JobCard = (props) => {
   const data = props.data || {}
+  const exp = data.exp ? ` | ${data.exp}` : null
+  const education = data.education ? ` | ${data.education}` : null
+  const room_board = data.room_board ? ` | ${data.room_board}` : null
+  const company_size = data.company_size ? ` | ${data.company_size}` : null
+
   // console.log(data)
   const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
   return <div className={style.JobCardTwoWrap}>
@@ -24,17 +29,17 @@ const JobCard = (props) => {
     </div>
     <div className={style.middle}>
       <div className={style.companyName}>
-        {data.job_area} | 3年以上 | 大专 | 包吃住
+        {data.job_area}{exp}{education}{room_board}
       </div>
       <div className={style.time}>
         {F.procesTime(data.update_time)}
       </div>
     </div>
     <div className={style.footerBox}>
-      <img src="https://f3-v.veimg.cn/company_picture/001/523/781/logo/18113021340241.jpg" />
+    <img src={data.company_logo} />
       <div>
         <p>{data.company_name}</p>
-        <p>jiudian/5星急 | 500-2000人</p>
+        <p>{data.industry_star}{company_size}</p>
       </div>
     </div>
   </div>
