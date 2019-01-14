@@ -11,11 +11,13 @@ export const HOME_PAGE_UNMOUNT = 'HOME_PAGE_UNMOUNT' // 页面卸载
 export const HOME_CHANGE_CITY = 'HOME_CHANGE_CITY' // 搜索页用户重新选择了城市
 export const HOME_FAM_COMPANY = 'HOME_FAM_COMPANY' //首页名企专区 
 export const HOME_HOT_TRADE = 'HOME_HOT_TRADE' //首页热门企业 
+export const QUESTION_ANSWER = 'QUESTION_ANSWER' // 常见问题解答
 
 
 const URLPOST = ':ve.mobile.interface/user/recommended_jobs'
 const URLCOMPANY = ':ve.mobile.interface/h5-new/company-mobile-index/index'
 const URLTRADE = ':ve.mobile.interface/h5-new/company-mobile-index/company'
+const QUESTION = ':ve.mobile.interface/util/faqs' // 常见问题解答
 
 export const getPostInit = singleApi({
   url: URLPOST,
@@ -108,6 +110,18 @@ export const hotTrade = singleApi({
       args,
       type: HOME_HOT_TRADE,
       data: json.data,
+    }
+  },
+})
+
+//个人中心常见问题列表
+export const questionOpinion = singleApi({
+  url: QUESTION,
+  action: (args, json) => {
+    return {
+      args,
+      data: json.data,
+      type: QUESTION_ANSWER,
     }
   },
 })

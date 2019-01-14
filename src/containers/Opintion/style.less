@@ -50,18 +50,32 @@
     border-radius: 2px;
     border: 1px solid rgba(200, 199, 204, 0.5);
     box-sizing: border-box;
+    padding-bottom: 10px;
     .feedcontent {
       display: block;
       width: 100%;
       height: 100px;
       font-family: PingFangSC-Regular;
       font-size: 14px;
-      padding: 6px;
-      color: #9b9b9b;
+      padding: 6px 8px;
+      color: #333333;
       letter-spacing: 0.3px;
       text-align: left;
       line-height: 20px;
       box-sizing: border-box;
+    }
+    span {
+      font-size: 12px;
+      padding-left: 14px;
+      color: #757575;
+    }
+    :global {
+      .am-image-picker-list {
+        margin-bottom: 0;
+        .am-flexbox {
+          margin-bottom: 2px;
+        }
+      }
     }
   }
 }

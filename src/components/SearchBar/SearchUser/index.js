@@ -28,6 +28,11 @@ class SearchUser extends Component {
     }
   }
 
+  /* 下载或者打开app */
+  downLoadAd = () => {
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+  }
+
   componentDidMount() {
     // if (this.props.autoFocus) {
     //   this.autoFocusInst.onFocus()

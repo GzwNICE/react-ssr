@@ -4,12 +4,19 @@
 import React, { PureComponent } from 'react'
 import NavBack from '../../components/Back'
 import Cookies from 'js-cookie'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import style from './style.less'
+import {questionOpinion} from '../../actions/home'
 import coupleback from '../../static/coupleback.png'
 import Rectangle from '../../static/Rectangle@3x.png'
+import style from './style.less'
 
 @withRouter
+@connect(state => {
+  return {
+    issuesList: state.home.issuesList,
+  }
+})
 class OpintionPage extends PureComponent {
 
   goNextpage = (url, key) => {
@@ -24,7 +31,15 @@ class OpintionPage extends PureComponent {
     }
   }
 
+  componentDidMount(){
+    this.props.dispatch(questionOpinion({
+      appchannel: "web",
+    }))
+  }
+
+
   render() {
+    const issuesList = this.props.issuesList
     return (
       <div className={style.OpintionPage}>
         <NavBack title="帮助与反馈"/>
@@ -38,18 +53,16 @@ class OpintionPage extends PureComponent {
         <div className={style.questionList}>
           <div className={style.issue}>常见问题解答</div>
           <div className={style.issueList}>
-            <div className={style.issueSingle} onClick={() => {
-              this.goNextpage('/problem', '常见问题解答')
-            }}>
-              <span>找到工作了，如何删除我的简历？</span>
-              <img src={Rectangle} alt="" />
-            </div>
-            <div className={style.issueSingle} onClick={() => {
-              this.goNextpage('/problem', '常见问题解答')
-            }}>
-              <span>没找到工作，如何设置我的简历？</span>
-              <img src={Rectangle} alt="" />
-            </div>
+            {issuesList ? issuesList.map(i =>{
+              return (
+                <div className={style.issueSingle} onClick={() => {
+                  this.goNextpage(`/problem/${i.id}`, '常见问题解答')
+                }} key={i.id}>
+                  <span>{i.title}</span>
+                  <img src={Rectangle} alt="" />
+                </div>
+              )
+            }): null}
           </div>
         </div>
       </div>

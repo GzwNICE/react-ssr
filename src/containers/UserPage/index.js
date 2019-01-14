@@ -207,7 +207,6 @@ class UserPage extends PureComponent {
           </div>
         </div>
         <Alert
-          icon={deliver}
           title={
             this.props.userStatus.unread_message_num
               ? `您有${this.props.userStatus.unread_message_num}条未读消息`

@@ -28,8 +28,6 @@ export function singleApi(...args) {
       if (url.indexOf('/job/search') !== -1) {
         args = Object.assign(args, {appchannel: 'web'})
       }
-      console.log(url)
-      console.log(args)
       return singleFetch(url, args)
         .then(json => dispatch(action(args, json)))
         .catch(err => {return err})

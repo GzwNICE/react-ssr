@@ -3,13 +3,21 @@
  */
 import React, { PureComponent } from 'react'
 import NavBack from '../../components/Back'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import answer from '../../static/answer.png'
 import style from './style.less'
 
 @withRouter
+@connect(state => {
+  return {
+    issuesList: state.home.issuesList,
+  }
+})
 class ProblemPage extends PureComponent {
+ 
   render() {
+    const data = this.props.issuesList.find((i)=>(i.id === this.props.match.params.id)) || ''
     return (
       <div className={style.problemPage}>
         <NavBack title="常见问题解答" />
@@ -17,7 +25,7 @@ class ProblemPage extends PureComponent {
           height: 'calc(100vh - 0.95rem)',
         }}>
           <div className={style.question}>
-            Q：找到工作了，如何删除我的简历？
+            {`Q：${data.title}`}
           </div>
           <div className={style.answer}>
             简历是最佳东方账号必须的，暂时不允许删除

@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 // import { ImagePicker, WingBlank, SegmentedControl } from 'antd-mobile';
 import { connect } from 'react-redux'
 import { Toast, ImagePicker } from 'antd-mobile'
+import Alert from '../../components/Alert'
 import NavBack from '../../components/Back'
 import style from './style.less'
 import { feedbackOpinion } from '../../actions/moreSeeting'
@@ -39,6 +40,7 @@ class OPintion extends PureComponent {
   state = {
     type: '',
     files: [],
+    feedSuccess: false,
   }
   selItem = type => {
     this.setState({
@@ -53,26 +55,56 @@ class OPintion extends PureComponent {
     })
   }
 
+  showModal = key => e => {
+    if (e) e.preventDefault() // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    })
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    })
+    this.props.history.go(-1)
+    // const _that = this
+    // setTimeout(() => {
+      // _that.props.history.go(-1)
+    // }, 1200)
+  }
+
+  onAddImageClick = e => {
+    e.preventDefault()
+    this.setState({
+      files: this.state.files.concat({
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '3',
+      }),
+    })
+  }
+
   submitFeedback = () => {
     const content = this.refs.content.value
     const contact = this.refs.contact.value
-    const _that = this
+    // const _that = this
     if (!this.state.type) return Toast.info('请选择反馈类型', 2)
     if (!content) return Toast.info('请输入反馈意见', 2)
     if (!contact) return Toast.info('请输入联系方式', 2)
+    const feedSuccess =this.showModal('feedSuccess')
     this.props
       .dispatch(
         feedbackOpinion({
           content,
           contact,
           questiontype: this.state.type,
+          appchannel: 'web',
         })
       )
       .then(() => {
-        Toast.success('感谢您的反馈', 2)
-        setTimeout(() => {
-          _that.props.history.go(-1)
-        }, 1200)
+        feedSuccess()
+        // setTimeout(() => {
+        //   _that.props.history.go(-1)
+        // }, 1200)
       })
   }
 
@@ -110,15 +142,15 @@ class OPintion extends PureComponent {
             <textarea
               ref="content"
               className={style.feedcontent}
-              placeholder="你的意见将帮助我们更快成长。"
+              placeholder="反馈性能问题时，请描述具体操作步骤及问题！"
             />
             <ImagePicker
+              length="5" //仅仅为了样式调整为5张
               files={files}
               onChange={this.onChange}
-              onImageClick={(index, fs) => console.log(index, fs)}
-              selectable={files.length < 3}
-              multiple
+              selectable={files.length < 3} //length 为索引
             />
+            <span>最多3张</span>
           </div>
         </div>
         <div className={style.number}>
@@ -134,6 +166,21 @@ class OPintion extends PureComponent {
         <div className={style.commit} onClick={this.submitFeedback}>
           提交反馈
         </div>
+        <Alert
+          title={`反馈成功`}
+          height={130}
+          closable={0}
+          visible={this.state.feedSuccess}
+          onClose={this.onClose('feedSuccess')}
+          message={`您的意见已经提交给产品设计人员，如有紧急需求可联系0571-88866108。`}
+          actions={[
+            {
+              text: '知道了',
+              onPress: this.onClose('feedSuccess'),
+              type: 'know',
+            },
+          ]}
+        />
       </div>
     )
   }

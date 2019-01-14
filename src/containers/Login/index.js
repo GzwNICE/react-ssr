@@ -162,18 +162,14 @@ class Login extends PureComponent {
     const { getFieldProps } = this.props.form
     return (
       <div className={style.LoginWrap}>
-        {/*<div className={style.back}>
-          <img src={Rectangle} alt="返回" onClick={this.goBack} />
-        </div>*/}
-
         <div className={style.forms}>
-            <InputItem
-              {...getFieldProps('username', { onChange: this.onUserName })}
-              className={`${style.inputHei} ${style.name}`}
-              clear
-              placeholder="手机号/邮箱/用户名"
-            />
-        <div className={style.passwordBox}>
+          <InputItem
+            {...getFieldProps('username', { onChange: this.onUserName })}
+            className={`${style.inputHei} ${style.name}`}
+            clear
+            placeholder="手机号/邮箱/用户名"
+          />
+          <div className={style.passwordBox}>
             <InputItem
               {...getFieldProps('password', { onChange: this.onUserName })}
               className={`${style.inputHei} ${style.name}`}
@@ -188,9 +184,6 @@ class Login extends PureComponent {
               />
             </div>
           </div>
-          {/*<div onClick={() => this.goRegister('/forgetPassword')}>
-            <div className={style.forgetPassword}>忘记密码？</div>
-          </div>*/}
           <div className={style.subBtn} onClick={this.handleLogin}>
             <a
               id="TencentCaptcha"
@@ -202,23 +195,15 @@ class Login extends PureComponent {
             </a>
           </div>
           <div className={style.otherLogin}>
-            <div
-              onClick={() => this.goRegister(`/register`, '手机号注册')}
-            >
+            <div onClick={() => this.goRegister(`/register`, '手机号注册')}>
               <span>立即注册</span>
             </div>
             <div className={style.rule} />
-            <div onClick={() => this.goRegister(`/forgetPassword`)}>
+            <div onClick={() => this.goRegister(`/user/forgetPassword`)}>
               <div className={style.forgetPassword}>忘记密码</div>
             </div>
           </div>
-          {/*<Link className={style.activityRegister} to="/activityRegister">
-            <span>活动注册</span>
-          </Link>*/}
         </div>
-        {/*<div className={style.bottom}>*/}
-        {/*<ThirdPartyLogin />*/}
-        {/*</div>*/}
       </div>
     )
   }

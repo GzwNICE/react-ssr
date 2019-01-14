@@ -367,7 +367,7 @@ const routes = [
     component: CoupleBack,
   },
   {
-    path: '/problem',
+    path: '/problem/:id',
     exact: true,
     component: ProblemPages,
   },

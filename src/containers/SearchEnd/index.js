@@ -302,6 +302,12 @@ class SearchEnd extends PureComponent {
       </div>
     )
   }
+
+   /* 下载或者打开app */
+   downLoadAd = () => {
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+  }
+  
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop

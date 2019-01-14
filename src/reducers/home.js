@@ -10,6 +10,7 @@ import {
   HOME_PAGE_UNMOUNT,
   HOME_FAM_COMPANY,
   HOME_HOT_TRADE,
+  QUESTION_ANSWER,
 } from '../actions/home'
 
 import {
@@ -26,6 +27,7 @@ const initState = {
   },
   photoData: [],
   tradeDtata: [],
+  issuesList: [],
 }
 
 export default (state = initState, action = {}) => {
@@ -86,6 +88,11 @@ export default (state = initState, action = {}) => {
       return {
         ...state,
         tradeDtata: action.data,
+      }
+    case QUESTION_ANSWER:
+      return {
+        ...state,
+        issuesList: action.data.list,
       }
     default:
       return state
