@@ -188,7 +188,7 @@ class Login extends PureComponent {
               />
             </div>
           </div>
-          {/*<div onClick={() => this.goRegister('/user/forgetPassword')}>
+          {/*<div onClick={() => this.goRegister('/forgetPassword')}>
             <div className={style.forgetPassword}>忘记密码？</div>
           </div>*/}
           <div className={style.subBtn} onClick={this.handleLogin}>
@@ -208,7 +208,7 @@ class Login extends PureComponent {
               <span>立即注册</span>
             </div>
             <div className={style.rule} />
-            <div onClick={() => this.goRegister(`/user/forgetPassword`)}>
+            <div onClick={() => this.goRegister(`/forgetPassword`)}>
               <div className={style.forgetPassword}>忘记密码</div>
             </div>
           </div>

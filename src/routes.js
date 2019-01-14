@@ -446,7 +446,7 @@ const routes = [
     component: Register,
   },
   {
-    path: '/user/forgetPassword',
+    path: '/forgetPassword',
     component: ForgetPassword,
   },
   {
