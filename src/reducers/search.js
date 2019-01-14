@@ -45,7 +45,11 @@ const initState = {
   company: {},
   salaryShow: false, // 薪资下拉框显示隐藏
   salaryString: '',
-  defaultRange: [0, 20],
+  searchEndSalary: {
+    defaultRange: [0, 20],
+    rangeString: '不限',
+    rangeTitle: '薪资',
+  },
 }
 
 export default (state = initState, action) => {
@@ -53,7 +57,7 @@ export default (state = initState, action) => {
     case SEARCH_SALARYRANGE:
     return {
       ...state,
-      range: action.payload,
+      searchEndSalary: action.payload,
     }
     case SEARCH_SALARYSTRING:
       return {
