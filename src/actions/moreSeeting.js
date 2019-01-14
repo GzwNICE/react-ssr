@@ -11,6 +11,7 @@ export const CHANGE_PASSWORD = 'CHANGE_PASSWORD' // 重制密码
 const URL = ':ve.sso/user/email_authenticate' // 绑定邮箱
 const PASS = ':ve.sso/user/reset_password' // 重制密码 new_password old_password
 const FEED = ':ve.mobile.interface/util/feedback' // 意见反馈
+
 const mobile = ':ve.my.veryeast.cn/client-service/api/mobile' // 绑定手机
 
 export const bindEmail = singleApi({
@@ -57,4 +58,6 @@ export const feedbackOpinion = singleApi({
     }
   },
 })
+
+
 

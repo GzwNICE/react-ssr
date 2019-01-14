@@ -37,7 +37,7 @@
 
 code
 /register
-/user/forgetPassword
+/forgetPassword
 /chat/:id
 /tip-offs
 /:comapny_id/:job_id

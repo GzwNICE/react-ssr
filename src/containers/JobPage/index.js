@@ -185,6 +185,10 @@ class JobPage extends (PureComponent || Component) {
     window.addEventListener('scroll', this.onScroll, false)
   }
 
+   /* 下载或者打开app */
+   downLoadAd = () => {
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+  }
 
   componentWillReceiveProps(nextProps) {
     const thisList = this.props.searchLIst

@@ -11,7 +11,7 @@ import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import F from '../../helper/tool'
 import {errCode} from '../../helper/errCode'
-import {captcha} from '../../actions/auth'
+// import {captcha} from '../../actions/auth'
 import {mobile, findPassword} from '../../actions/auth'
 
 @createForm()

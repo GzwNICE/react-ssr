@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/9/27.
+ * Created by zhangji on 2019/1/10.
  */
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
@@ -10,7 +10,7 @@ import queryString from 'query-string'
 import F from '../../helper/tool'
 import style from './style.less'
 import Loginstyle from '../Login/style.less'
-import { captcha } from '../../actions/auth'
+// import { captcha } from '../../actions/auth'
 import { mobile, register } from '../../actions/auth'
 import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
@@ -41,15 +41,6 @@ class Register extends PureComponent {
       phoneCounty: obj.country,
     })
   }
-  // changeImg = () => {
-  //   captcha().then(data => {
-  //     this.setState({
-  //       url: data,
-  //     })
-  //   })
-  //   window.zhuge.track('图形验证码')
-  // }
-
   onPhoneNumber = () => {
     this.props.form.validateFields((err, value) => {
       if (err) return
@@ -210,21 +201,6 @@ class Register extends PureComponent {
   }
 
   goBack = () => {
-    // const { redirect, sss, one } = queryString.parse(window.location.search)
-    // let patt1 = new RegExp('service')
-    // if (sss) {
-    //   return (window.location.href = sss)
-    // }
-    // if (one) {
-    //   return this.props.history.go(-1)
-    // }
-
-    // if (patt1.test(redirect)) {
-    //   return this.props.history.go(-1)
-    // } else if (redirect) {
-    //   return this.props.history.replace(redirect)
-    // }
-
     const {redirect} = queryString.parse(window.location.search)
     if(redirect){
       this.props.history.push(redirect)
@@ -236,7 +212,6 @@ class Register extends PureComponent {
   componentDidMount() {
     const { key } = this.props.location.state || {}
     const { sss } = queryString.parse(window.location.search)
-    // const TriggerSource = ''
     if (sss) {
       window.zhuge.track('注册页面打开', {
         触发来源: '首页浮窗',
@@ -246,11 +221,10 @@ class Register extends PureComponent {
         触发来源: key || '其他来源',
       })
     }
-    // captcha().then(data => {
-    //   this.setState({
-    //     url: data,
-    //   })
-    // })
+    const login = sessionStorage.getItem('is_login')
+    if(login){
+      this.props.history.push('/user')
+    }
   }
 
   componentWillUnmount() {
@@ -259,7 +233,6 @@ class Register extends PureComponent {
 
   render() {
     const { getFieldProps } = this.props.form
-    // console.log(this.props.bindExistAccount)
     return (
       <div className={style.RegisterWrap}>
         <div className={style.back} onClick={this.goBack}>

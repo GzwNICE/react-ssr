@@ -1,32 +1,35 @@
 /**
- * Created by huangchao on 2017/9/27.
+ * Created by gaozhiwen on 2019/1/13
+ * 意见反馈
  */
 import React, { PureComponent } from 'react'
-import LisetItem from '../../components/ListItem'
-import {connect} from 'react-redux'
-import { NavBar, Toast } from 'antd-mobile'
+// import LisetItem from '../../components/ListItem'
+// import { ImagePicker, WingBlank, SegmentedControl } from 'antd-mobile';
+import { connect } from 'react-redux'
+import { Toast, ImagePicker } from 'antd-mobile'
+import Alert from '../../components/Alert'
+import NavBack from '../../components/Back'
 import style from './style.less'
-import feedback from '../../static/feedback@3x.png'
-import opintion from '../../static/opintion@3x.png'
-import phoneNumber from '../../static/pjoneNumber@3x.png'
-import {feedbackOpinion} from '../../actions/moreSeeting'
+import { feedbackOpinion } from '../../actions/moreSeeting'
 
-const type = [{
-  type: 1,
-  val: '功能建议',
-}, {
-  type: 2,
-  val: '页面建议',
-}, {
-  type: 3,
-  val: '新需求',
-}, {
-  type: 4,
-  val: 'BUG',
-}, {
-  type: 5,
-  val: '其他',
-}]
+const type = [
+  {
+    type: 1,
+    val: '性能问题',
+  },
+  {
+    type: 2,
+    val: '产品建议',
+  },
+  {
+    type: 3,
+    val: '吐槽',
+  },
+  {
+    type: 4,
+    val: '其他',
+  },
+]
 
 @connect(state => {
   return {
@@ -34,8 +37,10 @@ const type = [{
   }
 })
 class OPintion extends PureComponent {
-  state ={
+  state = {
     type: '',
+    files: [],
+    feedSuccess: false,
   }
   selItem = type => {
     this.setState({
@@ -43,49 +48,86 @@ class OPintion extends PureComponent {
     })
   }
 
-  submitFeedback = () => {
-    const content = this.refs.content.value
-    const contact = this.refs.contact.value
-    const _that = this
-    if(!this.state.type) return Toast.info('请选择反馈类型', 2)
-    if(!content) return Toast.info('请输入反馈意见', 2)
-    if(!contact) return Toast.info('请输入联系方式', 2)
-    this.props.dispatch(feedbackOpinion({
-      content,
-      contact,
-      questiontype: this.state.type,
-    })).then(() => {
-      Toast.success('感谢您的反馈', 2)
-      setTimeout(() => {
-        _that.props.history.go(-1)
-      }, 1200)
+  onChange = (files, type, index) => {
+    console.log(files, type, index)
+    this.setState({
+      files,
     })
   }
 
+  showModal = key => e => {
+    if (e) e.preventDefault() // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    })
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    })
+    this.props.history.go(-1)
+    // const _that = this
+    // setTimeout(() => {
+      // _that.props.history.go(-1)
+    // }, 1200)
+  }
+
+  onAddImageClick = e => {
+    e.preventDefault()
+    this.setState({
+      files: this.state.files.concat({
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '3',
+      }),
+    })
+  }
+
+  submitFeedback = () => {
+    const content = this.refs.content.value
+    const contact = this.refs.contact.value
+    // const _that = this
+    if (!this.state.type) return Toast.info('请选择反馈类型', 2)
+    if (!content) return Toast.info('请输入反馈意见', 2)
+    if (!contact) return Toast.info('请输入联系方式', 2)
+    const feedSuccess =this.showModal('feedSuccess')
+    this.props
+      .dispatch(
+        feedbackOpinion({
+          content,
+          contact,
+          questiontype: this.state.type,
+          appchannel: 'web',
+        })
+      )
+      .then(() => {
+        feedSuccess()
+        // setTimeout(() => {
+        //   _that.props.history.go(-1)
+        // }, 1200)
+      })
+  }
+
   render() {
-    const {phone, email} = this.props.auth
+    const { phone, email } = this.props.auth
+    const { files } = this.state
     return (
       <div className={style.OPintionWrap}>
-        <NavBar
-          mode="dark"
-          onLeftClick={() => {this.props.history.go(-1)}}
-          rightContent={[
-            <span key="0" onClick={this.submitFeedback}>提交</span>,
-          ]}
-        >意见反馈</NavBar>
+        <NavBack title="意见反馈" />
         <div className={style.feedtype}>
-          <LisetItem
-            img={feedback}
-            titleleft="反馈类型"
-            rightangle="false"
-            underline="true" />
+          <div className={style.feedtitle}>
+            <span>*</span> 反馈类型
+          </div>
           <div className={style.feedItem}>
             <div className={style.itemBox}>
               {type.map((d, i) => (
                 <div
                   onClick={() => this.selItem(d.type)}
                   key={d.type}
-                  className={`${style.item} ${this.state.type === d.type ? style.selet : null}`}>
+                  className={`${style.item} ${
+                    this.state.type === d.type ? style.selet : null
+                  }`}
+                >
                   {d.val}
                 </div>
               ))}
@@ -93,21 +135,52 @@ class OPintion extends PureComponent {
           </div>
         </div>
         <div className={style.connent}>
-          <LisetItem
-            img={opintion}
-            titleleft="反馈意见"
-            rightangle="false"
-            underline="true" />
-          <textarea ref="content" className={style.feedcontent} placeholder="你的意见将帮助我们更快成长。" />
+          <div className={style.feedtitle}>
+            <span>*</span> 反馈内容
+          </div>
+          <div className={style.feedBox}>
+            <textarea
+              ref="content"
+              className={style.feedcontent}
+              placeholder="反馈性能问题时，请描述具体操作步骤及问题！"
+            />
+            <ImagePicker
+              length="5" //仅仅为了样式调整为5张
+              files={files}
+              onChange={this.onChange}
+              selectable={files.length < 3} //length 为索引
+            />
+            <span>最多3张</span>
+          </div>
         </div>
         <div className={style.number}>
-          <LisetItem
-            img={phoneNumber}
-            titleleft="你的联系方式"
-            rightangle="false"
-            underline="true" />
-          <input className={style.phone} ref="contact" defaultValue={phone || email ||''} type="number"  placeholder="请输入您的联系方式（手机／QQ）" />
+          <div className={style.feedtitle}>联系方式</div>
+          <input
+            className={style.phone}
+            ref="contact"
+            defaultValue={phone || email || ''}
+            type="number"
+            placeholder="如需得到反馈，请输入你的联系方式"
+          />
         </div>
+        <div className={style.commit} onClick={this.submitFeedback}>
+          提交反馈
+        </div>
+        <Alert
+          title={`反馈成功`}
+          height={130}
+          closable={0}
+          visible={this.state.feedSuccess}
+          onClose={this.onClose('feedSuccess')}
+          message={`您的意见已经提交给产品设计人员，如有紧急需求可联系0571-88866108。`}
+          actions={[
+            {
+              text: '知道了',
+              onPress: this.onClose('feedSuccess'),
+              type: 'know',
+            },
+          ]}
+        />
       </div>
     )
   }

@@ -172,6 +172,11 @@ class CompanyDetail extends PureComponent {
     this.props.history.push('/search')
   }
 
+   /* 下载或者打开app */
+   downLoadAd = () => {
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+  }
+
   componentDidMount() {
     const id = this.props.match.params.company_id
     this.page = document.getElementById('page')

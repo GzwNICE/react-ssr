@@ -21,6 +21,8 @@ import {
 } from '../../actions/search'
 import F from '../../helper/tool'
 import vacantIcon from '../../static/vacant@3x.png'
+import * as Ad from '../../components/Ad'
+import RegisterWrap from '../../components/RegisterWrap'
 
 const option = store.get('m:option')
 
@@ -54,12 +56,15 @@ class SearchEnd extends PureComponent {
         scope: 4,
         update_time: -1,
         work_mode: 0,
+        is_login: '',
       },
       stareSearch: false,
       dataSource,
       page: this.props.srearchData.pager.cur,
       Loaded: 'Loading',
       searchCondition: {},
+      showSelectP: true, // 显示已选项
+      showRegWrap: true, //是否显示引导注册
     }
 
     const {
@@ -255,7 +260,54 @@ class SearchEnd extends PureComponent {
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
+  noVacancies = query => {
+    // 记录地区
+    const areas_index = option.areas_index || {}
+    const areaVal = areas_index[query.area[0]]
+    const defaultValue = this.state.defaultValue
+      ? `-${this.state.defaultValue}`
+      : null
+    const salary = this.props.salaryString
+      ? `-${this.props.salaryString}`
+      : null
+    const more = JSON.stringify(query.more) === '{}' ? null : '等'
+    return (
+      <div className={style.vacant}>
+        <img src={vacantIcon} />
+        <p>
+          【{areaVal}
+          {defaultValue}
+          {salary}
+          {more}】
+        </p>
+        <p>暂无职位，可以切换条件试试哦~</p>
+      </div>
+    )
+  }
+  selectProjectRender = query => {
+    const areas_index = option.areas_index || {}
+    const areaVal = areas_index[query.area[0]]
+    const more = query.more ? query.more : {}
+    let company_industry
+    if (more.company_industry) {
+      company_industry =
+        option.opts_company_industry_all_index[more.company_industry]
+    }
+    let symbol = areaVal && company_industry ? '、' : null
+    return (
+      <div className={style.selectproject}>
+        已选项： {areaVal}
+        {symbol}
+        {company_industry}
+      </div>
+    )
+  }
 
+   /* 下载或者打开app */
+   downLoadAd = () => {
+    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+  }
+  
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
@@ -268,7 +320,6 @@ class SearchEnd extends PureComponent {
         defaultValue: data.keyword || keyword,
       })
     }
-
     this.props.dispatch(getSearchListInit(allQuery))
 
     delete this.getQuery.keyword
@@ -281,6 +332,16 @@ class SearchEnd extends PureComponent {
       delete this.getQuery.more
     }
     this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
+    this.timer = setTimeout(() => {
+      this.setState({
+        showSelectP: false,
+      })
+    }, 2500)
+    this.setState({
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -325,11 +386,17 @@ class SearchEnd extends PureComponent {
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
-
+  // 关闭底部引导注册弹框
+  handleCloseReg() {
+    this.setState({
+      showRegWrap: false,
+    })
+  }
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.getQuery.isUsed = 0
     this.props.dispatch(saveScrollTop(this.scrollTop))
+    clearTimeout(this.timer)
   }
 
   render() {
@@ -345,10 +412,6 @@ class SearchEnd extends PureComponent {
     delete query.keyword
     delete query.isUsed
 
-    console.log(query)
-    console.log(this.state.defaultValue)
-
-
     const Row = d => {
       return (
         <div className={style.listItem}>
@@ -358,43 +421,67 @@ class SearchEnd extends PureComponent {
         </div>
       )
     }
-    // console.log(this.props.searchLIst)
+    const allPage = Number(this.props.pager.allPage)
+    const { showRegWrap, is_login } = this.state
+    let styleObj = {}
+
+    if (is_login !== 1 && showRegWrap === false) {
+      styleObj = {
+        paddingBottom: 0,
+      }
+    }
+
     return (
-      <div className={style.SearchEndWrap}>
+      <div className={style.SearchEndWrap} style={styleObj}>
         <div className={style.top}>
+          <Ad.AdTop downLoadAd={this.downLoadAd} />
+
           <SearchEndBar
             goBack={this.goBack}
             goSerch={this.goSerch}
             keyword={this.state.defaultValue}
             number={this.showCount()}
+            location={this.props.location}
           />
           <div className={style.searchCondition}>
             <FilterSearch filterSearch={this.filterSearch} query={query} />
           </div>
+          {this.state.showSelectP ? this.selectProjectRender(query) : null}
         </div>
-        {/*<div className={style.listBox}>*/}
-        {/*<ListView*/}
-        {/*className={style.listView}*/}
-        {/*dataSource={this.state.dataSource}*/}
-        {/*renderRow={Row}*/}
-        {/*scrollRenderAheadDistance={100}*/}
-        {/*onEndReachedThreshold={10}*/}
-        {/*scrollEventThrottle={100}*/}
-        {/*initialListSize={1000}*/}
-        {/*pageSize={2000}*/}
-        {/*useBodyScroll*/}
-        {/*onScroll={this.onScroll}*/}
-        {/*onEndReached={this.onEndReached} // 上啦加载*/}
-        {/*renderFooter={() => (<div style={{ padding: 10, textAlign: 'center' }}>*/}
-        {/*{this.props.isLoading ? 'Loading...' : this.state.Loaded}*/}
-        {/*</div>)}*/}
-        {/*/>*/}
-        {/*</div>*/}
-        <div className={style.vacant}>
-          <img src={vacantIcon} />
-          <p>【{query.area[0]}-{this.state.defaultValue}-{this.props.salaryString}】</p>
-          <p>暂无职位，可以切换条件试试哦~</p>
-        </div>
+
+        {allPage > 0 ? (
+          <div className={style.listBox}>
+            <ListView
+              className={style.listView}
+              dataSource={this.state.dataSource}
+              renderRow={Row}
+              scrollRenderAheadDistance={100}
+              onEndReachedThreshold={10}
+              scrollEventThrottle={100}
+              initialListSize={1000}
+              pageSize={2000}
+              useBodyScroll
+              onScroll={this.onScroll}
+              onEndReached={this.onEndReached} // 上啦加载
+              renderFooter={() => (
+                <div style={{ padding: 10, textAlign: 'center' }}>
+                  {this.props.isLoading ? 'Loading...' : this.state.Loaded}
+                </div>
+              )}
+            />
+          </div>
+        ) : (
+          this.noVacancies(query)
+        )}
+
+        {is_login ? null : showRegWrap ? (
+          <div className={style.registerwrap}>
+            <RegisterWrap
+              onCloseReg={this.handleCloseReg.bind(this)}
+              location={this.props.history.location.pathname}
+            />
+          </div>
+        ) : null}
       </div>
     )
   }

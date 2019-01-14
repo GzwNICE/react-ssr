@@ -19,6 +19,14 @@
   padding: 0 !important;
   height: 53px !important;
   font-size: 24px !important;
+  :global {
+    .am-list-line {
+      .am-input-control {
+        margin-top: 14px;
+      }
+    }
+  }
+  
 }
 .inputHei::after{
   left: 0 !important;
@@ -57,12 +65,13 @@
     flex: 1;
   }
   .massage{
-    width: 105px;
     height: 53px;
     text-align: center;
     line-height: 73px;
-    font-size: 14px;
-    color: #FF4F00;
+    font-family: PingFangSC-Regular;
+    font-size: 0.14rem;
+    color: #4A4A4A;
+    border-bottom: 1Px solid #f0f0f0;
   }
 }
 
@@ -75,11 +84,12 @@
   }
   .password{
     width: 25px;
-    height: 53px;
+    height: 52px;
     text-align: center;
-    line-height: 53px;
+    line-height: 64px;
+    border-bottom: 1Px solid #f0f0f0;
     img{
-      width: 22.5px;
+      width: 22px;
     }
   }
 }
@@ -92,7 +102,7 @@
     height: 100%;
     line-height: 40px;
     background: #FF4F00;
-    border-radius: 16px;
+    border-radius: 20px;
     font-size: 17px;
     color: #FFFFFF;
     text-align: center;

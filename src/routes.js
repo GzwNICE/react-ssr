@@ -91,7 +91,15 @@ const BindEmail = Loadable({
   loading: () => loading, // 自定义的Loading动画组件
 });
 const Opintion = Loadable({
+  loader: () => import("./containers/OpintionPage"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const CoupleBack = Loadable({
   loader: () => import("./containers/Opintion"),
+  loading: () => loading, // 自定义的Loading动画组件
+});
+const ProblemPages = Loadable({
+  loader: () => import("./containers/ProblemPage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const AboutOus = Loadable({
@@ -239,226 +247,293 @@ const Agreement = Loadable({
 const routes = [
   {
     path: '/user/bindExistAccount',
+    exact: true,
     component: BindExistAccount,
   },
   {
     path: '/bloc/:c_userid',
+    exact: true,
     component: BlocPage,
   },
   {
     path: '/activityRegister',
+    exact: true,
     component: ActivityRegister,
   },
   {
     path: '/home',
+    exact: true,
     component: Home,
   },
   {
     path: '/job',
+    exact: true,
     component: JobPage,
   },
   {
-    path: '/user',
-    component: UserPage,
-  },
-  {
     path: '/agreement',
+    exact: true,
     component: Agreement,
   },
   {
     path: '/search/:keyword',
+    exact: true,
     component: SearchEnd,
   },
   {
     path: '/search',
+    exact: true,
     component: Searchpage,
   },
   {
     path: '/person/applyRecord',
+    exact: true,
     component: DeliveryRecord,
   },
   {
     path: '/person/privacy',
+    exact: true,
     component: PrivacyService,
   },
   {
     path: '/person/more',
+    exact: true,
     component: MoreSeeting,
   },
   {
     path: '/person/message',
+    exact: true,
     component: SystemMessage,
   },
   {
     path: '/person/jobFavorites',
+    exact: true,
     component: SelectPost,
   },
   {
     path: '/person/followedCompanies',
+    exact: true,
     component: SelectCompany,
   },
   {
     path: '/person/concern',
+    exact: true,
     component: SelectConcern,
   },
   {
     path: '/person/letter/:message_id',
+    exact: true,
     component: BusinessLetter,
   },
   {
     path: '/person/subscription',
+    exact: true,
     component: Subscription,
   },
   {
     path: '/person/shield',
+    exact: true,
     component: AddCompany,
   },
   {
+    path: '/user',
+    exact: true,
+    component: UserPage,
+  },
+  {
     path: '/user/changePassword',
+    exact: true,
     component: ChangePassword,
   },
   {
     path: '/user/bindPhone',
+    exact: true,
     component: BindMoblePhone,
   },
   {
     path: '/user/bindEmail',
+    exact: true,
     component: BindEmail,
   },
+ 
   {
     path: '/feedback',
+    exact: true,
     component: Opintion,
   },
   {
+    path: '/coupleBack',
+    exact: true,
+    component: CoupleBack,
+  },
+  {
+    path: '/problem/:id',
+    exact: true,
+    component: ProblemPages,
+  },
+  {
     path: '/aboutous',
+    exact: true,
     component: AboutOus,
   },
   {
     path: '/resume/info',
+    exact: true,
     component: ResumeInfo,
   },
   {
     path: '/resume/intention',
+    exact: true,
     component: ResumeIntention,
   },
   {
     path: '/resume/education/:id',
+    exact: true,
     component: ResumeEducationEdit,
   },
   {
     path: '/resume/education',
+    exact: true,
     component: ResumeEducation,
   },
   {
     path: '/resume/experience/:id',
+    exact: true,
     component: ResumeExperienceEdit,
   },
   {
     path: '/resume/experience',
+    exact: true,
     component: ResumeExperience,
   },
   {
     path: '/resume/language/:id',
+    exact: true,
     component: ResumeLanguageEdit,
   },
   {
     path: '/resume/language',
+    exact: true,
     component: ResumeLanguage,
   },
   {
     path: '/resume/skills/:id',
+    exact: true,
     component: ResumeSkillsEdit,
   },
   {
     path: '/resume/skills',
+    exact: true,
     component: ResumeSkills,
   },
   {
     path: '/resume/training/:id',
+    exact: true,
     component: ResumeTrainingEdit,
   },
   {
     path: '/resume/training',
+    exact: true,
     component: ResumeTraining,
   },
   {
     path: '/resume/certificate/:id',
+    exact: true,
     component: ResumeCertificateEdit,
   },
   {
     path: '/resume/certificate',
+    exact: true,
     component: ResumeCertificate,
   },
   {
     path: '/resume/other/:id',
+    exact: true,
     component: ResumeOtherEdit,
   },
   {
     path: '/resume/other',
+    exact: true,
     component: ResumeOther,
   },
   {
     path: '/resume/description',
+    exact: true,
     component: ResumeDescription,
   },
   {
     path: '/resume/micro',
+    exact: true,
     component: MicroResume,
   },
   {
     path: '/resume',
+    exact: true,
     component: Resume,
   },
   {
     path: '/resumepreview',
+    exact: true,
     component: ResumePreview,
   },
   {
     path: '/jobdetails',
+    exact: true,
     component: JobDetails_pan,
   },
   {
     path: '/companyintroduce',
+    exact: true,
     component: CompanyIntroduce,
   },
   {
     path: '/login',
+    exact: true,
     component: LoginPage,
   },
   {
     path: '/register',
+    exact: true,
     component: Register,
   },
   {
     path: '/user/forgetPassword',
+    exact: true,
     component: ForgetPassword,
   },
   {
     path: '/chat/:id',
+    exact: true,
     component: Chat,
   },
   {
     path: '/tip-offs',
+    exact: true,
     component: TipOffs,
   },
   {
     path: '/mobilebind/:status/:mobile/:hidden_mobile',
+    exact: true,
     component: MobileBind,
   },
   {
     path: '/emailbind/:status/:email/:hidden_email',
+    exact: true,
     component: EmailBind,
   },
   {
     path: '/:company_id/:job_id',
+    exact: true,
     component: PositionDetail,
   },
   {
     path: '/:company_id',
+    exact: true,
     component: CompanyDetail,
   },
   {
     path: '/',
+    exact: true,
     component: HomePage,
   },
   
@@ -467,7 +542,7 @@ export default (
   <Switch>
     <Redirect exact from="/" to="/home" />
     {routes.map(({ path, exact, component: Component, ...rest }) => (
-      <Route key={path} path={path} render={(props) => (
+      <Route key={path} path={path} exact={exact} render={(props) => (
         <Component {...props} {...rest} />
       )} />
     ))}

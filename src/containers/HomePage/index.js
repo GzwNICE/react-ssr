@@ -52,7 +52,7 @@ class HomePage extends PureComponent {
       dataSource,
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
-      show: true,
+      show: false,
       showRegWrap: true, //是否显示引导注册
       is_login: '',
     }
@@ -111,13 +111,12 @@ class HomePage extends PureComponent {
 
   /* 关闭广告 */
   onCloseAd = () => {
-    sessionStorage.setItem('ad', 'yes')
-    this.setState({ show: false })
+    sessionStorage.setItem('ad', true)
+    this.setState({ show: true })
   }
 
   /* 下载或者打开app */
   downLoadAd = () => {
-    window.zhuge.track('下载App')
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
@@ -197,17 +196,8 @@ class HomePage extends PureComponent {
       )
     }
 
-    let yes = sessionStorage.getItem('ad') || false
-    if (!yes) {
-      this.setState({
-        show: true,
-      })
-    } else {
-      this.setState({
-        show: false,
-      })
-    }
     this.setState({
+      show: sessionStorage.getItem('ad'),
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
     })
   }
@@ -258,7 +248,7 @@ class HomePage extends PureComponent {
     return (
       <div className={style.HomePageWrap}>
         <Ad.AdWindow
-          show={show}
+          show={!show}
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
