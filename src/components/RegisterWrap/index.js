@@ -16,11 +16,11 @@ export default class RegisterWrap extends Component {
             <div className={style.des}>业内人士首选最佳东方</div>
           </div>
           <div className={style.regist_btn}>立即注册</div>
-          <div
+        </Link>
+        <div
             className={style.close}
             onClick={this.handleCloseRegClick.bind(this)}
           />
-        </Link>
       </div>
     )
   }
