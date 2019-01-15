@@ -4,7 +4,7 @@
 import React, { PureComponent } from 'react'
 import NavBack from '../../components/Back'
 import { connect } from 'react-redux'
-import {answerOpinion} from '../../actions/home'
+import { answerOpinion } from '../../actions/home'
 import { withRouter } from 'react-router-dom'
 import answer from '../../static/answer.png'
 import style from './style.less'
@@ -16,33 +16,38 @@ import style from './style.less'
   }
 })
 class ProblemPage extends PureComponent {
+  replacleHtml = (d = '') => {
+    return d.replace(/style/g, 'styles')
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     const id = this.props.match.params.id
-    this.props.dispatch(answerOpinion({
-      appchannel: "web",
-      id: id,
-    })).then((data)=>{
-      console.log(data);
-    })
+    this.props.dispatch(
+      answerOpinion({
+        appchannel: 'web',
+        id: id,
+      })
+    )
   }
 
   render() {
-    // const data = 'this.props.issuesList.find((i)=>(i.id === this.props.match.params.id))' || ''
-    const data = ''
+    const data = this.props.reply
     return (
       <div className={style.problemPage}>
         <NavBack title="常见问题解答" />
-        <div className={style.answerBox} style={{
-          height: 'calc(100vh - 0.95rem)',
-        }}>
-          <div className={style.question}>
-            {`Q：${data.title}`}
-          </div>
-          <div className={style.answer}>
-            简历是最佳东方账号必须的，暂时不允许删除
-          </div>
-          <img src={answer} alt="" />
+        <div
+          className={style.answerBox}
+          style={{
+            height: 'calc(100vh - 0.95rem)',
+          }}
+        >
+          <div className={style.question}>{`Q：${data.title}`}</div>
+          <div
+            className={style.answer}
+            dangerouslySetInnerHTML={{
+              __html: this.replacleHtml(data.content),
+            }}
+          />
         </div>
         <div
           className={style.commit}
