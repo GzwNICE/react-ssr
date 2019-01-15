@@ -249,11 +249,13 @@ class HomePage extends PureComponent {
     const { show, showRegWrap, is_login } = this.state
     return (
       <div className={style.HomePageWrap}>
+      { !show &&
         <Ad.AdWindow
           show={show}
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
+      }
         <div className={style.homehead}>
           <div className={style.searchBar}>
             <Ad.AdTop downLoadAd={this.downLoadAd} />
