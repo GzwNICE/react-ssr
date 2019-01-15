@@ -17,6 +17,7 @@ class ShowArticle extends PureComponent {
     window.zhuge.track('举报该职位', {
       id: d,
     })
+    
     this.props.history.push('/tip-offs', { d })
   }
   render() {

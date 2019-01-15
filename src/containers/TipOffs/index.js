@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import queryString from 'query-string'
-import { NavBar, Toast } from 'antd-mobile'
+import { NavBar, Toast, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import TipOffsType from '../../components/TipOffsType'
 import TipBoard from '../../components/TipBoard'
@@ -39,7 +39,8 @@ class TipOffs extends PureComponent {
     const { getFieldProps } = this.props.form
     return (
       <div className={style.content}>
-        <NavBar 
+        <NavBar
+          icon={<Icon type="left" />}
           onLeftClick={() => this.props.history.go(-1)}
           rightContent={<div onClick={this.submit}>提交</div>}
         >职位举报</NavBar>

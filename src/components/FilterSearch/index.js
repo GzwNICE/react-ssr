@@ -9,7 +9,7 @@ import Salary from '../../inputs/Salary2'
 import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'
 import angleDownGray from '../../static/Rectangle@3x.png'
-
+// todo 薪资，点击地址和筛选时需要隐藏
 @createForm({
   onValuesChange(props, values) {
     if (JSON.stringify(props.query) !== JSON.stringify(values)) {
@@ -62,7 +62,6 @@ class FilterSearch extends (PureComponent || Component) {
           <Salary {...getFieldProps('salary', {
             initialValue: query.salary ? query.salary : {},
           })}>
-
           </Salary>
         
         </div>

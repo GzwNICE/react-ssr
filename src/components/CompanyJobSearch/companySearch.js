@@ -1,9 +1,9 @@
 import React from 'react'
-import ComplexFormField from '../../../components/Complex/ComplexFormField'
+import ComplexFormField from '../Complex/ComplexFormField'
 import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import { getCompanyTips } from "../../../actions/work_exps";
+import { getCompanyTips } from "../../actions/work_exps";
 
 @connect(state => {
   return {
@@ -24,7 +24,7 @@ class ComplexSelView extends ComplexFormField {
     const { value } = this.state
     if (value.length > 0) {
       this.props.onChange(value)
-      this.changeVisible(false, true)
+      this.changeVisible(false, false)
     } else {
       Toast.info('请输入内容', 2)
     }
@@ -44,7 +44,7 @@ class ComplexSelView extends ComplexFormField {
   handleClick = (index) => {
     const { dataList } = this.props
     this.props.onChange(dataList[index])
-    this.changeVisible(false, true)
+    this.changeVisible(false, false)
     this.setState({
       show: false,
     })

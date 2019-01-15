@@ -1,19 +1,19 @@
 import React from 'react'
-import ComplexFormField from '../../../components/Complex/ComplexFormField'
-import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
+import ComplexFormField from '../Complex/ComplexFormField'
+import { NavBar, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import { getCompanyTips } from "../../../actions/work_exps";
+import { getJcategoryTips } from "../../actions/work_exps";
+import {Toast} from "antd-mobile/lib/index";
 
 @connect(state => {
   return {
-    dataList: state.work_exps.companyTipsList,
+    dataList: state.work_exps.jcategoryTipsList,
   }
 })
 class ComplexSelView extends ComplexFormField {
   constructor(props) {
     super(props)
-    // console.log(this.props)
     this.state = {
       value: '',
       show: false,
@@ -24,7 +24,7 @@ class ComplexSelView extends ComplexFormField {
     const { value } = this.state
     if (value.length > 0) {
       this.props.onChange(value)
-      this.changeVisible(false, true)
+      this.changeVisible(false, false)
     } else {
       Toast.info('请输入内容', 2)
     }
@@ -33,7 +33,7 @@ class ComplexSelView extends ComplexFormField {
     const parmas = {
       keyword: value,
     }
-    this.props.dispatch(getCompanyTips(parmas)).then(() => {
+    this.props.dispatch(getJcategoryTips(parmas)).then(() => {
       this.setState({
         value,
         show: true,
@@ -44,7 +44,7 @@ class ComplexSelView extends ComplexFormField {
   handleClick = (index) => {
     const { dataList } = this.props
     this.props.onChange(dataList[index])
-    this.changeVisible(false, true)
+    this.changeVisible(false, false)
     this.setState({
       show: false,
     })
@@ -67,7 +67,7 @@ class ComplexSelView extends ComplexFormField {
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
-          所在公司
+          所任职位
         </NavBar>
         <div className={style.search}>
           <InputItem

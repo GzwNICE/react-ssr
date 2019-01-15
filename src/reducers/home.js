@@ -99,7 +99,7 @@ export default (state = initState, action = {}) => {
     case QUESTION_ANSWER_PAGE:
       return {
         ...state,
-        reply: action.data,
+        reply: action.data.result,
       }
     default:
       return state

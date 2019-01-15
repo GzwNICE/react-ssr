@@ -1,13 +1,13 @@
 import React from 'react'
-import ComplexFormField from '../../../components/Complex/ComplexFormField'
+import ComplexFormField from '../Complex/ComplexFormField'
 import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import { getCompanyTips } from "../../../actions/work_exps";
+import { get_school_tips as getData } from "../../actions/educationals"
 
 @connect(state => {
   return {
-    dataList: state.work_exps.companyTipsList,
+    dataList: state.educationals.school,
   }
 })
 class ComplexSelView extends ComplexFormField {
@@ -33,7 +33,7 @@ class ComplexSelView extends ComplexFormField {
     const parmas = {
       keyword: value,
     }
-    this.props.dispatch(getCompanyTips(parmas)).then(() => {
+    this.props.dispatch(getData(parmas)).then(() => {
       this.setState({
         value,
         show: true,
@@ -59,6 +59,7 @@ class ComplexSelView extends ComplexFormField {
       item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
       arr.push(item)
     })
+
     return (
       <div className={style.root}>
         <NavBar
@@ -67,13 +68,13 @@ class ComplexSelView extends ComplexFormField {
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
-          所在公司
+          学校名称
         </NavBar>
         <div className={style.search}>
           <InputItem
             clear
             defaultValue={defaultValue}
-            placeholder="请输入职位名称"
+            placeholder="请输入学校名称"
             onChange={this.onChange}
           />
         </div>
