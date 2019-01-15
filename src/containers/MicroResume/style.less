@@ -128,6 +128,7 @@
   display: flex;
   > div:first-of-type {
     flex: 1;
+    // display: inline-block;
     :global {
       .am-list-item {
         padding-right: 0 !important;
@@ -136,7 +137,9 @@
     }
   }
   > div:last-of-type {
-    flex-basis: 130px;
+    flex-basis: 116px;
+    // display: inline-block;
+    // float: right;
     :global {
       .am-list-item {
         padding: 0 !important;
@@ -149,6 +152,19 @@
   }
 }
 
+.rightIcon {
+  
+    width: 15px;
+    height: 15px;
+    margin-left: 8px;
+    background-image: url('../../static/right2@3x.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    visibility: visible;
+    float: right;
+    margin-top: 16px;
+}
 // .tabs {
 //   font-size: 20px;
 //   color: #FF7214;

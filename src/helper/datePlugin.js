@@ -42,7 +42,7 @@ export default function init(
     val = [`${yearNow}年`, `${monthNow}月`, `${dayNow}日`]
   }
   let obj = {
-    data: years.reverse(),
+    data: years,
     val: val,
   }
   return obj

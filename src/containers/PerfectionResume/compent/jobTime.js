@@ -65,7 +65,10 @@ class JobTime extends PureComponent {
     let workTime = []
     workTime[0] = this.state.date ? (this.state.date).valueOf() : ''
     workTime[1] = this.state.endTime
-    this.props.onChange(workTime)
+    const onChange = this.props.onChange
+    if (onChange) {
+      onChange(workTime)
+    }
   }
   handleFormat = val => {
     val = val.map(item => {

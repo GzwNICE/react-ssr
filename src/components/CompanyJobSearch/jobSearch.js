@@ -47,6 +47,7 @@ class ComplexSelView extends ComplexFormField {
     this.changeVisible(false, false)
     this.setState({
       show: false,
+      value: dataList[index],
     })
   }
   mainView() {
