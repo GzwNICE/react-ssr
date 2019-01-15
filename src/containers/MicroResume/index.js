@@ -1,14 +1,6 @@
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import {
-  NavBar,
-  List,
-  InputItem,
-  Toast,
-  Modal,
-  Icon,
-  Tabs,
-} from 'antd-mobile'
+import { NavBar, List, InputItem, Toast, Modal, Icon, Tabs } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
 import Cookies from 'js-cookie'
@@ -44,13 +36,19 @@ class MicroResume extends PureComponent {
     super(props)
     this.state = {
       initialPage: 0,
-      changeVal: false,  // 判断是不是保存按钮触发的接口
+      changeVal: false, // 判断是不是保存按钮触发的接口
     }
   }
   goLogin = () => {
     Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },
-      { text: '登录', onPress: () => this.props.history.replace('/login?redirect=' + this.props.history.location.pathname) },
+      {
+        text: '登录',
+        onPress: () =>
+          this.props.history.replace(
+            '/login?redirect=' + this.props.history.location.pathname
+          ),
+      },
     ])
   }
 
@@ -64,15 +62,18 @@ class MicroResume extends PureComponent {
   // 保存
   changeValue() {
     const { initialPage } = this.state
-    this.setState({
-      changeVal: true,
-    }, () => {
-      if (initialPage === 0) {
-        this.jobSaveChange()
-      } else {
-        this.schoolSaveChange()
+    this.setState(
+      {
+        changeVal: true,
+      },
+      () => {
+        if (initialPage === 0) {
+          this.jobSaveChange()
+        } else {
+          this.schoolSaveChange()
+        }
       }
-    })
+    )
   }
   // 在职简历继续完善
   jobSaveChange = () => {
@@ -97,14 +98,17 @@ class MicroResume extends PureComponent {
       if (values.job_time[0] === '' || values.job_time[1] === '') {
         return Toast.info('最近工作时间请选择完整', 2)
       }
-      if (values.job_time[1] !== 0 && values.job_time[0] >  values.job_time[1]) {
+      if (values.job_time[1] !== 0 && values.job_time[0] > values.job_time[1]) {
         return Toast.info('最近工作时间输入有误', 2)
       }
-      const work_date = values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+      const work_date =
+        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
       const begin_year = moment(values.job_time[0]).format('YYYY')
       const begin_month = moment(values.job_time[0]).format('M')
-      const end_year = values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('YYYY')
-      const end_month = values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('M')
+      const end_year =
+        values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('YYYY')
+      const end_month =
+        values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('M')
       const params = {
         true_name_cn: values.true_name_cn,
         gender: values.gender,
@@ -139,7 +143,7 @@ class MicroResume extends PureComponent {
       if (values.school_cn === undefined) {
         return Toast.info('请填写学校名称', 2)
       }
-      
+
       const birthday = moment(values.birthday).format('YYYY-M')
       const edu_end = moment(values.edu_end).format('YYYY-M')
       const params = {
@@ -156,42 +160,55 @@ class MicroResume extends PureComponent {
   }
 
   // 接口保存
-  handleSave = (values) => {
+  handleSave = values => {
     const { changeVal } = this.state
-    this.props.dispatch(microDone({
-      ...values,
-      person_desired_industry: '1',
-    })).then((res) => {
-      if( res.json && res.json.status) {
-        Toast.info(res.json.msg, 2)
-        window.zhuge.track('微简历保存成功')
-        setTimeout(() => {
-          if (changeVal) {
-            this.props.history.push('/resume?redirect=' + this.props.history.location.pathname)
-          } else {
-            this.props.history.push('/resume/micro/perfect?redirect=' + this.props.history.location.pathname)
-          }
-        }, 999)
-      } else {
-        const  msg = res.errMsg
-        window.zhuge.track('保存失败', {
-          '原因': msg,
-        })
-        window.zhuge.track('微简历页面打开', {
-          '保存失败': msg,
-        })
-        if(msg === '未登陆') {
-          return this.goLogin()
-        }
-        return Toast.info(msg, 2)
-      }
+    this.props.dispatch({
+      type: 'MICRODONWPARAMS',
+      paload: values,
     })
-      .catch((err) => {
+    this.props
+      .dispatch(
+        microDone({
+          ...values,
+          person_desired_industry: '1',
+        })
+      )
+      .then(res => {
+        if (res.json && res.json.status) {
+          Toast.info(res.json.msg, 2)
+          window.zhuge.track('微简历保存成功')
+          setTimeout(() => {
+            if (changeVal) {
+              this.props.history.push(
+                '/resume?redirect=' + this.props.history.location.pathname
+              )
+            } else {
+              this.props.history.push(
+                '/resume/micro/perfect?redirect=' +
+                  this.props.history.location.pathname
+              )
+            }
+          }, 999)
+        } else {
+          const msg = res.errMsg
+          window.zhuge.track('保存失败', {
+            原因: msg,
+          })
+          window.zhuge.track('微简历页面打开', {
+            保存失败: msg,
+          })
+          if (msg === '未登陆') {
+            return this.goLogin()
+          }
+          return Toast.info(msg, 2)
+        }
+      })
+      .catch(err => {
         window.zhuge.track('保存失败', {
-          '原因': err.errMsg,
+          原因: err.errMsg,
         })
         window.zhuge.track('微简历页面打开', {
-          '保存失败': err.errMsg,
+          保存失败: err.errMsg,
         })
         Toast.info(err.errMsg, 2)
       })
@@ -311,10 +328,8 @@ class MicroResume extends PureComponent {
           tabs={tabs}
           initialPage={initialPage}
           onChange={(tab, index) => {
-            console.log('onChange', index, tab)
-            this.setState({initialPage: index})
+            this.setState({ initialPage: index })
           }}
-  
         >
           {this.jobRender()}
           {this.shoolRender()}

@@ -1,8 +1,7 @@
 import { MICRODONW } from '../actions/microresume'
+import { MICRODONWPARAMS } from '../actions/microresume'
 
-const initState = {
-
-}
+const initState = {}
 
 export default (state = initState, action) => {
   switch (action.type) {
@@ -11,7 +10,13 @@ export default (state = initState, action) => {
         ...state,
         ...action.data,
       }
-    default: 
+    case MICRODONWPARAMS:
+    console.log(action)
+      return {
+        ...state,
+        ...action.paload,
+      }
+    default:
       return state
   }
 }
