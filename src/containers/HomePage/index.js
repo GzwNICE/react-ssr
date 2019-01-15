@@ -248,7 +248,7 @@ class HomePage extends PureComponent {
     return (
       <div className={style.HomePageWrap}>
         <Ad.AdWindow
-          show={!show}
+          show={show}
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
