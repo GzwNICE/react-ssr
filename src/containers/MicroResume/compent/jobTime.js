@@ -6,9 +6,49 @@ import { connect } from 'react-redux'
 import initDate from '../../../helper/datePlugin'
 
 const maxDate = new Date()
-const minDate = new Date(maxDate - 99 * 365 * 24 * 60 * 60 * 1000)
+const minDate = new Date(maxDate - 80 * 365 * 24 * 60 * 60 * 1000)
 const YING_JIE_SHENG = '至今'
 
+let timeChange = {
+  start: false,
+  end: false,
+}
+const CustomChildren1 = ({ extra, onClick, children }) => {
+  extra = timeChange.start ? extra : '请选择'
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        backgroundColor: '#fff',
+        height: '50px',
+        lineHeight: '50px',
+        padding: '0 5px 0 20px',
+        color: '#4A4A4A',
+      }}
+    >
+      {children}
+      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+    </div>
+  )
+}
+const CustomChildren2 = ({ extra, onClick, children }) => {
+  extra = timeChange.end ? extra : '请选择'
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        backgroundColor: '#fff',
+        height: '50px',
+        lineHeight: '50px',
+        padding: '0 42px 0 0',
+        color: '#4A4A4A',
+      }}
+    >
+      {children}
+      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+    </div>
+  )
+}
 @connect(state => {
   return {}
 })
@@ -16,11 +56,10 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      date: '',
+      date: new Date(maxDate.getFullYear() - 1, maxDate.getMonth()),
       endTimedata: [],
-      sValue: [],
+      sValue: [YING_JIE_SHENG],
       endTime: '', // 开始时间毫秒
-
     }
   }
   componentDidMount() {
@@ -32,12 +71,12 @@ class JobTime extends PureComponent {
   }
   joinWorkTimeChange = (date) => {
     const startTime = moment(date).format('YYYY-M').split('-')
-    const initData = initDate('MMMM-YY', '', YING_JIE_SHENG, startTime)
+    // const initData = initDate('MMMM-YY', '', YING_JIE_SHENG, startTime)
     this.setState({ 
       date,
-      endTimedata: initData.data,
-      sValue: [],
-      endTime: '',
+      // endTimedata: initData.data,
+      // sValue: [],
+      // endTime: '',
     }, () => {
       this.onChange()
     })
@@ -46,7 +85,7 @@ class JobTime extends PureComponent {
    
     let endTime
     if (date[0] === YING_JIE_SHENG) {
-      endTime = (new Date()).valueOf()
+      endTime = 0
     } else {
       let endTimeArr = date.map((item) => {
         let str = item.substr(0, item.length -1)
@@ -60,6 +99,7 @@ class JobTime extends PureComponent {
     }, () => {
       this.onChange()
     })
+    timeChange.end = true
   }
   onChange = () => {
     let workTime = []
@@ -81,22 +121,24 @@ class JobTime extends PureComponent {
     return val
   }
   render() {
-    const { endTimedata, sValue } = this.state
+    const { endTimedata, sValue, startValue } = this.state
 
     return (
       <div className={style.jobtime}>
         <div>
           <DatePicker
             mode="month"
-            title="参加工作时间"
+            title="最近工作时间"
             extra="请选择"
             value={this.state.date}
             onChange={this.joinWorkTimeChange}
             format={s => moment(s).format('YYYY.MM')}
             minDate={minDate}
             maxDate={maxDate}
+            onOk={() => {timeChange.start = true}}
           >
-            <List.Item>参加工作时间</List.Item>
+          <CustomChildren1>最近工作时间</CustomChildren1>
+      
           </DatePicker>
         </div>
         <div>
@@ -109,7 +151,8 @@ class JobTime extends PureComponent {
             format={this.handleFormat}
             onOk={this.endTimeChange}
           >
-            <List.Item>至</List.Item>
+          <CustomChildren2>至</CustomChildren2>
+           
           </Picker>
         </div>
       </div>

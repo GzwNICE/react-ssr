@@ -250,7 +250,7 @@ const Agreement = Loadable({
 });
 const routes = [
   {
-    path: '/perfectionresume',
+    path: '/resume/micro/perfect',
     exact: true,
     component: PerfectionResume,
   },
