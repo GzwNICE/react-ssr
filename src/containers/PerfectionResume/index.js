@@ -106,6 +106,7 @@ class MicroResume extends PureComponent {
           <List.Item arrow="horizontal">期望月薪</List.Item>
         </Salary>
         <div className={style.boderline} />
+        <List.Item arrow="horizontal" extra="请选择" onClick={() => {}}>期望月薪</List.Item>
       </div>
     )
   }
