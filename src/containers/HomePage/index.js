@@ -6,6 +6,7 @@ import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
 import FamousCompany from './FamousCompany'
+import Cookies from 'js-cookie'
 import HotTrade from './HotTrade'
 import { WhiteSpace } from 'antd-mobile'
 // import JobCard from '../../components/JobCard'
@@ -111,7 +112,8 @@ class HomePage extends PureComponent {
 
   /* 关闭广告 */
   onCloseAd = () => {
-    sessionStorage.setItem('ad', true)
+    // sessionStorage.setItem('ad', true)
+    Cookies.set('ad', true)
     this.setState({ show: true })
   }
 
@@ -197,7 +199,7 @@ class HomePage extends PureComponent {
     }
 
     this.setState({
-      show: sessionStorage.getItem('ad'),
+      show: Cookies.get('ad'),
       is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
     })
   }
@@ -247,11 +249,13 @@ class HomePage extends PureComponent {
     const { show, showRegWrap, is_login } = this.state
     return (
       <div className={style.HomePageWrap}>
+      { !show &&
         <Ad.AdWindow
-          show={!show}
+          show={show}
           onCloseAd={this.onCloseAd}
           downLoadAd={this.downLoadAd}
         />
+      }
         <div className={style.homehead}>
           <div className={style.searchBar}>
             <Ad.AdTop downLoadAd={this.downLoadAd} />

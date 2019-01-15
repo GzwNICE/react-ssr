@@ -41,6 +41,9 @@ class OPintion extends PureComponent {
     type: '',
     files: [],
     feedSuccess: false,
+    errorImage1: '',
+    errorImage2: '',
+    errorImage3: '',
   }
   selItem = type => {
     this.setState({
@@ -49,10 +52,31 @@ class OPintion extends PureComponent {
   }
 
   onChange = (files, type, index) => {
-    console.log(files, type, index)
+    console.log(files.length)
     this.setState({
       files,
     })
+    if(files.length === 1){
+      this.setState({
+        errorImage1: files[0].url,
+        errorImage2: '',
+        errorImage3: '',
+      })
+    }
+    if(files.length === 2){
+      this.setState({
+        errorImage1: files[0].url,
+        errorImage2: files[1].url,
+        errorImage3: '',
+      })
+    }
+    if(files.length === 3){
+      this.setState({
+        errorImage1: files[0].url,
+        errorImage2: files[1].url,
+        errorImage3: files[2].url,
+      })
+    }
   }
 
   showModal = key => e => {
@@ -86,7 +110,7 @@ class OPintion extends PureComponent {
   submitFeedback = () => {
     const content = this.refs.content.value
     const contact = this.refs.contact.value
-    // const _that = this
+    
     if (!this.state.type) return Toast.info('请选择反馈类型', 2)
     if (!content) return Toast.info('请输入反馈意见', 2)
     if (!contact) return Toast.info('请输入联系方式', 2)
@@ -98,6 +122,9 @@ class OPintion extends PureComponent {
           contact,
           questiontype: this.state.type,
           appchannel: 'web',
+          errorImage1: this.state.errorImage1,
+          errorImage2: this.state.errorImage2,
+          errorImage3: this.state.errorImage3,
         })
       )
       .then(() => {
