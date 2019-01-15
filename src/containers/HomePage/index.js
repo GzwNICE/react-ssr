@@ -53,7 +53,7 @@ class HomePage extends PureComponent {
       dataSource,
       page: this.props.homeDate.pager.cur,
       Loaded: 'Loading',
-      show: false,
+      show: true,
       showRegWrap: true, //是否显示引导注册
       is_login: '',
     }
@@ -114,7 +114,7 @@ class HomePage extends PureComponent {
   onCloseAd = () => {
     // sessionStorage.setItem('ad', true)
     Cookies.set('ad', true)
-    this.setState({ show: true })
+    this.setState({ show: false })
   }
 
   /* 下载或者打开app */
