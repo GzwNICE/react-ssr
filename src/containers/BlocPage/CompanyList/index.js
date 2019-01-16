@@ -39,7 +39,7 @@ class CompanyList extends Component {
   onEndReached = () => {
     const c_userid = this.props.match.params.c_userid
     if (this.props.searchEnd) {
-      const page = this.props.searchPager.page + 1 
+      const page = this.props.searchPager.page + 1
       const allPage = this.props.searchPager.allpages
       if (page <= allPage) {
         this.props
@@ -47,9 +47,11 @@ class CompanyList extends Component {
             blocSearch({
               c_userid: c_userid,
               page: page,
-              local: this.props.query.area ?  this.props.query.area : '',
-              c_id: this.props.query.brand ?  this.props.query.brand : '',
-              key_words: this.props.query.keywords ? this.props.query.keywords : '',
+              local: this.props.query.area ? this.props.query.area : '',
+              c_id: this.props.query.brand ? this.props.query.brand : '',
+              key_words: this.props.query.keywords
+                ? this.props.query.keywords
+                : '',
             })
           )
           .then(data => {
@@ -66,7 +68,7 @@ class CompanyList extends Component {
         })
       }
     } else {
-      const page = this.props.pagers.cur + 1 
+      const page = this.props.pagers.cur + 1
       const allPage = this.props.pagers.allPage
       if (page <= allPage) {
         this.props
@@ -99,7 +101,7 @@ class CompanyList extends Component {
 
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
-    const height =
+    const height = 
       document.documentElement.clientHeight -
       ReactDOM.findDOMNode(this.lv).parentNode.parentNode.offsetTop
     this.setState({
@@ -112,24 +114,26 @@ class CompanyList extends Component {
       })
     )
   }
-
+  componentDidUpdate(nextProps){
+    
+  }
   componentWillReceiveProps(nextProps) {
     if (this.props.searchEnd) {
-        if(this.props.searchList !== nextProps.searchList){
+      if (this.props.searchList !== nextProps.searchList) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(
+            nextProps.searchList && nextProps.searchList
+          ),
+        })
+        if (
+          nextProps.searchList.length <= 20 &&
+          nextProps.searchPager.allPage === 1
+        ) {
           this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(
-              nextProps.searchList && nextProps.searchList
-            ),
+            isLoading: false,
           })
-          if (
-            nextProps.searchList.length <= 20 &&
-            nextProps.searchPager.allPage === 1
-          ) {
-            this.setState({
-              isLoading: false,
-            })
-          }
         }
+      }
     } else {
       if (this.props.list !== nextProps.list) {
         this.setState({
@@ -147,12 +151,13 @@ class CompanyList extends Component {
   }
 
   render() {
-    const individuation = this.props.listPhoto.company_file
     const Row = d => {
       return this.props.searchEnd ? (
         <Link
           rel="stylesheet"
-          to={`/${d.c_userid}/${d.job_id}?redirect=${this.props.location.pathname}`}
+          to={`/${d.c_userid}/${d.job_id}?redirect=${
+            this.props.location.pathname
+          }`}
           key={d.job_id}
         >
           <JobList.JobList data={d} />
@@ -185,45 +190,50 @@ class CompanyList extends Component {
     }
     return (
       <div className={style.companyList}>
-        <ListView
-          ref={el => (this.lv = el)}
-          className={style['override-am-list-view-scrollview-content']}
-          dataSource={this.state.dataSource}
-          renderRow={Row}
-          scrollRenderAheadDistance={100}
-          onEndReachedThreshold={200}
-          scrollEventThrottle={100}
-          initialListSize={0}
-          pageSize={2000}
-          onScroll={this.onScroll}
-          style={{
-            height: this.state.height,
-            overflow: 'auto',
-          }}
-          renderHeader={() =>
-            this.props.searchEnd ? null : (
-              <div
-                className={style.individuation}
-                style={{
-                  backgroundImage: `url(${individuation})`,
-                }}
-              />
-            )
-          }
-          onEndReached={this.onEndReached} // 上拉加载
-          renderFooter={() =>
-            this.state.dataSource._cachedRowCount ? (
-              <div style={{ padding: 5, textAlign: 'center' }}>
-                {this.state.isLoading ? 'Loading...' : '没有更多了'}
-              </div>
-            ) : (
-              <div className={style.missing}>
-                <img src={missing} alt="" />
-                <p>暂无职位，可以切换条件试试哦~</p>
-              </div>
-            )
-          }
-        />
+          
+          <ListView
+            ref={el => (this.lv = el)}
+            className={style['override-am-list-view-scrollview-content']}
+            dataSource={this.state.dataSource}
+            renderRow={Row}
+            scrollRenderAheadDistance={100}
+            onEndReachedThreshold={200}
+            scrollEventThrottle={100}
+            initialListSize={0}
+            pageSize={2000}
+            onScroll={this.onScroll}
+            style={{
+              height: this.state.height,
+              overflow: 'auto',
+            }}
+            renderHeader={() =>
+              this.props.searchEnd ? null : (
+                <div
+                  className={style.individuation}
+                  style={{
+                    backgroundImage: `url(${this.props.listPhoto.company_file})`,
+                  }}
+                />
+              )
+            }
+            onEndReached={this.onEndReached} // 上拉加载
+            renderFooter={() =>
+              this.state.dataSource._cachedRowCount ? (
+                <div style={{ padding: 5, textAlign: 'center' }}>
+                  {this.state.isLoading ? 'Loading...' : '没有更多了'}
+                </div>
+              ) : this.props.searchEnd ? (
+                <div className={style.missJob}>
+                  <img src={missing} alt="" />
+                  <p>暂无职位，可以切换条件试试哦~</p>
+                </div>
+              ) : (
+                <div className={style.missing}>
+                  <p>当前条件下暂无公司，可以切换条件试试哦~</p>
+                </div>
+              )
+            }
+          />
       </div>
     )
   }

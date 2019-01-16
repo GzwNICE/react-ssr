@@ -62,8 +62,6 @@ export default class CompanyArea extends Component {
           keywords: this.state.keyWords,
         })
       ) 
-      console.log(this.props)
-    
   }
   /* 记录滚动条的位置 */
   onScroll = e => {

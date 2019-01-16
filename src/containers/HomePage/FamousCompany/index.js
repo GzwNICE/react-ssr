@@ -43,7 +43,7 @@ class FamousCompany extends Component {
                         <div className={style.welfare}>
                           <span>{item.company_welfare1}</span>
                           <span>{item.company_welfare2}</span>
-                          <span>{item.company_welfare2}</span>
+                          <span>{item.company_welfare3}</span>
                         </div>
                       </div>
                     </Link>
