@@ -52,7 +52,7 @@ class CompanyDetail extends PureComponent {
   }
 
   nextPost = (job_id, c_userid) => {
-    window.zhuge.track('职位详情页打开', { 触发来源: '企业招聘职位' })
+    // window.zhuge.track('职位详情页打开', { 触发来源: '企业招聘职位' })
     this.props.history.push(`/${c_userid}/${job_id}`)
     this.props.handleSavePageScroll(this.key)
   }
@@ -60,9 +60,9 @@ class CompanyDetail extends PureComponent {
   onChangeTab = key => {
     let keys = key.title.key
     if (keys === '1') {
-      window.zhuge.track('企业信息')
+      // window.zhuge.track('企业信息')
     } else if (keys === '2') {
-      window.zhuge.track('在招职位')
+      // window.zhuge.track('在招职位')
     }
   }
 

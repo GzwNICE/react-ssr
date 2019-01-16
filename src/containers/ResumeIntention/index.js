@@ -71,7 +71,7 @@ class ResumeIntention extends PureComponent {
         return Toast.info('请输入求职状态', 2)
       }
 
-      window.zhuge.track('我的简历', { '模块': '求职意向' })
+      // window.zhuge.track('我的简历', { '模块': '求职意向' })
 
       this.props.dispatch(intentionEdit({
         PersonDesiredPosition: JSON.stringify(values.desired_positions),

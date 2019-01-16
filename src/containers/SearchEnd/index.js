@@ -205,24 +205,24 @@ class SearchEnd extends PureComponent {
         val += positions_index[item] + ';'
         return null
       })
-      window.zhuge.track('工作筛选项', { 职位: val })
+      // window.zhuge.track('工作筛选项', { 职位: val })
     }
     if (value.area) {
       // 记录地区
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
-      window.zhuge.track('工作筛选项', { 地区: val })
+      // window.zhuge.track('工作筛选项', { 地区: val })
     }
     if (value.salary) {
       // 记录薪资
       const salary_scope_index =
         (option.opts_salary && option.opts_salary.salary_scope_index) || {}
       val = salary_scope_index[value.salary[0]]
-      window.zhuge.track('工作筛选项', { 薪资: val })
+      // window.zhuge.track('工作筛选项', { 薪资: val })
     }
     if (value.more) {
       // 记录更多
-      window.zhuge.track('工作筛选项', { 更多: 'click' })
+      // window.zhuge.track('工作筛选项', { 更多: 'click' })
     }
 
     this.props.dispatch({

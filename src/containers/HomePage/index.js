@@ -64,7 +64,7 @@ class HomePage extends PureComponent {
   }
 
   goPosition = d => {
-    window.zhuge.track('职位详情页打开', { 触发来源: '首页推荐列表' })
+    // window.zhuge.track('职位详情页打开', { 触发来源: '首页推荐列表' })
     this.props.history.push(`/${d.c_userid}/${d.job_id}`)
   }
 
@@ -76,7 +76,7 @@ class HomePage extends PureComponent {
   }
 
   onTouchList = (data, name) => {
-    window.zhuge.track(name)
+    // window.zhuge.track(name)
     let area = this.props.userStatus.code
     this.props.history.push('/job', { ...data })
     let more = {

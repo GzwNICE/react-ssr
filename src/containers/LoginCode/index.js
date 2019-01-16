@@ -10,7 +10,7 @@ import queryString from 'query-string'
 import Alert from '../../components/Alert'
 import F from '../../helper/tool'
 import { createForm } from 'rc-form'
-import {captcha} from '../../actions/auth'
+// import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
@@ -85,9 +85,9 @@ class LoginCode extends PureComponent {
 
   getCode = () => {
     const upperLimit = this.showModal('upperLimit')
-    window.zhuge.track('验证码登录', {
-      '获取验证码': '',
-    })
+    // window.zhuge.track('验证码登录', {
+    //   '获取验证码': '',
+    // })
     this.props.form.validateFields((err, value) => {
       this.setState({
         number: value.number,
@@ -124,11 +124,7 @@ class LoginCode extends PureComponent {
               if(data.flag === 5117 && errMs){
                 upperLimit()
               }else {
-                if (errMs) {
-                  Toast.info(errMs, 2)
-                } else {
-                  Toast.info('验证码错误', 2)
-                }
+                Toast.info(errMs, 2)
               }
             }
           })
@@ -166,12 +162,12 @@ class LoginCode extends PureComponent {
           console.log(data)
           if(data) {
             Toast.info('登录成功', 2)
-            window.zhuge.track('验证码登录', {
-              '登录成功': '',
-              '用户ID': data.user_id,
-              '手机号': data.phone,
-              '邮箱': data.email,
-            })
+            // window.zhuge.track('验证码登录', {
+            //   '登录成功': '',
+            //   '用户ID': data.user_id,
+            //   '手机号': data.phone,
+            //   '邮箱': data.email,
+            // })
             setTimeout(() => {
               if(parsed.redirect) {
                 this.props.history.replace(_url)
@@ -182,9 +178,9 @@ class LoginCode extends PureComponent {
           }
         })
           .catch(err => {
-            window.zhuge.track('验证码登录', {
-              '登录失败': err.errMsg,
-            })
+            // window.zhuge.track('验证码登录', {
+            //   '登录失败': err.errMsg,
+            // })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
               this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
@@ -220,7 +216,7 @@ class LoginCode extends PureComponent {
   goRegister = (url, key) => {
     const search = window.location.search
     if(key) {
-      window.zhuge.track('手机号注册')
+      // window.zhuge.track('手机号注册')
     }
     if(search) {
       this.props.history.replace(`${url}` + search, {key: '登录弹窗'})

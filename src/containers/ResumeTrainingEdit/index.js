@@ -43,7 +43,7 @@ class ResumeTrainingEdit extends PureComponent {
       if(values.course_cn === undefined || values.course_cn === '') {
         return Toast.info('请输入培训课程', 2)
       }
-      window.zhuge.track('我的简历', { '模块': '培训经历' })
+      // window.zhuge.track('我的简历', { '模块': '培训经历' })
 
       this.props.dispatch(trainingEdit({
         ...values,

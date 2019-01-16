@@ -19,9 +19,9 @@ class Carousels extends (PureComponent || Component) {
   }
   goPosition = (val, key) => {
     const banner = key + 1
-    window.zhuge.track('banner', {
-      "帧": banner,
-    })
+    // window.zhuge.track('banner', {
+    //   "帧": banner,
+    // })
     if (val.action === '2') {
       return  this.props.history.push(`/${val.c_userid}`)
     }

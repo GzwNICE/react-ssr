@@ -69,7 +69,7 @@ class ResumeEducationEdit extends PureComponent {
         return Toast.info('开始时间需小于结束时间', 2)
       }
 
-      window.zhuge.track('我的简历', { '模块': '教育经历' })
+      // window.zhuge.track('我的简历', { '模块': '教育经历' })
       // overseas 1 是无海外经历，2是有海外经历
       this.props.dispatch(educationalsEdit({
         ...values,
