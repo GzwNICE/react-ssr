@@ -65,6 +65,7 @@ class SearchEnd extends PureComponent {
       searchCondition: {},
       showSelectP: true, // 显示已选项
       showRegWrap: true, //是否显示引导注册
+      initLoading: true, // 页面初始化时loading
     }
 
   
@@ -109,7 +110,11 @@ class SearchEnd extends PureComponent {
         defaultValue: data.keyword || keyword,
       })
     }
-    this.props.dispatch(getSearchListInit(allQuery))
+    this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+      this.setState({
+        initLoading: false,
+      })
+    })
 
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
@@ -205,24 +210,24 @@ class SearchEnd extends PureComponent {
         val += positions_index[item] + ';'
         return null
       })
-      // window.zhuge.track('工作筛选项', { 职位: val })
+      window.zhuge.track('工作筛选项', { 职位: val })
     }
     if (value.area) {
       // 记录地区
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
-      // window.zhuge.track('工作筛选项', { 地区: val })
+      window.zhuge.track('工作筛选项', { 地区: val })
     }
     if (value.salary) {
       // 记录薪资
       const salary_scope_index =
         (option.opts_salary && option.opts_salary.salary_scope_index) || {}
       val = salary_scope_index[value.salary[0]]
-      // window.zhuge.track('工作筛选项', { 薪资: val })
+      window.zhuge.track('工作筛选项', { 薪资: val })
     }
     if (value.more) {
       // 记录更多
-      // window.zhuge.track('工作筛选项', { 更多: 'click' })
+      window.zhuge.track('工作筛选项', { 更多: 'click' })
     }
 
     this.props.dispatch({
@@ -308,18 +313,24 @@ class SearchEnd extends PureComponent {
       ? `-${this.props.salaryString}`
       : null
     const more = JSON.stringify(query.more) === '{}' ? null : '等'
-    return (
-      <div className={style.vacant}>
-        <img src={vacantIcon} />
-        <p>
-          【{areaVal}
-          {defaultValue}
-          {salary}
-          {more}】
-        </p>
-        <p>暂无职位，可以切换条件试试哦~</p>
-      </div>
-    )
+    const { initLoading } = this.state
+    if (initLoading) {
+      return null
+    } else {
+      return (
+        <div className={style.vacant}>
+          <img src={vacantIcon} />
+          <p>
+            【{areaVal}
+            {defaultValue}
+            {salary}
+            {more}】
+          </p>
+          <p>暂无职位，可以切换条件试试哦~</p>
+        </div>
+      )
+    }
+   
   }
   selectProjectRender = query => {
     const areas_index = option.areas_index || {}
