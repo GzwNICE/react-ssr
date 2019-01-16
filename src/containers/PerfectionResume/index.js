@@ -69,7 +69,7 @@ class MicroResume extends PureComponent {
         .then(res => {
           if (res.json && res.json.status) {
             Toast.info(res.json.msg, 2)
-            window.zhuge.track('微简历保存成功')
+            // window.zhuge.track('微简历保存成功')
             setTimeout(() => {
               const { redirect, sss } = queryString.parse(
                 window.location.search
@@ -86,12 +86,12 @@ class MicroResume extends PureComponent {
             }, 999)
           } else {
             const msg = res.errMsg
-            window.zhuge.track('保存失败', {
-              原因: msg,
-            })
-            window.zhuge.track('微简历页面打开', {
-              保存失败: err.errMsg,
-            })
+            // window.zhuge.track('保存失败', {
+            //   原因: msg,
+            // })
+            // window.zhuge.track('微简历页面打开', {
+            //   保存失败: err.errMsg,
+            // })
             if (msg === '未登陆') {
               return this.goLogin()
             }
@@ -99,12 +99,12 @@ class MicroResume extends PureComponent {
           }
         })
         .catch(err => {
-          window.zhuge.track('保存失败', {
-            原因: err.errMsg,
-          })
-          window.zhuge.track('微简历页面打开', {
-            保存失败: err.errMsg,
-          })
+          // window.zhuge.track('保存失败', {
+          //   原因: err.errMsg,
+          // })
+          // window.zhuge.track('微简历页面打开', {
+          //   保存失败: err.errMsg,
+          // })
           Toast.info(err.errMsg, 2)
         })
     })

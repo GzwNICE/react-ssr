@@ -10,7 +10,7 @@ export const SAVE_USER_CITY_CODE = 'SAVE_USER_CITY_CODE' // 储存用户选择�
 
 const URLHOT = ':ve.mobile.interface/user/status'
 const LOGGIN = ':ve.mobile.interface/user/photo'
-const RESUME = ':ve.mobile.interface/resume/set_base'
+const RESUME = ':ve.mobile.interface/resume/refresh'
 
 export const getUserStatus = singleApi({
   url: URLHOT,
@@ -39,7 +39,7 @@ export const userRefResume = singleApi({
   action: (args, json) => {
     return {
       type: USER_REFERSH_RESUME,
-      data: json.data,
+      ...json,
     }
   },
 })

@@ -42,9 +42,15 @@ class UserPage extends PureComponent {
         })
       )
       .then(data => {
-        if (data) {
-          window.zhuge.track('刷新简历')
-          Toast.info('刷新成功', 2)
+        if (data.status === 1) {
+          // window.zhuge.track('刷新简历')
+          Toast.info('简历已刷新', 2)
+          _that.setState({
+            refresh: false,
+          })
+        }else {
+          // window.zhuge.track('刷新简历')
+          Toast.info(data.errMsg, 2)
           _that.setState({
             refresh: false,
           })
@@ -93,7 +99,7 @@ class UserPage extends PureComponent {
   }
 
   goNextpage = (url, key) => {
-    window.zhuge.track(key)
+    // window.zhuge.track(key)
     if (this.props.user.user_id && Cookies.get('ticket')) {
       this.props.history.push(url)
     } else {

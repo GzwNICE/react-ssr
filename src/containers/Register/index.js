@@ -14,6 +14,7 @@ import Loginstyle from '../Login/style.less'
 import { mobile, register } from '../../actions/auth'
 import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
+import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 
 @connect(state => ({
@@ -26,9 +27,10 @@ class Register extends PureComponent {
     password: true,
     tipFont: '获取验证码',
     disableCode: true,
-    index: 60,
+    index: 5,
     needVerify: this.props.bindExistAccount.needVerify,
     phoneCounty: '0086',
+    upperLimit: false,
   }
 
   changePasswordType = () => {
@@ -59,20 +61,34 @@ class Register extends PureComponent {
 
   Clear = () => {
     this.setState({
-      index: 60,
+      index: 5,
       disableCode: true,
       tipFont: '获取验证码',
     })
     clearInterval(this.timer)
   }
 
+  showModal = key => e => {
+    if (e) e.preventDefault() // 修复 Android 上点击穿透
+    this.setState({
+      [key]: true,
+    })
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false,
+    })
+  }
+
   getCode = () => {
     // 获取验证码
+    const upperLimit = this.showModal('upperLimit')
     this.props.form.validateFields((err, value) => {
       if (err) return
       if (!F.changePhoneNumber(value.number))
         return Toast.info('请输入手机号', 2)
-      window.zhuge.track('获取验证码')
+      // window.zhuge.track('获取验证码')
 
       let send = res => {
         if (this.state.disableCode) {
@@ -100,20 +116,20 @@ class Register extends PureComponent {
               }, 999)
             } else if (data.flag === 5012) {
               Toast.info('号码已注册', 2)
-              window.zhuge.track('注册失败', {
-                手机号已注册: '',
-              })
+              // window.zhuge.track('注册失败', {
+              //   手机号已注册: '',
+              // })
             } else {
-              window.zhuge.track('注册失败', {
-                验证码错误: '',
-              })
               const flag = data.flag
               const errMs = errCode[flag]
-              if (errMs) {
-                Toast.info(errMs, 2)
+              if (data.flag === 5117 && errMs) {
+                upperLimit()
               } else {
-                Toast.info('验证码错误', 2)
+                Toast.info(errMs, 2)
               }
+              // window.zhuge.track('注册失败', {
+              //   验证码错误: '',
+              // })
             }
           })
         }
@@ -153,11 +169,11 @@ class Register extends PureComponent {
           .then(data => {
             if (data.status) {
               Toast.info('注册成功', 2)
-              window.zhuge.track('注册成功', {
-                用户ID: data.user_id,
-                手机号: data.phone,
-                邮箱: data.email,
-              })
+              // window.zhuge.track('注册成功', {
+              //   用户ID: data.user_id,
+              //   手机号: data.phone,
+              //   邮箱: data.email,
+              // })
               setTimeout(() => {
                 this.props.history.replace(
                   `/resume/micro${this.props.history.location.search}`
@@ -166,9 +182,9 @@ class Register extends PureComponent {
             }
           })
           .catch(err => {
-            window.zhuge.track('注册失败', {
-              服务器返回原因: err.errMsg,
-            })
+            // window.zhuge.track('注册失败', {
+            //   服务器返回原因: err.errMsg,
+            // })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
               console.log(payload)
@@ -201,28 +217,28 @@ class Register extends PureComponent {
   }
 
   goBack = () => {
-    const {redirect} = queryString.parse(window.location.search)
-    if(redirect){
+    const { redirect } = queryString.parse(window.location.search)
+    if (redirect) {
       this.props.history.push(redirect)
-    }else {
+    } else {
       this.props.history.push('/')
     }
   }
 
   componentDidMount() {
-    const { key } = this.props.location.state || {}
-    const { sss } = queryString.parse(window.location.search)
-    if (sss) {
-      window.zhuge.track('注册页面打开', {
-        触发来源: '首页浮窗',
-      })
-    } else {
-      window.zhuge.track('注册页面打开', {
-        触发来源: key || '其他来源',
-      })
-    }
+    // const { key } = this.props.location.state || {}
+    // const { sss } = queryString.parse(window.location.search)
+    // if (sss) {
+    //   window.zhuge.track('注册页面打开', {
+    //     触发来源: '首页浮窗',
+    //   })
+    // } else {
+    //   window.zhuge.track('注册页面打开', {
+    //     触发来源: key || '其他来源',
+    //   })
+    // }
     const login = sessionStorage.getItem('is_login')
-    if(login){
+    if (login) {
       this.props.history.push('/user')
     }
   }
@@ -248,7 +264,7 @@ class Register extends PureComponent {
               placeholder="请输入常用手机号"
               maxLength="11"
             >
-            <County setSet={this.setSst.bind(this)}/>
+              <County setSet={this.setSst.bind(this)} />
             </InputItem>
           </div>
 
@@ -288,13 +304,25 @@ class Register extends PureComponent {
         </div>
         <div className={style.agreement}>
           注册代表你已同意
-          <Link
-            rel="stylesheet"
-            to={`/agreement`}
-          >
+          <Link rel="stylesheet" to={`/agreement`}>
             《最佳东方用户协议》
           </Link>
         </div>
+        <Alert
+          title="验证码上限提醒"
+          height={140}
+          closable={0}
+          visible={this.state.upperLimit}
+          onClose={this.onClose('upperLimit')}
+          message={`当前手机号请求验证码次数过多，请稍后再试`}
+          actions={[
+            {
+              text: '我知道了',
+              onPress: this.onClose('upperLimit'),
+              type: 'know',
+            },
+          ]}
+        />
       </div>
     )
   }

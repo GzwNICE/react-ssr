@@ -48,7 +48,7 @@ class Login extends PureComponent {
   goRegister = (url, key) => {
     const search = window.location.search
     if (key) {
-      window.zhuge.track('手机号注册')
+      // window.zhuge.track('手机号注册')
     }
     if (search) {
       this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
@@ -75,7 +75,7 @@ class Login extends PureComponent {
   }
 
   handleLogin = () => {
-    window.zhuge.track('登录')
+    // window.zhuge.track('登录')
     this.props.form.validateFields((err, value) => {
       if (err) return
       const parsed = queryString.parse(window.location.search)
@@ -113,12 +113,12 @@ class Login extends PureComponent {
           .then(data => {
             if (data) {
               Toast.info('登录成功', 2)
-              window.zhuge.track('登录页面填写', {
-                登录成功: '',
-                用户ID: data.user_id,
-                手机号: data.phone,
-                邮箱: data.email,
-              })
+              // window.zhuge.track('登录页面填写', {
+              //   登录成功: '',
+              //   用户ID: data.user_id,
+              //   手机号: data.phone,
+              //   邮箱: data.email,
+              // })
               window.zhuge.identify(data.user_id)
 
               setTimeout(() => {
@@ -136,9 +136,9 @@ class Login extends PureComponent {
             }
           })
           .catch(err => {
-            window.zhuge.track('登录页面填写', {
-              登录失败: err.errMsg,
-            })
+            // window.zhuge.track('登录页面填写', {
+            //   登录失败: err.errMsg,
+            // })
             Toast.info(err.errMsg, 2)
           })
       }

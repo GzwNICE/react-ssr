@@ -46,7 +46,7 @@ class PositionBar extends PureComponent {
         )
         .then(data => {
           Toast.success('取消收藏', 2)
-          window.zhuge.track('取消收藏')
+          // window.zhuge.track('取消收藏')
         })
     } else {
       // 去收藏
@@ -63,7 +63,7 @@ class PositionBar extends PureComponent {
               return this.goLogin('收藏')
             }
           } else {
-            window.zhuge.track('收藏职位')
+            // window.zhuge.track('收藏职位')
             return Toast.success('收藏成功', 2)
           }
         })

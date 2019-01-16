@@ -42,7 +42,7 @@ export default class CompanyArea extends Component {
 
   /* 下载或者打开app */
   downLoadAd = () => {
-    window.zhuge.track('下载App')
+    // window.zhuge.track('下载App')
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 

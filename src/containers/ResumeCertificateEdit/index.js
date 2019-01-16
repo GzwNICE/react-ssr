@@ -35,7 +35,7 @@ class ResumeSkillsEdit extends PureComponent {
       if(values.certificate_cn === undefined || values.certificate_cn === '') {
         return Toast.info('请输入证书名称', 2)
       }
-      window.zhuge.track('我的简历', { '模块': '证书' })
+      // window.zhuge.track('我的简历', { '模块': '证书' })
 
       this.props.dispatch(certificateEdit({
         ...values,
