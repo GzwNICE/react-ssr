@@ -112,7 +112,7 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请选择您的现居地', 2)
       }
 
-      window.zhuge.track('我的简历', { '模块': '基本信息' })
+      // window.zhuge.track('我的简历', { '模块': '基本信息' })
       const parmas = {
         ...values,
         appchannel: 'web',

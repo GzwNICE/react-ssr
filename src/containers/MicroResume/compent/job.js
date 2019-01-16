@@ -1,12 +1,6 @@
 import React, { PureComponent } from 'react'
 // import style from '../style.less'
-import {
-  List,
-  DatePicker,
-  InputItem,
-  Toast,
-  Modal,
-} from 'antd-mobile'
+import { List, DatePicker, InputItem, Toast, Modal } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
 
@@ -16,8 +10,8 @@ import { connect } from 'react-redux'
 import Company from '../../../components/CompanyJobSearch/companySearch'
 import Job from '../../../components/CompanyJobSearch/jobSearch'
 
-const maxDate = new Date();
-const minDate = new Date(maxDate - 99*365*24*60*60*1000);
+const maxDate = new Date()
+const minDate = new Date(maxDate - 99 * 365 * 24 * 60 * 60 * 1000)
 @connect(state => {
   return {
     auth: state.auth,
@@ -50,21 +44,17 @@ class JobFrom extends PureComponent {
           title="参加工作时间"
           extra="请选择"
           format={s => moment(s).format('YYYY.MM')}
-            minDate={minDate}
-            maxDate={maxDate}
+          minDate={minDate}
+          maxDate={maxDate}
         >
           <List.Item arrow="horizontal">参加工作时间</List.Item>
         </DatePicker>
 
-        <Company
-          {...getFieldProps('company_name_cn', {})}
-        >
+        <Company {...getFieldProps('company_name_cn', {})}>
           <List.Item arrow="horizontal">最近所在公司</List.Item>
         </Company>
 
-        <Job
-          {...getFieldProps('position_cn', {})}
-        >
+        <Job {...getFieldProps('position_cn', {})}>
           <List.Item arrow="horizontal">最佳所任职位</List.Item>
         </Job>
       </div>

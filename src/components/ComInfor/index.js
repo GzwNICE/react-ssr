@@ -15,8 +15,8 @@ class ComInfor extends PureComponent {
         company_id: companyId,
       })).then((data) => {
         Toast.success('取消关注', 2)
-        window.zhuge.track('取消关注')
-        window.zhuge.track('取消关注企业')
+        // window.zhuge.track('取消关注')
+        // window.zhuge.track('取消关注企业')
       })
     }else {
       this.props.dispatch(companyCollect({
@@ -29,8 +29,8 @@ class ComInfor extends PureComponent {
           }
           return Toast.info(msg, 2)
         }
-        window.zhuge.track('关注')
-        window.zhuge.track('关注企业')
+        // window.zhuge.track('关注')
+        // window.zhuge.track('关注企业')
         Toast.success('关注成功', 2)
       })
     }

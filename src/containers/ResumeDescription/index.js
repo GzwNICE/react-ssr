@@ -34,7 +34,7 @@ class ResumeDescription extends PureComponent {
       if(values.content_cn.length === 0) {
         return Toast.info('内容不能为空', 2)
       }
-      window.zhuge.track('我的简历', { '模块': '自我描述' })
+      // window.zhuge.track('我的简历', { '模块': '自我描述' })
       this.props
         .dispatch(
           otherExpsEdit({

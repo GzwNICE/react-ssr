@@ -59,7 +59,16 @@ class HotTrade extends Component {
           ? imgData.list.map((item, index) => {
               return (
                 <div className={style.tradeModule} key={index}>
-                  <h1 className={style.subtitle}>{item.keyArray.industry}</h1>
+                  <h1 className={style.subtitle}>
+                    <Link
+                      rel="stylesheet"
+                      to={`/search/${item.keyArray.industry}?keyword=${
+                        item.keyArray.industry
+                      }`}
+                    >
+                      {item.keyArray.industry}
+                    </Link>
+                  </h1>
                   <div className={style.tradeLogo}>
                     <Flex>
                       {item.logoArray

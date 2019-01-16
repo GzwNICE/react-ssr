@@ -4,14 +4,24 @@
   background-color: #ffffff;
   font-family: PingFangSC-Regular;
   :global {
-    #m-tabs-0-0 {
-      justify-content: flex-end;
-      padding-right: 30px;
+    .am-tabs-default-bar-content {
+      > div:first-of-type {
+        justify-content: flex-end;
+        padding-right: 30px;
+      }
+      > div:nth-of-type(2) {
+        justify-content: flex-start;
+        padding-left: 30px;
+      }
     }
-    #m-tabs-0-1 {
-      justify-content: flex-start;
-      padding-left: 30px;
-    }
+    // #m-tabs-0-0 {
+    //   justify-content: flex-end;
+    //   padding-right: 30px;
+    // }
+    // #m-tabs-0-1 {
+    //   justify-content: flex-start;
+    //   padding-left: 30px;
+    // }
     .am-tabs-default-bar-tab {
       font-size: 18px;
       color: #9B9B9B;

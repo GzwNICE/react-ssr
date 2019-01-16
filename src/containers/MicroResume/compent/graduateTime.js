@@ -5,7 +5,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const defaultDate = new Date()
-const maxDate = new Date(defaultDate.getFullYear(), 5)
+const maxDate = new Date(defaultDate.getFullYear() + 7, 11)
 const minDate = new Date(defaultDate - 80 * 365 * 24 * 60 * 60 * 1000)
 
 let timeChange = false
@@ -36,10 +36,12 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value: maxDate,
+      value: new Date(defaultDate.getFullYear(), 5),
     }
   }
-  componentDidMount() {}
+  componentDidMount() {
+    timeChange = false
+  }
   onChange = value => {
     this.setState({
       value,

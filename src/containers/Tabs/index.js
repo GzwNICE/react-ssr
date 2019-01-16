@@ -29,10 +29,10 @@ class Tabs extends PureComponent {
   }
 
   TabBarSelect = (name, key) => {
-    window.zhuge.track(key)
-    if (key === '我的') {
-      window.zhuge.track('我的页面打开')
-    }
+    // window.zhuge.track(key)
+    // if (key === '我的') {
+    //   window.zhuge.track('我的页面打开')
+    // }
     if(name === 'massage' || name === 'user') {
       const ticket = Cookies.get('ticket')
       if(!ticket) {

@@ -36,7 +36,7 @@ class ResumeSkillsEdit extends PureComponent {
       if(values.ability.length === 0) {
         return Toast.info('请选择掌握程度', 2)
       }
-      window.zhuge.track('我的简历', { '模块': '技能和特长' })
+      // window.zhuge.track('我的简历', { '模块': '技能和特长' })
 
       this.props.dispatch(skillsEdit({
         ...values,

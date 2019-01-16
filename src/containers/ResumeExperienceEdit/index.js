@@ -136,7 +136,7 @@ class ResumeExperienceEdit extends PureComponent {
         return Toast.info('请输入税前薪资', 2)
       }
 
-      window.zhuge.track('我的简历', { '模块': '工作经历' })
+      // window.zhuge.track('我的简历', { '模块': '工作经历' })
 
 
       let beginTime = values.begin

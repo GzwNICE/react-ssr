@@ -6,8 +6,8 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import style from './style.less'
-import Rectangle from '../../static/Rectangle@3x.png'
-import logopng from '../../static/logo@320x.png'
+// import Rectangle from '../../static/Rectangle@3x.png'
+// import logopng from '../../static/logo@320x.png'
 import passwordno from '../../static/paswordno@3x.png'
 import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
@@ -48,7 +48,7 @@ class Login extends PureComponent {
   goRegister = (url, key) => {
     const search = window.location.search
     if (key) {
-      window.zhuge.track('手机号注册')
+      // window.zhuge.track('手机号注册')
     }
     if (search) {
       this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
@@ -75,7 +75,7 @@ class Login extends PureComponent {
   }
 
   handleLogin = () => {
-    window.zhuge.track('登录')
+    // window.zhuge.track('登录')
     this.props.form.validateFields((err, value) => {
       if (err) return
       const parsed = queryString.parse(window.location.search)
@@ -113,32 +113,33 @@ class Login extends PureComponent {
           .then(data => {
             if (data) {
               Toast.info('登录成功', 2)
-              window.zhuge.track('登录页面填写', {
-                登录成功: '',
-                用户ID: data.user_id,
-                手机号: data.phone,
-                邮箱: data.email,
-              })
+              // window.zhuge.track('登录页面填写', {
+              //   登录成功: '',
+              //   用户ID: data.user_id,
+              //   手机号: data.phone,
+              //   邮箱: data.email,
+              // })
               window.zhuge.identify(data.user_id)
 
-              setTimeout(() => {
-                if (parsed.redirect) {
-                  if (_url.indexOf('service') > -1) {
-                    window.location.replace(_url)
+              this.props.dispatch(loggingStatus()).then(() => {
+                setTimeout(() => {
+                  if (parsed.redirect) {
+                    if (_url.indexOf('service') > -1) {
+                      window.location.replace(_url)
+                    } else {
+                      this.props.history.replace(_url)
+                    }
                   } else {
-                    this.props.history.replace(_url)
+                    this.props.history.push('/user')
                   }
-                } else {
-                  this.props.history.push('/user')
-                }
-              }, 1200)
-              this.props.dispatch(loggingStatus())
+                }, 999)
+              })
             }
           })
           .catch(err => {
-            window.zhuge.track('登录页面填写', {
-              登录失败: err.errMsg,
-            })
+            // window.zhuge.track('登录页面填写', {
+            //   登录失败: err.errMsg,
+            // })
             Toast.info(err.errMsg, 2)
           })
       }

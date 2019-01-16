@@ -33,16 +33,16 @@ class SearchPage extends PureComponent {
   }
 
   onChangeCity = (value) => {
-    const Area = option.areas_index
+    // const Area = option.areas_index
     const code = value.areas
 
     if(value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
 
-      let val = Area[code]
-      window.zhuge.track("搜索", {
-        "城市": val,
-      })
+      // let val = Area[code]
+      // window.zhuge.track("搜索", {
+      //   "城市": val,
+      // })
     }
   }
 
@@ -91,9 +91,9 @@ class SearchPage extends PureComponent {
 
   touchSearchItem = (val) => { // 点击筛选结果
 
-    window.zhuge.track("搜索", {
-      "关键字": val.keyword,
-    })
+    // window.zhuge.track("搜索", {
+    //   "关键字": val.keyword,
+    // })
 
     const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
     searchHistory.unshift(val.keyword)
