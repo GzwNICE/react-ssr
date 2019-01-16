@@ -117,11 +117,11 @@ export default (req, res, next) => {
       }
 
 
-      const jobUrl = pathToRegexp('/:company_id/:job_id(.*)')
-      const companyUrl2 = pathToRegexp('/:company_id')
-      const companyUrl = pathToRegexp('/:company_id\\?(.*)')
+      const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
+      const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
+      const companyUrl = pathToRegexp('/:company_id(\\d+)\\?(.*)')
       const homePage = pathToRegexp('/home')
-      const blocPage = pathToRegexp('/bloc/')
+      const blocPage = pathToRegexp('/bloc/:c_userid(\\d+)*')
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
