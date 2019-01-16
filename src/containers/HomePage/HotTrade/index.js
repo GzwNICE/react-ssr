@@ -9,6 +9,8 @@ import style from '../style.less'
 
 @connect(state => ({
   tradeDtata: state.home.tradeDtata,
+  userStatus: state.userStatus,
+  supers: state.supers,
 }))
 class HotTrade extends Component {
   constructor(props) {
@@ -18,8 +20,34 @@ class HotTrade extends Component {
 
   componentDidMount() {
     const { tradeDtata } = this.props
-    if(tradeDtata.length === 0){
-      this.props.dispatch(hotTrade({}))
+    if (tradeDtata.length === 0) {
+      const { userStatus, supers } = this.props
+      const location =
+        userStatus.code && userStatus.code[0]
+          ? userStatus.code
+          : supers.location.address.code
+      this.props.dispatch(
+        hotTrade({
+          location: location,
+        })
+      )
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.userStatus.code &&
+      nextProps.userStatus.code &&
+      nextProps.userStatus.code[0] !== this.props.userStatus.code[0]
+    ) {
+      this.props.dispatch(
+        hotTrade({
+          location:
+            this.props.userStatus.code && this.props.userStatus.code[0]
+              ? this.props.userStatus.code
+              : this.props.supers.location.address.code,
+        })
+      )
     }
   }
 
