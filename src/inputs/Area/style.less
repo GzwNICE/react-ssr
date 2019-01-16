@@ -99,34 +99,47 @@
     flex: 73;
     font-size: 13px;
     text-align: center;
-    > li {
-      padding: 26px 15px 5px 15px;
-
-    }
+    padding-left: 8px;
     .mycity {
       display: flex;
       justify-content: space-between;
+      padding: 0 16px 0 8px;
       > span:first-of-type {
         font-size: 15px;
         color: #777777;
       }
       > span:last-of-type {
+        width: 70px;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 2px;
+        background: #F8F8F8;
         font-size: 13px;
         color: #4A4A4A;
+        overflow: hidden;
         display: inline-block;
-        padding: 3px 20px;
-        background: #F8F8F8;
-        border-radius: 2px;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .content {
+      > li {
+        float: left;
       }
     }
     .citymode {
+      width: 70px;
+      height: 24px;
+      line-height: 24px;
+      border-radius: 2px;
+      background: #F8F8F8;
       font-size: 13px;
       color: #4A4A4A;
+      overflow: hidden;
       display: inline-block;
-      padding: 3px 20px;
-      background: #F8F8F8;
-      border-radius: 2px;
-      margin: 36px 12px 0 12px;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      margin: 30px 8px 0 8px;
       //text-align: center;
       //> span {
       //  display: inline-block;

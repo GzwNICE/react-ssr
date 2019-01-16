@@ -16,6 +16,7 @@ import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
 import Alert from '../../components/Alert'
 import County from '../../inputs/County'
+import { loggingStatus } from '../../actions/userStatus'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -174,11 +175,13 @@ class Register extends PureComponent {
               //   手机号: data.phone,
               //   邮箱: data.email,
               // })
-              setTimeout(() => {
-                this.props.history.replace(
-                  `/resume/micro${this.props.history.location.search}`
-                )
-              }, 1200)
+              this.props.dispatch(loggingStatus()).then(() => {
+                setTimeout(() => {
+                  this.props.history.replace(
+                    `/resume/micro${this.props.history.location.search}`
+                  )
+                }, 999)
+              })
             }
           })
           .catch(err => {

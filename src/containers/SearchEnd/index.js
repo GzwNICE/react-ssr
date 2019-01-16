@@ -67,8 +67,11 @@ class SearchEnd extends PureComponent {
       showRegWrap: true, //是否显示引导注册
     }
 
+  
+  }
+  componentDidMount() {
     const {
-      keyword,
+      // keyword,
       position,
       area,
       salary,
@@ -83,7 +86,6 @@ class SearchEnd extends PureComponent {
       more: {},
     }
 
-    if (keyword) this.getQuery.keyword = keyword
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -93,8 +95,43 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
-  }
 
+
+    /* 初始化this.scrollTop */
+    this.scrollTop = this.props.srearchData.scrollTop
+
+    const data = this.props.location.state || {}
+    const { keyword } = queryString.parse(window.location.search)
+    if (keyword) this.getQuery.keyword = keyword
+    const allQuery = this.handleSearchQuery()
+    if (data.keyword || keyword) {
+      this.setState({
+        defaultValue: data.keyword || keyword,
+      })
+    }
+    this.props.dispatch(getSearchListInit(allQuery))
+
+    delete this.getQuery.keyword
+    delete this.getQuery.isUsed
+    /*
+     如果more没有值 删除this.getQuery.more这个字段
+     防止在reducer中没有选择更多的时候出现more={}会覆盖原有的字段
+     */
+    if (Object.keys(this.getQuery.more).length === 0) {
+      delete this.getQuery.more
+    }
+    this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
+    this.timer = setTimeout(() => {
+      this.setState({
+        showSelectP: false,
+      })
+    }, 2500)
+    this.setState({
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
+    })
+  }
   goBack = () => {
     const { redirect } = queryString.parse(window.location.search)
     this.props.dispatch(deleteList())
@@ -306,42 +343,6 @@ class SearchEnd extends PureComponent {
    /* 下载或者打开app */
    downLoadAd = () => {
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
-  }
-  
-  componentDidMount() {
-    /* 初始化this.scrollTop */
-    this.scrollTop = this.props.srearchData.scrollTop
-
-    const data = this.props.location.state || {}
-    const { keyword } = queryString.parse(window.location.search)
-    const allQuery = this.handleSearchQuery()
-    if (data.keyword || keyword) {
-      this.setState({
-        defaultValue: data.keyword || keyword,
-      })
-    }
-    this.props.dispatch(getSearchListInit(allQuery))
-
-    delete this.getQuery.keyword
-    delete this.getQuery.isUsed
-    /*
-     如果more没有值 删除this.getQuery.more这个字段
-     防止在reducer中没有选择更多的时候出现more={}会覆盖原有的字段
-     */
-    if (Object.keys(this.getQuery.more).length === 0) {
-      delete this.getQuery.more
-    }
-    this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
-    this.timer = setTimeout(() => {
-      this.setState({
-        showSelectP: false,
-      })
-    }, 2500)
-    this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
-        : '',
-    })
   }
 
   componentWillReceiveProps(nextProps) {

@@ -1,7 +1,9 @@
-import { MICRODONW } from '../actions/microresume'
+import { MICRODONW, MICRODONWPARAMS } from '../actions/microresume'
 
 const initState = {
-
+  microresumeParams: {
+    // gender: '1',  // 完善简历接口默认需要
+  },
 }
 
 export default (state = initState, action) => {
@@ -11,7 +13,12 @@ export default (state = initState, action) => {
         ...state,
         ...action.data,
       }
-    default: 
+    case MICRODONWPARAMS:
+      return {
+        ...state,
+        microresumeParams: action.paload,
+      }
+    default:
       return state
   }
 }
