@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { List, Picker, DatePicker } from 'antd-mobile'
+import { Picker, DatePicker } from 'antd-mobile'
 import style from '../style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -68,42 +68,50 @@ class JobTime extends PureComponent {
     this.setState({
       endTimedata: initData.data,
     })
+    timeChange = {
+      start: false,
+      end: false,
+    }
   }
-  joinWorkTimeChange = (date) => {
-    const startTime = moment(date).format('YYYY-M').split('-')
+  joinWorkTimeChange = date => {
+    // const startTime = moment(date)
+    //   .format('YYYY-M')
+    //   .split('-')
     // const initData = initDate('MMMM-YY', '', YING_JIE_SHENG, startTime)
-    this.setState({ 
-      date,
-      // endTimedata: initData.data,
-      // sValue: [],
-      // endTime: '',
-    }, () => {
-      this.onChange()
-    })
+    this.setState(
+      {
+        date,
+      },
+      () => {
+        this.onChange()
+      }
+    )
   }
-  endTimeChange = (date) => {
-   
+  endTimeChange = date => {
     let endTime
     if (date[0] === YING_JIE_SHENG) {
       endTime = 0
     } else {
-      let endTimeArr = date.map((item) => {
-        let str = item.substr(0, item.length -1)
+      let endTimeArr = date.map(item => {
+        let str = item.substr(0, item.length - 1)
         return str
       })
       endTime = moment(endTimeArr).valueOf()
     }
-    this.setState({ 
-      sValue: date,
-      endTime,
-    }, () => {
-      this.onChange()
-    })
+    this.setState(
+      {
+        sValue: date,
+        endTime,
+      },
+      () => {
+        this.onChange()
+      }
+    )
     timeChange.end = true
   }
   onChange = () => {
     let workTime = []
-    workTime[0] = this.state.date ? (this.state.date).valueOf() : ''
+    workTime[0] = this.state.date ? this.state.date.valueOf() : ''
     workTime[1] = this.state.endTime
     this.props.onChange(workTime)
   }
@@ -121,7 +129,7 @@ class JobTime extends PureComponent {
     return val
   }
   render() {
-    const { endTimedata, sValue, startValue } = this.state
+    const { endTimedata, sValue } = this.state
 
     return (
       <div className={style.jobtime}>
@@ -135,10 +143,11 @@ class JobTime extends PureComponent {
             format={s => moment(s).format('YYYY.MM')}
             minDate={minDate}
             maxDate={maxDate}
-            onOk={() => {timeChange.start = true}}
+            onOk={() => {
+              timeChange.start = true
+            }}
           >
-          <CustomChildren1>最近工作时间</CustomChildren1>
-      
+            <CustomChildren1>最近工作时间</CustomChildren1>
           </DatePicker>
         </div>
         <div>
@@ -151,8 +160,7 @@ class JobTime extends PureComponent {
             format={this.handleFormat}
             onOk={this.endTimeChange}
           >
-          <CustomChildren2>至</CustomChildren2>
-           
+            <CustomChildren2>至</CustomChildren2>
           </Picker>
         </div>
       </div>

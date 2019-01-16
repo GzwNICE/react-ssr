@@ -39,7 +39,9 @@ class JobTime extends PureComponent {
       value: new Date(defaultDate - 22 * 365 * 24 * 60 * 60 * 1000),
     }
   }
-  componentDidMount() {}
+  componentDidMount() {
+    timeChange = false
+  }
   onChange = value => {
     this.setState({
       value,

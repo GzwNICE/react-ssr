@@ -6,8 +6,8 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import style from './style.less'
-import Rectangle from '../../static/Rectangle@3x.png'
-import logopng from '../../static/logo@320x.png'
+// import Rectangle from '../../static/Rectangle@3x.png'
+// import logopng from '../../static/logo@320x.png'
 import passwordno from '../../static/paswordno@3x.png'
 import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
@@ -121,18 +121,19 @@ class Login extends PureComponent {
               })
               window.zhuge.identify(data.user_id)
 
-              setTimeout(() => {
-                if (parsed.redirect) {
-                  if (_url.indexOf('service') > -1) {
-                    window.location.replace(_url)
+              this.props.dispatch(loggingStatus()).then(() => {
+                setTimeout(() => {
+                  if (parsed.redirect) {
+                    if (_url.indexOf('service') > -1) {
+                      window.location.replace(_url)
+                    } else {
+                      this.props.history.replace(_url)
+                    }
                   } else {
-                    this.props.history.replace(_url)
+                    this.props.history.push('/user')
                   }
-                } else {
-                  this.props.history.push('/user')
-                }
-              }, 1200)
-              this.props.dispatch(loggingStatus())
+                }, 999)
+              })
             }
           })
           .catch(err => {

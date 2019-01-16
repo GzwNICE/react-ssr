@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react'
-import { List, Picker, DatePicker } from 'antd-mobile'
+import { Picker } from 'antd-mobile'
 import style from '../style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import initDate from '../../../helper/datePlugin'
 
-const maxDate = new Date()
-const minDate = new Date(maxDate - 80 * 365 * 24 * 60 * 60 * 1000)
 const YING_JIE_SHENG = '应届生'
 
 let timeChange = {
@@ -55,6 +53,7 @@ class JobTime extends PureComponent {
       endTimedata: initData.data,
       sValue,
     })
+    timeChange.work_date = false
   }
 
   endTimeChange = (date) => {

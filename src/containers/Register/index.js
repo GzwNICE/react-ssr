@@ -15,6 +15,7 @@ import { mobile, register } from '../../actions/auth'
 import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
 import County from '../../inputs/County'
+import { loggingStatus } from '../../actions/userStatus'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -158,11 +159,13 @@ class Register extends PureComponent {
                 手机号: data.phone,
                 邮箱: data.email,
               })
-              setTimeout(() => {
-                this.props.history.replace(
-                  `/resume/micro${this.props.history.location.search}`
-                )
-              }, 1200)
+              this.props.dispatch(loggingStatus()).then(() => {
+                setTimeout(() => {
+                  this.props.history.replace(
+                    `/resume/micro${this.props.history.location.search}`
+                  )
+                }, 999)
+              })
             }
           })
           .catch(err => {
@@ -201,10 +204,10 @@ class Register extends PureComponent {
   }
 
   goBack = () => {
-    const {redirect} = queryString.parse(window.location.search)
-    if(redirect){
+    const { redirect } = queryString.parse(window.location.search)
+    if (redirect) {
       this.props.history.push(redirect)
-    }else {
+    } else {
       this.props.history.push('/')
     }
   }
@@ -222,7 +225,7 @@ class Register extends PureComponent {
       })
     }
     const login = sessionStorage.getItem('is_login')
-    if(login){
+    if (login) {
       this.props.history.push('/user')
     }
   }
@@ -248,7 +251,7 @@ class Register extends PureComponent {
               placeholder="请输入常用手机号"
               maxLength="11"
             >
-            <County setSet={this.setSst.bind(this)}/>
+              <County setSet={this.setSst.bind(this)} />
             </InputItem>
           </div>
 
@@ -288,10 +291,7 @@ class Register extends PureComponent {
         </div>
         <div className={style.agreement}>
           注册代表你已同意
-          <Link
-            rel="stylesheet"
-            to={`/agreement`}
-          >
+          <Link rel="stylesheet" to={`/agreement`}>
             《最佳东方用户协议》
           </Link>
         </div>

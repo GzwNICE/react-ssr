@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import style from './style.less'
 import { NavBar, List, InputItem, Toast, Modal, Icon, Tabs } from 'antd-mobile'
 import { createForm } from 'rc-form'
+import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import Cookies from 'js-cookie'
 import store from 'store'
@@ -17,6 +18,9 @@ import BirthTime from './compent/birthTime'
 import GraduateTime from './compent/graduateTime'
 import JoinJobTime from './compent/joinJobTime'
 import School from '../../components/SchoolSearch'
+import GobackModal from '../../components/GoBackModal/index1'
+import BorderBottomLine from '../../components/BorderBottomLine'
+import { getAllInfo } from '../../actions/resume'
 
 const auth = store.get('m:auth') || {}
 const tabs = [{ title: '在职' }, { title: '在校' }]
@@ -24,31 +28,28 @@ const tabs = [{ title: '在职' }, { title: '在校' }]
 @connect(state => {
   return {
     auth: state.auth,
+    resume: state.resume,    
   }
 })
 @createForm({
   onValuesChange(props, values) {
-    console.log(values)
+    // console.log(values)
   },
 })
+@withRouter
 class MicroResume extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       initialPage: 0,
       changeVal: false, // 判断是不是保存按钮触发的接口
+      goBackModalVisible: false, // 返回按钮点击时出现的弹框
     }
   }
   goLogin = () => {
-    Modal.alert('', '请先登录', [
+    return Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },
-      {
-        text: '登录',
-        onPress: () =>
-          this.props.history.replace(
-            '/login?redirect=' + this.props.history.location.pathname
-          ),
-      },
+      { text: '登录', onPress: () => this.props.history.replace('/login?redirect=' + this.props.history.location.pathname) },
     ])
   }
 
@@ -56,9 +57,24 @@ class MicroResume extends PureComponent {
     setTimeout(() => {
       if (!auth.user_id && !Cookies('ticket')) {
         this.goLogin()
+      } else {
+        this.props.dispatch(getAllInfo({
+          version:'5.2.1',
+          appchannel: 'web',
+        })).then( data => {
+          if (this.props.resume.true_name_cn) {
+            this.props.history.replace('/resume') 
+          }
+        })
       }
     }, 400)
+    
   }
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
+  }
+
   // 保存
   changeValue() {
     const { initialPage } = this.state
@@ -79,7 +95,7 @@ class MicroResume extends PureComponent {
   jobSaveChange = () => {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      // console.log(values)
+      console.log(values)
       if (values.true_name_cn === undefined) {
         return Toast.info('请填写姓名', 2)
       }
@@ -143,7 +159,9 @@ class MicroResume extends PureComponent {
       if (values.school_cn === undefined) {
         return Toast.info('请填写学校名称', 2)
       }
-
+      if (values.birthday > values.edu_end) {
+        return Toast.info('出生日期不能小于毕业年份', 2)
+      }
       const birthday = moment(values.birthday).format('YYYY-M')
       const edu_end = moment(values.edu_end).format('YYYY-M')
       const params = {
@@ -178,14 +196,19 @@ class MicroResume extends PureComponent {
           Toast.info(res.json.msg, 2)
           window.zhuge.track('微简历保存成功')
           setTimeout(() => {
+            let search = this.props.history.location.search
+            let path = ''
+            if (search.indexOf('?redirect=') !== -1) {
+              path = search.split('?redirect=')[1]
+            }
             if (changeVal) {
               this.props.history.push(
-                '/resume?redirect=' + this.props.history.location.pathname
+                '/resume?redirect=' + path
               )
             } else {
               this.props.history.push(
                 '/resume/micro/perfect?redirect=' +
-                  this.props.history.location.pathname
+                path
               )
             }
           }, 999)
@@ -227,7 +250,7 @@ class MicroResume extends PureComponent {
           姓名
         </InputItem>
 
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <Gender
           {...getFieldProps('gender', {
             initialValue: 1,
@@ -235,20 +258,20 @@ class MicroResume extends PureComponent {
         >
           <List.Item>性别</List.Item>
         </Gender>
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <JoinJobTime {...getFieldProps('work_date', {})} />
 
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <Company {...getFieldProps('company_name_cn', {})} extra="请填写">
           <List.Item arrow="horizontal">最近所在公司</List.Item>
         </Company>
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <Job {...getFieldProps('position_cn', {})} extra="请填写">
           <List.Item arrow="horizontal">最近所任职位</List.Item>
         </Job>
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <JobTime {...getFieldProps('job_time', {})} />
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <div className={style.btn} onClick={this.jobSaveChange}>
           继续完善，增加面试通过率
         </div>
@@ -270,7 +293,7 @@ class MicroResume extends PureComponent {
           姓名
         </InputItem>
 
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <Gender
           {...getFieldProps('gender', {
             initialValue: 1,
@@ -278,13 +301,13 @@ class MicroResume extends PureComponent {
         >
           <List.Item>性别</List.Item>
         </Gender>
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <BirthTime {...getFieldProps('birthday', {})} />
 
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <GraduateTime {...getFieldProps('edu_end', {})} />
 
-        <div className={style.boderline} />
+        <BorderBottomLine />
 
         <Education
           {...getFieldProps('degree', {})}
@@ -293,12 +316,12 @@ class MicroResume extends PureComponent {
         >
           <List.Item arrow="horizontal">最高学历</List.Item>
         </Education>
-        <div className={style.boderline} />
+        <BorderBottomLine />
 
         <School {...getFieldProps('school_cn', {})} extra="请填写">
           <List.Item arrow="horizontal">学校名称</List.Item>
         </School>
-        <div className={style.boderline} />
+        <BorderBottomLine />
         <div className={style.btn} onClick={this.schoolSaveChange}>
           继续完善，增加面试通过率
         </div>
@@ -306,14 +329,16 @@ class MicroResume extends PureComponent {
     )
   }
   render() {
-    const { initialPage } = this.state
+    const { initialPage, goBackModalVisible } = this.state
     return (
       <div className={style.container}>
         <NavBar
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.goBack()}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={
             <span onClick={() => this.changeValue()}>
               <span>保存</span>
@@ -334,6 +359,10 @@ class MicroResume extends PureComponent {
           {this.jobRender()}
           {this.shoolRender()}
         </Tabs>
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </div>
     )
   }

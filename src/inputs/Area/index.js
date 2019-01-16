@@ -236,7 +236,7 @@ class ComplexSelView extends ComplexFormField {
                 <span>{this.props.optIndex[this.myCity]}</span>
               </li> : null
             }
-
+            <ul className={style.content}>
             {optionsSubChil?
               (optionsSubChil.map((item, index) =>{
                 let isChecked = false
@@ -253,6 +253,8 @@ class ComplexSelView extends ComplexFormField {
                   {item.value}
                 </li>
               })):null}
+            </ul>
+           
           </ul>
         </div>
       </div>

@@ -8,7 +8,6 @@ import unsetIcon from '../../static/unset@3x.png'
 import rightIcon from '../../static/right@3x.png'
 
 export { style }
-
 class ComplexSelView extends ComplexFormField {
   static defaultProps = {
     value: [],
@@ -26,16 +25,16 @@ class ComplexSelView extends ComplexFormField {
 
   init() {}
 
-  format(value=[]) {
+  format(value = []) {
     if (this.props.optIndex) {
-      return value.map((code) => this.props.optIndex[code]).join(',')
+      return value.map(code => this.props.optIndex[code]).join(',')
     } else {
       return null
     }
   }
 
   serialize(value) {
-    let val = value instanceof Array ? [...value] : {...value}
+    let val = value instanceof Array ? [...value] : { ...value }
     if (!val.hasOwnProperty('optIndex'))
       Object.defineProperty(val, 'optIndex', {
         get: () => this.props.optIndex,
@@ -43,35 +42,32 @@ class ComplexSelView extends ComplexFormField {
     return val
   }
 
-  filter = (code) => {
+  filter = code => {
     return this.getValue().indexOf(code) >= 0
   }
 
-  selectValue = (code) => {
-    code = String(code)
+  selectValue = code => {
+    // code = String(code)
     if (this.props.maxLength > 1) {
       const { maxLength } = this.props
       let value = [...this.getValue()]
       let indexof = value.indexOf(code)
       let type = this.props.type
-      if (indexof >= 0) { // 已经存在
+      if (indexof >= 0) {
+        // 已经存在
         value.splice(indexof, 1)
-      } else { // 新添加的
+      } else {
+        // 新添加的
         if (maxLength <= 0 || value.length < maxLength) {
           value.push(code)
           value = value.filter(item => item !== 0)
-          if(type === 'Industry' && code === 0) value = [0]
+          if (type === 'Industry' && code === 0) value = [0]
         } else {
           return Toast.info(`最多选择 ${maxLength} 个哦!`, 1)
         }
       }
       this.setState({ value })
     } else {
-      // if(this.state.value[0] === code) {
-      //   this.setState({ value: [] })
-      // } else {
-      //
-      // }
       this.setState({ value: [code] }, () => this.changeValue())
       // setTimeout(() => this.changeValue())
     }
@@ -79,7 +75,7 @@ class ComplexSelView extends ComplexFormField {
 
   changeValue = () => {
     const { value } = this.state
-    if(value.length === 0) {
+    if (value.length === 0) {
       return Toast.info('请至少选择一项', 2)
     }
     if (this.props.onChange) {
@@ -90,45 +86,55 @@ class ComplexSelView extends ComplexFormField {
     }
   }
 
-  handleVisible = (visible) => {
+  handleVisible = visible => {
     if (!visible && this.props.root) {
       this.setState({ value: this.props.value })
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.root && JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)) {
+    if (
+      this.props.root &&
+      JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)
+    ) {
       this.setState({ value: nextProps.value })
     }
   }
 
   getValue() {
-    // console.log(this.state.value)
-    // console.log(this.props.value)
     return this.props.root ? this.state.value : this.props.value
   }
 
   optView() {
     const selected = this.getValue() || []
     return (
-      <Accordion
-        className={style.optView}
-        defaultActiveKey={['opt']}>
+      <Accordion className={style.optView} defaultActiveKey={['opt']}>
         {/* 已经选中的项 */}
-        <Accordion.Panel key={'opt'} header={
-          <div className={style.arrow}>
-            <div>{`最多可选 ${this.props.maxLength} 个`}</div>
-            <div className={style.num}>
-              <slot>{selected.length}</slot>/{this.props.maxLength}
+        <Accordion.Panel
+          key={'opt'}
+          header={
+            <div className={style.arrow}>
+              <div>{`最多可选 ${this.props.maxLength} 个`}</div>
+              <div className={style.num}>
+                <slot>{selected.length}</slot>/{this.props.maxLength}
+              </div>
+              <img src={xialaIcon} className="arrow-i" />
             </div>
-            <img src={xialaIcon} className="arrow-i" />
+          }
+        >
+          <div className={style.optList}>
+            {selected.map(code => (
+              <span key={code}>
+                <slot>
+                  {this.props.optIndex ? this.props.optIndex[code] : null}
+                </slot>
+                <i
+                  onClick={() =>
+                    (this.props.onSelect || this.selectValue)(code)
+                  }
+                />
+              </span>
+            ))}
           </div>
-        }>
-          <div className={style.optList}>{selected.map(code => (
-            <span key={code}>
-              <slot>{this.props.optIndex ? this.props.optIndex[code] : null}</slot>
-              <i onClick={() => (this.props.onSelect || this.selectValue)(code)} />
-            </span>
-          ))}</div>
         </Accordion.Panel>
       </Accordion>
     )
@@ -136,16 +142,19 @@ class ComplexSelView extends ComplexFormField {
 
   ItemView(item) {
     const selected = this.getValue()
-    return item.sublist /* && item.sublist.length > 1 */ ?
-      <ComplexSelView key={item.code}
+    return item.sublist /* && item.sublist.length > 1 */ ? (
+      <ComplexSelView
+        key={item.code}
         root={false}
         options={item.sublist}
         optIndex={this.props.optIndex}
-        label={`${this.props.label || (this._complex && this._complex()._sign)}-${item.code}`}
+        label={`${this.props.label ||
+          (this._complex && this._complex()._sign)}-${item.code}`}
         title={item.value}
         value={selected}
         maxLength={this.props.maxLength}
-        onSelect={this.selectValue}>
+        onSelect={this.selectValue}
+      >
         {() => (
           <List.Item className={style.listItem}>
             <img src={this.filter(item.code) ? okIcon : unsetIcon} />
@@ -153,12 +162,17 @@ class ComplexSelView extends ComplexFormField {
             <img src={rightIcon} className="arrow-i" />
           </List.Item>
         )}
-      </ComplexSelView> :
-      <List.Item className={style.listItem} key={item.code}
-        onClick={() => (this.props.onSelect || this.selectValue)(item.code)}>
+      </ComplexSelView>
+    ) : (
+      <List.Item
+        className={style.listItem}
+        key={item.code}
+        onClick={() => (this.props.onSelect || this.selectValue)(item.code)}
+      >
         <img src={selected.includes(item.code) ? okIcon : unsetIcon} />
         <span>{item.value}</span>
       </List.Item>
+    )
   }
 
   listView(sublist) {
@@ -166,11 +180,7 @@ class ComplexSelView extends ComplexFormField {
   }
 
   allView(sublist) {
-    return (
-      <List className={style.allView}>
-        {this.listView(sublist)}
-      </List>
-    )
+    return <List className={style.allView}>{this.listView(sublist)}</List>
   }
 
   wrapView(opt, main) {
@@ -190,13 +200,13 @@ class ComplexSelView extends ComplexFormField {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
+          rightContent={<span onClick={() => this.changeValue()}>保存</span>}
+        >
           {this.props.title || this.props.children.props.children}
         </NavBar>
 
         {this.wrapView(
-          this.props.maxLength > 1 ?
-            this.optView() : null,
+          this.props.maxLength > 1 ? this.optView() : null,
           this.allView(this.props.options)
         )}
       </div>
