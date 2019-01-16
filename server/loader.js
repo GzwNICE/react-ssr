@@ -95,7 +95,7 @@ export default (req, res, next) => {
               // console.log('THE TITLE', helmet.title.toString())
 
               // Pass all this nonsense into our HTML formatting function above
-              console.log(1111111111111111111)
+              
               // console.log(helmet.htmlAttributes.toString())
 
               const html = injectHTML(htmlData, {
@@ -121,7 +121,7 @@ export default (req, res, next) => {
       const companyUrl2 = pathToRegexp('/:company_id')
       const companyUrl = pathToRegexp('/:company_id\\?(.*)')
       const homePage = pathToRegexp('/home')
-      const blocPage = pathToRegexp('/bloc/:c_userid(.*)')
+      const blocPage = pathToRegexp('/bloc/')
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
