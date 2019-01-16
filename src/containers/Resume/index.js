@@ -215,7 +215,6 @@ class Resume extends PureComponent {
               </div>
               <Card className={style.card}>
                 <Card.Header
-                  className={style.boder1px}
                   title={
                     <span>
                       基本信息 <span>(必填)</span>
@@ -271,7 +270,6 @@ class Resume extends PureComponent {
               </Card>
               <Card className={style.card}>
                 <Card.Header
-                  className={style.boder1px}
                   title={
                     <span>
                       求职意向 <span>(必填)</span>
@@ -323,7 +321,6 @@ class Resume extends PureComponent {
               </Card>
               <Card className={style.card}>
                 <Card.Header
-                  className={style.boder1px}
                   title={
                     <span>
                       工作经历 <span>(必填)</span>
@@ -369,7 +366,6 @@ class Resume extends PureComponent {
               </Card>
               <Card className={style.card}>
                 <Card.Header
-                  className={style.boder1px}
                   title={
                     <span>
                       教育经历 <span>(必填)</span>
@@ -416,7 +412,6 @@ class Resume extends PureComponent {
                 <Card className={style.card}>
                   <Card.Header
                     title={<span>语言/技能</span>}
-                    className={style.boder1px}
                     extra={
                       <Link to="/resume/language">
                         <img src={editIcon} />
@@ -471,7 +466,6 @@ class Resume extends PureComponent {
                 <Card className={style.card}>
                   <Card.Header
                     title={<span>自我描述</span>}
-                    className={style.boder1px}
                     extra={
                       <Link to="/resume/description">
                         <img src={editIcon} />
