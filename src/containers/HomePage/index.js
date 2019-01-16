@@ -14,8 +14,8 @@ import * as Ad from '../../components/Ad'
 import {
   getPostInit,
   changeCity,
-  refReshPost,
-  addPost,
+  // refReshPost,
+  // addPost,
   saveScrollTop,
 } from '../../actions/home'
 import { saveCityCode } from '../../actions/userStatus'
@@ -123,46 +123,46 @@ class HomePage extends PureComponent {
   }
 
   /* 下拉刷新 */
-  onRefresh = () => {
-    const location =
-      this.props.userStatus.code && this.props.userStatus.code[0]
-        ? this.props.userStatus.code
-        : this.props.supers.location.address.code
-    if (!this.props.homeDate.refreshing) {
-      this.setState({
-        page: 1,
-      })
+  // onRefresh = () => {
+  //   const location =
+  //     this.props.userStatus.code && this.props.userStatus.code[0]
+  //       ? this.props.userStatus.code
+  //       : this.props.supers.location.address.code
+  //   if (!this.props.homeDate.refreshing) {
+  //     this.setState({
+  //       page: 1,
+  //     })
 
-      this.props.dispatch(
-        refReshPost({
-          location,
-          page: 1,
-        })
-      )
-    }
-  }
+  //     this.props.dispatch(
+  //       refReshPost({
+  //         location,
+  //         page: 1,
+  //       })
+  //     )
+  //   }
+  // }
 
   /* 上拉加载 */
-  onEndReached = () => {
-    const page = this.state.page + 1
-    const allPage = this.props.homeDate.pager.allPages
-    this.setState({
-      page: page,
-    })
-    if (page <= allPage) {
-      this.props.dispatch(
-        addPost({
-          page: page,
-          location:
-            this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
-        })
-      )
-    } else {
-      this.setState({
-        Loaded: '没有更多了',
-      })
-    }
-  }
+  // onEndReached = () => {
+  //   const page = this.state.page + 1
+  //   const allPage = this.props.homeDate.pager.allPages
+  //   this.setState({
+  //     page: page,
+  //   })
+  //   if (page <= allPage) {
+  //     this.props.dispatch(
+  //       addPost({
+  //         page: page,
+  //         location:
+  //           this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
+  //       })
+  //     )
+  //   } else {
+  //     this.setState({
+  //       Loaded: '没有更多了',
+  //     })
+  //   }
+  // }
 
   /* 记录滚动条的位置 */
   // onScroll = e => {
@@ -182,21 +182,21 @@ class HomePage extends PureComponent {
 
   componentDidMount() {
     /* 初始化this.scrollTop */
-    this.scrollTop = this.props.homeDate.scrollTop
-    const { userStatus, supers } = this.props
-    const location =
-      userStatus.code && userStatus.code[0]
-        ? userStatus.code
-        : supers.location.address.code
-    const { homeList } = this.props
-    if (homeList.length === 0) {
-      this.props.dispatch(
-        getPostInit({
-          location,
-          page: 1,
-        })
-      )
-    }
+    // this.scrollTop = this.props.homeDate.scrollTop
+    // const { userStatus, supers } = this.props
+    // const location =
+    //   userStatus.code && userStatus.code[0]
+    //     ? userStatus.code
+    //     : supers.location.address.code
+    // const { homeList } = this.props
+    // if (homeList.length === 0) {
+    //   this.props.dispatch(
+    //     getPostInit({
+    //       location,
+    //       page: 1,
+    //     })
+    //   )
+    // }
 
     this.setState({
       show: Cookies.get('ad'),
@@ -221,22 +221,22 @@ class HomePage extends PureComponent {
       )
     }
     /* 用户重新选择了城市 */
-    if (
-      this.props.userStatus.code &&
-      nextProps.userStatus.code &&
-      nextProps.userStatus.code[0] !== this.props.userStatus.code[0]
-    ) {
-      this.props
-        .dispatch(
-          changeCity({
-            page: 1,
-            location: nextProps.userStatus.code[0] || [],
-          })
-        )
-        .then(() => {
-          document.body.scrollTop = document.documentElement.scrollTop = 0
-        })
-    }
+    // if (
+    //   this.props.userStatus.code &&
+    //   nextProps.userStatus.code &&
+    //   nextProps.userStatus.code[0] !== this.props.userStatus.code[0]
+    // ) {
+    //   this.props
+    //     .dispatch(
+    //       changeCity({
+    //         page: 1,
+    //         location: nextProps.userStatus.code[0] || [],
+    //       })
+    //     )
+    //     .then(() => {
+    //       document.body.scrollTop = document.documentElement.scrollTop = 0
+    //     })
+    // }
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
 
