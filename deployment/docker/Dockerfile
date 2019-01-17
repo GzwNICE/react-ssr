@@ -8,7 +8,7 @@ RUN npm update && \
     npm install -g pm2@latest && \
     npm install git -y
 
-COPY node_modlues.tar.gz /
+COPY node_modules.tar.gz /
 COPY ssh /root/.ssh
 COPY start.sh /start.sh
 COPY nginx.conf /etc/nginx/sites-enabled/default

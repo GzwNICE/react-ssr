@@ -19,8 +19,6 @@ class GoBackModal extends (PureComponent || Component) {
   }
   render() {
     const { goBackModalVisible } = this.props.fatherProps
-    console.log(this.props)
-
     return (
       <Modal
         visible={goBackModalVisible}

@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 import {
   NavBar,
   Flex,
-  List,
   WingBlank,
   InputItem,
   Button,

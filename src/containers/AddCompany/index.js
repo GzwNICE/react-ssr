@@ -4,7 +4,7 @@
 import React, { PureComponent } from 'react'
 import style from './style.less'
 import {connect} from 'react-redux'
-import { Toast } from 'antd-mobile'
+import { Toast, NavBar, Icon } from 'antd-mobile'
 import {searchBlackList, addBlackLIst} from '../../actions/Privacy'
 
 @connect(state => {
@@ -40,7 +40,12 @@ class AddCompany extends PureComponent {
     console.log(this.props)
     return (
       <div className={style.AddCompanyWrap}>
-        <div className={style.font}>“不让这些企业发现我”</div>
+      <NavBar
+      mode="light"
+      className={style.nav}
+      icon={<Icon type="left" />}
+        onLeftClick={() => {this.props.history.go(-1)}}
+      >隐私设置</NavBar>
         <div className={style.inputBox}>
           <input onChange={() => this.onChangeName()} ref="name" type="text" placeholder="输入你想屏蔽的公司" />
         </div>

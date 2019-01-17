@@ -17,7 +17,6 @@ import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
-import queryString from 'query-string'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -136,13 +135,15 @@ class Resume extends PureComponent {
     })
   }
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
-    if (pathSearch) {
-      this.props.history.go(-1)
+    const search = this.props.history.location.search
+    if (search.indexOf('source=/user') !== 0) {
+      let path = '/user'
+      if (search.indexOf('?redirect=') !== -1) {
+        path = path + '?redirect=' + search.split('?redirect=')[1]
+      }
+      this.props.history.push(path)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/home')
-        : this.props.history.go(-1)
+      this.props.history.push('/home')
     }
   }
   render() {
@@ -162,7 +163,7 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage } = this.state
-    // todo 设置、预览的链接还没写
+    console.log(DesiredPositions)
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -197,7 +198,9 @@ class Resume extends PureComponent {
                   简历完善度:<span>{percentage}</span>
                 </p>
                 <Flex>
-                  <Flex.Item>
+                  <Flex.Item
+                    onClick={this.handleGoto.bind(this, `/person/privacy`)}
+                  >
                     <img src={setIcon} />
                     <p>设置</p>
                   </Flex.Item>
@@ -284,13 +287,13 @@ class Resume extends PureComponent {
                 <Card.Body className={style['card-body']}>
                   <div>
                     <span>意向职位：</span>
-                    {DesiredPositions.map(
+                    {DesiredPositions&&DesiredPositions.length>0 ? DesiredPositions.map(
                       item => option.positions_index[item]
-                    ).join(', ')}
+                    ).join(', ') : '暂无'}
                   </div>
                   <div>
                     <span>意向行业：</span>
-                    {DesiredCompanyTypes.length
+                    {DesiredCompanyTypes&&DesiredCompanyTypes.length>0
                       ? DesiredCompanyTypes.map(
                           item =>
                             option.opts_company_industry_all_index[
@@ -301,21 +304,21 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>意向地点：</span>
-                    {DesiredLocations.map(
+                    {DesiredLocations&&DesiredLocations.length>0?DesiredLocations.map(
                       item => option.areas_index[item]
-                    ).join(', ')}
+                    ).join(', '): '暂无'}
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {option.opts_salary
+                    {DesiredJob.desired_salary
                       ? option.opts_salary.salary_scope_index[
                           DesiredJob.desired_salary
                         ]
-                      : ''}
+                      : '暂无'}
                   </div>
                   <div>
                     <span>求职状态：</span>
-                    {option.opts_job_status_index[resume.job_status]}
+                    {resume.job_status ? option.opts_job_status_index[resume.job_status] : '暂无'}
                   </div>
                 </Card.Body>
               </Card>

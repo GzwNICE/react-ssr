@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: m-veryeast-cn
-        image: 10.10.50.4/veryeast/ve-m-ssr:v4
+        image: 10.10.50.4/veryeast/ve-m-ssr
         env:
         - name: GIT_EMAIL
           valie: zhengkui@dfwsgroup.com
