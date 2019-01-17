@@ -164,11 +164,8 @@ class UserPage extends PureComponent {
 
   render() {
     const userStatus = this.props.userStatus
-    const deliver =
-      userStatus.deliver_success_num +
-      userStatus.enterprise_view_num +
-      userStatus.invitation_for_an_interview_num +
-      userStatus.not_appropriate_num
+    const deliver = userStatus.deliver_total_num
+    // const { pathSearch } = queryString.parse(window.location.search)
     return (
       <div className={style.UserPageWrap}>
         <div className={style.top}>
@@ -237,7 +234,7 @@ class UserPage extends PureComponent {
         <div className={style.middleBox}>
           <div
             onClick={() => {
-              this.goNextpage('/resume', '我的简历')
+              this.goNextpage(`/resume?source=/user${window.location.search}`, '我的简历')
             }}
           >
             <LisetItem img={Resume} titleleft="我的简历" />

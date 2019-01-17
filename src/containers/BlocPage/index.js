@@ -38,6 +38,8 @@ export default class CompanyArea extends Component {
     local: '',
     c_id: '',
     is_login: '',
+    isVisable: false,
+    searchValue:'',
   }
 
   /* 下载或者打开app */
@@ -118,12 +120,18 @@ export default class CompanyArea extends Component {
   onCancel = () => {
     this.setState({
       search: false,
+      searchValue: '',
+    },()=>{
+      this.setState({
+        isVisable: false,
+      })
     })
   }
 
   onChange = value => {
     this.setState({
       keywords: value,
+      searchValue: value,
     })
     this.props.dispatch(
       saveQuery({
@@ -131,7 +139,7 @@ export default class CompanyArea extends Component {
       })
     )
   }
-  
+
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
     const {listPhoto} =this.props
@@ -191,10 +199,12 @@ export default class CompanyArea extends Component {
         <div className={style.selHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <Search
+            searchValue={this.state.searchValue}
             goBack={this.whereWillIGo}
             Search={this.onSubmit}
             Cancel={this.onCancel}
             Change={this.onChange}
+            visable={this.state.isVisable}
           />
           <FilterList filterList={this.handleFilerSearch} />
         </div>

@@ -169,7 +169,7 @@ class ComplexSelView extends ComplexFormField {
         key={item.code}
         onClick={() => (this.props.onSelect || this.selectValue)(item.code)}
       >
-        <img src={selected.includes(item.code) ? okIcon : unsetIcon} />
+        {selected.includes(item.code) ? <div className={style.brandSelect}></div> : null}
         <span>{item.value}</span>
       </List.Item>
     )

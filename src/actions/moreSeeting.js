@@ -53,7 +53,8 @@ export const feedbackOpinion = singleApi({
   action: (args, json) => {
     return {
       args,
-      data: json.data,
+      ...json,
+      // data: json.data,
       type: FEED_BACK,
     }
   },

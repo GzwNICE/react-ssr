@@ -275,7 +275,7 @@ class LoginCode extends PureComponent {
         </div>
         <Alert
           title="验证码上限提醒"
-          height={140}
+          height={120}
           closable={0}
           visible={this.state.upperLimit}
           onClose={this.onClose('upperLimit')}
