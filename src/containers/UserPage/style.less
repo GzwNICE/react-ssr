@@ -12,8 +12,8 @@
     justify-content: center;
     height: auto;
     flex: 1;
-    font-size: 16px;
     overflow: hidden;
+    margin-top: 4px;
     .imgBox{
       width: 70px;
       height: 70px;
@@ -26,12 +26,18 @@
     img{
       width: 60px;
     }
-    .username{
-      width: auto;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  }
+  .username a{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: PingFangSC-Medium;
+    color: #333333;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 12px;
   }
   .right{
     font-size: 12px;
@@ -83,6 +89,7 @@
 .middleBox {
   width: 100%;
   background-color: #fff;
+  margin-top: 10px;
   >div:last-child>div{
     border: none !important;
   }
