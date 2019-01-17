@@ -1,7 +1,7 @@
-import React,{PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ComplexPicker from '../../components/ComplexPicker'
-import {getAllInfo} from "../../actions/resume";
+// import {getAllInfo} from "../../actions/resume";
 
 @connect(state => {
   // console.log(state.option.opts_salary.salary_scope_index)
@@ -29,18 +29,26 @@ class JobStatus extends PureComponent {
       salary_scope_index: arr,
     })
   }
+  format = item => {
+    if (item[0] !== '50000以上') {
+      item[0] = item[0] + '元'
+    }
+    return item
+  }
   render() {
     const { salary_scope_index } = this.state
     return (
       <ComplexPicker
+        format={this.format}
         {...this.props}
         data={salary_scope_index
-        // .filter(item => item.code !== 0)
+          // .filter(item => item.code !== 0)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,
           }))}
-        cols={1}>
+        cols={1}
+      >
         {this.props.children}
       </ComplexPicker>
     )
