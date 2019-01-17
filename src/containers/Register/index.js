@@ -32,6 +32,7 @@ class Register extends PureComponent {
     needVerify: this.props.bindExistAccount.needVerify,
     phoneCounty: '0086',
     upperLimit: false,
+    registered: false,
   }
 
   changePasswordType = () => {
@@ -85,12 +86,12 @@ class Register extends PureComponent {
   getCode = () => {
     // 获取验证码
     const upperLimit = this.showModal('upperLimit')
+    const registered = this.showModal('registered')
     this.props.form.validateFields((err, value) => {
       if (err) return
       if (!F.changePhoneNumber(value.number))
         return Toast.info('请输入手机号', 2)
       // window.zhuge.track('获取验证码')
-
       let send = res => {
         if (this.state.disableCode) {
           mobile({
@@ -116,7 +117,7 @@ class Register extends PureComponent {
                 })
               }, 999)
             } else if (data.flag === 5012) {
-              Toast.info('号码已注册', 2)
+              registered()
               // window.zhuge.track('注册失败', {
               //   手机号已注册: '',
               // })
@@ -228,6 +229,10 @@ class Register extends PureComponent {
     }
   }
 
+  goLogin =() =>{
+    this.props.history.push(`/login${window.location.search}`)
+  }
+  
   componentDidMount() {
     // const { key } = this.props.location.state || {}
     // const { sss } = queryString.parse(window.location.search)
@@ -313,7 +318,7 @@ class Register extends PureComponent {
         </div>
         <Alert
           title="验证码上限提醒"
-          height={140}
+          height={120}
           closable={0}
           visible={this.state.upperLimit}
           onClose={this.onClose('upperLimit')}
@@ -323,6 +328,26 @@ class Register extends PureComponent {
               text: '我知道了',
               onPress: this.onClose('upperLimit'),
               type: 'know',
+            },
+          ]}
+        />
+        <Alert
+          title="手机号已注册"
+          height={120}
+          closable={0}
+          visible={this.state.registered}
+          onClose={this.onClose('registered')}
+          message={`请直接登录`}
+          actions={[
+            {
+              text: '取消',
+              onPress: this.onClose('registered'),
+              type: 'close',
+            },
+            {
+              text: '登录',
+              onPress: ()=>this.goLogin(),
+              type: 'ok',
             },
           ]}
         />

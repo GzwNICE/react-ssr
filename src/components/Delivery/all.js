@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2018/4/13.
+ * Created by gaozhiwen on 2019/1/17.
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
