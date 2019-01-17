@@ -287,13 +287,13 @@ class Resume extends PureComponent {
                 <Card.Body className={style['card-body']}>
                   <div>
                     <span>意向职位：</span>
-                    {DesiredPositions.map(
+                    {DesiredPositions&&DesiredPositions.length>0 ? DesiredPositions.map(
                       item => option.positions_index[item]
-                    ).join(', ')}
+                    ).join(', ') : '暂无'}
                   </div>
                   <div>
                     <span>意向行业：</span>
-                    {DesiredCompanyTypes.length
+                    {DesiredCompanyTypes&&DesiredCompanyTypes.length>0
                       ? DesiredCompanyTypes.map(
                           item =>
                             option.opts_company_industry_all_index[
@@ -304,21 +304,21 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>意向地点：</span>
-                    {DesiredLocations.map(
+                    {DesiredLocations&&DesiredLocations.length>0?DesiredLocations.map(
                       item => option.areas_index[item]
-                    ).join(', ')}
+                    ).join(', '): '暂无'}
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {option.opts_salary
+                    {DesiredJob.desired_salary
                       ? option.opts_salary.salary_scope_index[
                           DesiredJob.desired_salary
                         ]
-                      : ''}
+                      : '暂无'}
                   </div>
                   <div>
                     <span>求职状态：</span>
-                    {option.opts_job_status_index[resume.job_status]}
+                    {resume.job_status ? option.opts_job_status_index[resume.job_status] : '暂无'}
                   </div>
                 </Card.Body>
               </Card>
