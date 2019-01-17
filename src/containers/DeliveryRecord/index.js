@@ -3,12 +3,13 @@ import style from './style.less'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import { Tabs, Badge } from 'antd-mobile'
-import { deleteCache } from '../../actions/DeliveryRecord'
+import { deleteCache, readResume} from '../../actions/DeliveryRecord'
 import NavBack from '../../components/Back'
 import DeliveryAll from '../../components/Delivery/all'
 import DeliveryLook from '../../components/Delivery/havelook'
 import DeliveryInvite from '../../components/Delivery/invite'
 import DeliveryNo from '../../components/Delivery/inappropriate'
+
 
 @connect(state => ({}))
 class DeliveryRecord extends PureComponent {
@@ -21,11 +22,12 @@ class DeliveryRecord extends PureComponent {
     this.props.history.go(-1)
   }
 
-  handleTabClick = type => {
-    this.props.history.replace(`/person/applyRecord?key=${type}`)
-    // this.props.dispatch(readResume({
-    //   type,
-    // })).then(() => {
+  handleTabClick = index => {
+    this.props.history.replace(`/person/applyRecord?key=${index.page}`)
+    this.props.dispatch(readResume({
+      type: index.page,
+    }))
+    // .then(() => {
     //   if(type === '2') {
     //     this.props.dispatch(getDeliveryLook({
     //       type,

@@ -1,5 +1,15 @@
-.OPintionWrap {
-  //padding: 20px 0;
+.opintionWrap {
+  display: flex;
+  // flex-wrap: wrap;
+  flex-direction: column;
+  height: 100%;
+  .opintionCent {
+    flex: 1;
+    height: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 .feedtype {
   background-color: #fff;
@@ -86,13 +96,13 @@
   box-sizing: border-box;
   .phone {
     display: block;
-    line-height: 30px;
+    line-height: 18px;
+    padding: 6px 0 8px;
     width: 335px;
-    margin: 5px auto 0;
-    font-size: 13px;
+    margin: 10px auto 0;
+    font-size: 14px;
     color: #129bf8;
-    box-sizing: border-box;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1Px solid #f0f0f0;
   }
 }
 .selet {
@@ -103,9 +113,6 @@
 }
 
 .commit {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   line-height: 46px;
   background-color: #ff4f00;

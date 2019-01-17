@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2018/4/13.
+ * Created by gaozhiwen on 2019/1/17.
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
@@ -38,8 +38,13 @@ class DeliveryInvite extends PureComponent {
   }
 
   /*查看信件*/
-  goLetter = message_id => {
-    this.props.history.push(`/person/letter/${message_id}`)
+  // goLetter = message_id => {
+  //   this.props.history.push(`/person/letter/${message_id}`)
+  // }
+
+   /*工作详情页*/
+  goPostionDetailpage = (job_id, company_id) => {
+    this.props.history.push(`/${company_id}/${job_id}`)
   }
 
   onScroll = () => {
@@ -97,7 +102,7 @@ class DeliveryInvite extends PureComponent {
             },
           ]}
         >
-          <div onClick={() => this.goLetter(data.message_id)}>
+          <div onClick={() => this.goPostionDetailpage(data.job_id, data.company_id)}>
             <JobCardFour {...data} />
           </div>
         </SwipeAction>
