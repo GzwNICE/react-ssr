@@ -24,9 +24,9 @@ class GoBackModal extends (PureComponent || Component) {
         visible={goBackModalVisible}
         transparent
         className={style.modal}
-        title="内容尚未保存"
       >
         <div className={style.modalBody}>
+          <p>删除此工作经历将无法恢复，</p>
           <p>你确定要退出吗?</p>
           <div>
             <div onClick={this.props.handleExit}>退出</div>
