@@ -333,11 +333,11 @@ class Register extends PureComponent {
         />
         <Alert
           title="手机号已注册"
-          height={120}
+          height={130}
           closable={0}
           visible={this.state.registered}
           onClose={this.onClose('registered')}
-          message={`请直接登录`}
+          message="该手机号已被注册，请直接登录"
           actions={[
             {
               text: '取消',
