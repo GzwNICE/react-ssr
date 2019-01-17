@@ -121,13 +121,8 @@ class OPintion extends PureComponent {
           errorImage3: this.state.errorImage3,
         })
       )
-      .then(data => {
-        if (data.status === 1) {
-          feedSuccess()
-        }
-        if (data.status === 0) {
-          Toast.info('图片格式错误', 2)
-        }
+      .then(() => {
+        feedSuccess()
       })
   }
 

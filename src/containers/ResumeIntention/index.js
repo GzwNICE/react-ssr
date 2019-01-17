@@ -112,6 +112,7 @@ class ResumeIntention extends PureComponent {
       DesiredPositions,
       resume,
     } = this.props
+    console.log(DesiredPositions)
     const { getFieldProps } = form
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -131,6 +132,7 @@ class ResumeIntention extends PureComponent {
             {...getFieldProps('desired_positions', {
               initialValue: DesiredPositions,
             })}
+            extra="请选择"
             maxLength={5}
           >
             <List.Item arrow="horizontal">意向职位</List.Item>
@@ -139,6 +141,7 @@ class ResumeIntention extends PureComponent {
             {...getFieldProps('company_industry', {
               initialValue: DesiredCompanyTypes.length ? DesiredCompanyTypes.map(item => item.industry) : [],// DesiredCompanyTypes.map(item => ('0' + item.industry).slice(-2) + ('0' + item.company_type).slice(-2)) : [],
             })}
+            extra="请选择"
             maxLength={5}
             type="Industry"
           >
@@ -156,12 +159,14 @@ class ResumeIntention extends PureComponent {
             {...getFieldProps('desired_locations', {
               initialValue: DesiredLocations,
             })}
+            extra="请选择"
             maxLength={5}
           >
             <List.Item arrow="horizontal">意向地点</List.Item>
           </Area>
           <div className={style.noboderline}>
             <Salary
+            extra="请选择"
               auto
               {...getFieldProps('desired_salary', {
                 initialValue: [DesiredJob.desired_salary],
