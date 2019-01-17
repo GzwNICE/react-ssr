@@ -17,7 +17,6 @@ import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
-import queryString from 'query-string'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -136,13 +135,15 @@ class Resume extends PureComponent {
     })
   }
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
-    if (pathSearch) {
-      this.props.history.go(-1)
+    const search = this.props.history.location.search
+    if (search.indexOf('source=/user') !== 0) {
+      let path = '/user'
+      if (search.indexOf('?redirect=') !== -1) {
+        path = path + '?redirect=' + search.split('?redirect=')[1]
+      }
+      this.props.history.push(path)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/home')
-        : this.props.history.go(-1)
+      this.props.history.push('/home')
     }
   }
   render() {
@@ -197,7 +198,7 @@ class Resume extends PureComponent {
                   简历完善度:<span>{percentage}</span>
                 </p>
                 <Flex>
-                  <Flex.Item>
+                  <Flex.Item  onClick={this.handleGoto.bind(this, `/person/privacy`)}>
                     <img src={setIcon} />
                     <p>设置</p>
                   </Flex.Item>

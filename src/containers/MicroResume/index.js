@@ -63,7 +63,7 @@ class MicroResume extends PureComponent {
           appchannel: 'web',
         })).then( data => {
           if (this.props.resume.true_name_cn) {
-            this.props.history.replace('/resume') 
+            // this.props.history.replace('/resume') 
           }
         })
       }
@@ -114,6 +114,7 @@ class MicroResume extends PureComponent {
       if (values.job_time[0] === '' || values.job_time[1] === '') {
         return Toast.info('最近工作时间请选择完整', 2)
       }
+
       if (values.job_time[1] !== 0 && values.job_time[0] > values.job_time[1]) {
         return Toast.info('最近工作时间输入有误', 2)
       }
@@ -203,7 +204,7 @@ class MicroResume extends PureComponent {
             }
             if (changeVal) {
               this.props.history.push(
-                '/resume?redirect=' + path
+                '/resume'
               )
             } else {
               this.props.history.push(
