@@ -4,7 +4,7 @@ class ComInfor extends PureComponent {
   render(){
 
     return (
-      <div className={style.line}></div>
+      <div className={style.line} style={this.props.style}></div>
     )
   }
 }

@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 import { getAllInfo, edit as resumeEdit } from '../../actions/resume'
 import { NavBar, Flex, List, InputItem, Toast, Icon } from 'antd-mobile'
 import _ from 'lodash'
-import F from '../../helper/tool'
 import { createForm } from 'rc-form'
-// import moment from 'moment'
 import style from './style.less'
 import Area from '../../inputs/Area'
 import Gender from '../../inputs/Gender'
@@ -14,12 +12,9 @@ import moment from 'moment'
 import GobackModal from '../../components/GoBackModal/index3'
 import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
+import BorderBottomLine from '../../components/BorderBottomLine'
 
-const YING_JIE_SHENG = '应届生'
 @connect(state => {
-  // console.log(state.resume.birthday)
-  // console.log(state.resume.work_date)
-
   return {
     option: state.option,
     resume: state.resume,
@@ -35,7 +30,7 @@ class ResumeInfo extends PureComponent {
     }
   }
   componentDidMount() {
-    if(this.props.history.action !== 'REPLACE'){
+    if (this.props.history.action !== 'REPLACE') {
       this.props.dispatch(
         getAllInfo({
           appchannel: 'web',
@@ -43,10 +38,10 @@ class ResumeInfo extends PureComponent {
       )
     }
   }
-    // 所有子组件修改根组件都可以调用这个方法
-    setSst = obj => {
-      this.setState(obj)
-    }
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
+  }
 
   changeValue() {
     this.props.form.validateFields((err, values) => {
@@ -65,18 +60,27 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请输入参加工作时间', 2)
       }
 
-      if (values.work_date !==0) {
+      if (values.work_date !== 0) {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
         if (start > end) {
           return Toast.info('参加工作时间必须大于出生年月', 2)
         }
       }
-     
+
       if (values.current_location.length === 0) {
         return Toast.info('请选择您的现居地', 2)
       }
-      const work_date = values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+      const { resume } = this.props
+
+      if (resume.is_phone_bind !== '1') {
+        return Toast.info('请绑定你的手机号', 2)
+      }
+      if (resume.is_email_bind !== '1') {
+        return Toast.info('请绑定你的邮箱', 2)
+      }
+      const work_date =
+        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
       const birthday = moment(values.birthday).format('YYYY-M')
       // window.zhuge.track('我的简历', { '模块': '基本信息' })
       const parmas = {
@@ -87,27 +91,27 @@ class ResumeInfo extends PureComponent {
         graduation_time: '', // values.graduation_time.join('-')
       }
       console.log(parmas)
-      this.props
-        .dispatch(
-          resumeEdit(parmas)
-        )
-        .then(data => {
-          if (data.status === 0) {
-            return Toast.info(data.errMsg, 2)
-          }
-          // this.props.history.goBack()
-        })
+      this.props.dispatch(resumeEdit(parmas)).then(data => {
+        if (data.status === 0) {
+          return Toast.info(data.errMsg, 2)
+        }
+        Toast.info('保存成功', 2)
+        setTimeout(() => {
+        this.props.history.goBack()
+        }, 999)
+      })
     })
   }
 
   save = () => {
     this.props.form.validateFields((err, values) => {
       let payload = {}
-      Object.keys(values).forEach((key) => {
-        payload[key] = (String(values[key]) || '')
+      Object.keys(values).forEach(key => {
+        payload[key] = String(values[key]) || ''
       })
-     
-      const work_date = values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+
+      const work_date =
+        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
       const birthday = moment(values.birthday).format('YYYY-M')
 
       const payloaded = {
@@ -130,7 +134,7 @@ class ResumeInfo extends PureComponent {
     const { resume } = this.props
     this.props.history.push(
       `/mobilebind/${_.toInteger(resume.is_phone_bind)}/${resume.mobile ||
-      0}/${resume.hidden_mobile || 0}`
+        0}/${resume.hidden_mobile || 0}`
     )
   }
 
@@ -142,31 +146,66 @@ class ResumeInfo extends PureComponent {
         0}/${resume.hidden_email || 0}`
     )
   }
+  // 顶部绑定的文案
+  bindText = () => {
+    const { resume } = this.props
+    if (resume.is_phone_bind !== '1' && resume.is_email_bind !== '1') {
+      return (
+        <p className={style.footer}>
+          <i />为保证简历信息真实性，请先绑定手机号码和邮箱
+        </p>
+      )
+    }
 
- 
+    if (resume.is_phone_bind !== '1' && resume.is_email_bind === '1') {
+      return (
+        <p className={style.footer}>
+          <i />为保证简历信息真实性，请先绑定手机号码
+        </p>
+      )
+    }
+
+    if (resume.is_phone_bind === '1' && resume.is_email_bind !== '1') {
+      return (
+        <p className={style.footer}>
+          <i />为保证简历信息真实性，请先绑定邮箱
+        </p>
+      )
+    }
+  }
+
   render() {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
+    // console.log(resume)
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
-        <span className={style.bind} style={{ color: '#FF4F00' }}>已绑定</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>
+          已绑定
+        </span>
         {resume.hidden_mobile}
       </span>
     ) : (
       <span>
-        <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>
+          待绑定
+        </span>
         {resume.hidden_mobile || '请输入'}
       </span>
     )
     const emailStatus = _.toInteger(resume.is_email_bind) ? (
       <span>
-        <span className={style.bind} style={{ color: '#FF4F00' }}>已绑定</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>
+          已绑定
+        </span>
         {resume.hidden_email}
       </span>
     ) : (
       <span>
-        <span className={style.bind} style={{ color: '#FF4F00' }}>待绑定</span>
+        <span className={style.bind} style={{ color: '#FF4F00' }}>
+          待绑定
+        </span>
         {resume.hidden_email || '请输入'}
       </span>
     )
@@ -196,15 +235,22 @@ class ResumeInfo extends PureComponent {
 
           <Gender
             {...getFieldProps('gender', {
-              initialValue: resume.gender,
+              initialValue: resume.gender ? resume.gender : 1,
             })}
           >
             <List.Item>性别</List.Item>
           </Gender>
-        <BirthTime {...getFieldProps('birthday', {initialValue: resume.birthday})}  title="出生年月"/>
-        
-        <JoinJobTime {...getFieldProps('work_date', {initialValue: resume.work_date })}  title="参加工作时间"/>
-    
+          <BirthTime
+            {...getFieldProps('birthday', { initialValue: resume.birthday })}
+            title="出生年月"
+          />
+          <BorderBottomLine style={{margin: '0 20px'}}/>
+          <JoinJobTime
+            {...getFieldProps('work_date', { initialValue: resume.work_date })}
+            title="参加工作时间"
+          />
+          <BorderBottomLine style={{margin: '0 20px'}}/>
+
           <Area
             {...getFieldProps('current_location', {
               initialValue: resume.current_location
@@ -215,16 +261,25 @@ class ResumeInfo extends PureComponent {
             <List.Item arrow="horizontal">现居地</List.Item>
           </Area>
 
-          <List.Item onClick={() => this.bindMobile(1)} extra={mobileStatus} arrow="horizontal">
+          <List.Item
+            onClick={() => this.bindMobile(1)}
+            extra={mobileStatus}
+            arrow="horizontal"
+          >
             手机号码
           </List.Item>
 
-          <List.Item className={style.email} onClick={() => this.bindEmail()} extra={emailStatus} arrow="horizontal">
+          <List.Item
+            className={style.email}
+            onClick={() => this.bindEmail()}
+            extra={emailStatus}
+            arrow="horizontal"
+          >
             联系邮箱
           </List.Item>
-
         </List>
-        <p className={style.footer}><i></i>为保证简历信息真实性，请先绑定手机号码和邮箱</p>
+        {this.bindText()}
+
         <GobackModal
           setSet={this.setSst.bind(this)}
           goBackModalVisible={goBackModalVisible}

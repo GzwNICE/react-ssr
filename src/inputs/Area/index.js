@@ -203,7 +203,7 @@ class ComplexSelView extends ComplexFormField {
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
-          选择职位
+          选择城市
         </NavBar>
         {this.optView()}
         <div className={style.wrap} style={styleObj}>

@@ -163,7 +163,7 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage } = this.state
-    // todo 设置、预览的链接还没写
+    console.log(DesiredPositions)
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -198,7 +198,9 @@ class Resume extends PureComponent {
                   简历完善度:<span>{percentage}</span>
                 </p>
                 <Flex>
-                  <Flex.Item  onClick={this.handleGoto.bind(this, `/person/privacy`)}>
+                  <Flex.Item
+                    onClick={this.handleGoto.bind(this, `/person/privacy`)}
+                  >
                     <img src={setIcon} />
                     <p>设置</p>
                   </Flex.Item>
