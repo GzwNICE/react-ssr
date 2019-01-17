@@ -313,7 +313,7 @@ class Register extends PureComponent {
         </div>
         <Alert
           title="验证码上限提醒"
-          height={140}
+          height={120}
           closable={0}
           visible={this.state.upperLimit}
           onClose={this.onClose('upperLimit')}
@@ -323,6 +323,26 @@ class Register extends PureComponent {
               text: '我知道了',
               onPress: this.onClose('upperLimit'),
               type: 'know',
+            },
+          ]}
+        />
+        <Alert
+          title="手机号已注册"
+          height={120}
+          closable={0}
+          visible={this.state.upperLimit}
+          onClose={this.onClose('upperLimit')}
+          message={`请直接登录`}
+          actions={[
+            {
+              text: '取消',
+              onPress:()=>this.wontGo(),
+              type: 'close',
+            },
+            {
+              text: '登录',
+              onPress: this.onClose('mostPerfect'),
+              type: 'ok',
             },
           ]}
         />
