@@ -166,7 +166,7 @@ class Resume extends PureComponent {
     // console.log(option.opts_salary.salary_scope_index[
     //   DesiredJob.desired_salary
     // ])
-    console.log(DesiredJob)
+
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -313,7 +313,7 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {DesiredJob.desired_salary
+                    {DesiredJob.desired_salary && DesiredJob.desired_salary !== '0'
                       ? option.opts_salary.salary_scope_index[
                           DesiredJob.desired_salary
                         ]
@@ -321,7 +321,7 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>求职状态：</span>
-                    {resume.job_status ? option.opts_job_status_index[resume.job_status] : '暂无'}
+                    {resume.job_status && resume.job_status !== '0' ? option.opts_job_status_index[resume.job_status] : '暂无'}
                   </div>
                 </Card.Body>
               </Card>
