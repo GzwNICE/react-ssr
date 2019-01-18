@@ -28,7 +28,7 @@ class Register extends PureComponent {
     password: true,
     tipFont: '获取验证码',
     disableCode: true,
-    index: 5,
+    index: 60,
     needVerify: this.props.bindExistAccount.needVerify,
     phoneCounty: '0086',
     upperLimit: false,
@@ -63,7 +63,7 @@ class Register extends PureComponent {
 
   Clear = () => {
     this.setState({
-      index: 5,
+      index: 60,
       disableCode: true,
       tipFont: '获取验证码',
     })
@@ -113,7 +113,7 @@ class Register extends PureComponent {
 
                 this.setState({
                   index: this.state.index - 1,
-                  tipFont: `${this.state.index - 1}秒后重新获取`,
+                  tipFont: `${this.state.index - 1}s`,
                 })
               }, 999)
             } else if (data.flag === 5012) {

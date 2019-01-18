@@ -82,13 +82,11 @@ export default class CompanyArea extends Component {
   }
 
   whereWillIGo = () => {
-    const { pathSearch }  = queryString.parse(window.location.search)
-    if (pathSearch) {
-      this.props.history.go(-1)
+    const  {redirect}  = queryString.parse(window.location.search)
+    if (redirect) {
+      this.props.history.replace(redirect)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/home')
-        : this.props.history.go(-1)
+      this.props.history.replace('/home')
     }
   }
 
