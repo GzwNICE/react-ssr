@@ -73,7 +73,7 @@ class ComplexSelView extends ComplexFormField {
           <InputItem
             clear
             defaultValue={defaultValue}
-            placeholder="请输入职位名称"
+            placeholder="请输入公司名称"
             onChange={this.onChange}
           />
         </div>

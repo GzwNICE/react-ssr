@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react'
 import { DatePicker } from 'antd-mobile'
-import style from '../style.less'
+import style from './style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
-const maxDate = moment().year(nowYear - 16).month(11)._d
+const maxDate = new Date()
 const minDate = moment().year(nowYear - 80).month(0)._d
-
-
 let timeChange = false
 const CustomChildren = ({ extra, onClick, children }) => {
   extra = timeChange ? extra : '请选择'
+  console.log(extra)
   return (
     <div
       onClick={onClick}
@@ -37,11 +36,37 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value: moment().year(nowYear - 22)._d,
+      value: moment().year(nowYear - 1)._d,
     }
   }
   componentDidMount() {
     timeChange = false
+    console.log(timeChange)
+    const { value } = this.props
+    this.initVal(value)
+  }
+  componentWillReceiveProps(next) {
+    const { value } = next
+    this.initVal(value)
+  }
+  initVal = (value) => {
+    if (
+      value !== undefined &&
+      value &&
+      typeof value === 'string' &&
+      value.indexOf('-') !== -1
+    ) {
+      let dt = new Date(value.replace(/-/, '/'))
+      timeChange = true
+      this.setState({
+        value: dt,
+      })
+      const onChange = this.props.onChange
+      console.log(timeChange)
+      if (onChange) {
+        onChange(dt)
+      }
+    }
   }
   onChange = value => {
     this.setState({
@@ -57,7 +82,7 @@ class JobTime extends PureComponent {
 
   render() {
     const { value } = this.state
-    const { title="title" } = this.props
+    const { title } = this.props
     return (
       <DatePicker
         mode="month"

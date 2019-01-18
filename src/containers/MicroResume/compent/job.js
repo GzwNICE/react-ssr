@@ -11,7 +11,9 @@ import Company from '../../../components/CompanyJobSearch/companySearch'
 import Job from '../../../components/CompanyJobSearch/jobSearch'
 
 const maxDate = new Date()
-const minDate = new Date(maxDate - 99 * 365 * 24 * 60 * 60 * 1000)
+// const minDate = new Date(maxDate - 99 * 365 * 24 * 60 * 60 * 1000)
+const minYear = moment().weekYear() - 80
+const minDate = moment().year(minYear)._d
 @connect(state => {
   return {
     auth: state.auth,

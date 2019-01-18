@@ -11,17 +11,18 @@ import style from './style.less'
 })
 class IdType extends PureComponent {
   render() {
-    const { options = [], value, children } = this.props
-    // const arr = options.reverse()
-    // console.log(value)
-    // console.log(children)
+    const { options = [], value = 1, children } = this.props
+    let val = value
+    if (Number(value) !== 2 ) {
+      val = 1
+    }
     return React.cloneElement(children, {
       extra: (
         <Flex direction="row-reverse">
           <Checkbox
             key={2}
             className={style.radio}
-            checked={2 === parseInt(value, 10)}
+            checked={2 === parseInt(val, 10)}
             onChange={e => this.props.onChange(2)}
           >
             女
@@ -29,7 +30,7 @@ class IdType extends PureComponent {
           <Checkbox
             key={1}
             className={style.radio}
-            checked={1 === parseInt(value, 10)}
+            checked={1 === parseInt(val, 10)}
             onChange={e => this.props.onChange(1)}
           >
             男

@@ -28,7 +28,7 @@ class Register extends PureComponent {
     password: true,
     tipFont: '获取验证码',
     disableCode: true,
-    index: 5,
+    index: 60,
     needVerify: this.props.bindExistAccount.needVerify,
     phoneCounty: '0086',
     upperLimit: false,
@@ -63,7 +63,7 @@ class Register extends PureComponent {
 
   Clear = () => {
     this.setState({
-      index: 5,
+      index: 60,
       disableCode: true,
       tipFont: '获取验证码',
     })
@@ -96,11 +96,11 @@ class Register extends PureComponent {
         if (this.state.disableCode) {
           mobile({
             mobile: value.number,
-            captcha: '',
             sms_type: 2,
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
             tx_type: 1,
+            country: this.state.phoneCounty,
           }).then(data => {
             if (data.flag === 0) {
               this.setState({
@@ -113,7 +113,7 @@ class Register extends PureComponent {
 
                 this.setState({
                   index: this.state.index - 1,
-                  tipFont: `${this.state.index - 1}秒后重新获取`,
+                  tipFont: `${this.state.index - 1}s`,
                 })
               }, 999)
             } else if (data.flag === 5012) {
@@ -126,7 +126,9 @@ class Register extends PureComponent {
               const errMs = errCode[flag]
               if (data.flag === 5117 && errMs) {
                 upperLimit()
-              } else {
+              }else if(data.flag === 5014){
+                Toast.info('手机号与归属地不匹配', 2)
+              }else {
                 Toast.info(errMs, 2)
               }
               // window.zhuge.track('注册失败', {
@@ -229,10 +231,10 @@ class Register extends PureComponent {
     }
   }
 
-  goLogin =() =>{
+  goLogin = () => {
     this.props.history.push(`/login${window.location.search}`)
   }
-  
+
   componentDidMount() {
     // const { key } = this.props.location.state || {}
     // const { sss } = queryString.parse(window.location.search)
@@ -262,51 +264,53 @@ class Register extends PureComponent {
         <div className={style.back} onClick={this.goBack}>
           <img src={Rectangle} alt="返回" />
         </div>
-        <div className={style.title}>注册最佳东方</div>
-        <div className={style.forms}>
-          <div className={style.phoneCode}>
-            <InputItem
-              {...getFieldProps('number', { onChange: this.onPhoneNumber })}
-              className={style.inputHei}
-              clear
-              placeholder="请输入常用手机号"
-              maxLength="11"
-            >
-              <County setSet={this.setSst.bind(this)} />
-            </InputItem>
-          </div>
+        <div className={style.registerCent}>
+          <div className={style.title}>注册最佳东方</div>
+          <div className={style.forms}>
+            <div className={style.phoneCode}>
+              <InputItem
+                {...getFieldProps('number', { onChange: this.onPhoneNumber })}
+                className={style.inputHei}
+                clear
+                placeholder="请输入常用手机号"
+                maxLength="11"
+              >
+                <County setSet={this.setSst.bind(this)} />
+              </InputItem>
+            </div>
 
-          <div className={style.massageCode}>
-            <InputItem
-              {...getFieldProps('massageCode', {
-                onChange: this.onPhoneNumber,
-              })}
-              className={`${style.inputHei} ${style.massageLeft}`}
-              clear
-              placeholder="请输入短信验证码"
-            />
-            <div
-              onClick={this.getCode}
-              id="TencentCaptcha"
-              data-appid="2096087700"
-              data-cbfn="callbackdfws"
-              className={`${style.massage} ${
-                this.state.disableCode ? null : style.disabledCode
-              }`}
-            >
-              {this.state.tipFont}
+            <div className={style.massageCode}>
+              <InputItem
+                {...getFieldProps('massageCode', {
+                  onChange: this.onPhoneNumber,
+                })}
+                className={`${style.inputHei} ${style.massageLeft}`}
+                clear
+                placeholder="请输入短信验证码"
+              />
+              <div
+                onClick={this.getCode}
+                id="TencentCaptcha"
+                data-appid="2096087700"
+                data-cbfn="callbackdfws"
+                className={`${style.massage} ${
+                  this.state.disableCode ? null : style.disabledCode
+                }`}
+              >
+                {this.state.tipFont}
+              </div>
             </div>
           </div>
-        </div>
-        <div onClick={this.onRegister} className={style.subBtn}>
-          <a className={this.state.disabled ? null : `${style.disabled}`}>
-            注 册
-          </a>
+          <div onClick={this.onRegister} className={style.subBtn}>
+            <a className={this.state.disabled ? null : `${style.disabled}`}>
+              注 册
+            </a>
 
-          <div className={Loginstyle.otherLogin}>
-            <div />
-            <div onClick={() => this.goRegister('/login')}>
-              <span>直接登录</span>
+            <div className={Loginstyle.otherLogin}>
+              <div />
+              <div onClick={() => this.goRegister('/login')}>
+                <span>直接登录</span>
+              </div>
             </div>
           </div>
         </div>
@@ -346,7 +350,7 @@ class Register extends PureComponent {
             },
             {
               text: '登录',
-              onPress: ()=>this.goLogin(),
+              onPress: () => this.goLogin(),
               type: 'ok',
             },
           ]}

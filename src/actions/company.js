@@ -10,6 +10,7 @@ export const DELETE_COMPANY_INFO = 'DELETE_COMPANY_INFO' // 清楚数据
 export const GET_BLOCDETAIL_CATEGORY = 'GET_BLOCDETAIL_CATEGORY' // 名企专区品牌分类
 export const GET_BLOCDETAIL_LIST = 'GET_BLOCDETAIL_LIST' // 名企专区
 export const GET_BLOCDETAIL_SEARCH = 'GET_BLOCDETAIL_SEARCH' // 名企专区搜索
+export const GET_BLOCDETAIL_SEARCH_CLEAR = 'GET_BLOCDETAIL_SEARCH_CLEAR' // 名企专区搜索
 
 const URLPOST = ':ve.mobile.interface/job/company_detail'
 const URLLIST = ':ve.mobile.interface/job/company_recruit_jobs'
@@ -93,7 +94,12 @@ export const blocSearch = singleApi({
   },
 })
 
-
+// 名企搜索
+export const blocSearchClear = () => {
+  return {
+    type: GET_BLOCDETAIL_SEARCH_CLEAR,
+  }
+}
 
 export const emptyInfo = {
   type: DELETE_COMPANY_INFO,

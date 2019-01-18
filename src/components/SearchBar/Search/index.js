@@ -4,14 +4,10 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import personal from '../../../static/personal.png'
 import back from '../../../static/back.png'
-// import { loggingStatus } from '../../../actions/userStatus'
+import Userdefault from '../../../static/portrait@3x.png'
 import style from './style.less'
-// import { ConversationMemberRole } from 'leancloud-realtime'
 
-@connect(state => ({
-  // is_login: state.userStatus.is_login,
-  // photo: state.userStatus.photo,
-}))
+@connect(state => ({}))
 class Search extends Component {
   constructor(props) {
     super(props)
@@ -25,13 +21,17 @@ class Search extends Component {
 
   componentDidMount() {
     this.setState({
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
-      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
+      photo: sessionStorage.getItem('photo')
+        ? sessionStorage.getItem('photo')
+        : '',
     })
   }
 
   render() {
-    const {is_login,photo} =this.state
+    const { is_login, photo } = this.state
     return (
       <div className={style.Search}>
         <div className={style.goBack} onClick={this.props.goBack}>
@@ -54,7 +54,7 @@ class Search extends Component {
           }
         >
           <img
-            src={is_login ? photo : personal}
+            src={is_login ? (photo ? photo : Userdefault) : personal}
             alt="img"
             className={style.personal}
           />

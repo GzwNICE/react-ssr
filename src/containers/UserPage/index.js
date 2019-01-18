@@ -9,6 +9,7 @@ import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
+import { Modal } from 'antd-mobile'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
 import Resume from '../../static/resume@3x.png'
@@ -18,6 +19,7 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
+const alert = Modal.alert
 
 @connect(state => {
   return {
@@ -29,6 +31,7 @@ class UserPage extends PureComponent {
   state = {
     refresh: false,
     messageQueue: false,
+    loginOutAlert: false,
   }
 
   reFreshResume = () => {
@@ -115,12 +118,17 @@ class UserPage extends PureComponent {
     auth
       .logout()
       .then(data => {
+        this.setState({
+          loginOutAlert: false,
+        })
         if (data) {
-          Toast.info('退出成功', 2)
-          this.props.dispatch(login_out)
+          setTimeout(() => {
+            Toast.info('退出成功', 2)
+            this.props.dispatch(login_out)
+          }, 1000)
           setTimeout(() => {
             this.props.history.go(-1)
-          }, 1200)
+          }, 2000)
           sessionStorage.removeItem('is_login')
           sessionStorage.removeItem('photo')
         }
@@ -131,15 +139,11 @@ class UserPage extends PureComponent {
   }
 
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
-    console.log(pathSearch);
-    console.log(this.props.history.length);
-    if (pathSearch) {
-      this.props.history.go(-1)
+    const  {redirect}  = queryString.parse(window.location.search)
+    if (redirect) {
+      this.props.history.replace(redirect)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/home')
-        : this.props.history.go(-1)
+      this.props.history.replace('/home')
     }
   }
 
@@ -288,7 +292,7 @@ class UserPage extends PureComponent {
           </div>
         </div>
         <div className={style.bottom}>
-          <div className={style.quit} onClick={this.loginOut}>
+          <div className={style.quit} onClick={this.showModal('loginOutAlert')}>
             退出登录
           </div>
           <div className={style.contactWay}>
@@ -296,6 +300,26 @@ class UserPage extends PureComponent {
             <p>工作时间：9:00-18:00</p>
           </div>
         </div>
+        <Alert
+          title="退出登录"
+          height={130}
+          closable={0}
+          visible={this.state.loginOutAlert}
+          onClose={this.onClose('loginOutAlert')}
+          message="确定要退出登录么？"
+          actions={[
+            {
+              text: '取消',
+              onPress: this.onClose('loginOutAlert'),
+              type: 'close',
+            },
+            {
+              text: '确定',
+              onPress: () => this.loginOut(),
+              type: 'ok',
+            },
+          ]}
+        />
       </div>
     )
   }

@@ -54,14 +54,7 @@ class CompanyList extends Component {
                 : '',
             })
           )
-          .then(data => {
-            let Source = this.state.dataSource._dataBlob.s1.concat(
-              data.data.data
-            )
-            this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(Source),
-            })
-          })
+        
       } else {
         this.setState({
           isLoading: false,
@@ -78,14 +71,6 @@ class CompanyList extends Component {
               page: page,
             })
           )
-          .then(data => {
-            let Source = this.state.dataSource._dataBlob.s1.concat(
-              data.data.list
-            )
-            this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(Source),
-            })
-          })
       } else {
         this.setState({
           isLoading: false,
@@ -118,36 +103,33 @@ class CompanyList extends Component {
     
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.searchEnd) {
-      if (this.props.searchList !== nextProps.searchList) {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(
-            nextProps.searchList && nextProps.searchList
-          ),
-        })
-        if (
-          nextProps.searchList.length <= 20 &&
-          nextProps.searchPager.allPage === 1
-        ) {
+      if(nextProps.searchEnd){
+        if (this.props.searchList !== nextProps.searchList) {
+          console.log(nextProps.searchList);
           this.setState({
-            isLoading: false,
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.searchList),
           })
+          if (
+            nextProps.searchList.length <= 20 &&
+            nextProps.searchPager.allPage === 1
+          ) {
+            this.setState({
+              isLoading: false,
+            })
+          }
+        }
+      }else {
+        if ((!nextProps.searchEnd && nextProps.list.length > 0) || (this.props.list !== nextProps.list)) {
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
+          })
+          if (nextProps.list.length <= 20 && nextProps.pagers.allPage === 1) {
+            this.setState({
+              isLoading: false,
+            })
+          }
         }
       }
-    } else {
-      if (this.props.list !== nextProps.list) {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(
-            nextProps.list && nextProps.list
-          ),
-        })
-        if (nextProps.list.length <= 20 && nextProps.pagers.allPage === 1) {
-          this.setState({
-            isLoading: false,
-          })
-        }
-      }
-    }
   }
 
   render() {
@@ -190,7 +172,6 @@ class CompanyList extends Component {
     }
     return (
       <div className={style.companyList}>
-          
           <ListView
             ref={el => (this.lv = el)}
             className={style['override-am-list-view-scrollview-content']}
@@ -199,8 +180,8 @@ class CompanyList extends Component {
             scrollRenderAheadDistance={100}
             onEndReachedThreshold={200}
             scrollEventThrottle={100}
-            initialListSize={0}
-            pageSize={2000}
+            initialListSize={20}
+            pageSize={20}
             onScroll={this.onScroll}
             style={{
               height: this.state.height,

@@ -12,6 +12,7 @@ import F from '../../helper/tool'
 import { createForm } from 'rc-form'
 // import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
+import { loggingStatus } from '../../actions/userStatus'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
 import { withRouter } from 'react-router-dom'
@@ -98,7 +99,6 @@ class LoginCode extends PureComponent {
         if (this.state.disableCode){
           mobile({
             mobile: value.number,
-            captcha: '',
             sms_type: 7,
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
@@ -123,7 +123,9 @@ class LoginCode extends PureComponent {
               const errMs = errCode[flag]
               if(data.flag === 5117 && errMs){
                 upperLimit()
-              }else {
+              }else if(data.flag === 5014){
+                Toast.info('手机号与归属地不匹配', 2)
+              }else{
                 Toast.info(errMs, 2)
               }
             }
@@ -159,7 +161,6 @@ class LoginCode extends PureComponent {
           appchannel: 'web',
           country: this.state.phoneCounty,
         }).then(data => {
-          console.log(data)
           if(data) {
             Toast.info('登录成功', 2)
             // window.zhuge.track('验证码登录', {
@@ -168,13 +169,15 @@ class LoginCode extends PureComponent {
             //   '手机号': data.phone,
             //   '邮箱': data.email,
             // })
-            setTimeout(() => {
-              if(parsed.redirect) {
-                this.props.history.replace(_url)
-              } else {
-                this.props.history.replace('/user')
-              }
-            },1200)
+            this.props.dispatch(loggingStatus()).then(() => {
+              setTimeout(() => {
+                if(parsed.redirect) {
+                  this.props.history.replace(_url)
+                } else {
+                  this.props.history.replace('/user')
+                }
+              }, 999)
+            })
           }
         })
           .catch(err => {

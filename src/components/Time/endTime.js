@@ -5,7 +5,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import initDate from '../../helper/datePlugin'
 
-const YING_JIE_SHENG = '应届生'
+const YING_JIE_SHENG = '至今'
 
 let timeChange = false
 const CustomChildren = ({ extra, onClick, children }) => {
@@ -37,20 +37,15 @@ class JobTime extends PureComponent {
     this.state = {
       date: '',
       endTimedata: [],
-      sValue: [],
+      sValue: [YING_JIE_SHENG],
       endTime: '', // 开始时间毫秒
     }
   }
   componentDidMount() {
     const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-    let sValue = []
-    sValue[0] = `${moment().year() - 1}年`
-    sValue[1] = `${moment().month() + 1}月`
-
     timeChange = false
     this.setState({
       endTimedata: initData.data,
-      sValue,
     })
     const { value } = this.props
     this.initVal(value)
@@ -97,7 +92,6 @@ class JobTime extends PureComponent {
         return str
       })
       endTimeArr[1] = Number(endTimeArr[1]) - 1
-      console.log(endTimeArr)
       endTime = moment(endTimeArr).valueOf()
     }
     this.setState(

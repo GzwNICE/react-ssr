@@ -6,11 +6,12 @@ import { withRouter } from 'react-router-dom'
 import style from './style.less'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { SearchBar } from 'antd-mobile'
+import { SearchBar, Carousel } from 'antd-mobile'
 import SimpleItem from '../../inputs/SimpleItem'
 import { createForm } from 'rc-form'
 import { Link } from 'react-router-dom'
 import Area from '../../inputs/Area'
+import searchIocn from '../../static/searchIocn.png'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
@@ -22,6 +23,7 @@ import Userdefault from '../../static/portrait@3x.png'
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
+  banner: state.banner,
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -52,10 +54,13 @@ class MySearchBar extends PureComponent {
       this.autoFocusInst.focus()
     }
     this.setState({
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
-      photo: sessionStorage.getItem('photo') ? sessionStorage.getItem('photo') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
+      photo: sessionStorage.getItem('photo')
+        ? sessionStorage.getItem('photo')
+        : '',
     })
-    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,7 +84,7 @@ class MySearchBar extends PureComponent {
       touchCancel = function() {},
       onChange = function() {},
     } = this.props
-    const {is_login,photo} =this.state
+    const { is_login, photo } = this.state
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
@@ -112,6 +117,20 @@ class MySearchBar extends PureComponent {
             className={style.bac}
             placeholder={placeholder}
           />
+          {this.props.searchCarousel ? (
+            <Carousel
+              className={style.searchCarousel}
+              vertical
+              dots={false}
+              dragging={false}
+              swiping={false}
+              autoplay
+              infinite
+            >
+              <div className={style.searchItem}><img src={searchIocn}/>搜索职位/公司</div>
+              <div className={style.searchItem}>{`${this.props.banner.job_nums}个职位更新`}</div>
+            </Carousel>
+          ) : null}
         </div>
         {this.props.SearchUser ? (
           <Link
