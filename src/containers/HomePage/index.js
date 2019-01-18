@@ -264,8 +264,8 @@ class HomePage extends PureComponent {
               onChangeCity={this.onChangeCity}
               showCity="true"
               defaultValue="" // 输入框的默认值
-              placeholder="搜索职位/公司"
               SearchUser="true"
+              searchCarousel="true"
             />
           </div>
         </div>
