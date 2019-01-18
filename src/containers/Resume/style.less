@@ -4,7 +4,7 @@
   .header {
     //height: 149px;
     height: 56px;
-    background: linear-gradient(to right, #FF7214 , #FF4F00);
+    background: linear-gradient(to right, #ff7214, #ff4f00);
     position: relative;
     .nav {
       height: 22px;
@@ -41,8 +41,7 @@
       left: 0;
       top: -38px;
       width: 100%;
-      background: linear-gradient(to right, #FF7214 , #FF4F00);
-
+      background: linear-gradient(to right, #ff7214, #ff4f00);
     }
     .firstcard {
       height: 170px;
@@ -60,8 +59,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        vertical-align:middle;
-        border: 2Px solid #ffffff;
+        vertical-align: middle;
+        border: 2px solid #ffffff;
         overflow: hidden;
         img {
           height: 71px;
@@ -72,7 +71,7 @@
       .title {
         padding-top: 44px;
         font-size: 16px;
-        color: #4A4A4A;
+        color: #4a4a4a;
         letter-spacing: 0.2px;
       }
       .subTitle {
@@ -85,7 +84,7 @@
       :global(.am-flexbox-item) {
         text-align: center;
         font-size: 12px;
-        color: #6C6C6C;
+        color: #6c6c6c;
         img {
           width: 40px;
           height: 40px;
@@ -98,7 +97,7 @@
 
 .card {
   margin-bottom: 10px;
-  border-radius: 1PX;
+  border-radius: 1px;
   //am-card-header-content
   :global {
     .am-card-header-content {
@@ -107,7 +106,7 @@
         color: #222222;
         > span {
           font-size: 12px;
-          color: #FF4F00;
+          color: #ff4f00;
           display: inline-block;
           width: 48px;
           text-align: center;
@@ -120,9 +119,8 @@
     }
     .src-containers-Resume-style__item {
       font-size: 14px;
-      color: #4A4A4A;
+      color: #4a4a4a;
     }
-
   }
   &-body {
     font-size: 14px;
@@ -130,7 +128,7 @@
     > div {
       padding-bottom: 10px;
       > span {
-        color: #4A4A4A;
+        color: #4a4a4a;
         padding-right: 10px;
       }
     }
@@ -139,7 +137,7 @@
     }
     &-describe {
       font-size: 14px;
-      color: #4A4A4A;
+      color: #4a4a4a;
       letter-spacing: 0;
       line-height: 19px;
     }
@@ -149,12 +147,12 @@
       padding: 0 15px 25px 23px;
       position: relative;
       font-size: 13px;
-      color: #9B9B9B;
+      color: #9b9b9b;
       letter-spacing: 0;
       //margin-bottom: 25px;
       span {
         font-size: 14px;
-        color: #4A4A4A;
+        color: #4a4a4a;
       }
       &-circle {
         width: 12px;
@@ -182,7 +180,7 @@
       text-align: center;
       margin-bottom: 8px;
       font-size: 14px;
-      color: #4A4A4A;
+      color: #4a4a4a;
       img {
         width: 16px;
         height: 16px;
@@ -196,7 +194,7 @@
       position: relative;
       letter-spacing: 0;
       font-size: 14px;
-      color: #4A4A4A;
+      color: #4a4a4a;
       //margin-bottom: 25px;
       &-circle {
         width: 12px;
@@ -217,7 +215,7 @@
         width: 0;
         height: 100%;
         border: none;
-        border-left: 1Px solid #C8C7CC;
+        border-left: 1px solid #c8c7cc;
         opacity: 0.6;
         position: absolute;
         top: 16px;
@@ -240,7 +238,7 @@
       margin-top: 25px;
       margin-bottom: 8px;
       font-size: 14px;
-      color: #4A4A4A;
+      color: #4a4a4a;
       img {
         width: 16px;
         height: 16px;
@@ -253,7 +251,7 @@
     :global {
       .am-progress-bar {
         height: 4px !important;
-        background-color: #FF4F00;
+        background-color: #ff4f00;
         border-radius: 4px;
       }
     }
@@ -272,15 +270,14 @@
         }
       }
     }
-
   }
 }
 .toogle {
   height: 65px;
-  background: url("../../static/gradual.png") 100% 100%;
+  background: url('../../static/gradual.png') 100% 100%;
   text-align: center;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
   img {
     height: 16px;
     width: 16px;
@@ -293,7 +290,7 @@
   }
   p {
     font-size: 13px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
   }
 }
 .face {
@@ -305,15 +302,20 @@
   opacity: 0;
 }
 .boder1px {
-  border-bottom: 1Px solid rgba(200,199,204,0.50);
+  border-bottom: 1px solid rgba(200, 199, 204, 0.5);
 }
 .panel {
   :global {
     .am-list-item {
-      padding-left: 0!important;
+      padding-left: 0 !important;
     }
     .am-textarea-control {
-      padding: 0!important;
+      padding: 0 !important;
     }
   }
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

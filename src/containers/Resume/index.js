@@ -163,7 +163,7 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage } = this.state
-    console.log(DesiredPositions)
+    // console.log(DesiredPositions)
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -230,7 +230,7 @@ class Resume extends PureComponent {
                   }
                 />
                 <Card.Body className={style['card-body']}>
-                  <div>
+                  <div className={style.ellipsis}>
                     <span>
                       姓<Pla w={2} />
                       名：
@@ -285,13 +285,13 @@ class Resume extends PureComponent {
                   }
                 />
                 <Card.Body className={style['card-body']}>
-                  <div>
+                  <div className={style.ellipsis}>
                     <span>意向职位：</span>
                     {DesiredPositions&&DesiredPositions.length>0 ? DesiredPositions.map(
                       item => option.positions_index[item]
                     ).join(', ') : '暂无'}
                   </div>
-                  <div>
+                  <div className={style.ellipsis}>
                     <span>意向行业：</span>
                     {DesiredCompanyTypes&&DesiredCompanyTypes.length>0
                       ? DesiredCompanyTypes.map(
@@ -302,7 +302,7 @@ class Resume extends PureComponent {
                         )
                       : '暂无'}
                   </div>
-                  <div>
+                  <div className={style.ellipsis}>
                     <span>意向地点：</span>
                     {DesiredLocations&&DesiredLocations.length>0?DesiredLocations.map(
                       item => option.areas_index[item]

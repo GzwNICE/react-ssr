@@ -134,7 +134,7 @@ class ComplexSelView extends ComplexFormField {
       this.props.onChange(value)
       this.changeVisible(false, true)
     } else {
-      Toast.info('请输入内容', 2)
+      Toast.info('请至少选择一项', 2)
     }
   }
 

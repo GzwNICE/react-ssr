@@ -97,7 +97,7 @@ class ResumeInfo extends PureComponent {
         }
         Toast.info('保存成功', 2)
         setTimeout(() => {
-        this.props.history.goBack()
+          this.props.history.goBack()
         }, 999)
       })
     })
@@ -152,7 +152,8 @@ class ResumeInfo extends PureComponent {
     if (resume.is_phone_bind !== '1' && resume.is_email_bind !== '1') {
       return (
         <p className={style.footer}>
-          <i />为保证简历信息真实性，请先绑定手机号码和邮箱
+          <i />
+          为保证简历信息真实性，请先绑定手机号码和邮箱
         </p>
       )
     }
@@ -160,7 +161,8 @@ class ResumeInfo extends PureComponent {
     if (resume.is_phone_bind !== '1' && resume.is_email_bind === '1') {
       return (
         <p className={style.footer}>
-          <i />为保证简历信息真实性，请先绑定手机号码
+          <i />
+          为保证简历信息真实性，请先绑定手机号码
         </p>
       )
     }
@@ -168,7 +170,8 @@ class ResumeInfo extends PureComponent {
     if (resume.is_phone_bind === '1' && resume.is_email_bind !== '1') {
       return (
         <p className={style.footer}>
-          <i />为保证简历信息真实性，请先绑定邮箱
+          <i />
+          为保证简历信息真实性，请先绑定邮箱
         </p>
       )
     }
@@ -241,17 +244,20 @@ class ResumeInfo extends PureComponent {
             <List.Item>性别</List.Item>
           </Gender>
           <BirthTime
+            extra="请选择"
             {...getFieldProps('birthday', { initialValue: resume.birthday })}
             title="出生年月"
           />
-          <BorderBottomLine style={{margin: '0 20px'}}/>
+          <BorderBottomLine style={{ margin: '0 20px' }} />
           <JoinJobTime
+            extra="请选择"
             {...getFieldProps('work_date', { initialValue: resume.work_date })}
             title="参加工作时间"
           />
-          <BorderBottomLine style={{margin: '0 20px'}}/>
+          <BorderBottomLine style={{ margin: '0 20px' }} />
 
           <Area
+            extra="请选择"
             {...getFieldProps('current_location', {
               initialValue: resume.current_location
                 ? [resume.current_location]
