@@ -39,7 +39,7 @@ class ComplexFormField extends PureComponent {
     return React.cloneElement(children, {
       ...(isFn ? null : {
         extra: (formatExtra && formatExtra !== '') ? formatExtra :
-          this.props.hasOwnProperty('extra') ? extra : '城市',
+          this.props.hasOwnProperty('extra') ? extra : '请选择',
       }),
       onClick: () => this.changeVisible(true),
     }, warp)
