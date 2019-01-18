@@ -96,11 +96,11 @@ class Register extends PureComponent {
         if (this.state.disableCode) {
           mobile({
             mobile: value.number,
-            captcha: '',
             sms_type: 2,
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
             tx_type: 1,
+            country: this.state.phoneCounty,
           }).then(data => {
             if (data.flag === 0) {
               this.setState({
@@ -126,7 +126,9 @@ class Register extends PureComponent {
               const errMs = errCode[flag]
               if (data.flag === 5117 && errMs) {
                 upperLimit()
-              } else {
+              }else if(data.flag === 5014){
+                Toast.info('手机号与归属地不匹配', 2)
+              }else {
                 Toast.info(errMs, 2)
               }
               // window.zhuge.track('注册失败', {

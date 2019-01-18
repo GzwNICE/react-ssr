@@ -10,6 +10,7 @@ import {
   GET_BLOCDETAIL_CATEGORY,
   GET_BLOCDETAIL_LIST,
   GET_BLOCDETAIL_SEARCH,
+  GET_BLOCDETAIL_SEARCH_CLEAR,
 } from '../actions/company'
 
 const initState = {
@@ -78,8 +79,14 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_SEARCH:
       return {
         ...state,
-        searchList: action.data.data,
+        searchList: state.searchList.concat(action.data.data),
         searchPager:  action.data.pager,
+      }
+    case GET_BLOCDETAIL_SEARCH_CLEAR:
+      return {
+        ...state,
+        searchList: [],
+        searchPager:  {},
       }
     default:
       return state

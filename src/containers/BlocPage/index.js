@@ -13,7 +13,7 @@ import queryString from 'query-string'
 // import Area from '../../inputs/Area'
 // import Brand from '../../inputs/Brand'
 // import SimpleItem from '../../inputs/SimpleItem'
-import { blocList, blocSearch } from '../../actions/company'
+import { blocList, blocSearch, blocSearchClear } from '../../actions/company'
 import { saveQuery } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -56,6 +56,7 @@ export default class CompanyArea extends Component {
   }
 
   handleFilerSearch = (value = {}) => {
+    this.props.dispatch(blocSearchClear())
     this.props
       .dispatch(
         saveQuery({

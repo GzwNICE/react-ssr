@@ -99,7 +99,6 @@ class LoginCode extends PureComponent {
         if (this.state.disableCode){
           mobile({
             mobile: value.number,
-            captcha: '',
             sms_type: 7,
             tx_ticket: res.ticket,
             tx_randstr: res.randstr,
@@ -124,7 +123,9 @@ class LoginCode extends PureComponent {
               const errMs = errCode[flag]
               if(data.flag === 5117 && errMs){
                 upperLimit()
-              }else {
+              }else if(data.flag === 5014){
+                Toast.info('手机号与归属地不匹配', 2)
+              }else{
                 Toast.info(errMs, 2)
               }
             }
