@@ -3,7 +3,7 @@ echo "" > /root/.ssh/config
 #echo -e "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 # Dont pull code down if the .git folder exists
-   GIT_COMMAND='git clone '
+   GIT_COMMAND='git clone --depth 1 '
    if [ "$GIT_BRANCH" -a "$GIT_REPO" ]; then
      GIT_COMMAND=${GIT_COMMAND}" -b ${GIT_BRANCH} ${GIT_REPO}"
      ${GIT_COMMAND} /var/www/site || exit 1
