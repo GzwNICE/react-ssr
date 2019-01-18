@@ -163,7 +163,10 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage } = this.state
-    // console.log(DesiredPositions)
+    // console.log(option.opts_salary.salary_scope_index[
+    //   DesiredJob.desired_salary
+    // ])
+    console.log(DesiredJob)
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>

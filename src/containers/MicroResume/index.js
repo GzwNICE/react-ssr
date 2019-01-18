@@ -63,7 +63,7 @@ class MicroResume extends PureComponent {
           appchannel: 'web',
         })).then( data => {
           if (this.props.resume.true_name_cn) {
-            // this.props.history.replace('/resume') 
+            this.props.history.replace('/resume') 
           }
         })
       }
@@ -102,6 +102,9 @@ class MicroResume extends PureComponent {
       if (values.work_date === undefined) {
         return Toast.info('请选择参加工作时间', 2)
       }
+      if (values.birthday === undefined) {
+        return Toast.info('请选择出生年月', 2)
+      }
       if (values.company_name_cn === undefined) {
         return Toast.info('请填写所在公司', 2)
       }
@@ -114,10 +117,13 @@ class MicroResume extends PureComponent {
       if (values.job_time[0] === '' || values.job_time[1] === '') {
         return Toast.info('最近工作时间请选择完整', 2)
       }
-
-      if (values.job_time[1] !== 0 && values.job_time[0] > values.job_time[1]) {
-        return Toast.info('最近工作时间输入有误', 2)
+      if (values.work_date > values.job_time[0]) {
+        return Toast.info('开始时间不能小于参加工作时间', 2)
       }
+      if (values.job_time[1] !== 0 && values.job_time[0] > values.job_time[1]) {
+        return Toast.info('结束时间不能小于开始时间', 2)
+      }
+    
       const work_date =
         values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
       const begin_year = moment(values.job_time[0]).format('YYYY')
@@ -126,6 +132,9 @@ class MicroResume extends PureComponent {
         values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('YYYY')
       const end_month =
         values.job_time[1] === 0 ? 0 : moment(values.job_time[1]).format('M')
+      
+     
+
       const params = {
         true_name_cn: values.true_name_cn,
         gender: values.gender,
@@ -149,10 +158,10 @@ class MicroResume extends PureComponent {
         return Toast.info('请填写姓名', 2)
       }
       if (values.birthday === undefined) {
-        return Toast.info('请选择出生日期', 2)
+        return Toast.info('请选择出生年月', 2)
       }
       if (values.edu_end === undefined) {
-        return Toast.info('请选择毕业年份', 2)
+        return Toast.info('请选择毕业时间', 2)
       }
       if (values.degree === undefined) {
         return Toast.info('请选择最高学历', 2)
@@ -260,6 +269,10 @@ class MicroResume extends PureComponent {
           <List.Item>性别</List.Item>
         </Gender>
         <BorderBottomLine />
+
+        <BirthTime title="出生年月" {...getFieldProps('birthday', {})} />
+
+        <BorderBottomLine />
         <JoinJobTime {...getFieldProps('work_date', {})} />
 
         <BorderBottomLine />
@@ -303,10 +316,10 @@ class MicroResume extends PureComponent {
           <List.Item>性别</List.Item>
         </Gender>
         <BorderBottomLine />
-        <BirthTime {...getFieldProps('birthday', {})} />
+        <BirthTime title="出生年月" {...getFieldProps('birthday', {})} />
 
         <BorderBottomLine />
-        <GraduateTime {...getFieldProps('edu_end', {})} />
+        <GraduateTime title="毕业时间" {...getFieldProps('edu_end', {})} />
 
         <BorderBottomLine />
 
@@ -348,7 +361,7 @@ class MicroResume extends PureComponent {
         >
           创建简历
         </NavBar>
-        <p className={style.title}>欢迎来到最佳</p>
+        <p className={style.title}>欢迎来到最佳东方</p>
         <p className={style.subtitle}>“应聘职位前，你需要先创建一份简历”</p>
         <Tabs
           tabs={tabs}

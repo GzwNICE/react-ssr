@@ -5,8 +5,10 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const defaultDate = new Date()
-const maxDate = new Date(defaultDate.getFullYear() + 7, 11)
-const minDate = new Date(defaultDate - 80 * 365 * 24 * 60 * 60 * 1000)
+
+const nowYear = moment().weekYear()
+const maxDate = moment().year(nowYear + 7)._d
+const minDate = moment().year(nowYear - 80)._d
 
 let timeChange = false
 const CustomChildren = ({ extra, onClick, children }) => {
@@ -56,11 +58,11 @@ class JobTime extends PureComponent {
 
   render() {
     const { value } = this.state
-
+    const { title="title" } = this.props
     return (
       <DatePicker
         mode="month"
-        title="毕业年份"
+        title={title}
         extra="请选择"
         format={s => moment(s).format('YYYY.MM')}
         minDate={minDate}
@@ -68,7 +70,7 @@ class JobTime extends PureComponent {
         value={value}
         onChange={this.onChange}
       >
-        <CustomChildren>毕业年份</CustomChildren>
+        <CustomChildren>{title}</CustomChildren>
       </DatePicker>
     )
   }

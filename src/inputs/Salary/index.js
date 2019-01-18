@@ -30,19 +30,28 @@ class JobStatus extends PureComponent {
     })
   }
   format = item => {
+ 
+
     if (item[0] !== '50000以上') {
       item[0] = item[0] + '元'
+    }
+    console.log(item)
+    if (item.length === 0) {
+      console.log(item)
+      console.log(item.length)
+      item = ['请选择']
     }
     return item
   }
   render() {
+    console.log(this.props)
     const { salary_scope_index } = this.state
     return (
       <ComplexPicker
         format={this.format}
         {...this.props}
         data={salary_scope_index
-          // .filter(item => item.code !== 0)
+          .filter(item => item.code !== 0)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,

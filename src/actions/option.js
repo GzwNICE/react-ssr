@@ -18,6 +18,8 @@ let oddTime = option.time || 0, nowTime = new Date().getTime()
       url: ':ve.mobile.interface/data/options',
       type: $.load,
       done(payload, params, getState) {
+        // console.log(params)
+        // params = Object.assign(params, {appchannel: 'web'})
         const option = {
           ...payload.data,
         };

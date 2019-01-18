@@ -4,8 +4,6 @@ import {
   List,
   DatePicker,
   InputItem,
-  Toast,
-  Modal,
 } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
@@ -16,8 +14,9 @@ import { connect } from 'react-redux'
 import Company from '../../../components/CompanyJobSearch/companySearch'
 import Job from '../../../components/CompanyJobSearch/jobSearch'
 
-const maxDate = new Date();
-const minDate = new Date(maxDate - 99*365*24*60*60*1000);
+const maxDate = new Date()
+const minYear = moment().weekYear() - 80
+const minDate = moment().year(minYear)._d
 @connect(state => {
   return {
     auth: state.auth,

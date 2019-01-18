@@ -8,7 +8,7 @@ import {Toast} from "antd-mobile/lib/index";
 @connect(state => {
   return {
     options: state.option.areas,
-    optIndex: state.option.areas_index,
+    optIndex: state.option.areas_index || {},
     hot: state.option.opts_hot_area,
     coord: state.supers.location,
   }

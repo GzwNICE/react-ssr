@@ -65,6 +65,7 @@ class JobTime extends PureComponent {
         let str = item.substr(0, item.length -1)
         return str
       })
+      endTimeArr[1] = Number(endTimeArr[1]) - 1
       endTime = moment(endTimeArr).valueOf()
     }
     this.setState({ 

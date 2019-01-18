@@ -84,9 +84,9 @@ class ResumeIntention extends PureComponent {
         PersonDesiredPosition: JSON.stringify(values.desired_positions),
         PersonDesiredCompanyType: JSON.stringify(
           values.company_industry.map(item => ({
-            company_type: item,
-            industry: item,
-            star: '', // values.star_level[0]
+            company_type: JSON.stringify(item),
+            industry: JSON.stringify(item),
+            // star: '', // values.star_level[0]
           }))
         ),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
@@ -113,7 +113,6 @@ class ResumeIntention extends PureComponent {
       resume,
     } = this.props
     const { goBackModalVisible } = this.state
-    // console.log(DesiredJob.desired_salary)
     const { getFieldProps } = form
     return (
       <Flex direction="column" align="stretch" className={style.root}>

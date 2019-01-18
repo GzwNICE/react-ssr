@@ -3,26 +3,21 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { edit as educationalsEdit } from '../../actions/educationals'
-import { NavBar, Flex, List, InputItem, DatePicker, Checkbox, Toast, Icon, Modal } from 'antd-mobile'
+import { NavBar, Flex, List, DatePicker, Checkbox, Toast, Icon, Modal } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
 import style from '../ResumeInfo/style.less'
 import style2 from './style.less'
 
-import Area from '../../inputs/Area'
 import Education from '../../inputs/Education'
-import EduMajor from '../../inputs/EduMajor'
-import TextareaField from '../../inputs/TextareaField'
 import School from './components/schoolSearch'
 import Specialty from './components/specialtySearch'
 import { remove as educationalsRemove } from '../../actions/educationals'
 
-// const minDate = moment().year(moment().year() - 99)
-// const maxDate = moment()
-// const nowTimeStamp = Date.now();
-// const now = new Date(nowTimeStamp);
+
 const maxDate = new Date();
-let minDate = new Date(maxDate - 99*365*24*60*60*1000);
+const nowYear = moment().weekYear()
+const minDate = moment().year(nowYear - 80)._d
 // let strTime="2011/04";
 // console.log(new Date(Date.parse(strTime)))
 @connect(state => {

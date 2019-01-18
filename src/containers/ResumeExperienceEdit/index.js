@@ -19,9 +19,8 @@ import dayjs from "dayjs"
 
 const YING_JIE_SHENG = '至今'
 const maxDate = new Date();
-const minDate = new Date(maxDate - 99*365*24*60*60*1000);
-// console.log(moment().month().format('MM'))
-
+const minYear = moment().weekYear() - 80
+const minDate = moment().year(minYear)._d
 @connect(state => {
   // console.log(state)
   return {
