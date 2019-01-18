@@ -2,8 +2,20 @@ import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
-import {edit as workExpsEdit, remove as workExpsRemove} from '../../actions/work_exps'
-import { NavBar, Icon, Flex, List, InputItem, DatePicker, Toast, Checkbox, Picker, Modal } from 'antd-mobile'
+import {
+  edit as workExpsEdit,
+  remove as workExpsRemove,
+} from '../../actions/work_exps'
+import {
+  NavBar,
+  Icon,
+  Flex,
+  List,
+  InputItem,
+  Toast,
+  Checkbox,
+  Modal,
+} from 'antd-mobile'
 import { createForm } from 'rc-form'
 import moment from 'moment'
 import style2 from './style.less'
@@ -13,14 +25,10 @@ import Company from './components/companySearch'
 import Job from './components/jobSearch'
 import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
-// import Salary from '../../inputs/Salary';
-import initDate from '../../helper/datePlugin'
-import dayjs from "dayjs"
-
-const YING_JIE_SHENG = '至今'
-const maxDate = new Date();
-const minDate = new Date(maxDate - 99*365*24*60*60*1000);
-// console.log(moment().month().format('MM'))
+import StartTime from '../../components/Time/startTime'
+import EndTime from '../../components/Time/endTime'
+import BorderBottomLine from '../../components/BorderBottomLine'
+import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
   // console.log(state)
@@ -35,146 +43,85 @@ class ResumeExperienceEdit extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      endTimedata: [],
       visible: false,
-      sValue: [],
       deletModal: false,
-      showModal: false,
+      goBackModalVisible: false, // 返回按钮点击时出现的弹框
     }
   }
   componentDidMount() {
-    this.props.dispatch(getAllInfo({
-      appchannel: 'web',
-    })).then(() => {
-      const {
-        work_exps=[],
-        match,
-      } = this.props
-      const item = work_exps.filter(item => {
-        return item.id === match.params.id
-      })[0] || {}
-      let endTime = []
-      if (Number(item.end_year) === 0) {
-        endTime.push(YING_JIE_SHENG)
-      } else {
-        endTime.push(`${item.end_year}年`)
-        endTime.push(`${item.end_month}月`)
-      }
-
-      this.setState({
-        sValue: endTime,
+    this.props.dispatch(
+      getAllInfo({
+        appchannel: 'web',
       })
-    })
-    const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-    // console.log(initData)
-    // console.log(initData.data.reverse())
-    this.setState({
-      endTimedata: initData.data,
-      // sValue: initData.val,
-    })
+    )
   }
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(this.props)
-  //   console.log(nextProps)
-  // }
-  handleFormat = (val) => {
-    val = val.map((item) => {
-      if ( item === YING_JIE_SHENG ) {
-        return item
-      } else {
-        let str = item.substr(0, item.length -1)
-        str = str.length === 1 ? `0${str}` : str
-        return str
-      }
-    })
-    val =  val.join('.')
-    return val
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
   }
 
   changeValue() {
-    const { sValue } = this.state
     this.props.form.validateFields((err, values) => {
       if (err) return
       console.log(values)
 
-      if (values.company_name_cn === undefined || values.company_name_cn === '' ) {
+      if (!values.company_name_cn) {
         return Toast.info('请输入企业名称', 2)
       }
 
-      if (values.position_cn === undefined || values.position_cn === '' ) {
+      if (!values.position_cn) {
         return Toast.info('请输入职位名称', 2)
       }
 
-      if (values.begin === null || values.position_cn === '' ) {
+      if (!values.begin) {
         return Toast.info('请输入开始时间', 2)
       }
 
-      if (sValue.length === 0 ) {
+      if (!values.end) {
         return Toast.info('请输入结束时间', 2)
       }
 
-      if (values.begin !== null && sValue.length >= 0 && sValue[0] !== YING_JIE_SHENG) {
-        let beginTime = moment(values.begin).valueOf()
-
-        let endTime = sValue.map((item) => {
-          let str = item.substr(0, item.length -1)
-          // str = str.length === 1 ? `${str}` : str
-          return str
-        })
-        endTime = moment(dayjs(endTime).format('YYYY-M')).valueOf()
-        if (beginTime > endTime) {
+      if (values.end !== 0) {
+        let begin = new Date(moment(values.begin).format('YYYY/M')).valueOf()
+        let end = values.end
+        if (begin > end) {
           return Toast.info('结束时间必须大于开始时间', 2)
         }
-
       }
 
-      if(values.company_industry[0] === undefined) {
+      if (!values.company_industry[0]) {
         return Toast.info('请选择所属行业', 2)
       }
 
-      if (values.salary === undefined || values.salary === '' ) {
+      if (!values.salary) {
         return Toast.info('请输入税前薪资', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '工作经历' })
 
+      const end_year = values.end === 0 ? 0 : moment(values.end).format('YYYY')
+      const end_month = values.end === 0 ? 0 : moment(values.end).format('M')
 
-      let beginTime = values.begin
-      let endTime = sValue.map((item) => {
-        if ( item === YING_JIE_SHENG ) {
-          return item
-        } else {
-          let str = item.substr(0, item.length -1)
-          str = str.length === 1 ? `0${str}` : str
-          return str
-        }
-      })
-
-      // console.log(moment(beginTime).format('YYYY'))
-      // console.log(moment(beginTime).format('MM'))
-
-      let end_year, end_month
-      if (endTime[0] === YING_JIE_SHENG) {
-        end_year = 0
-        end_month = 0
-      } else {
-        end_year = endTime[0]
-        end_month = endTime[1]
-      }
-      this.props.dispatch(workExpsEdit({
+      const parmas = {
         ...values,
         id: this.props.match.params.id,
-        begin_year: moment(beginTime).format('YYYY'),
-        begin_month: moment(beginTime).format('MM'),
+        begin_year: moment(values.begin).format('YYYY'),
+        begin_month: moment(values.begin).format('M'),
         end_year,
         end_month,
-        salary_type: values.salary_type ?  2 : 1,
-
-        // position_cn: this.props.option.positions_index[values.position_id],
-        // job_responsibilities_cn: values.job_responsibilities_cn || '',
+        salary_type: values.salary_type ? 2 : 1,
+        job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
-      })).then(data => {
-        this.props.history.goBack()
+      }
+      console.log(parmas)
+      this.props.dispatch(workExpsEdit(parmas)).then(data => {
+        if (data.status === 0) {
+          return Toast.info(data.errMsg, 2)
+        }
+        Toast.info('保存成功', 2)
+        setTimeout(() => {
+          this.props.history.goBack()
+        }, 999)
       })
     })
   }
@@ -191,72 +138,50 @@ class ResumeExperienceEdit extends PureComponent {
     })
   }
   // 确认删除
-  handleDeleteOk = (item) => {
+  handleDeleteOk = item => {
     this.setState({
       deletModal: false,
     })
-    this.props.dispatch(workExpsRemove({
-      work_exp_id: item.id,
-    })).then(() => {
-      this.props.history.goBack()
-    })
-  }
-  // 退出
-  handleExit = () => {
-    this.setState({
-      showModal: false,
-    })
-    this.props.history.goBack()
-  }
-  // 继续填写
-  handleContinue = () => {
-    this.setState({
-      showModal: false,
-    })
-  }
-  // 返回
-  goBack = () => {
-    const { operation } = this.state
-    if (operation) {
-      this.setState({
-        showModal: true,
+    this.props
+      .dispatch(
+        workExpsRemove({
+          work_exp_id: item.id,
+        })
+      )
+      .then(() => {
+        this.props.history.goBack()
       })
-    } else {
-      this.props.history.goBack()
-    }
   }
+
   render() {
-    const {
-      form,
-      option,
-      work_exps=[],
-      match,
-    } = this.props
+    const { form, option, work_exps = [], match } = this.props
     const { getFieldProps } = form
-    const item = work_exps.filter(item => {
-      return item.id === match.params.id
-    })[0] || {}
-    const { endTimedata, sValue, deletModal, showModal } = this.state
+    const item =
+      work_exps.filter(item => {
+        return item.id === match.params.id
+      })[0] || {}
+    const { deletModal, goBackModalVisible } = this.state
+    let end_time = null
+    if (item.end_year === '0' || item.end_year === 0) {
+      end_time = '0'
+    } else if (item.end_year && item.end_year !== undefined) {
+      end_time = `${item.end_year}-${item.end_month}`
+    }
+
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.goBack()}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           工作经历
         </NavBar>
         <List>
-          {/*<InputItem*/}
-            {/*{...getFieldProps('company_name_cn', {*/}
-              {/*initialValue: item.company_name_cn,*/}
-            {/*})}*/}
-            {/*clear placeholder="请输入"*/}
-          {/*>*/}
-            {/*企业名称*/}
-          {/*</InputItem>*/}
           <Company
             {...getFieldProps('company_name_cn', {
               initialValue: item.company_name_cn,
@@ -264,7 +189,6 @@ class ResumeExperienceEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">企业名称</List.Item>
           </Company>
-          {/*这边想用之前定义的方法Post组件那个，但是没怎么看懂*/}
           <Job
             {...getFieldProps('position_cn', {
               initialValue: item.position_cn,
@@ -273,54 +197,24 @@ class ResumeExperienceEdit extends PureComponent {
             <List.Item arrow="horizontal">职位名称</List.Item>
           </Job>
 
-          {/*<Post*/}
-            {/*{...getFieldProps('position_id', {*/}
-              {/*initialValue: item.position_id ? [item.position_id] : [],*/}
-            {/*})}*/}
-          {/*>*/}
-            {/*<List.Item arrow="horizontal">职位名称</List.Item>*/}
-          {/*</Post>*/}
-
-          <DatePicker
+          <StartTime
+            extra="请选择"
             {...getFieldProps('begin', {
-              initialValue: (item.begin_year && item.begin_year !== '0') ?
-                new Date(Date.parse(`${item.begin_year}/${item.begin_month}`)) : null,
+              initialValue:
+                item.begin_year && item.begin_year !== '0'
+                  ? `${item.begin_year}-${item.begin_month}`
+                  : null,
             })}
-            mode="month"
             title="开始时间"
+          />
+          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <EndTime
             extra="请选择"
-            format={s => moment(s).format('YYYY.MM')}
-            minDate={minDate}
-            maxDate={maxDate}
-          >
-            <List.Item arrow="horizontal">开始时间</List.Item>
-          </DatePicker>
-
-          {/*<DatePicker*/}
-            {/*{...getFieldProps('end', {*/}
-              {/*initialValue: (item.end_year && item.end_year !== '0') ?*/}
-                {/*new Date(Date.parse(`${item.end_year}/${item.end_month}`)) : maxDate,*/}
-            {/*})}*/}
-            {/*mode="date"*/}
-            {/*title="结束时间"*/}
-            {/*extra="请选择"*/}
-            {/*format={s => moment(s).format('YYYY.MM')}*/}
-            {/*minDate={minDate}*/}
-            {/*maxDate={maxDate}*/}
-          {/*>*/}
-            {/*<List.Item arrow="horizontal">结束时间</List.Item>*/}
-          {/*</DatePicker>*/}
-          <Picker
-            data={endTimedata}
+            {...getFieldProps('end', { initialValue: end_time })}
             title="结束时间"
-            extra="请选择"
-            value={sValue}
-            cols={2}
-            format={this.handleFormat}
-            onOk={v => this.setState({ sValue: v })}
-          >
-            <List.Item arrow="horizontal">结束时间</List.Item>
-          </Picker>
+          />
+          <BorderBottomLine style={{ margin: '0 20px' }} />
+
           <CompanyIndustry
             {...getFieldProps('company_industry', {
               initialValue: [item.company_industry],
@@ -328,7 +222,7 @@ class ResumeExperienceEdit extends PureComponent {
             title="所属行业"
             extra="请选择"
           >
-            <List.Item className={style['boder-bottom-1px']} arrow="horizontal">所属行业</List.Item>
+            <List.Item arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
 
           <div className={style.noboderline}>
@@ -357,7 +251,11 @@ class ResumeExperienceEdit extends PureComponent {
           </List.Item>
           <TextareaField
             {...getFieldProps('job_responsibilities_cn', {
-              initialValue: item.job_responsibilities_cn,
+              initialValue:
+                item.job_responsibilities_cn &&
+                item.job_responsibilities_cn !== undefined
+                  ? item.job_responsibilities_cn
+                  : '',
             })}
             placeholder="90%的HR通过岗位职责了解您的工作能力，完整的岗位职责可增加面试机率，最少输入10个字，最多输入2000个字。"
             extra="选填"
@@ -366,14 +264,12 @@ class ResumeExperienceEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">岗位职责</List.Item>
           </TextareaField>
-
-
         </List>
-        {
-          (work_exps.length > 1 && item.id) ? <div className={style.bottom} onClick={this.handleDelete}>
+        {work_exps.length > 1 && item.id ? (
+          <div className={style.bottom} onClick={this.handleDelete}>
             删除此工作经历
-          </div> : null
-        }
+          </div>
+        ) : null}
 
         <Modal
           visible={deletModal}
@@ -390,21 +286,10 @@ class ResumeExperienceEdit extends PureComponent {
             </div>
           </div>
         </Modal>
-        <Modal
-          visible={showModal}
-          transparent
-          maskClosable={false}
-          className={style.modal}
-          title="内容尚未保存"
-        >
-          <div className={style.modalBody}>
-            <p>你确定要退出吗?</p>
-            <div>
-              <div onClick={this.handleExit}>退出</div>
-              <div onClick={this.handleContinue}>继续填写</div>
-            </div>
-          </div>
-        </Modal>
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </Flex>
     )
   }

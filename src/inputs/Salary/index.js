@@ -33,6 +33,9 @@ class JobStatus extends PureComponent {
     if (item[0] !== '50000以上') {
       item[0] = item[0] + '元'
     }
+    if (item[0] && item[0].indexOf('undefined') !== -1) {
+      item = ['请选择']
+    }
     return item
   }
   render() {
@@ -42,7 +45,7 @@ class JobStatus extends PureComponent {
         format={this.format}
         {...this.props}
         data={salary_scope_index
-          // .filter(item => item.code !== 0)
+          .filter(item => item.code !== 0)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,

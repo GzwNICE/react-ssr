@@ -52,11 +52,11 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请输入您的姓名', 2)
       }
 
-      if (values.birthday === undefined) {
+      if (values.birthday === undefined || values.birthday === '') {
         return Toast.info('请输入您的出生年月', 2)
       }
 
-      if (values.work_date === undefined) {
+      if (values.work_date === undefined || values.work_date === '') {
         return Toast.info('请输入参加工作时间', 2)
       }
 
@@ -181,7 +181,10 @@ class ResumeInfo extends PureComponent {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
-    // console.log(resume)
+    // console.log(resume.gender)
+    // if (resume.gender) {
+    //   console.log(1111)
+    // }
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>
@@ -238,7 +241,7 @@ class ResumeInfo extends PureComponent {
 
           <Gender
             {...getFieldProps('gender', {
-              initialValue: resume.gender ? resume.gender : 1,
+              initialValue: resume.gender && resume.gender !== undefined ? resume.gender : 1,
             })}
           >
             <List.Item>性别</List.Item>

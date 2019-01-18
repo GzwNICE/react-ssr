@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import initDate from '../../../helper/datePlugin'
 
 const maxDate = new Date()
-const minDate = new Date(maxDate - 99 * 365 * 24 * 60 * 60 * 1000)
+const minYear = moment().weekYear() - 80
+const minDate = moment().year(minYear)._d
 const YING_JIE_SHENG = '至今'
 
 @connect(state => {

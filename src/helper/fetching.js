@@ -17,6 +17,7 @@ import isServer from './isServer'
  */
 export default (options) => {
   return (params = {}, opts = {}) => (dispatch, getState) => {
+    params = Object.assign(params, {appchannel: 'web'})
     const { url, type, should, begin, done, error } = { ...options, ...opts }
     if (!should || should(params, getState)) {
       begin && dispatch({

@@ -47,10 +47,10 @@ class MicroResume extends PureComponent {
         if (search.indexOf('?redirect=') !== -1) {
           path = search.split('?redirect=')[1]
         }
-        this.props.history.push(
-          '/resume/micro?redirect=' +
-          path
-        )
+        // this.props.history.push(
+        //   '/resume/micro?redirect=' +
+        //   path
+        // )
       }
     }, 400)
   }
