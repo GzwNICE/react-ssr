@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/11/1.
+ * Created by gaozhiwen on 2019/1/17.
  */
 import { singleApi } from '../helper/reduxFetch'
 

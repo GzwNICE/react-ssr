@@ -31,7 +31,7 @@ const querys ={
   },
 })
 @connect(state => ({
-  supers: state.supers,
+  // supers: state.supers,
 }))
 class FilterList extends (PureComponent || Component) {
 
@@ -42,6 +42,7 @@ class FilterList extends (PureComponent || Component) {
       return null
     }
   }
+
   // componentWillReceiveProps(nextProps) {
   //   if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
   //     this.props.form.setFieldsValue(nextProps.query)
@@ -53,7 +54,7 @@ class FilterList extends (PureComponent || Component) {
   // }
 
   render() {
-    const { form, supers } = this.props
+    const { form } = this.props
     const { getFieldProps } = form
     return (
       <div className={style.selectInfo}>
@@ -61,7 +62,9 @@ class FilterList extends (PureComponent || Component) {
               <div className={style.city}>
               <Area
                   {...getFieldProps('areas', {
-                    initialValue: supers.location.address.code,
+                    initialValue:  [
+                      '9999',
+                    ],
                   })} // 触发form，调用onChangeCity
                 >
                   <SimpleItem arrow="horizontal" />

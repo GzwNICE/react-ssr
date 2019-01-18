@@ -63,18 +63,18 @@ class PositionDetail extends PureComponent {
       <p style={{ wordWrap: 'break-word' }}>{shareLink}</p>,
       [{ text: '确定', style: 'default' }]
     )
-    window.zhuge.track('分享')
+    // window.zhuge.track('分享')
   }
 
   nextPost = (job_id, c_userid) => {
-    window.zhuge.track('其他职位推荐')
+    // window.zhuge.track('其他职位推荐')
     this.props.history.push(`/${c_userid}/${job_id}`)
     this.props.handleSavePageScroll()
   }
 
   goCompany = c_userid => {
-    window.zhuge.track('点击公司名')
-    window.zhuge.track('公司详情页打开')
+    // window.zhuge.track('点击公司名')
+    // window.zhuge.track('公司详情页打开')
     this.props.history.push(`/${c_userid}`)
   }
 

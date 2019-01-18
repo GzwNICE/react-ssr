@@ -36,7 +36,7 @@ class ResumeLanguageEdit extends PureComponent {
       if(values.ability.length === 0) {
         return Toast.info('请选择掌握程度', 2)
       }
-      window.zhuge.track('我的简历', { '模块': '语言能力' })
+      // window.zhuge.track('我的简历', { '模块': '语言能力' })
 
       this.props.dispatch(languageEdit({
         ...values,

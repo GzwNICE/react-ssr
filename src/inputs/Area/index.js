@@ -134,7 +134,7 @@ class ComplexSelView extends ComplexFormField {
       this.props.onChange(value)
       this.changeVisible(false, true)
     } else {
-      Toast.info('请输入内容', 2)
+      Toast.info('请至少选择一项', 2)
     }
   }
 
@@ -203,7 +203,7 @@ class ComplexSelView extends ComplexFormField {
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
-          选择职位
+          选择城市
         </NavBar>
         {this.optView()}
         <div className={style.wrap} style={styleObj}>
@@ -236,7 +236,7 @@ class ComplexSelView extends ComplexFormField {
                 <span>{this.props.optIndex[this.myCity]}</span>
               </li> : null
             }
-
+            <ul className={style.content}>
             {optionsSubChil?
               (optionsSubChil.map((item, index) =>{
                 let isChecked = false
@@ -253,6 +253,8 @@ class ComplexSelView extends ComplexFormField {
                   {item.value}
                 </li>
               })):null}
+            </ul>
+           
           </ul>
         </div>
       </div>

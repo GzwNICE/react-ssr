@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import style from './style.less'
 import { NavBar, List, Toast, Modal, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import Cookies from 'js-cookie'
 import Post from '../../inputs/Post'
 import Area from '../../inputs/Area'
@@ -12,27 +12,26 @@ import { connect } from 'react-redux'
 import { microDone } from '../../actions/microresume'
 import Salary from '../../inputs/Salary'
 import store from 'store'
+import GobackModal from '../../components/GoBackModal/index2'
+import BorderBottomLine from '../../components/BorderBottomLine'
+
 const auth = store.get('m:auth') || {}
 @connect(state => {
-  return {}
+  return {
+    microresumeParams: state.microresume.microresumeParams,
+  }
 })
 @createForm({
   onValuesChange(props, values) {
-    console.log(values)
+    // console.log(values)
   },
 })
 class MicroResume extends PureComponent {
-  goLogin = () => {
-    const search = this.props.history.location.search
-      ? this.props.history.location.search
-      : '?'
-    const pathname = this.props.history.location.pathname
-    const url = `${search}${search === '?' ? '' : '&'}redirect=${pathname}`
-    console.log(url)
-    Modal.alert('', '请先登录', [
-      { text: '稍后', style: 'default' },
-      { text: '登录', onPress: () => this.props.history.replace(url) },
-    ])
+  constructor(props) {
+    super(props)
+    this.state = {
+      goBackModalVisible: false, // 返回按钮点击时出现的弹框
+    }
   }
 
   componentDidMount() {
@@ -40,8 +39,32 @@ class MicroResume extends PureComponent {
       if (!auth.user_id && !Cookies('ticket')) {
         this.goLogin()
       }
+      let arr = Object.keys(this.props.microresumeParams)
+      if (arr.length === 0) {
+        Toast.info('请先填写简历', 2)
+        let search = this.props.history.location.search
+        let path = ''
+        if (search.indexOf('?redirect=') !== -1) {
+          path = search.split('?redirect=')[1]
+        }
+        this.props.history.push(
+          '/resume/micro?redirect=' +
+          path
+        )
+      }
     }, 400)
   }
+
+  goLogin = () => {
+    return Modal.alert('', '请先登录', [
+      { text: '稍后', style: 'default' },
+      { text: '登录', onPress: () => this.props.history.replace('/login?redirect=' + this.props.history.location.pathname) },
+    ])
+  }
+    // 所有子组件修改根组件都可以调用这个方法
+    setSst = obj => {
+      this.setState(obj)
+    }
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
@@ -58,40 +81,37 @@ class MicroResume extends PureComponent {
       if (values.desired_salary === undefined) {
         return Toast.info('请输入期望月薪', 2)
       }
-
+      const params = {
+        ...this.props.microresumeParams,
+        ...values,
+      }
       this.props
         .dispatch(
           microDone({
-            ...values,
+            ...params,
             person_desired_industry: '1',
           })
         )
         .then(res => {
           if (res.json && res.json.status) {
             Toast.info(res.json.msg, 2)
-            window.zhuge.track('微简历保存成功')
+            // window.zhuge.track('微简历保存成功')
             setTimeout(() => {
-              const { redirect, sss } = queryString.parse(
-                window.location.search
-              )
-              if (sss) {
-                // seo注册页面近来的
-                return (window.location.href = sss)
+              let search = this.props.history.location.search
+              let path = ''
+              if (search.indexOf('?redirect=') !== -1) {
+                path = search.split('?redirect=')[1]
               }
-              if (redirect) {
-                this.props.history.push(redirect)
-              } else {
-                this.props.history.push('/')
-              }
+              this.props.history.push(path)
             }, 999)
           } else {
             const msg = res.errMsg
-            window.zhuge.track('保存失败', {
-              原因: msg,
-            })
-            window.zhuge.track('微简历页面打开', {
-              保存失败: err.errMsg,
-            })
+            // window.zhuge.track('保存失败', {
+            //   原因: msg,
+            // })
+            // window.zhuge.track('微简历页面打开', {
+            //   保存失败: err.errMsg,
+            // })
             if (msg === '未登陆') {
               return this.goLogin()
             }
@@ -99,12 +119,12 @@ class MicroResume extends PureComponent {
           }
         })
         .catch(err => {
-          window.zhuge.track('保存失败', {
-            原因: err.errMsg,
-          })
-          window.zhuge.track('微简历页面打开', {
-            保存失败: err.errMsg,
-          })
+          // window.zhuge.track('保存失败', {
+          //   原因: err.errMsg,
+          // })
+          // window.zhuge.track('微简历页面打开', {
+          //   保存失败: err.errMsg,
+          // })
           Toast.info(err.errMsg, 2)
         })
     })
@@ -113,13 +133,17 @@ class MicroResume extends PureComponent {
   render() {
     const { form } = this.props
     const { getFieldProps } = form
+    const { goBackModalVisible } = this.state
+
     return (
       <div className={style.container}>
         <NavBar
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.goBack()}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={
             <span onClick={() => this.changeValue()}>
               <span>保存</span>
@@ -146,7 +170,9 @@ class MicroResume extends PureComponent {
         <Salary auto {...getFieldProps('desired_salary', {})}>
           <List.Item arrow="horizontal">期望月薪</List.Item>
         </Salary>
-        <div className={style.boderline} />
+        <BorderBottomLine />
+        <GobackModal setSet={this.setSst.bind(this)}
+        goBackModalVisible={goBackModalVisible}></GobackModal>
       </div>
     )
   }

@@ -5,9 +5,10 @@ import React, { PureComponent } from 'react'
 import {connect} from 'react-redux'
 import style from './style.less'
 import ShowItem from '../../components/ShowItem'
-import { NavBar, Toast } from 'antd-mobile'
+import { NavBar, Toast, Icon } from 'antd-mobile'
 import {getUserStatus} from '../../actions/userStatus'
 import {getBlackList, setResumeStatus, deleteBlackLIst} from '../../actions/Privacy'
+import BorderBottomLine from '../../components/BorderBottomLine'
 
 @connect(state => {
   return {
@@ -53,14 +54,17 @@ class PrivacyService extends PureComponent {
     return (
       <div className={style.PrivacyServiceWrap}>
         <NavBar
-          mode="dark"
+        mode="light"
+        className={style.nav}
+        icon={<Icon type="left" />}
           onLeftClick={() => {this.props.history.go(-1)}}
-        >隐私服务</NavBar>
+        >隐私设置</NavBar>
         <div className={style.wrapTitle}>屏蔽企业</div>
         <div onClick={() => this.changeType('1')} className={style.commont}>
           <div className={style.title}>所有公司都能看到我</div>
           <span className={`${style.unSelect} ${resumeStatus === '1' ? style.select : null}`} />
         </div>
+        <BorderBottomLine/>
         <div className={style.someUlookBox}>
           <div onClick={() => this.changeType('2')} className={`${style.commont} ${style.unBottom}`}>
             <div className={style.title}>不希望以下企业看到</div>
@@ -77,6 +81,8 @@ class PrivacyService extends PureComponent {
             + 新增企业
           </div>
         </div>
+        <BorderBottomLine/>
+
         <div onClick={() => this.changeType('3')} className={`${style.commont} ${style.unBottom}`}>
           <div className={style.title}>只有投递才能看到我的简历</div>
           <span className={`${style.unSelect} ${resumeStatus === '3' ? style.select : null}`} />

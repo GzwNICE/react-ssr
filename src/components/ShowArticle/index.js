@@ -18,9 +18,9 @@ class ShowArticle extends PureComponent {
   showMore = () => {
     const { title } = this.props
     if (title === '公司介绍') {
-      window.zhuge.track('点击展开公司介绍')
+      // window.zhuge.track('点击展开公司介绍')
     } else if (title === '职位介绍') {
-      window.zhuge.track('点击展开职位介绍')
+      // window.zhuge.track('点击展开职位介绍')
     }
     this.setState({
       init: !this.state.init,

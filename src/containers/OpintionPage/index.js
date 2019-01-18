@@ -20,7 +20,7 @@ import style from './style.less'
 class OpintionPage extends PureComponent {
 
   goNextpage = (url, key) => {
-    window.zhuge.track(key)
+    // window.zhuge.track(key)
     if (Cookies.get('ticket')) {
       this.props.history.push(url)
     } else {

@@ -3,24 +3,22 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo } from '../../actions/resume'
 import { edit as intentionEdit } from '../../actions/intention'
-import { NavBar, Flex, List, Checkbox,Toast, Icon } from 'antd-mobile'
+import { NavBar, Flex, List, Checkbox, Toast, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import style from '../ResumeInfo/style.less'
-import style2 from './style.less'
-
 import Post from '../../inputs/Post'
 import Area from '../../inputs/Area'
 import WorkMode from '../../inputs/WorkMode'
 import Industry from '../../inputs/Industry'
-import StarLevel from '../../inputs/StarLevel'
-import ArrivalTime from '../../inputs/ArrivalTime'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
-import Job from './components/jobSearch'
-// import Job from '../../components/SelectPosition'
+import GobackModal from '../../components/GoBackModal/index3'
+// import style2 from './style.less'
 
 @connect(state => {
-  let DesiredLocations = new Set(state.DesiredPositions.list.map(item => item.position))
+  let DesiredLocations = new Set(
+    state.DesiredPositions.list.map(item => item.position)
+  )
   DesiredLocations = [...DesiredLocations]
   return {
     option: state.option,
@@ -34,69 +32,71 @@ import Job from './components/jobSearch'
 @createForm()
 @withRouter
 class ResumeIntention extends PureComponent {
-  componentDidMount() {
-    this.props.dispatch(getAllInfo({
-      version:'5.2.1',
-      appchannel: 'web',
-    }))
+  constructor(props) {
+    super(props)
+    this.state = {
+      goBackModalVisible: false, // 返回按钮点击时出现的弹框
+    }
   }
-
+  componentDidMount() {
+    this.props.dispatch(
+      getAllInfo({
+        version: '5.2.1',
+        appchannel: 'web',
+      })
+    )
+  }
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
+  }
   changeValue() {
     this.props.form.validateFields((err, values) => {
+      console.log(values)
       if (err) return
-      console.log(values.job_status[0])
 
-      if(values.desired_positions.length === 0) {
+      if (values.desired_positions.length === 0) {
         return Toast.info('请选择意向职位', 2)
       }
 
-      if(values.company_industry.length === 0) {
+      if (values.company_industry.length === 0) {
         return Toast.info('请选择意向行业', 2)
       }
 
-
-      if(values.desired_locations.length === 0) {
+      if (values.desired_locations.length === 0) {
         return Toast.info('请选择意工作地点', 2)
       }
 
-      if(values.desired_salary[0] === '') {
+      if (values.desired_salary[0] === '') {
         return Toast.info('请输入期望月薪', 2)
       }
 
-      if(values.work_mode[0] === '' || values.work_mode[0] === undefined) {
+      if (values.work_mode[0] === '' || values.work_mode[0] === undefined) {
         return Toast.info('请输入工作类型', 2)
       }
 
-      if(values.job_status[0] === '' || values.job_status[0] === undefined) {
+      if (values.job_status[0] === '' || values.job_status[0] === undefined) {
         return Toast.info('请输入求职状态', 2)
       }
 
-      window.zhuge.track('我的简历', { '模块': '求职意向' })
-
-      this.props.dispatch(intentionEdit({
+      // window.zhuge.track('我的简历', { '模块': '求职意向' })
+      const parmas = {
         PersonDesiredPosition: JSON.stringify(values.desired_positions),
-        PersonDesiredCompanyType: JSON.stringify(values.company_industry.map(item => ({
-          company_type: item,
-          industry: item,
-          star: '', // values.star_level[0]
-        }))),
+        PersonDesiredCompanyType: JSON.stringify(
+          values.company_industry.map(item => ({
+            company_type: item,
+            industry: item,
+            star: '', // values.star_level[0]
+          }))
+        ),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
-
-        PersonDesiredJob: JSON.stringify({
-          // arrival_time: `${values.arrival_time}`,
-          // current_salary: `${values.current_salary[2]}`,
-          // current_salary_currency: values.current_salary[1],
-          // current_salary_is_show: values.current_salary_is_show ? 2 : 1,
-          // current_salary_mode: values.current_salary[0],
-          desired_salary: values.desired_salary[0],
-          desired_salary_currency: 1,
-          desired_salary_is_show: values.desired_salary_is_show ? 2 : 1,
-          desired_salary_mode: 1,
-          work_mode: values.work_mode[0],
-          job_status: values.job_status[0],
-        }),
-
-      })).then(data => {
+        desired_salary: JSON.stringify(values.desired_salary[0]),
+        desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
+        work_mode: JSON.stringify(`${values.work_mode}`),
+        job_status: JSON.stringify(`${values.job_status}`),
+      }
+      console.log(parmas)
+      this.props.dispatch(intentionEdit(parmas)).then(data => {
         this.props.history.goBack()
       })
     })
@@ -107,11 +107,13 @@ class ResumeIntention extends PureComponent {
       form,
       // option,
       DesiredJob,
-      DesiredCompanyTypes=[],
+      DesiredCompanyTypes = [],
       DesiredLocations,
       DesiredPositions,
       resume,
     } = this.props
+    const { goBackModalVisible } = this.state
+    // console.log(DesiredJob.desired_salary)
     const { getFieldProps } = form
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -119,7 +121,9 @@ class ResumeIntention extends PureComponent {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.goBack()}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           求职意向
@@ -131,46 +135,38 @@ class ResumeIntention extends PureComponent {
             {...getFieldProps('desired_positions', {
               initialValue: DesiredPositions,
             })}
+            extra="请选择"
             maxLength={5}
           >
             <List.Item arrow="horizontal">意向职位</List.Item>
           </Post>
           <Industry
             {...getFieldProps('company_industry', {
-              initialValue: DesiredCompanyTypes.length ? DesiredCompanyTypes.map(item => item.industry) : [],// DesiredCompanyTypes.map(item => ('0' + item.industry).slice(-2) + ('0' + item.company_type).slice(-2)) : [],
+              initialValue: DesiredCompanyTypes.length
+                ? DesiredCompanyTypes.map(item => item.industry)
+                : [], // DesiredCompanyTypes.map(item => ('0' + item.industry).slice(-2) + ('0' + item.company_type).slice(-2)) : [],
             })}
+            extra="请选择"
             maxLength={5}
             type="Industry"
           >
             <List.Item arrow="horizontal">意向行业</List.Item>
           </Industry>
-          {/*<Job*/}
-            {/*{...getFieldProps('desired_positions', {*/}
-              {/*initialValue: DesiredLocations,*/}
-            {/*})}*/}
-            {/*maxLength={5}*/}
-          {/*>*/}
-            {/*<List.Item arrow="horizontal">意向地点121</List.Item>*/}
-          {/*</Job>*/}
           <Area
             {...getFieldProps('desired_locations', {
               initialValue: DesiredLocations,
             })}
+            extra="请选择"
             maxLength={5}
           >
             <List.Item arrow="horizontal">意向地点</List.Item>
           </Area>
           <div className={style.noboderline}>
             <Salary
+              extra="请选择"
               auto
               {...getFieldProps('desired_salary', {
                 initialValue: [DesiredJob.desired_salary],
-                // DesiredJob.desired_salary_mode, DesiredJob.desired_salary_currency, DesiredJob.desired_salary
-                // {
-                //   mode: '1',
-                //   currency: '1',
-                //   salary: '3',
-                // },
               })}
             >
               <List.Item arrow="horizontal">期望月薪</List.Item>
@@ -208,7 +204,10 @@ class ResumeIntention extends PureComponent {
             <List.Item arrow="horizontal">求职状态</List.Item>
           </JobStatus>
         </List>
-
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </Flex>
     )
   }

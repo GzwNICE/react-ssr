@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import * as auth from '../../actions/auth'
 import { login_out } from '../../actions/userStatus'
+import { Link } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
@@ -42,9 +43,15 @@ class UserPage extends PureComponent {
         })
       )
       .then(data => {
-        if (data) {
-          window.zhuge.track('刷新简历')
-          Toast.info('刷新成功', 2)
+        if (data.status === 1) {
+          // window.zhuge.track('刷新简历')
+          Toast.info('简历已刷新', 2)
+          _that.setState({
+            refresh: false,
+          })
+        } else {
+          // window.zhuge.track('刷新简历')
+          Toast.info(data.errMsg, 2)
           _that.setState({
             refresh: false,
           })
@@ -93,7 +100,7 @@ class UserPage extends PureComponent {
   }
 
   goNextpage = (url, key) => {
-    window.zhuge.track(key)
+    // window.zhuge.track(key)
     if (this.props.user.user_id && Cookies.get('ticket')) {
       this.props.history.push(url)
     } else {
@@ -125,7 +132,8 @@ class UserPage extends PureComponent {
 
   whereWillIGo = () => {
     const { pathSearch } = queryString.parse(window.location.search)
-    console.log(pathSearch)
+    console.log(pathSearch);
+    console.log(this.props.history.length);
     if (pathSearch) {
       this.props.history.go(-1)
     } else {
@@ -158,11 +166,8 @@ class UserPage extends PureComponent {
 
   render() {
     const userStatus = this.props.userStatus
-    const deliver =
-      userStatus.deliver_success_num +
-      userStatus.enterprise_view_num +
-      userStatus.invitation_for_an_interview_num +
-      userStatus.not_appropriate_num
+    const deliver = userStatus.deliver_total_num
+    // const { pathSearch } = queryString.parse(window.location.search)
     return (
       <div className={style.UserPageWrap}>
         <div className={style.top}>
@@ -196,13 +201,20 @@ class UserPage extends PureComponent {
               </div>
             </div>
             <div className={style.left} onClick={this.goLogin}>
-              <div
-                className={style.imgBox}
-                style={{
-                  backgroundImage: `url(${this.props.userStatus.avatar ||
-                    headimg})`,
-                }}
-              />
+              <Link to={`/resume?source=/user${window.location.search}`}>
+                <div
+                  className={style.imgBox}
+                  style={{
+                    backgroundImage: `url(${this.props.userStatus.avatar ||
+                      headimg})`,
+                  }}
+                />
+              </Link>
+            </div>
+            <div className={style.username}>
+              <Link to={`/resume?source=/user${window.location.search}`}>
+                {this.props.userStatus.true_name}
+              </Link>
             </div>
           </div>
         </div>
@@ -231,7 +243,10 @@ class UserPage extends PureComponent {
         <div className={style.middleBox}>
           <div
             onClick={() => {
-              this.goNextpage('/resume', '我的简历')
+              this.goNextpage(
+                `/resume?source=/user${window.location.search}`,
+                '我的简历'
+              )
             }}
           >
             <LisetItem img={Resume} titleleft="我的简历" />

@@ -39,6 +39,8 @@ class Search extends Component {
         </div>
         <SearchBar
           placeholder="搜索职位/品牌"
+          value={this.props.searchValue}
+          showCancelButton={this.props.visable}
           onSubmit={this.props.Search}
           onCancel={this.props.Cancel}
           onChange={this.props.Change}
