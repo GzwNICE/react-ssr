@@ -229,10 +229,10 @@ class Register extends PureComponent {
     }
   }
 
-  goLogin =() =>{
+  goLogin = () => {
     this.props.history.push(`/login${window.location.search}`)
   }
-  
+
   componentDidMount() {
     // const { key } = this.props.location.state || {}
     // const { sss } = queryString.parse(window.location.search)
@@ -262,51 +262,53 @@ class Register extends PureComponent {
         <div className={style.back} onClick={this.goBack}>
           <img src={Rectangle} alt="返回" />
         </div>
-        <div className={style.title}>注册最佳东方</div>
-        <div className={style.forms}>
-          <div className={style.phoneCode}>
-            <InputItem
-              {...getFieldProps('number', { onChange: this.onPhoneNumber })}
-              className={style.inputHei}
-              clear
-              placeholder="请输入常用手机号"
-              maxLength="11"
-            >
-              <County setSet={this.setSst.bind(this)} />
-            </InputItem>
-          </div>
+        <div className={style.registerCent}>
+          <div className={style.title}>注册最佳东方</div>
+          <div className={style.forms}>
+            <div className={style.phoneCode}>
+              <InputItem
+                {...getFieldProps('number', { onChange: this.onPhoneNumber })}
+                className={style.inputHei}
+                clear
+                placeholder="请输入常用手机号"
+                maxLength="11"
+              >
+                <County setSet={this.setSst.bind(this)} />
+              </InputItem>
+            </div>
 
-          <div className={style.massageCode}>
-            <InputItem
-              {...getFieldProps('massageCode', {
-                onChange: this.onPhoneNumber,
-              })}
-              className={`${style.inputHei} ${style.massageLeft}`}
-              clear
-              placeholder="请输入短信验证码"
-            />
-            <div
-              onClick={this.getCode}
-              id="TencentCaptcha"
-              data-appid="2096087700"
-              data-cbfn="callbackdfws"
-              className={`${style.massage} ${
-                this.state.disableCode ? null : style.disabledCode
-              }`}
-            >
-              {this.state.tipFont}
+            <div className={style.massageCode}>
+              <InputItem
+                {...getFieldProps('massageCode', {
+                  onChange: this.onPhoneNumber,
+                })}
+                className={`${style.inputHei} ${style.massageLeft}`}
+                clear
+                placeholder="请输入短信验证码"
+              />
+              <div
+                onClick={this.getCode}
+                id="TencentCaptcha"
+                data-appid="2096087700"
+                data-cbfn="callbackdfws"
+                className={`${style.massage} ${
+                  this.state.disableCode ? null : style.disabledCode
+                }`}
+              >
+                {this.state.tipFont}
+              </div>
             </div>
           </div>
-        </div>
-        <div onClick={this.onRegister} className={style.subBtn}>
-          <a className={this.state.disabled ? null : `${style.disabled}`}>
-            注 册
-          </a>
+          <div onClick={this.onRegister} className={style.subBtn}>
+            <a className={this.state.disabled ? null : `${style.disabled}`}>
+              注 册
+            </a>
 
-          <div className={Loginstyle.otherLogin}>
-            <div />
-            <div onClick={() => this.goRegister('/login')}>
-              <span>直接登录</span>
+            <div className={Loginstyle.otherLogin}>
+              <div />
+              <div onClick={() => this.goRegister('/login')}>
+                <span>直接登录</span>
+              </div>
             </div>
           </div>
         </div>
@@ -346,7 +348,7 @@ class Register extends PureComponent {
             },
             {
               text: '登录',
-              onPress: ()=>this.goLogin(),
+              onPress: () => this.goLogin(),
               type: 'ok',
             },
           ]}

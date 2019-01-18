@@ -1,7 +1,16 @@
 .RegisterWrap{
   height: 100%;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  .registerCent {
+    flex: 1;
+    height: 0;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
+
 .back{
   padding: 10px 20px;
   img{
@@ -125,8 +134,7 @@
 }
 .agreement {
   width: 100%;
-  position: absolute;
-  bottom: 60px;
+  height: 80px;
   text-align: center;
   font-family: PingFangSC-Regular;
   font-size: 12px;
