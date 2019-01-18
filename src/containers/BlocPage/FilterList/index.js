@@ -61,10 +61,10 @@ class FilterList extends (PureComponent || Component) {
             <div className={style.selCity}>
               <div className={style.city}>
               <Area
+                  extra="城市"
                   {...getFieldProps('areas', {
-                    initialValue:  [
-                      '9999',
-                    ],
+                    // initialValue: supers.location.address.code,
+                    initialValue: ["999"],
                   })} // 触发form，调用onChangeCity
                 >
                   <SimpleItem arrow="horizontal" />
