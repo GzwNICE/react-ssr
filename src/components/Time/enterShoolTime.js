@@ -5,7 +5,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
-const maxDate = moment().year(nowYear - 16).month(11)._d
+const maxDate = new Date()
 const minDate = moment().year(nowYear - 80).month(0)._d
 
 @connect(state => {
@@ -15,7 +15,7 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value: moment().year(nowYear - 22)._d,
+      value: moment().year(nowYear - 4).month(8)._d,
       timeChange: false,
     }
   }
@@ -38,14 +38,12 @@ class JobTime extends PureComponent {
       value.indexOf('-') !== -1
     ) {
       let dt = new Date(value.replace(/-/, '/'))
-      this.setState({
-        timeChange: true,
-      })
+      
       this.setState({
         value: dt,
+        timeChange: true,
       })
       const onChange = this.props.onChange
-
       if (onChange) {
         onChange(dt)
       }
@@ -87,6 +85,7 @@ class JobTime extends PureComponent {
         </div>
       )
     }
+
     return (
       <DatePicker
         mode="month"

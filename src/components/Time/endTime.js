@@ -7,27 +7,6 @@ import initDate from '../../helper/datePlugin'
 
 const YING_JIE_SHENG = '至今'
 
-let timeChange = false
-const CustomChildren = ({ extra, onClick, children }) => {
-  extra = timeChange ? extra : '请选择'
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        backgroundColor: '#fff',
-        height: '50px',
-        lineHeight: '50px',
-        padding: '0 20px',
-        color: '#4A4A4A',
-      }}
-    >
-      {children}
-      <div className={style.rightIcon} aria-hidden="true" />
-      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
-    </div>
-  )
-}
-
 @connect(state => {
   return {}
 })
@@ -39,11 +18,14 @@ class JobTime extends PureComponent {
       endTimedata: [],
       sValue: [YING_JIE_SHENG],
       endTime: '', // 开始时间毫秒
+      timeChange: false,
     }
   }
   componentDidMount() {
     const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-    timeChange = false
+    this.setState({
+      timeChange: false,
+    })
     this.setState({
       endTimedata: initData.data,
     })
@@ -65,8 +47,9 @@ class JobTime extends PureComponent {
       let dt = new Date(value.replace(/-/, '/'))
       sValue[0] = moment(dt).format('YYYY') + '年'
       sValue[1] = moment(dt).format('M') + '月'
-      timeChange = true
-
+      this.setState({
+        timeChange: true,
+      })
       const onChange = this.props.onChange
       if (onChange) {
         onChange(dt)
@@ -76,7 +59,9 @@ class JobTime extends PureComponent {
       })
     } else if (value === '0' || value === 0) {
       sValue = [YING_JIE_SHENG]
-      timeChange = true
+      this.setState({
+        timeChange: true,
+      })
       this.setState({
         sValue,
       })
@@ -103,7 +88,9 @@ class JobTime extends PureComponent {
         this.onChange()
       }
     )
-    timeChange = true
+    this.setState({
+      timeChange: true,
+    })
   }
   onChange = () => {
     let time = this.state.endTime.valueOf()
@@ -123,8 +110,28 @@ class JobTime extends PureComponent {
     return val
   }
   render() {
-    const { endTimedata, sValue } = this.state
+    const { endTimedata, sValue, timeChange } = this.state
     const { title } = this.props
+
+    const CustomChildren = ({ extra, onClick, children }) => {
+      extra = timeChange ? extra : '请选择'
+      return (
+        <div
+          onClick={onClick}
+          style={{
+            backgroundColor: '#fff',
+            height: '50px',
+            lineHeight: '50px',
+            padding: '0 20px',
+            color: '#4A4A4A',
+          }}
+        >
+          {children}
+          <div className={style.rightIcon} aria-hidden="true" />
+          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+        </div>
+      )
+    }
 
     return (
       <div>

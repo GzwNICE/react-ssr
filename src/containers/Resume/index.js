@@ -157,16 +157,13 @@ class Resume extends PureComponent {
       work_exps,
       languages,
       skills,
-      training_exps,
-      certificates,
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage } = this.state
-    // console.log(option.opts_salary.salary_scope_index[
+    // console.log(
     //   DesiredJob.desired_salary
-    // ])
-
+    // )
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -340,10 +337,10 @@ class Resume extends PureComponent {
                         src={circleIcon}
                         className={style['card-job-wraper-circle']}
                       />
-                      <span>
-                        {item.company_name_cn} |{' '}
-                        {option.positions_index[item.position_id]}
-                      </span>
+                      <div className={style.ellipsis}>
+                        {item.company_name_cn}
+                        {option.positions_index[item.position_id] ? ` | ${option.positions_index[item.position_id]}` : null}
+                      </div>
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(

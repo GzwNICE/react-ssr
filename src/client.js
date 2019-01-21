@@ -11,10 +11,10 @@ import routes from './routes'
 import configureStore from './store'
 
 import { Provider } from 'react-redux'
+
 require('es6-promise').polyfill()
 
 const { store, history } = configureStore()
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

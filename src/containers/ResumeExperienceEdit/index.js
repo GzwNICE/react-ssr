@@ -77,11 +77,10 @@ class ResumeExperienceEdit extends PureComponent {
         return Toast.info('请输入开始时间', 2)
       }
 
-      if (!values.end) {
-        return Toast.info('请输入结束时间', 2)
-      }
-
       if (values.end !== 0) {
+        if (!values.end) {
+          return Toast.info('请输入结束时间', 2)
+        }
         let begin = new Date(moment(values.begin).format('YYYY/M')).valueOf()
         let end = values.end
         if (begin > end) {
@@ -154,7 +153,7 @@ class ResumeExperienceEdit extends PureComponent {
   }
 
   render() {
-    const { form, option, work_exps = [], match } = this.props
+    const { form, work_exps = [], match } = this.props
     const { getFieldProps } = form
     const item =
       work_exps.filter(item => {

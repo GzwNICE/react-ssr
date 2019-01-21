@@ -90,10 +90,14 @@ class ResumeIntention extends PureComponent {
           }))
         ),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
-        desired_salary: JSON.stringify(values.desired_salary[0]),
-        desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
-        work_mode: JSON.stringify(`${values.work_mode}`),
-        job_status: JSON.stringify(`${values.job_status}`),
+        PersonDesiredJob: JSON.stringify({
+          desired_salary: values.desired_salary[0],
+          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
+          work_mode: `${values.work_mode}`,
+        }),
+        
+    
+        job_status: `${values.job_status}`,
       }
       console.log(parmas)
       this.props.dispatch(intentionEdit(parmas)).then(data => {
