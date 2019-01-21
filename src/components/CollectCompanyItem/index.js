@@ -34,7 +34,7 @@ const CollectCompanyItem = (props) => {
         </div>
       </div>
       <div className={style.middLeft}>
-        热招：<span>{new_job_name}</span> 等{jobs_num}个在招职位
+        {jobs_num ? (<div>热招：<span>{new_job_name}</span> 等{jobs_num}个在招职位</div>) : `暂时没有在招职位`}
       </div>
     </div>
   )
