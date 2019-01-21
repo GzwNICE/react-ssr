@@ -6,6 +6,7 @@ import { edit as otherExpsEdit } from '../../actions/other_exps'
 import { NavBar, Flex, List, TextareaItem,Toast, Icon } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import style from './style.less'
+import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
   return {
@@ -17,6 +18,7 @@ import style from './style.less'
 class ResumeDescription extends PureComponent {
   state = {
     value: 'same--',
+    goBackModalVisible: false, // 返回按钮点击时出现的弹框
   }
   componentDidMount() {
     this.props.dispatch(
@@ -25,6 +27,10 @@ class ResumeDescription extends PureComponent {
       })
     )
   }
+    // 所有子组件修改根组件都可以调用这个方法
+    setSst = obj => {
+      this.setState(obj)
+    }
   handleValueChange = (value) => {
     this.setState({ value})
   }
@@ -51,13 +57,16 @@ class ResumeDescription extends PureComponent {
     const { form, list } = this.props
     const content_cn= list && list.length>0 && list[0].content_cn
     const { getFieldProps } = form
+    const { goBackModalVisible } = this.state
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.goBack()}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           自我描述
@@ -78,6 +87,10 @@ class ResumeDescription extends PureComponent {
             </div>
           </List>
         </Flex.Item>
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </Flex>
     )
   }
