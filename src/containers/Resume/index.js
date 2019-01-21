@@ -91,10 +91,14 @@ class Resume extends PureComponent {
       .then(data => {
         if (data.errMsg === '未登陆') {
         } else {
-          let resume_complete = Number(data.data.resume_complete) * 100
-          this.setState({
-            percentage: `${resume_complete}%`,
-          })
+          if (data && data.data && data.data.resume_complete) {
+            let resume_complete = (
+              Number(data.data.resume_complete) * 100
+            ).toFixed(0)
+            this.setState({
+              percentage: `${resume_complete}%`,
+            })
+          }
         }
       })
   }
@@ -287,13 +291,15 @@ class Resume extends PureComponent {
                 <Card.Body className={style['card-body']}>
                   <div className={style.ellipsis}>
                     <span>意向职位：</span>
-                    {DesiredPositions&&DesiredPositions.length>0 ? DesiredPositions.map(
-                      item => option.positions_index[item]
-                    ).join(', ') : '暂无'}
+                    {DesiredPositions && DesiredPositions.length > 0
+                      ? DesiredPositions.map(
+                          item => option.positions_index[item]
+                        ).join(', ')
+                      : '暂无'}
                   </div>
                   <div className={style.ellipsis}>
                     <span>意向行业：</span>
-                    {DesiredCompanyTypes&&DesiredCompanyTypes.length>0
+                    {DesiredCompanyTypes && DesiredCompanyTypes.length > 0
                       ? DesiredCompanyTypes.map(
                           item =>
                             option.opts_company_industry_all_index[
@@ -304,13 +310,16 @@ class Resume extends PureComponent {
                   </div>
                   <div className={style.ellipsis}>
                     <span>意向地点：</span>
-                    {DesiredLocations&&DesiredLocations.length>0?DesiredLocations.map(
-                      item => option.areas_index[item]
-                    ).join(', '): '暂无'}
+                    {DesiredLocations && DesiredLocations.length > 0
+                      ? DesiredLocations.map(
+                          item => option.areas_index[item]
+                        ).join(', ')
+                      : '暂无'}
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {DesiredJob.desired_salary && DesiredJob.desired_salary !== '0'
+                    {DesiredJob.desired_salary &&
+                    DesiredJob.desired_salary !== '0'
                       ? option.opts_salary.salary_scope_index[
                           DesiredJob.desired_salary
                         ]
@@ -318,7 +327,9 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>求职状态：</span>
-                    {resume.job_status && resume.job_status !== '0' ? option.opts_job_status_index[resume.job_status] : '暂无'}
+                    {resume.job_status && resume.job_status !== '0'
+                      ? option.opts_job_status_index[resume.job_status]
+                      : '暂无'}
                   </div>
                 </Card.Body>
               </Card>
@@ -330,42 +341,44 @@ class Resume extends PureComponent {
                     </span>
                   }
                 />
-                {/*<Card.Body className={style['card-job']}>*/}
-                  {/*{work_exps.map((item, key) => (*/}
-                    {/*<div key={key} className={style['card-job-wraper']}>*/}
-                      {/*<img*/}
-                        {/*src={circleIcon}*/}
-                        {/*className={style['card-job-wraper-circle']}*/}
-                      {/*/>*/}
-                      {/*<div className={style.ellipsis}>*/}
-                        {/*{item.company_name_cn}*/}
-                        {/*{option.positions_index[item.position_id] ? ` | ${option.positions_index[item.position_id]}` : null}*/}
-                      {/*</div>*/}
-                      {/*<img*/}
-                        {/*src={editIcon}*/}
-                        {/*onClick={this.handleGoto.bind(*/}
-                          {/*this,*/}
-                          {/*`/resume/experience/${item.id}`*/}
-                        {/*)}*/}
-                        {/*className={style['card-job-wraper-editor']}*/}
-                      {/*/>*/}
-                      {/*<p>*/}
-                        {/*{`${item.begin_year}.${item.begin_month}`}-*/}
-                        {/*{item.end_year !== '0'*/}
-                          {/*? `${item.end_year}.${item.end_month}`*/}
-                          {/*: '至今'}*/}
-                      {/*</p>*/}
-                      {/*<p>{item.job_responsibilities_cn}</p>*/}
-                      {/*{work_exps.length - 1 !== key ? (*/}
-                        {/*<div className={style['card-education-wraper-line']} />*/}
-                      {/*) : null}*/}
-                    {/*</div>*/}
-                  {/*))}*/}
-                  {/*<div className={style['card-education-footer']}>*/}
-                    {/*<img src={addIcon} />*/}
-                    {/*<Link to="/resume/experience/add">添加工作经验</Link>*/}
-                  {/*</div>*/}
-                {/*</Card.Body>*/}
+                <Card.Body className={style['card-job']}>
+                  {work_exps.map((item, key) => (
+                    <div key={key} className={style['card-job-wraper']}>
+                      <img
+                        src={circleIcon}
+                        className={style['card-job-wraper-circle']}
+                      />
+                      <div className={style.ellipsis}>
+                        {item.company_name_cn}
+                        {option.positions_index[item.position_id]
+                          ? ` | ${option.positions_index[item.position_id]}`
+                          : null}
+                      </div>
+                      <img
+                        src={editIcon}
+                        onClick={this.handleGoto.bind(
+                          this,
+                          `/resume/experience/${item.id}`
+                        )}
+                        className={style['card-job-wraper-editor']}
+                      />
+                      <p>
+                        {`${item.begin_year}.${item.begin_month}`}-
+                        {item.end_year !== '0'
+                          ? `${item.end_year}.${item.end_month}`
+                          : '至今'}
+                      </p>
+                      <p>{item.job_responsibilities_cn}</p>
+                      {work_exps.length - 1 !== key ? (
+                        <div className={style['card-education-wraper-line']} />
+                      ) : null}
+                    </div>
+                  ))}
+                  <div className={style['card-education-footer']}>
+                    <img src={addIcon} />
+                    <Link to="/resume/experience/add">添加工作经验</Link>
+                  </div>
+                </Card.Body>
               </Card>
               <Card className={style.card}>
                 <Card.Header
@@ -375,41 +388,41 @@ class Resume extends PureComponent {
                     </span>
                   }
                 />
-                {/*<Card.Body className={style['card-education']}>*/}
-                  {/*{educationals.map((item, key) => (*/}
-                    {/*<div key={key} className={style['card-education-wraper']}>*/}
-                      {/*<img*/}
-                        {/*src={circleIcon}*/}
-                        {/*className={style['card-education-wraper-circle']}*/}
-                      {/*/>*/}
-                      {/*<p>{item.school_cn || '学校名称'}</p>*/}
-                      {/*<img*/}
-                        {/*src={editIcon}*/}
-                        {/*onClick={this.handleGoto.bind(*/}
-                          {/*this,*/}
-                          {/*`/resume/education/${item.id}`*/}
-                        {/*)}*/}
-                        {/*className={style['card-education-wraper-editor']}*/}
-                      {/*/>*/}
-                      {/*<p>*/}
-                        {/*{option.opts_education_index[item.degree] || '不限'} |{' '}*/}
-                        {/*{item.major_cn ||*/}
-                          {/*option.opts_edu_major[item.major_id].value ||*/}
-                          {/*'不限'}*/}
-                      {/*</p>*/}
-                      {/*<p>{`${item.begin_year}.${item.begin_month}-${*/}
-                        {/*item.end_year*/}
-                      {/*}.${item.end_month}`}</p>*/}
-                      {/*{educationals.length - 1 !== key ? (*/}
-                        {/*<div className={style['card-education-wraper-line']} />*/}
-                      {/*) : null}*/}
-                    {/*</div>*/}
-                  {/*))}*/}
-                  {/*<div className={style['card-education-footer']}>*/}
-                    {/*<img src={addIcon} />*/}
-                    {/*<Link to="/resume/education/add">添加教育经历</Link>*/}
-                  {/*</div>*/}
-                {/*</Card.Body>*/}
+                <Card.Body className={style['card-education']}>
+                  {educationals.map((item, key) => (
+                    <div key={key} className={style['card-education-wraper']}>
+                      <img
+                        src={circleIcon}
+                        className={style['card-education-wraper-circle']}
+                      />
+                      <p>{item.school_cn || '学校名称'}</p>
+                      <img
+                        src={editIcon}
+                        onClick={this.handleGoto.bind(
+                          this,
+                          `/resume/education/${item.id}`
+                        )}
+                        className={style['card-education-wraper-editor']}
+                      />
+                      <p>
+                        {option.opts_education_index[item.degree] || '不限'} |{' '}
+                        {item.major_cn ||
+                          option.opts_edu_major[item.major_id].value ||
+                          '不限'}
+                      </p>
+                      <p>{`${item.begin_year}.${item.begin_month}-${
+                        item.end_year
+                      }.${item.end_month}`}</p>
+                      {educationals.length - 1 !== key ? (
+                        <div className={style['card-education-wraper-line']} />
+                      ) : null}
+                    </div>
+                  ))}
+                  <div className={style['card-education-footer']}>
+                    <img src={addIcon} />
+                    <Link to="/resume/education/add">添加教育经历</Link>
+                  </div>
+                </Card.Body>
               </Card>
               {toogle ? (
                 <Card className={style.card}>
