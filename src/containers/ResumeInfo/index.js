@@ -12,7 +12,7 @@ import moment from 'moment'
 import GobackModal from '../../components/GoBackModal/index3'
 import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 
 @connect(state => {
   return {
@@ -238,7 +238,7 @@ class ResumeInfo extends PureComponent {
           >
             姓名
           </InputItem>
-
+          <BorderBottomLine/>
           <Gender
             {...getFieldProps('gender', {
               initialValue: resume.gender && resume.gender !== undefined ? resume.gender : 1,
@@ -246,18 +246,19 @@ class ResumeInfo extends PureComponent {
           >
             <List.Item>性别</List.Item>
           </Gender>
+          <BorderBottomLine/>
           <BirthTime
             extra="请选择"
             {...getFieldProps('birthday', { initialValue: resume.birthday })}
             title="出生年月"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine/>
           <JoinJobTime
             extra="请选择"
             {...getFieldProps('work_date', { initialValue: resume.work_date })}
             title="参加工作时间"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine/>
 
           <Area
             extra="请选择"
@@ -269,7 +270,7 @@ class ResumeInfo extends PureComponent {
           >
             <List.Item arrow="horizontal">现居地</List.Item>
           </Area>
-
+          <BorderBottomLine/>
           <List.Item
             onClick={() => this.bindMobile(1)}
             extra={mobileStatus}
@@ -277,7 +278,7 @@ class ResumeInfo extends PureComponent {
           >
             手机号码
           </List.Item>
-
+          <BorderBottomLine/>
           <List.Item
             className={style.email}
             onClick={() => this.bindEmail()}

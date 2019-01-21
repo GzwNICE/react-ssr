@@ -47,10 +47,7 @@ class MicroResume extends PureComponent {
         if (search.indexOf('?redirect=') !== -1) {
           path = search.split('?redirect=')[1]
         }
-        // this.props.history.push(
-        //   '/resume/micro?redirect=' +
-        //   path
-        // )
+        this.props.history.push('/resume/micro?redirect=' + path)
       }
     }, 400)
   }
@@ -58,17 +55,24 @@ class MicroResume extends PureComponent {
   goLogin = () => {
     return Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },
-      { text: '登录', onPress: () => this.props.history.replace('/login?redirect=' + this.props.history.location.pathname) },
+      {
+        text: '登录',
+        onPress: () =>
+          this.props.history.replace(
+            '/login?redirect=' + this.props.history.location.pathname
+          ),
+      },
     ])
   }
-    // 所有子组件修改根组件都可以调用这个方法
-    setSst = obj => {
-      this.setState(obj)
-    }
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
+  }
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
       console.log(values)
+
       if (values.person_desired_position === undefined) {
         return Toast.info('请输入期望职位', 2)
       }
@@ -81,21 +85,24 @@ class MicroResume extends PureComponent {
       if (values.desired_salary === undefined) {
         return Toast.info('请输入期望月薪', 2)
       }
+      let arr = Array.prototype.slice.call(values.person_desired_industry)
+      let person_desired_industry = arr.map(item => String(item)).join(',')
       const params = {
         ...this.props.microresumeParams,
         ...values,
+        person_desired_industry,
       }
+      console.log(params)
       this.props
         .dispatch(
           microDone({
             ...params,
-            person_desired_industry: '1',
           })
         )
         .then(res => {
           if (res.json && res.json.status) {
             Toast.info(res.json.msg, 2)
-            // window.zhuge.track('微简历保存成功')
+            window.zhuge.track('微简历保存成功')
             setTimeout(() => {
               let search = this.props.history.location.search
               let path = ''
@@ -171,8 +178,10 @@ class MicroResume extends PureComponent {
           <List.Item arrow="horizontal">期望月薪</List.Item>
         </Salary>
         <BorderBottomLine />
-        <GobackModal setSet={this.setSst.bind(this)}
-        goBackModalVisible={goBackModalVisible}></GobackModal>
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </div>
     )
   }

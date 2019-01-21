@@ -15,13 +15,7 @@ const CustomChildren = ({ extra, onClick, children }) => {
   return (
     <div
       onClick={onClick}
-      style={{
-        backgroundColor: '#fff',
-        height: '50px',
-        lineHeight: '50px',
-        padding: '0 20px',
-        color: '#4A4A4A',
-      }}
+      className={style.timeContent}
     >
       {children}
       <div className={style.rightIcon} aria-hidden="true" />

@@ -15,7 +15,7 @@ import Specialty from './components/specialtySearch'
 import { remove as educationalsRemove } from '../../actions/educationals'
 import EnterShoolTime from '../../components/Time/enterShoolTime'
 import LeaveShoolTime from '../../components/Time/leaveShoolTime'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
@@ -148,6 +148,7 @@ class ResumeEducationEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">学校名称</List.Item>
           </School>
+          <BorderBottomLine />
           <Specialty
             {...getFieldProps('major_cn', {
               initialValue: item.major_cn,
@@ -155,6 +156,8 @@ class ResumeEducationEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">专业名称</List.Item>
           </Specialty>
+          <BorderBottomLine />
+
           <Education
             {...getFieldProps('degree', {
               initialValue: [item.degree],
@@ -164,6 +167,8 @@ class ResumeEducationEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">最高学历</List.Item>
           </Education>
+          <BorderBottomLine />
+
           <EnterShoolTime
           extra="请选择"
           {...getFieldProps('begin', {
@@ -174,7 +179,7 @@ class ResumeEducationEdit extends PureComponent {
           })}
           title="入学时间"
         />
-        <BorderBottomLine style={{ margin: '0 20px' }} />
+        <BorderBottomLine/>
         <LeaveShoolTime
           extra="请选择"
           {...getFieldProps('end', {

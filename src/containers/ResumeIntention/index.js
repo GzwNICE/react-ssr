@@ -13,6 +13,8 @@ import Industry from '../../inputs/Industry'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
 import GobackModal from '../../components/GoBackModal/index3'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
+
 // import style2 from './style.less'
 
 @connect(state => {
@@ -143,6 +145,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向职位</List.Item>
           </Post>
+          <BorderBottomLine/>
           <Industry
             {...getFieldProps('company_industry', {
               initialValue: DesiredCompanyTypes.length
@@ -155,6 +158,8 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向行业</List.Item>
           </Industry>
+          <BorderBottomLine/>
+
           <Area
             {...getFieldProps('desired_locations', {
               initialValue: DesiredLocations,
@@ -164,6 +169,8 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向地点</List.Item>
           </Area>
+          <BorderBottomLine/>
+
           <div className={style.noboderline}>
             <Salary
               extra="请选择"
@@ -187,6 +194,8 @@ class ResumeIntention extends PureComponent {
               <span>企业查看时显示为面议</span>
             </label>
           </List.Item>
+          <BorderBottomLine/>
+
           <WorkMode
             {...getFieldProps('work_mode', {
               initialValue: [DesiredJob.work_mode || 0],
@@ -196,6 +205,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">工作类型</List.Item>
           </WorkMode>
+          <BorderBottomLine/>
 
           <JobStatus
             {...getFieldProps('job_status', {

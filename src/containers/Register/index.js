@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
+import Cookies from 'js-cookie'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -178,6 +179,7 @@ class Register extends PureComponent {
               //   手机号: data.phone,
               //   邮箱: data.email,
               // })
+              Cookies.set('reigsterMobile', value.number)
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
                   this.props.history.replace(

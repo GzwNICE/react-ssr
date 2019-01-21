@@ -27,7 +27,7 @@ import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
 import StartTime from '../../components/Time/startTime'
 import EndTime from '../../components/Time/endTime'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
@@ -188,6 +188,8 @@ class ResumeExperienceEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">企业名称</List.Item>
           </Company>
+          <BorderBottomLine />
+
           <Job
             {...getFieldProps('position_cn', {
               initialValue: item.position_cn,
@@ -195,6 +197,7 @@ class ResumeExperienceEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">职位名称</List.Item>
           </Job>
+          <BorderBottomLine />
 
           <StartTime
             extra="请选择"
@@ -206,7 +209,7 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             title="开始时间"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine />
           <EndTime
             extra="请选择"
             {...getFieldProps('end', { initialValue: end_time })}
@@ -223,6 +226,7 @@ class ResumeExperienceEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
+          <BorderBottomLine />
 
           <div className={style.noboderline}>
             <InputItem
@@ -248,6 +252,8 @@ class ResumeExperienceEdit extends PureComponent {
               <span>对hr显示为保密</span>
             </label>
           </List.Item>
+          <BorderBottomLine />
+
           <TextareaField
             {...getFieldProps('job_responsibilities_cn', {
               initialValue:

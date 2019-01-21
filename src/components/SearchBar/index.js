@@ -94,7 +94,6 @@ class MySearchBar extends PureComponent {
                 {...getFieldProps('areas', {
                   initialValue: supers.location.address.code,
                 })} // 触发form，调用onChangeCity
-                format={this.formatArea}
               >
                 <SimpleItem arrow="horizontal" />
               </Area>
