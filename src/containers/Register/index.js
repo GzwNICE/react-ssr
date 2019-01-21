@@ -89,7 +89,7 @@ class Register extends PureComponent {
     const registered = this.showModal('registered')
     this.props.form.validateFields((err, value) => {
       if (err) return
-      if (!F.changePhoneNumber(value.number))
+      if (!value.number)
         return Toast.info('请输入手机号', 2)
       // window.zhuge.track('获取验证码')
       let send = res => {
