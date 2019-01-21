@@ -90,14 +90,18 @@ class ResumeIntention extends PureComponent {
           }))
         ),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
-        desired_salary: values.desired_salary[0],
-        desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
-        work_mode: `${values.work_mode}`,
+        PersonDesiredJob: JSON.stringify({
+          desired_salary: values.desired_salary[0],
+          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
+          work_mode: `${values.work_mode}`,
+        }),
+        
+    
         job_status: `${values.job_status}`,
       }
       console.log(parmas)
       this.props.dispatch(intentionEdit(parmas)).then(data => {
-        // this.props.history.goBack()
+        this.props.history.goBack()
       })
     })
   }
@@ -114,7 +118,6 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    console.log(DesiredJob.desired_salary)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

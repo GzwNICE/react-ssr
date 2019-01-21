@@ -4,7 +4,6 @@ import ComplexPicker from '../../components/ComplexPicker'
 // import {getAllInfo} from "../../actions/resume";
 
 @connect(state => {
-  // console.log(state.option.opts_salary.salary_scope_index)
   return {
     options: state.option.opts_salary.salary_scope_index,
   }
@@ -21,10 +20,9 @@ class JobStatus extends PureComponent {
         value: options[index],
         code: index,
       }
-
       arr.push(item)
     }
-    arr = arr.slice(1, 12)
+    arr = arr.slice(0, 11)
     this.setState({
       salary_scope_index: arr,
     })
@@ -45,7 +43,7 @@ class JobStatus extends PureComponent {
         format={this.format}
         {...this.props}
         data={salary_scope_index
-          .filter(item => item.code !== 0)
+          // .filter(item => item.code !== 0)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,

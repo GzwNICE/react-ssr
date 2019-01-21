@@ -15,6 +15,7 @@ class Education extends PureComponent {
         {...this.props}
         data={options
           .filter(item => item.code !== 0)
+          .filter(item => item.code !== 9)
           .map(item => ({
             label: item.value,
             value: `${item.code}`,
