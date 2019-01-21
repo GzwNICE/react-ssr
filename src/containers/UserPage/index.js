@@ -127,7 +127,7 @@ class UserPage extends PureComponent {
             this.props.dispatch(login_out)
           }, 1000)
           setTimeout(() => {
-            this.props.history.go(-1)
+            this.props.history.replace('/')
           }, 2000)
           sessionStorage.removeItem('is_login')
           sessionStorage.removeItem('photo')

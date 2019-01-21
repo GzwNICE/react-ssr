@@ -43,16 +43,6 @@ class FilterList extends (PureComponent || Component) {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
-  //     this.props.form.setFieldsValue(nextProps.query)
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   this.props.form.setFieldsValue(this.props.query)
-  // }
-
   render() {
     const { form } = this.props
     const { getFieldProps } = form

@@ -24,6 +24,7 @@ import style from './style.less'
   userStatus: state.userStatus,
   supers: state.supers,
   list: state.company.list,
+  listPhoto: state.company.listPhoto,
   pagers: state.company.pager,
   searchList: state.company.searchList,
   searchPager: state.company.searchPager,
@@ -142,7 +143,7 @@ export default class CompanyArea extends Component {
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
     const {listPhoto} =this.props
-    if(!listPhoto){
+    if(JSON.stringify(listPhoto) === '{}'){
       this.props.dispatch(
         blocList({
           c_userid: c_userid,

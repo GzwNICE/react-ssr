@@ -17,7 +17,7 @@ class ShowArticle extends PureComponent {
     // window.zhuge.track('举报该职位', {
     //   id: d,
     // })
-    
+
     this.props.history.push('/tip-offs', { d })
   }
   render() {
@@ -27,6 +27,11 @@ class ShowArticle extends PureComponent {
     return (
       <div className={style.articleWrap}>
         <div className={style.title}>{this.props.title}</div>
+        {this.props.data.apply_nums ? (
+          <div className={style.recruitingNum}>{`招聘人数：${
+            this.props.data.apply_nums
+          }人`}</div>
+        ) : null}
         <div className={style.moreArticle}>
           <div
             className={style.backArticle}
@@ -36,8 +41,8 @@ class ShowArticle extends PureComponent {
             <div className={style.otherRequire}>
               <h4>其他要求</h4>
               <ul className={style.priority}>
-                {(other || []).map((item,index)=>{
-                  return (<li key={index}>{item}</li>)
+                {(other || []).map((item, index) => {
+                  return <li key={index}>{item}</li>
                 })}
               </ul>
             </div>

@@ -19,8 +19,8 @@ class HotTrade extends Component {
   }
 
   componentDidMount() {
-    const { tradeDtata } = this.props
-    if (tradeDtata.length === 0) {
+    const tradeDtata = this.props.tradeDtata
+    if ( tradeDtata.length === 0) {
       const { userStatus, supers } = this.props
       const location =
         userStatus.code && userStatus.code[0]

@@ -19,11 +19,10 @@ import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
-import { blocList } from '../src/actions/company'
+import { blocList, blocCategory} from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 
 export default (req, res, next) => {
-  console.log(req.url)
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
@@ -152,11 +151,13 @@ export default (req, res, next) => {
       if (isNumber(parseInt(com.value, 10))) {
         if (com.key === 1) { // 职位详情页
           render = false
+          console.log('职位详情页')
           store.dispatch(positiondetail()).then(() => {
             serverRender()
           })
         } else {   // 企业详情页
           render = false
+          console.log('企业详情页')
           store.dispatch(companydetail()).then(() => {
             store.dispatch(companyList()).then(() => {
               serverRender()
@@ -177,8 +178,11 @@ export default (req, res, next) => {
         })
       }
       if (blocPage.exec(req.url)) { // 名企专区列表
-        store.dispatch(blocList()).then(() => {
-          serverRender()
+        render = false
+        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then(() => {
+          store.dispatch(blocCategory({c_userid: blocPage.exec(req.url)[1]})).then(() => {
+            serverRender()
+          })
         })
       }
       if(render){

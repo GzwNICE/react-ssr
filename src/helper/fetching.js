@@ -2,6 +2,7 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import axios from "axios"
 import isServer from './isServer'
+import qs from 'query-string'
 // import { Modal } from 'antd-mobile'
 // import { createBrowserHistory, createMemoryHistory } from 'history'
 
@@ -74,10 +75,6 @@ export function pipeline(uri, params, opt = {}) {
     url: sUrl,
     credentials: "include",
     method: "post",
-    headers: {
-      // 'X-Requested-With': 'XMLHttpRequest',
-      // 'Accept': '*/*',
-    },
     data: parseBody(params),
     ...opt,
   }).then(res => {
@@ -151,9 +148,8 @@ export function parseBody(params = {}) {
     ...params,
     user_ticket: auth.user_ticket || Cookies.get('ticket'),
   }
-  // todo 这边临时这么做，formData在node上运行报错，还是要解决
   if (isServer) {
-    return params
+    return qs.stringify(params)
   } else {
     const formData = new FormData()
     Object.keys(params).forEach((key) => {
