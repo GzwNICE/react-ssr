@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/10/24.
+ * Created by gaozhiwen on 2019/1/22.
  */
 import {
   GET_COMPANYDETAIL,
@@ -12,6 +12,7 @@ import {
   GET_BLOCDETAIL_SEARCH,
   GET_BLOCDETAIL_SEARCH_CLEAR,
   GET_COMPANYDETAIL_CLEAR,
+  GET_BLOCDETAIL_LIST_CLEAR,
 } from '../actions/company'
 
 const initState = {
@@ -82,6 +83,11 @@ export default (state = initState, action) => {
         listPhoto: {
           company_file: action.data.listPhoto.company_file,
         },
+      }
+    case GET_BLOCDETAIL_LIST_CLEAR:
+      return {
+        ...state,
+        listPhoto: {},
       }
     case GET_BLOCDETAIL_SEARCH:
       return {
