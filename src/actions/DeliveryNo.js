@@ -18,12 +18,12 @@ export const getDeliveryNo = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'DeliveryNo',
-      type: DELIVERY_HAS_NO,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'DeliveryNo',
+  //     type: DELIVERY_HAS_NO,
+  //   }
+  // },
 })
 
 export const DeletetDelivery = singleApi({

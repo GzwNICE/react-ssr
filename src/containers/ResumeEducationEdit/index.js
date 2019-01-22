@@ -157,8 +157,8 @@ class ResumeEducationEdit extends PureComponent {
             <List.Item arrow="horizontal">专业名称</List.Item>
           </Specialty>
           <BorderBottomLine />
-
-          <Education
+            <div className={style2.pad20}>
+            <Education
             {...getFieldProps('degree', {
               initialValue: [item.degree],
             })}
@@ -167,6 +167,8 @@ class ResumeEducationEdit extends PureComponent {
           >
             <List.Item arrow="horizontal">最高学历</List.Item>
           </Education>
+            </div>
+          
           <BorderBottomLine />
 
           <EnterShoolTime
@@ -191,7 +193,7 @@ class ResumeEducationEdit extends PureComponent {
           title="毕业时间"
         />
 
-          <List.Item className={style.checkbox} style={{paddingBottom: '30px'}}>
+          <List.Item className={`${style.checkbox} ${style2.padbtm}`}>
             <label>
               <Checkbox
                 {...getFieldProps('overseas', {

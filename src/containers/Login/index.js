@@ -15,6 +15,7 @@ import * as auth from '../../actions/auth'
 import { withRouter } from 'react-router-dom'
 import { loggingStatus } from '../../actions/userStatus'
 import { connect } from 'react-redux'
+import Cookies from 'js-cookie'
 
 @createForm()
 @withRouter
@@ -120,7 +121,7 @@ class Login extends PureComponent {
               //   邮箱: data.email,
               // })
               window.zhuge.identify(data.user_id)
-
+              Cookies.set('reigsterMobile', data.phone)
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
                   if (parsed.redirect) {

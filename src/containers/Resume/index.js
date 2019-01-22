@@ -17,6 +17,7 @@ import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
+import { userRefResume } from '../../actions/userStatus'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -44,6 +45,8 @@ const progressStyle = {
     certificates: state.certificates.list || [],
     other_exps: state.other_exps.list || [],
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
+    minutesThree: true, // 3分钟内只能刷一次
+    userStatus: state.userStatus,
   }
 })
 @withRouter
@@ -51,6 +54,7 @@ class Resume extends PureComponent {
   state = {
     toogle: false, // 默认收起
     percentage: '',
+    toInfo: '',  // 跳转到基本信息
   }
 
   componentDidMount() {
@@ -60,10 +64,13 @@ class Resume extends PureComponent {
       jpeg: false, // 强制转为 jpeg|jpg
       quality: 0.7, // jpeg|jpg 图片的质量
     })
+    this.setState({
+      toInfo: '/resume/info?redirect=' + this.props.history.location.pathname,
+    })
     this.props
       .dispatch(
         getAllInfo({
-          version: '5.2.1',
+          // version: '5.2.1',
           appchannel: 'web',
         })
       )
@@ -79,6 +86,13 @@ class Resume extends PureComponent {
                 ),
             },
           ])
+        }
+        // 根据姓名判断
+        const {resume}  = this.props       
+        if (!resume.true_name_cn) {
+          this.props.history.replace(
+            '/resume/micro?redirect=' + this.props.history.location.pathname
+          )
         }
       })
 
@@ -119,15 +133,32 @@ class Resume extends PureComponent {
         })
     })
   }
+
   handleRefresh = () => {
+    
+    this.setState({
+      refresh: true,
+    })
     this.props
       .dispatch(
-        getAllInfo({
-          appchannel: 'web',
+        userRefResume({
+          resume_status: this.props.userStatus.resume_status,
         })
       )
-      .then(() => {
-        Toast.info('刷新成功', 2)
+      .then(data => {
+        if (data.status === 1) {
+          // window.zhuge.track('刷新简历')
+          Toast.info('简历已刷新', 2)
+          this.setState({
+            refresh: false,
+          })
+        } else {
+          // window.zhuge.track('刷新简历')
+          Toast.info(data.errMsg, 2)
+          this.setState({
+            refresh: false,
+          })
+        }
       })
   }
   handleGoto = item => {
@@ -164,7 +195,7 @@ class Resume extends PureComponent {
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage } = this.state
+    const { toogle, percentage, toInfo } = this.state
     // console.log(
     //   DesiredJob.desired_salary
     // )
@@ -199,7 +230,7 @@ class Resume extends PureComponent {
                     : '暂无'}
                 </p>
                 <p className={style.subTitle}>
-                  简历完善度:<span>{percentage}</span>
+                  简历完善度:<span>{percentage ? percentage : '暂无'}</span>
                 </p>
                 <Flex>
                   <Flex.Item
@@ -228,7 +259,7 @@ class Resume extends PureComponent {
                     </span>
                   }
                   extra={
-                    <Link to="/resume/info">
+                    <Link to={toInfo}>
                       <img src={editIcon} />
                     </Link>
                   }
@@ -251,8 +282,8 @@ class Resume extends PureComponent {
                           .filter(
                             item => parseInt(resume.gender, 10) === item.code
                           )
-                          .map(item => item.value)[0] || '未知'
-                      : '未知'}
+                          .map(item => item.value)[0] || '暂无'
+                      : '暂无'}
                   </div>
                   <div>
                     <span>

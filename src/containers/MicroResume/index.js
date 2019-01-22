@@ -67,7 +67,7 @@ class MicroResume extends PureComponent {
         this.props
           .dispatch(
             getAllInfo({
-              version: '5.2.1',
+              // version: '5.2.1',
               appchannel: 'web',
             })
           )
@@ -193,8 +193,8 @@ class MicroResume extends PureComponent {
         true_name_cn: values.true_name_cn,
         gender: values.gender,
         birthday,
-        edu_end,
-        degree: values.degree[0],
+        graduation_time: edu_end,
+        degree: values.degree,
         school_cn: values.school_cn,
         mobile: Cookies.get('reigsterMobile'),
       }

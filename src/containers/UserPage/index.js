@@ -9,7 +9,7 @@ import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
-import { Modal } from 'antd-mobile'
+// import { Modal } from 'antd-mobile'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
 import Resume from '../../static/resume@3x.png'
@@ -19,7 +19,7 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
-const alert = Modal.alert
+// const alert = Modal.alert
 
 @connect(state => {
   return {
@@ -35,7 +35,6 @@ class UserPage extends PureComponent {
   }
 
   reFreshResume = () => {
-    const _that = this
     this.setState({
       refresh: true,
     })
@@ -49,13 +48,13 @@ class UserPage extends PureComponent {
         if (data.status === 1) {
           // window.zhuge.track('刷新简历')
           Toast.info('简历已刷新', 2)
-          _that.setState({
+          this.setState({
             refresh: false,
           })
         } else {
           // window.zhuge.track('刷新简历')
           Toast.info(data.errMsg, 2)
-          _that.setState({
+          this.setState({
             refresh: false,
           })
         }
@@ -139,7 +138,7 @@ class UserPage extends PureComponent {
   }
 
   whereWillIGo = () => {
-    const  {redirect}  = queryString.parse(window.location.search)
+    const  {redirect}  = queryString.parse(this.props.history.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
@@ -171,7 +170,6 @@ class UserPage extends PureComponent {
   render() {
     const userStatus = this.props.userStatus
     const deliver = userStatus.deliver_total_num
-    // const { pathSearch } = queryString.parse(window.location.search)
     return (
       <div className={style.UserPageWrap}>
         <div className={style.top}>
@@ -205,7 +203,7 @@ class UserPage extends PureComponent {
               </div>
             </div>
             <div className={style.left} onClick={this.goLogin}>
-              <Link to={`/resume?source=/user${window.location.search}`}>
+              <Link to={`/resume?source=/user${this.props.history.location.search}`}>
                 <div
                   className={style.imgBox}
                   style={{
@@ -216,8 +214,8 @@ class UserPage extends PureComponent {
               </Link>
             </div>
             <div className={style.username}>
-              <Link to={`/resume?source=/user${window.location.search}`}>
-                {this.props.userStatus.true_name}
+              <Link to={`/resume?source=/user${this.props.history.location.search}`}>
+                {this.props.userStatus.true_name ? this.props.userStatus.true_name : '暂无'}
               </Link>
             </div>
           </div>
@@ -248,7 +246,7 @@ class UserPage extends PureComponent {
           <div
             onClick={() => {
               this.goNextpage(
-                `/resume?source=/user${window.location.search}`,
+                `/resume?source=/user${this.props.history.location.search}`,
                 '我的简历'
               )
             }}
