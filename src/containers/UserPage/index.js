@@ -102,7 +102,7 @@ class UserPage extends PureComponent {
   }
 
   openApp = () =>{
-    this.props.history.replace('share2js://app?type=2')
+    window.location.href = 'share2js://app?type=2'
     console.log(123);
   }
 

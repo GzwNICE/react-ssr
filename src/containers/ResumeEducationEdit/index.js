@@ -48,10 +48,10 @@ class ResumeEducationEdit extends PureComponent {
       if (err) return
       console.log(values)
       if (!values.school_cn) {
-        return Toast.info('请输入学校名称', 2)
+        return Toast.info('请填写学校名称', 2)
       }
       if (!values.major_cn) {
-        return Toast.info('请输入专业名称', 2)
+        return Toast.info('请填写专业名称', 2)
       }
       if (!values.degree) {
         return Toast.info('请选择最高学历', 2)

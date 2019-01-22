@@ -72,7 +72,6 @@ class FilterList extends (PureComponent || Component) {
                     ],
                   })} // 触发form，调用onChangeCity
                   format={this.formatBrand}
-                  save={false}
                   title="选择品牌"
                 >
                   <SimpleItem arrow="horizontal" />
