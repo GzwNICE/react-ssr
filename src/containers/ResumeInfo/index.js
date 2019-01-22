@@ -53,18 +53,18 @@ class ResumeInfo extends PureComponent {
       }
 
       if (values.birthday === undefined || values.birthday === '') {
-        return Toast.info('请输入您的出生年月', 2)
+        return Toast.info('请选择出生年月', 2)
       }
 
       if (values.work_date === undefined || values.work_date === '') {
-        return Toast.info('请输入参加工作时间', 2)
+        return Toast.info('请选择参加工作时间', 2)
       }
 
       if (values.work_date !== 0) {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
         if (start > end) {
-          return Toast.info('参加工作时间必须大于出生年月', 2)
+          return Toast.info('参加工作时间不能小于出生年月', 2)
         }
       }
 
@@ -149,6 +149,10 @@ class ResumeInfo extends PureComponent {
   // 顶部绑定的文案
   bindText = () => {
     const { resume } = this.props
+    if (!resume.email && !resume.mobile) {
+      return null
+    }
+
     if (resume.is_phone_bind !== '1' && resume.is_email_bind !== '1') {
       return (
         <p className={style.footer}>

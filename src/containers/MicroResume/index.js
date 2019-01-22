@@ -116,7 +116,7 @@ class MicroResume extends PureComponent {
       }
 
       if (values.work_date < values.birthday.valueOf()) {
-        return Toast.info('参加工作时间必须大于出生年月', 2)
+        return Toast.info('参加工作时间不能小于出生年月', 2)
       }
       if (!values.company_name_cn) {
         return Toast.info('请填写所在公司', 2)

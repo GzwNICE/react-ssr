@@ -28,7 +28,7 @@ import TextareaField from '../../inputs/TextareaField'
 import StartTime from '../../components/Time/startTime'
 import EndTime from '../../components/Time/endTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
 
 @connect(state => {
   // console.log(state)
@@ -74,17 +74,17 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (!values.begin) {
-        return Toast.info('请输入开始时间', 2)
+        return Toast.info('请选择开始时间', 2)
       }
 
       if (values.end !== 0) {
         if (!values.end) {
-          return Toast.info('请输入结束时间', 2)
+          return Toast.info('请选择结束时间', 2)
         }
         let begin = new Date(moment(values.begin).format('YYYY/M')).valueOf()
         let end = values.end
         if (begin > end) {
-          return Toast.info('结束时间必须大于开始时间', 2)
+          return Toast.info('结束时间不能小于开始时间', 2)
         }
       }
 
@@ -185,6 +185,7 @@ class ResumeExperienceEdit extends PureComponent {
             {...getFieldProps('company_name_cn', {
               initialValue: item.company_name_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">企业名称</List.Item>
           </Company>
@@ -194,6 +195,7 @@ class ResumeExperienceEdit extends PureComponent {
             {...getFieldProps('position_cn', {
               initialValue: item.position_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">职位名称</List.Item>
           </Job>
@@ -223,6 +225,7 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             title="所属行业"
             extra="请选择"
+            maxLength={1}
           >
             <List.Item arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
@@ -234,7 +237,7 @@ class ResumeExperienceEdit extends PureComponent {
                 initialValue: item.salary,
               })}
               clear
-              placeholder="请输入"
+              placeholder="请填写"
               type="number"
             >
               税前薪资

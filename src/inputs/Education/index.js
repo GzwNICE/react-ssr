@@ -32,7 +32,7 @@ class Education extends PureComponent {
     })
     this.setState({
       data: arr,
-    })
+    })  
   }
   endTimeChange = value => {
     this.setState(
@@ -47,7 +47,17 @@ class Education extends PureComponent {
       timeChange: true,
     })
   }
-
+  componentWillReceiveProps(next) {
+    const { value } = next
+    if (!!value) {
+      let arr = [Number(value)]
+      this.setState({
+        sValue: arr,
+        timeChange: true,
+      })
+    }
+    // this.initVal(value)
+  }
   render() {
     const { title } = this.props
     const { sValue, timeChange, data } = this.state

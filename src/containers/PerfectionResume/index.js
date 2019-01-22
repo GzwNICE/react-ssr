@@ -80,10 +80,10 @@ class MicroResume extends PureComponent {
         return Toast.info('请输入期望行业', 2)
       }
       if (values.person_desired_location === undefined) {
-        return Toast.info('请输入期望城市', 2)
+        return Toast.info('请选择期望城市', 2)
       }
       if (values.desired_salary === undefined) {
-        return Toast.info('请输入期望月薪', 2)
+        return Toast.info('请选择期望月薪', 2)
       }
       let arr = Array.prototype.slice.call(values.person_desired_industry)
       let person_desired_industry = arr.map(item => String(item)).join(',')
