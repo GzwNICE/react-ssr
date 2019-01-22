@@ -12,7 +12,7 @@ import WorkMode from '../../inputs/WorkMode'
 import Industry from '../../inputs/Industry'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
 
 // import style2 from './style.less'
@@ -74,11 +74,11 @@ class ResumeIntention extends PureComponent {
       }
 
       if (values.work_mode[0] === '' || values.work_mode[0] === undefined) {
-        return Toast.info('请输入工作类型', 2)
+        return Toast.info('请选择工作类型', 2)
       }
 
       if (values.job_status[0] === '' || values.job_status[0] === undefined) {
-        return Toast.info('请输入求职状态', 2)
+        return Toast.info('请选择求职状态', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '求职意向' })
