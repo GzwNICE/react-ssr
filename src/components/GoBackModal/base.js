@@ -26,7 +26,7 @@ class GoBackModal extends (PureComponent || Component) {
         className={style.modal}
       >
         <div className={style.modalBody}>
-          <p>删除此工作经历将无法恢复，</p>
+          <p>内容尚未保存</p>
           <p>你确定要退出吗?</p>
           <div>
             <div onClick={this.props.handleExit}>退出</div>

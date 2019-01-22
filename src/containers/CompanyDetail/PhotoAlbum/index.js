@@ -8,11 +8,6 @@ export default class Album extends Component {
     super(props)
     this.state = {
       show: true,
-      data: [
-        'AiyWuByWklrrUDlFignR',
-        'TekJlZRVCjLFexlOCuWn',
-        'IJOtIlfsYdTyaDTRVrLI',
-      ],
       current: 1,
     }
   }
@@ -25,6 +20,7 @@ export default class Album extends Component {
 
   render() {
     const { current } = this.state
+    const album = this.props.album || []
     return (
       <div className={style.Album}>
         <div className={style.photoAlbum}>
@@ -32,21 +28,25 @@ export default class Album extends Component {
           <div className={style.photo}>
             <Carousel
               cellSpacing={10}
-              slideWidth="340px"
+              slideWidth={0.9}
               dots={false}
               afterChange={this.handleChange.bind(this)}
             >
-              {this.state.data.map((val, index) => (
+              {album.map((val, index) =>{
+                return (
                 <a key={index}>
                   <img
-                    src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                    alt=""
+                    src={`${val.thumb_url}?x-oss-process=image/resize,w_340,h_180`}
+                    alt="albumimg"
+                    onLoad={()=>{
+                      window.dispatchEvent(new Event('resize'))
+                    }}
                   />
                 </a>
-              ))}
+              )})}
             </Carousel>
             <div className={style.dots}>
-              {current} / <span>{this.state.data.length}</span>
+              {current} / <span>{album.length}</span>
             </div>
           </div>
         </div>

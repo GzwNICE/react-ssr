@@ -16,7 +16,7 @@ import { remove as educationalsRemove } from '../../actions/educationals'
 import EnterShoolTime from '../../components/Time/enterShoolTime'
 import LeaveShoolTime from '../../components/Time/leaveShoolTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
 
 @connect(state => {
   return {
@@ -53,14 +53,14 @@ class ResumeEducationEdit extends PureComponent {
       if (!values.major_cn) {
         return Toast.info('请输入专业名称', 2)
       }
-      if (!values.degree[0]) {
-        return Toast.info('请输入最高学历', 2)
+      if (!values.degree) {
+        return Toast.info('请选择最高学历', 2)
       }
       if (!values.begin) {
-        return Toast.info('请输入入学时间', 2)
+        return Toast.info('请选择入学时间', 2)
       }
       if (!values.end) {
-        return Toast.info('请输入毕业时间', 2)
+        return Toast.info('请选择毕业时间', 2)
       }
       if (values.begin.valueOf() > values.end.valueOf()) {
         return Toast.info('毕业时间不能小于入学时间', 2)
@@ -127,6 +127,7 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
+    console.log(item.degree)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -145,6 +146,7 @@ class ResumeEducationEdit extends PureComponent {
             {...getFieldProps('school_cn', {
               initialValue: item.school_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">学校名称</List.Item>
           </School>
@@ -153,20 +155,23 @@ class ResumeEducationEdit extends PureComponent {
             {...getFieldProps('major_cn', {
               initialValue: item.major_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">专业名称</List.Item>
           </Specialty>
           <BorderBottomLine />
-
-          <Education
+            <div className={style2.pad20}>
+            <Education
             {...getFieldProps('degree', {
-              initialValue: [item.degree],
+              initialValue: item.degree,
             })}
             title="最高学历"
             extra="请选择"
           >
             <List.Item arrow="horizontal">最高学历</List.Item>
           </Education>
+            </div>
+          
           <BorderBottomLine />
 
           <EnterShoolTime
@@ -191,7 +196,7 @@ class ResumeEducationEdit extends PureComponent {
           title="毕业时间"
         />
 
-          <List.Item className={style.checkbox} style={{paddingBottom: '30px'}}>
+          <List.Item className={`${style.checkbox} ${style2.padbtm}`}>
             <label>
               <Checkbox
                 {...getFieldProps('overseas', {

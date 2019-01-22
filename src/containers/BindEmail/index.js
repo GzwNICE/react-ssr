@@ -185,7 +185,8 @@ class BindEmail extends PureComponent {
               {this.state.tipFont}
             </div>
           </div>
-        </div>
+        
+          </div>
         <div
           onClick={this.bindEmail}
           className={`${style.btn} ${

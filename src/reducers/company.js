@@ -11,6 +11,7 @@ import {
   GET_BLOCDETAIL_LIST,
   GET_BLOCDETAIL_SEARCH,
   GET_BLOCDETAIL_SEARCH_CLEAR,
+  GET_COMPANYDETAIL_CLEAR,
 } from '../actions/company'
 
 const initState = {
@@ -21,6 +22,7 @@ const initState = {
   brand_index: [],
   searchList: [],
   searchPager: {},
+  label:[],
 }
 
 export default (state = initState, action) => {
@@ -29,6 +31,11 @@ export default (state = initState, action) => {
       return {
         ...state,
         ...action.data,
+      }
+    case GET_COMPANYDETAIL_CLEAR:
+      return {
+        ...state,
+        label: [],
       }
     case GET_COMPANYDETAIL_LIST:
       return {

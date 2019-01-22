@@ -193,6 +193,8 @@ class ComplexSelView extends ComplexFormField {
   }
 
   mainView() {
+    const {maxLength} = this.props
+    const rightContent = maxLength > 1 ? <span onClick={() => this.changeValue()}>保存</span> : null
     return (
       <div className={style.root}>
         <NavBar
@@ -200,7 +202,7 @@ class ComplexSelView extends ComplexFormField {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}
+          rightContent={rightContent}
         >
           {this.props.title || this.props.children.props.children}
         </NavBar>
