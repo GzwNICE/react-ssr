@@ -200,7 +200,7 @@ class ComplexSelView extends ComplexFormField {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}
+          rightContent={this.props.save ? <span onClick={() => this.changeValue()}>保存</span> : null}
         >
           {this.props.title || this.props.children.props.children}
         </NavBar>

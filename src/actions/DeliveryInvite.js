@@ -18,12 +18,12 @@ export const getDeliveryInvite = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'DeliveryInvite',
-      type: DELIVERY_HAS_INVITE,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'DeliveryInvite',
+  //     type: DELIVERY_HAS_INVITE,
+  //   }
+  // },
 })
 
 export const DeletetDelivery = singleApi({

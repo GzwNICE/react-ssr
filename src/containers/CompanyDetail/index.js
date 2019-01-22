@@ -19,7 +19,7 @@ import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
 import missing from '../../static/missing.png'
 import * as Ad from '../../components/Ad'
-import { companydetail, companyList } from '../../actions/company' // emptyInfo
+import { companydetail, companyList, companydetailClear } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 
@@ -182,7 +182,7 @@ class CompanyDetail extends PureComponent {
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
     const label = this.props.company.label
-    if (!label) {
+    if (label.length === 0) {
       this.props.dispatch(
         companydetail({
           // 企业详细信息
@@ -218,7 +218,10 @@ class CompanyDetail extends PureComponent {
   componentWillUnmount() {
     this.props.handleSavePageScroll(this.key)
     clearTimeout(this.setScroll)
+    this.props.dispatch(companydetailClear())
   }
+
+
 
   render() {
     const data = this.props.company
@@ -296,7 +299,7 @@ class CompanyDetail extends PureComponent {
             >
               <div>
                 <CompanyDuce {...this.props} />
-                <Album />
+                <Album album={this.props.company.album}/>
               </div>
               <div className={style.PostList}>
                 {this.props.list.length ? (

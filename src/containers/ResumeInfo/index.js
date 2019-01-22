@@ -9,7 +9,7 @@ import style from './style.less'
 import Area from '../../inputs/Area'
 import Gender from '../../inputs/Gender'
 import moment from 'moment'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
 import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
@@ -88,7 +88,7 @@ class ResumeInfo extends PureComponent {
         appchannel: 'web',
         work_date,
         birthday,
-        graduation_time: '', // values.graduation_time.join('-')
+        // graduation_time: '', // values.graduation_time.join('-')
       }
       console.log(parmas)
       this.props.dispatch(resumeEdit(parmas)).then(data => {
@@ -116,7 +116,7 @@ class ResumeInfo extends PureComponent {
 
       const payloaded = {
         ...payload,
-        nation_code: '', // values.nation[0] 名族
+        // nation_code: '', // values.nation[0] 名族
         work_date,
         birthday,
         // graduation_time: '', // graduation_time  毕业时间
@@ -181,7 +181,7 @@ class ResumeInfo extends PureComponent {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
-    // console.log(resume.gender)
+    // console.log(resume.work_date)
     // if (resume.gender) {
     //   console.log(1111)
     // }
