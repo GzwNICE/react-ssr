@@ -88,12 +88,12 @@ class Resume extends PureComponent {
           ])
         }
         // 根据姓名判断
-        const {resume}  = this.props       
-        if (!resume.true_name_cn) {
-          this.props.history.replace(
-            '/resume/micro'
-          )
-        }
+        // const {resume}  = this.props       
+        // if (!resume.true_name_cn) {
+        //   this.props.history.replace(
+        //     '/resume/micro'
+        //   )
+        // }
       })
 
     this.props

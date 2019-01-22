@@ -166,6 +166,7 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
+    console.log(item)
 
     return (
       <Flex direction="column" align="stretch" className={style.root}>

@@ -48,10 +48,19 @@ class ResumeInfo extends PureComponent {
       if (err) return
       console.log(values)
 
-      if (values.true_name_cn === undefined || values.true_name_cn === '') {
-        return Toast.info('请输入您的姓名', 2)
+      function isNull(str) {
+        if (str == '') return true
+        var regu = '^[ ]+$'
+        var re = new RegExp(regu)
+        return re.test(str)
       }
 
+      if (!values.true_name_cn) {
+        return Toast.info('请输入您的姓名', 2)
+      }
+      if (isNull(values.true_name_cn)) {
+        return Toast.info('请填写姓名', 2)
+      }
       if (values.birthday === undefined || values.birthday === '') {
         return Toast.info('请选择出生年月', 2)
       }
@@ -242,27 +251,30 @@ class ResumeInfo extends PureComponent {
           >
             姓名
           </InputItem>
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <Gender
             {...getFieldProps('gender', {
-              initialValue: resume.gender && resume.gender !== undefined ? resume.gender : 1,
+              initialValue:
+                resume.gender && resume.gender !== undefined
+                  ? resume.gender
+                  : 1,
             })}
           >
             <List.Item>性别</List.Item>
           </Gender>
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <BirthTime
             extra="请选择"
             {...getFieldProps('birthday', { initialValue: resume.birthday })}
             title="出生年月"
           />
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <JoinJobTime
             extra="请选择"
             {...getFieldProps('work_date', { initialValue: resume.work_date })}
             title="参加工作时间"
           />
-          <BorderBottomLine/>
+          <BorderBottomLine />
 
           <Area
             extra="请选择"
@@ -274,7 +286,7 @@ class ResumeInfo extends PureComponent {
           >
             <List.Item arrow="horizontal">现居地</List.Item>
           </Area>
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <List.Item
             onClick={() => this.bindMobile(1)}
             extra={mobileStatus}
@@ -282,7 +294,7 @@ class ResumeInfo extends PureComponent {
           >
             手机号码
           </List.Item>
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <List.Item
             className={style.email}
             onClick={() => this.bindEmail()}
