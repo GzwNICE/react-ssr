@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
 // import { remove as languagesRemove } from '../../actions/languages'
 // import { remove as skillsRemove } from '../../actions/skills'
-
 import { NavBar, Flex, Icon, Tabs, Accordion, Checkbox, Modal, InputItem, Toast } from 'antd-mobile'
 import style from './style.less'
 import tickImg from '../../static/tick.png'

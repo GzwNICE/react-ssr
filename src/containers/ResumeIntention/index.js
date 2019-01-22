@@ -54,7 +54,7 @@ class ResumeIntention extends PureComponent {
   }
   changeValue() {
     this.props.form.validateFields((err, values) => {
-      console.log(values)
+
       if (err) return
 
       if (values.desired_positions.length === 0) {
@@ -66,10 +66,10 @@ class ResumeIntention extends PureComponent {
       }
 
       if (values.desired_locations.length === 0) {
-        return Toast.info('请选择意工作地点', 2)
+        return Toast.info('请选择意向城市', 2)
       }
 
-      if (values.desired_salary[0] === '') {
+      if (!values.desired_salary[0] || values.desired_salary[0] === '0') {
         return Toast.info('请输入期望月薪', 2)
       }
 
@@ -100,9 +100,9 @@ class ResumeIntention extends PureComponent {
         job_status: `${values.job_status}`,
       }
       console.log(parmas)
-      this.props.dispatch(intentionEdit(parmas)).then(data => {
-        this.props.history.goBack()
-      })
+      // this.props.dispatch(intentionEdit(parmas)).then(data => {
+      //   this.props.history.goBack()
+      // })
     })
   }
 
@@ -118,7 +118,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    // console.log(resume.job_status)
+    console.log(DesiredJob.desired_salary)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

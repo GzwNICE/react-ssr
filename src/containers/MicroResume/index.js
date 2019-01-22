@@ -24,7 +24,12 @@ import { getAllInfo } from '../../actions/resume'
 
 const auth = store.get('m:auth') || {}
 const tabs = [{ title: '在职' }, { title: '在校' }]
-
+const isNull = (str) => {
+  if (str == '') return true
+  var regu = '^[ ]+$'
+  var re = new RegExp(regu)
+  return re.test(str)
+}
 @connect(state => {
   return {
     auth: state.auth,
@@ -108,6 +113,10 @@ class MicroResume extends PureComponent {
       if (!values.true_name_cn) {
         return Toast.info('请填写姓名', 2)
       }
+      if (isNull(values.true_name_cn)) {
+        return Toast.info('请填写姓名', 2)
+      }
+      
       if (!values.birthday) {
         return Toast.info('请选择出生年月', 2)
       }
@@ -169,6 +178,9 @@ class MicroResume extends PureComponent {
       if (err) return
       console.log(values)
       if (!values.true_name_cn) {
+        return Toast.info('请填写姓名', 2)
+      }
+      if (isNull(values.true_name_cn)) {
         return Toast.info('请填写姓名', 2)
       }
       if (!values.birthday) {

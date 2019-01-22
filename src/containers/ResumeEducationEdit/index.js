@@ -127,7 +127,7 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
-    console.log(item.degree)
+    console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

@@ -29,7 +29,7 @@ const JobCard = (props) => {
     </div>
     <div className={style.middle}>
       <div className={style.companyName}>
-        {data.job_area}{exp}{education}{room_board}
+        {data.work_place}{exp}{education}{room_board}
       </div>
       <div className={style.time}>
         {F.procesTime(data.update_time)}
