@@ -102,8 +102,8 @@ class UserPage extends PureComponent {
   }
 
   openApp = () =>{
+    alert(123)
     window.location.href = 'share2js://app?type=2'
-    console.log(123);
   }
 
   goNextpage = (url, key) => {
