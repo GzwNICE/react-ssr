@@ -36,7 +36,7 @@ export default class Album extends Component {
                 return (
                 <a key={index}>
                   <img
-                    src={val.thumb_url}
+                    src={`${val.thumb_url}?x-oss-process=image/resize,w_340,h_180`}
                     alt="albumimg"
                     onLoad={()=>{
                       window.dispatchEvent(new Event('resize'))
