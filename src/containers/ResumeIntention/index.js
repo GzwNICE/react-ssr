@@ -97,8 +97,6 @@ class ResumeIntention extends PureComponent {
           desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
           work_mode: `${values.work_mode}`,
         }),
-        
-    
         job_status: `${values.job_status}`,
       }
       console.log(parmas)
@@ -120,6 +118,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
+    console.log(resume.job_status)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -167,7 +166,7 @@ class ResumeIntention extends PureComponent {
             extra="请选择"
             maxLength={5}
           >
-            <List.Item arrow="horizontal">意向地点</List.Item>
+            <List.Item arrow="horizontal">意向城市</List.Item>
           </Area>
           <BorderBottomLine/>
 

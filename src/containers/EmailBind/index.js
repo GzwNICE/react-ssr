@@ -239,6 +239,8 @@ class EmailBind extends PureComponent {
                 </Button>
 
               </div>
+              <p className={style.footer}>注：请登录邮箱查看验证码，并填写到输入框</p>
+
               <div className={style.btn}>
                 <Button type="primary" onClick={this.handleSubmit}>
                   {text}

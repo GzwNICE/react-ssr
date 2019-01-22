@@ -91,7 +91,7 @@ class Resume extends PureComponent {
         const {resume}  = this.props       
         if (!resume.true_name_cn) {
           this.props.history.replace(
-            '/resume/micro?redirect=' + this.props.history.location.pathname
+            '/resume/micro'
           )
         }
       })
@@ -169,6 +169,14 @@ class Resume extends PureComponent {
       toogle: !this.state.toogle,
     })
   }
+  gotoPreview = () => {
+    const {isAllowPreview} = this.props.resume
+    if (isAllowPreview === '1' ) {
+      this.props.history.push('/resumepreview')
+    } else {
+      Toast.info('您还未创建简历', 2)
+    }
+  }
   whereWillIGo = () => {
     const search = this.props.history.location.search
     if (search.indexOf('source=/user') !== 0) {
@@ -240,7 +248,7 @@ class Resume extends PureComponent {
                     <p>设置</p>
                   </Flex.Item>
                   <Flex.Item
-                    onClick={this.handleGoto.bind(this, `/resumepreview`)}
+                    onClick={this.gotoPreview}
                   >
                     <img src={previewIcon} />
                     <p>预览</p>

@@ -149,6 +149,10 @@ class ResumeInfo extends PureComponent {
   // 顶部绑定的文案
   bindText = () => {
     const { resume } = this.props
+    if (!resume.email && !resume.mobile) {
+      return null
+    }
+
     if (resume.is_phone_bind !== '1' && resume.is_email_bind !== '1') {
       return (
         <p className={style.footer}>
