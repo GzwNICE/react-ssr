@@ -4,14 +4,9 @@ import { withRouter } from 'react-router-dom'
 @withRouter
 class GoBackModal2 extends (PureComponent || Component) {
   handleExit = () => {
-    let search = this.props.history.location.search
-    let path = '/resume/micro'
-    if (search.indexOf('?redirect=') !== -1) {
-      path = '?redirect=' + search.split('?redirect=')[1]
-      path = `/resume/micro${path}`
-      console.log(path)
-    }
-    this.props.history.push(path)
+    this.props.history.replace(
+        '/resume?redirect=' + this.props.history.location.pathname
+    )
   }
   render() {
     return <Base handleExit={this.handleExit} fatherProps={this.props} />

@@ -1,6 +1,7 @@
-import React,{PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import ComplexPicker from '../../components/ComplexPicker'
+import { Picker } from 'antd-mobile'
+import style from './style.less'
 
 @connect(state => {
   return {
@@ -8,21 +9,72 @@ import ComplexPicker from '../../components/ComplexPicker'
   }
 })
 class Education extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      timeChange: false,
+      sValue: [5],
+      data: [],
+    }
+  }
+  componentDidMount() {
+    const { options = [] } = this.props
+    let arr = []
+    options.map(item => {
+      let obj = {
+        value: item.code,
+        label: item.value,
+      }
+      arr.push(obj)
+    })
+    arr = arr.filter(item => {
+      return item.value < 9
+    })
+    this.setState({
+      data: arr,
+    })
+  }
+  endTimeChange = value => {
+    this.setState(
+      {
+        sValue: value,
+      },
+      () => {
+        this.props.onChange(String(value[0]))
+      }
+    )
+    this.setState({
+      timeChange: true,
+    })
+  }
+
   render() {
-    const { options=[] } = this.props
+    const { title } = this.props
+    const { sValue, timeChange, data } = this.state
+
+    const CustomChildren = ({ extra, onClick, children }) => {
+      extra = timeChange ? extra : '请选择'
+      return (
+        <div onClick={onClick} className={style.timeContent}>
+          {children}
+          <div className={style.rightIcon} aria-hidden="true" />
+          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+        </div>
+      )
+    }
     return (
-      <ComplexPicker
-        {...this.props}
-        data={options
-          .filter(item => item.code !== 0)
-          .filter(item => item.code !== 9)
-          .map(item => ({
-            label: item.value,
-            value: `${item.code}`,
-          }))}
-        cols={1}>
-        {this.props.children}
-      </ComplexPicker>
+      <div>
+        <Picker
+          data={data}
+          title={title}
+          extra="请选择"
+          value={sValue}
+          cols={1}
+          onOk={this.endTimeChange}
+        >
+          <CustomChildren>{title}</CustomChildren>
+        </Picker>
+      </div>
     )
   }
 }
