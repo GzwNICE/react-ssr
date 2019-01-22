@@ -225,6 +225,7 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             title="所属行业"
             extra="请选择"
+            maxLength={1}
           >
             <List.Item arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
