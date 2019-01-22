@@ -290,13 +290,13 @@ class CompanyDetail extends PureComponent {
           <div className={style.connent}>
             <Tabs
               tabs={tabs}
-              initialPage={1}
+              initialPage={0}
               swipeable={false}
               onChange={this.onChangeTab}
             >
               <div>
                 <CompanyDuce {...this.props} />
-                <Album />
+                <Album album={this.props.company.album}/>
               </div>
               <div className={style.PostList}>
                 {this.props.list.length ? (
