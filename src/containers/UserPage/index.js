@@ -102,8 +102,13 @@ class UserPage extends PureComponent {
   }
 
   openApp = () =>{
-    alert(123)
+    this.setState({
+      messageQueue: false,
+    })
     window.location.href = 'share2js://app?type=2'
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    }, 2000)
   }
 
   goNextpage = (url, key) => {

@@ -10,6 +10,7 @@ export const GET_COMPANYDETAIL_LIST = 'GET_COMPANYDETAIL_LIST' // 该企业其�
 export const DELETE_COMPANY_INFO = 'DELETE_COMPANY_INFO' // 清楚数据
 export const GET_BLOCDETAIL_CATEGORY = 'GET_BLOCDETAIL_CATEGORY' // 名企专区品牌分类
 export const GET_BLOCDETAIL_LIST = 'GET_BLOCDETAIL_LIST' // 名企专区
+export const GET_BLOCDETAIL_LIST_CLEAR = 'GET_BLOCDETAIL_LIST_CLEAR' // 名企专区清空数据
 export const GET_BLOCDETAIL_SEARCH = 'GET_BLOCDETAIL_SEARCH' // 名企专区搜索
 export const GET_BLOCDETAIL_SEARCH_CLEAR = 'GET_BLOCDETAIL_SEARCH_CLEAR' // 名企专区搜索
 
@@ -89,6 +90,13 @@ export const blocList = singleApi({
     }
   },
 })
+
+// 名企列表清空数据
+export const blocListClear = () => {
+  return {
+    type: GET_BLOCDETAIL_LIST_CLEAR,
+  }
+}
 
 
 // 名企搜索
