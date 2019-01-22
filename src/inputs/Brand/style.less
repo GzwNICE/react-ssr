@@ -1,7 +1,18 @@
 .allView {
+  .listItem {
+    border-bottom: none !important;
+  }
   :global {
     .am-list-item {
       padding-left: 0 !important;
+    }
+    .am-list-line::after {
+      display: none;
+    }
+
+    .am-list-body div .am-list-line::after,
+    .am-list-item .am-list-line::after {
+      display: none;
     }
   }
 }
