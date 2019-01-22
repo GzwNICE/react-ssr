@@ -21,7 +21,6 @@
   overflow: hidden;
 
   :global {
-    // list ---------
     .am-list-line {
       padding-right: 30px;
       overflow: initial;
@@ -30,6 +29,9 @@
       margin-top: -1PX;
       div:not(:last-child) .am-list-line:after {
         width: calc(~"100% - 30px");
+      }
+      .am-list-line::after{
+        display: none !important;
       }
     }
     .am-list-content  {
@@ -84,9 +86,9 @@
   }
 }
 
-.listItem {
-  border-bottom: 1Px solid #F0F0F0;
-}
+// .listItem {
+//   border-bottom: 1Px solid #F0F0F0;
+// }
 
 .brandSelect {
   height: 18px;

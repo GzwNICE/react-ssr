@@ -101,6 +101,11 @@ class UserPage extends PureComponent {
     }
   }
 
+  openApp = () =>{
+    this.props.history.replace('share2js://app?type=2')
+    console.log(123);
+  }
+
   goNextpage = (url, key) => {
     // window.zhuge.track(key)
     if (this.props.user.user_id && Cookies.get('ticket')) {
@@ -230,6 +235,7 @@ class UserPage extends PureComponent {
           closable={1}
           visible={this.state.messageQueue}
           onClose={this.onClose('messageQueue')}
+          openApp={this.openApp}
           message={
             this.props.userStatus.unread_message_num
               ? `请登录最佳东方APP查看`
@@ -238,7 +244,7 @@ class UserPage extends PureComponent {
           actions={[
             {
               text: '打开APP',
-              onPress: this.onClose('messageQueue'),
+              onPress: () => this.openApp(),
             },
           ]}
         />
