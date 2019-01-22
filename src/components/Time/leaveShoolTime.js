@@ -37,7 +37,8 @@ class JobTime extends PureComponent {
       typeof value === 'string' &&
       value.indexOf('-') !== -1
     ) {
-      let dt = new Date(value.replace(/-/, '/'))
+      let arr = value.split('-')
+      let dt = moment().year(arr[0]).month(arr[1] - 1)._d
       
       this.setState({
         value: dt,
