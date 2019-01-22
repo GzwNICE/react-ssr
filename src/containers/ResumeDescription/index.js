@@ -38,7 +38,7 @@ class ResumeDescription extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
       if(values.content_cn.length === 0) {
-        return Toast.info('内容不能为空', 2)
+        return Toast.info('请填写自我描述', 2)
       }
       // window.zhuge.track('我的简历', { '模块': '自我描述' })
       this.props
