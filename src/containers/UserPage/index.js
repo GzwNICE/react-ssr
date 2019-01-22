@@ -101,6 +101,7 @@ class UserPage extends PureComponent {
     }
   }
 
+  // 跳转app消息列表
   openApp = () =>{
     this.setState({
       messageQueue: false,
