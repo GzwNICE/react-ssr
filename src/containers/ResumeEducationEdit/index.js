@@ -53,7 +53,7 @@ class ResumeEducationEdit extends PureComponent {
       if (!values.major_cn) {
         return Toast.info('请输入专业名称', 2)
       }
-      if (!values.degree[0]) {
+      if (!values.degree) {
         return Toast.info('请输入最高学历', 2)
       }
       if (!values.begin) {
@@ -127,6 +127,7 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
+    console.log(item.degree)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -160,7 +161,7 @@ class ResumeEducationEdit extends PureComponent {
             <div className={style2.pad20}>
             <Education
             {...getFieldProps('degree', {
-              initialValue: [item.degree],
+              initialValue: item.degree,
             })}
             title="最高学历"
             extra="请选择"
