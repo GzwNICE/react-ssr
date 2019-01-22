@@ -20,12 +20,12 @@ export const getCollectPostInit = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'CollectPost',
-      type: GET_COLLECTPOST_INIT,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'CollectPost',
+  //     type: GET_COLLECTPOST_INIT,
+  //   }
+  // },
 })
 
 export const deletePost = singleApi({

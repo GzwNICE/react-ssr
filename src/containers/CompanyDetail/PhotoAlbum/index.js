@@ -32,7 +32,8 @@ export default class Album extends Component {
               dots={false}
               afterChange={this.handleChange.bind(this)}
             >
-              {album.map((val, index) => (
+              {album.map((val, index) =>{
+                return (
                 <a key={index}>
                   <img
                     src={val.thumb_url}
@@ -42,7 +43,7 @@ export default class Album extends Component {
                     }}
                   />
                 </a>
-              ))}
+              )})}
             </Carousel>
             <div className={style.dots}>
               {current} / <span>{album.length}</span>

@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2018/4/13.
+ * Created by gaozhiwen on 2019/1/22.
  */
 import { singleApi } from '../helper/reduxFetch'
 export const GET_DELIVERY_ALL = 'GET_DELIVERY_ALL' // 全部
@@ -20,12 +20,12 @@ export const getDeliveryAll = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'DeliveryAll',
-      type: GET_DELIVERY_ALL,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'DeliveryAll',
+  //     type: GET_DELIVERY_ALL,
+  //   }
+  // },
 })
 
 export const DeletetDelivery = singleApi({

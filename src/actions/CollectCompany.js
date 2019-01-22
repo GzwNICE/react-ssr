@@ -20,12 +20,12 @@ export const getCollectCompantInit = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'CollectCompany',
-      type: GET_COLLECTCOMPANY_INIT,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'CollectCompany',
+  //     type: GET_COLLECTCOMPANY_INIT,
+  //   }
+  // },
 })
 
 export const deleteCompany = singleApi({

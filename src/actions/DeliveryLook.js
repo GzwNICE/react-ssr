@@ -18,12 +18,12 @@ export const getDeliveryLook = singleApi({
       data: json.data,
     }
   },
-  cache: () => {
-    return {
-      state: 'DeliveryLook',
-      type: DELIVERY_HAS_LOOK,
-    }
-  },
+  // cache: () => {
+  //   return {
+  //     state: 'DeliveryLook',
+  //     type: DELIVERY_HAS_LOOK,
+  //   }
+  // },
 })
 
 export const DeletetDelivery = singleApi({

@@ -51,7 +51,6 @@ class SelectCompany extends PureComponent {
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.scrollTop
-
     this.props.dispatch(getCollectCompantInit())
   }
 
