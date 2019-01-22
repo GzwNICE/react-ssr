@@ -24,7 +24,7 @@ class ComplexSelView extends ComplexFormField {
   }
   componentDidMount() {
     const { options } = this.props
-    console.log(this.props)
+    // console.log(this.props)
     this.setState({
       optionsSubChil: options[0].sublist,
     })
