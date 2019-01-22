@@ -118,7 +118,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    console.log(resume.job_status)
+    // console.log(resume.job_status)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
