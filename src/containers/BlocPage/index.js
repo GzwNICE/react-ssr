@@ -160,10 +160,10 @@ export default class CompanyArea extends Component {
   }
 
   componentDidMount() {
-    Toast.loading('Loading...');
     const c_userid = this.props.match.params.c_userid
     const { listPhoto } = this.props
     if (JSON.stringify(listPhoto) === '{}') {
+      Toast.loading('Loading...');
       this.props.dispatch(
         blocList({
           c_userid: c_userid,

@@ -84,7 +84,7 @@ class SearchEnd extends PureComponent {
       isUsed: 1,
       more: {},
     }
-    Toast.loading('Loading...');
+    
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -108,6 +108,7 @@ class SearchEnd extends PureComponent {
         defaultValue: data.keyword || keyword,
       })
     }
+    Toast.loading('Loading...');
     this.props.dispatch(getSearchListInit(allQuery)).then(() => {
       Toast.hide()
       this.setState({
