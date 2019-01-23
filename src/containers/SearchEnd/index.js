@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
 import { Link } from 'react-router-dom'
-import { ListView } from 'antd-mobile'
+import { ListView,Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
@@ -84,7 +84,7 @@ class SearchEnd extends PureComponent {
       isUsed: 1,
       more: {},
     }
-
+    Toast.loading('Loading...');
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -109,6 +109,7 @@ class SearchEnd extends PureComponent {
       })
     }
     this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+      Toast.hide()
       this.setState({
         initLoading: false,
       })

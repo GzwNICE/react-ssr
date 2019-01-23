@@ -73,7 +73,7 @@ export const baseUrl = 'http://m.veryeast.cn/s'
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
   // loading 加载
-  Toast.loading('Loading...');
+  // Toast.loading('Loading...');
   return axios({
     url: sUrl,
     credentials: "include",
@@ -82,7 +82,7 @@ export function pipeline(uri, params, opt = {}) {
     ...opt,
   }).then(res => {
     // loading停止
-    Toast.hide()
+    // Toast.hide()
     if (res.status >= 400) throw res
     return res.data
   })

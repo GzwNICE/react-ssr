@@ -54,6 +54,7 @@ export default class CompanyArea extends Component {
     is_login: '',
     isVisable: false,
     searchValue: '',
+    hasList: false,
   }
 
   /* 下载或者打开app */
@@ -159,6 +160,7 @@ export default class CompanyArea extends Component {
   }
 
   componentDidMount() {
+    Toast.loading('Loading...');
     const c_userid = this.props.match.params.c_userid
     const { listPhoto } = this.props
     if (JSON.stringify(listPhoto) === '{}') {
@@ -168,7 +170,12 @@ export default class CompanyArea extends Component {
           local: '',
           c_id: '',
         })
-      )
+      ).then(res=>{
+        Toast.hide()
+        this.setState({
+          hasList: true,
+        })
+      })
     }
     this.setState({
       is_login: sessionStorage.getItem('is_login')
@@ -239,7 +246,7 @@ export default class CompanyArea extends Component {
           />
         </div>
         <div className={style.blocCentent}>
-          <CompanyList searchEnd={this.state.search} />
+          <CompanyList searchEnd={this.state.search} hasList={this.state.hasList}/>
         </div>
         {is_login ? null : showRegWrap ? (
           <RegisterWrap
