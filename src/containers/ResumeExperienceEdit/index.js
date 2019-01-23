@@ -28,7 +28,7 @@ import TextareaField from '../../inputs/TextareaField'
 import StartTime from '../../components/Time/startTime'
 import EndTime from '../../components/Time/endTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
-import GobackModal from '../../components/GoBackModal/index4'
+import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
   // console.log(state)

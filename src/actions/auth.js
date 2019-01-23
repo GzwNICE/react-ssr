@@ -150,8 +150,10 @@ export const bindMobile = (params) => {
   //     ...params,
   //   }),
   // }).then(res => res.json())
+  // http://m.veryeast.cn/s/ve.mobile.interface/client-service/api/mobile
+  // :ve.m/client-service/api/mobile
   return axios({
-    url: toRealUrl(':ve.m/client-service/api/mobile'),
+    url: toRealUrl(':ve.mobile.interface/client-service/api/mobile'),
     credentials: 'include',
     method: 'post',
     data: parseBody({

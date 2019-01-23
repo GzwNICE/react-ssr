@@ -262,10 +262,9 @@ class ComplexSelView extends ComplexFormField {
             ))}
           </ul>
           <ul className={style.right}>
-            {this.myCity && clickCode === 'hot' ? (
-              <li className={style.mycity}>
-                <span>当前定位</span>
-
+            <li className={style.mycity}>
+              <span>当前定位</span>
+              {this.myCity && clickCode === 'hot' ? (
                 <span
                   onClick={() =>
                     (this.props.onSelect || this.selectValue)(this.myCity)
@@ -274,8 +273,11 @@ class ComplexSelView extends ComplexFormField {
                 >
                   {this.props.optIndex[this.myCity]}
                 </span>
-              </li>
-            ) : null}
+              ) : (
+                <span>定位失败</span>
+              )}
+            </li>
+
             <ul className={style.content}>
               {optionsSubChil
                 ? optionsSubChil.map((item, index) => {

@@ -67,8 +67,6 @@ class SearchEnd extends PureComponent {
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
     }
-
-  
   }
   componentDidMount() {
     const {
