@@ -1,28 +1,14 @@
 import React, { PureComponent } from 'react'
-import { Picker } from 'antd-mobile'
+import { DatePicker } from 'antd-mobile'
 import style from '../style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import initDate from '../../../helper/datePlugin'
 
-const YING_JIE_SHENG = '应届生'
-
-let timeChange = {
-  work_date: false,
-}
-const CustomChildren = ({ extra, onClick, children }) => {
-  extra = timeChange.work_date ? extra : '请选择'
-  return (
-    <div
-      onClick={onClick}
-      className = {style.timeContent}
-    >
-      {children}
-      <div className={style.rightIcon} aria-hidden="true" />
-      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
-    </div>
-  )
-}
+const nowYear = moment().weekYear()
+const maxDate = new Date()
+const minDate = moment()
+  .year(nowYear - 80)
+  .month(0)._d
 
 @connect(state => {
   return {}
@@ -31,79 +17,55 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      date: '',
-      endTimedata: [],
-      sValue: [],
-      endTime: '', // 开始时间毫秒
-
+      value: moment().year(nowYear - 1)._d,
+      timeChange: false,
     }
   }
   componentDidMount() {
-    const initData = initDate('MMMM-YY', '', YING_JIE_SHENG)
-    let sValue = []
-    sValue[0] = `${moment().year() - 1 }年`
-    sValue[1] = `${moment().month() + 1}月`
     this.setState({
-      endTimedata: initData.data,
-      sValue,
+      timeChange: false,
     })
-    timeChange.work_date = false
   }
+  onChange = value => {
+    this.setState({
+      value,
+    })
+    const onChange = this.props.onChange
 
-  endTimeChange = (date) => {
-    let endTime
-    if (date[0] === YING_JIE_SHENG) {
-      endTime = 0
-    } else {
-      let endTimeArr = date.map((item) => {
-        let str = item.substr(0, item.length -1)
-        return str
-      })
-      endTimeArr[1] = Number(endTimeArr[1]) - 1
-      endTime = moment(endTimeArr).valueOf()
+    if (onChange) {
+      onChange(value)
     }
-    this.setState({ 
-      sValue: date,
-      endTime,
-    }, () => {
-      this.onChange()
+    this.setState({
+      timeChange: true,
     })
-    timeChange.work_date = true
   }
-  onChange = () => {
-    let time =  this.state.endTime.valueOf()
-    this.props.onChange(time)
-  }
-  handleFormat = val => {
-    val = val.map(item => {
-      if (item === YING_JIE_SHENG) {
-        return item
-      } else {
-        let str = item.substr(0, item.length - 1)
-        str = str.length === 1 ? `0${str}` : str
-        return str
-      }
-    })
-    val = val.join('.')
-    return val
-  }
-  render() {
-    const { endTimedata, sValue } = this.state
 
+  render() {
+    const { value, timeChange } = this.state
+    const { title = 'title' } = this.props
+    const CustomChildren = ({ extra, onClick, children }) => {
+      extra = timeChange ? extra : '请选择'
+      return (
+        <div onClick={onClick} className={style.timeContent}>
+          {children}
+          <div className={style.rightIcon} aria-hidden="true" />
+          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+        </div>
+      )
+    }
     return (
-      <div>
-      <Picker
-      data={endTimedata}
-      title="结束时间"
-      extra="请选择"
-      value={sValue}
-      cols={2}
-      format={this.handleFormat}
-      onOk={this.endTimeChange}
-    >
-    <CustomChildren>参加工作时间</CustomChildren>
-    </Picker>
-      </div>
+      <DatePicker
+        mode="month"
+        title={title}
+        extra="请选择"
+        format={s => moment(s).format('YYYY.MM')}
+        minDate={minDate}
+        maxDate={maxDate}
+        value={value}
+        onChange={this.onChange}
+      >
+        <CustomChildren>{title}</CustomChildren>
+      </DatePicker>
     )
   }
 }

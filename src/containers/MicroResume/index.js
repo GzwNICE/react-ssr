@@ -24,7 +24,7 @@ import { getAllInfo } from '../../actions/resume'
 
 const auth = store.get('m:auth') || {}
 const tabs = [{ title: '在职' }, { title: '在校' }]
-const isNull = (str) => {
+const isNull = str => {
   if (str == '') return true
   var regu = '^[ ]+$'
   var re = new RegExp(regu)
@@ -110,23 +110,24 @@ class MicroResume extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
       console.log(values)
+
       if (!values.true_name_cn) {
         return Toast.info('请填写姓名', 2)
       }
       if (isNull(values.true_name_cn)) {
         return Toast.info('请填写姓名', 2)
       }
-      
+
       if (!values.birthday) {
         return Toast.info('请选择出生年月', 2)
       }
       if (values.work_date === undefined || values.work_date === '') {
         return Toast.info('请选择参加工作时间', 2)
       }
-
-      if (values.work_date < values.birthday.valueOf()) {
+      if (values.work_date.valueOf() < values.birthday.valueOf()) {
         return Toast.info('参加工作时间不能小于出生年月', 2)
       }
+
       if (!values.company_name_cn) {
         return Toast.info('请填写所在公司', 2)
       }
@@ -139,15 +140,19 @@ class MicroResume extends PureComponent {
       if (!values.job_time[0] || values.job_time[1] === '') {
         return Toast.info('请选择最近工作时间', 2)
       }
-      if (values.work_date > values.job_time[0]) {
+
+      if (
+        moment(values.work_date).format('YYYY-M') !==
+          moment(values.job_time[0]).format('YYYY-M') &&
+        values.work_date.valueOf() > values.job_time[0]
+      ) {
         return Toast.info('开始时间不能小于参加工作时间', 2)
       }
       if (values.job_time[1] !== 0 && values.job_time[0] > values.job_time[1]) {
         return Toast.info('结束时间不能小于开始时间', 2)
       }
 
-      const work_date =
-        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+      const work_date = moment(values.work_date).format('YYYY-M')
       const begin_year = moment(values.job_time[0]).format('YYYY')
       const begin_month = moment(values.job_time[0]).format('M')
       const end_year =
@@ -222,6 +227,7 @@ class MicroResume extends PureComponent {
       type: 'MICRODONWPARAMS',
       paload: values,
     })
+
     this.props
       .dispatch(
         microDone({
@@ -232,6 +238,7 @@ class MicroResume extends PureComponent {
         if (res.json && res.json.status) {
           Toast.info(res.json.msg, 2)
           // window.zhuge.track('微简历保存成功')
+
           setTimeout(() => {
             let search = this.props.history.location.search
             let path = ''
@@ -241,7 +248,8 @@ class MicroResume extends PureComponent {
             if (changeVal) {
               this.props.history.push('/resume')
             } else {
-              this.props.history.push('/resume/micro/perfect?redirect=' + path)
+              this.props.history.push('/resume/micro/perfect')
+              // this.props.history.push('/resume/micro/perfect?redirect=' + path)
             }
           }, 999)
         } else {
@@ -296,7 +304,10 @@ class MicroResume extends PureComponent {
           <BirthTime title="出生年月" {...getFieldProps('birthday', {})} />
 
           <BorderBottomLine />
-          <JoinJobTime {...getFieldProps('work_date', {})} />
+          <JoinJobTime
+            title="参加工作时间"
+            {...getFieldProps('work_date', {})}
+          />
 
           <BorderBottomLine />
           <Company {...getFieldProps('company_name_cn', {})} extra="请填写">

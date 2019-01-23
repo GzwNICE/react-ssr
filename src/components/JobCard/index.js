@@ -32,7 +32,7 @@ const JobCard = (props) => {
         {data.work_place}{exp}{education}{room_board}
       </div>
       <div className={style.time}>
-        {F.procesTime(data.update_time)}
+        {data.update_time}
       </div>
     </div>
     <div className={style.footerBox}>
