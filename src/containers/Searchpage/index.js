@@ -3,7 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import {connect} from 'react-redux'
-import store from 'store'
+// import store from 'store'
 import MySearchBar from '../../components/SearchBar'
 import SearchClassify from '../../components/SearchClassify'
 import {getSearchTips} from '../../actions/search'
@@ -16,7 +16,7 @@ import qiye from '../../static/scompany@3x.png'
 import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import {getSearchHot} from '../../actions/search'
-const option = store.get('m:option')
+// const option = store.get('m:option')
 
 @connect(state => {
   return {
@@ -53,7 +53,7 @@ class SearchPage extends PureComponent {
     })
     this.props.dispatch(getSearchTips({
       keyword: keyWord,
-      count: 3,
+      count: 10,
     }))
   }
 
@@ -136,14 +136,14 @@ class SearchPage extends PureComponent {
   }
   ShowCompany = (company = []) => {
     if(company.length > 0) {
-      return <SearchClassify
-        title="企业"
-        scope="3"
-        keyWord={this.state.keyWord}
-        src={qiye}
-        data={company}
-        callback={this.touchSearchItem}
-      />
+      // return <SearchClassify
+      //   title="企业"
+      //   scope="3"
+      //   keyWord={this.state.keyWord}
+      //   src={qiye}
+      //   data={company}
+      //   callback={this.touchSearchItem}
+      // />
     }
   }
   ShowWelfare = (welfare = []) => {
@@ -168,8 +168,8 @@ class SearchPage extends PureComponent {
       </div>
     } else {
       return <div>
-        <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
         <SearchHistory callback={this.searcHis} {...this.props}/>
+        <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
       </div>
     }
   }

@@ -78,15 +78,15 @@ class ResumeInfo extends PureComponent {
       }
 
       if (values.current_location.length === 0) {
-        return Toast.info('请选择您的现居地', 2)
+        return Toast.info('请选择现居地', 2)
       }
       const { resume } = this.props
 
       if (resume.is_phone_bind !== '1') {
-        return Toast.info('请绑定你的手机号', 2)
+        return Toast.info('请绑定手机号', 2)
       }
       if (resume.is_email_bind !== '1') {
-        return Toast.info('请绑定你的邮箱', 2)
+        return Toast.info('请绑定邮箱', 2)
       }
       const work_date =
         values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')

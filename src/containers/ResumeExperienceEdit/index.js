@@ -78,7 +78,7 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (values.end !== 0) {
-        if (!values.end) {
+        if (values.end === undefined || values.end === null) {
           return Toast.info('请选择结束时间', 2)
         }
         let begin = new Date(moment(values.begin).format('YYYY/M')).valueOf()

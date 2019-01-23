@@ -1,6 +1,6 @@
 import React from 'react'
 import ComplexFormField from '../../../components/Complex/ComplexFormField'
-import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
+import { NavBar, Toast, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { getCompanyTips } from "../../../actions/work_exps";

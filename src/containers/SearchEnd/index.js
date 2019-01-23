@@ -301,16 +301,25 @@ class SearchEnd extends PureComponent {
     return allQuery
   }
   noVacancies = query => {
+    console.log(query)
     // 记录地区
     const areas_index = option.areas_index || {}
     const areaVal = areas_index[query.area[0]]
+    const more = query.more ? query.more : {}
+    let company_industry
+    if (more.company_industry) {
+      company_industry =`-${option.opts_company_industry_all_index[more.company_industry]}`   
+    }
     const defaultValue = this.state.defaultValue
       ? `-${this.state.defaultValue}`
       : null
     const salary = this.props.salaryString
       ? `-${this.props.salaryString}`
       : null
-    const more = JSON.stringify(query.more) === '{}' ? null : '等'
+    let ellipsis
+    for (let key in more) {
+      console.log(key)
+    }
     const { initLoading } = this.state
     if (initLoading) {
       return null
@@ -320,9 +329,10 @@ class SearchEnd extends PureComponent {
           <img src={vacantIcon} />
           <p>
             【{areaVal}
+            {company_industry}
             {defaultValue}
             {salary}
-            {more}】
+            {ellipsis}】
           </p>
           <p>暂无职位，可以切换条件试试哦~</p>
         </div>

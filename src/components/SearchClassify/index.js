@@ -4,8 +4,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less'
-import search from '../../static/search@3x.png'
-import rectangle from '../../static/Rectangle@3x.png'
+// import search from '../../static/search@3x.png'
+// import rectangle from '../../static/Rectangle@3x.png'
 
 class SearchClassify extends PureComponent {
   static propTypes = {
@@ -39,34 +39,18 @@ class SearchClassify extends PureComponent {
     let {src, title, data = [], callback, scope} = this.props
     return (
       <div className={style.SearchClassify}>
-        <div className={style.titleBox}>
-          <img className={style.img} src={src} alt="img" />
-          <span>{title}</span>
-        </div>
+       
         <div className={style.item}>
           <ul>
             {
               data.map((d, i) => (
                 <li key={i} onClick={() => callback({keyword:d, scope:scope})}>
-                  <img className={style.searchImg} src={search} alt="search" />
                   <span className={style.name}>{this.replaceFont(d)}</span>
                 </li>
               ))
             }
           </ul>
-          {
-            data.length === 3
-            ? <div className={style.more} onClick={this.callback}>
-              <div className={style.font}>
-                <img className={style.searchImg} src={search} alt="search" />
-                <span className={style.name}>查看更多</span>
-              </div>
-              <div>
-                <img className={style.rectangle} src={rectangle} alt="rectangle" />
-              </div>
-            </div>
-            : null
-          }
+          
         </div>
       </div>
     )

@@ -4,13 +4,13 @@
 import React from 'react'
 import style from './style.less'
 import PropTypes from 'prop-types'
-import searchHot from '../../static/search_hot@3x.png'
+// import searchHot from '../../static/search_hot@3x.png'
+// <img className={style.titleImg} src={searchHot} alt="hot" />
 
 const SearchHot = (props) => {
   return (
     <div className={style.searchHotBox}>
       <div className={style.title}>
-        <img className={style.titleImg} src={searchHot} alt="hot" />
         <span>热门搜索</span>
       </div>
       <div className={style.hotItem}>
