@@ -16,7 +16,7 @@ import { remove as educationalsRemove } from '../../actions/educationals'
 import EnterShoolTime from '../../components/Time/enterShoolTime'
 import LeaveShoolTime from '../../components/Time/leaveShoolTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
-import GobackModal from '../../components/GoBackModal/index4'
+import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
   return {

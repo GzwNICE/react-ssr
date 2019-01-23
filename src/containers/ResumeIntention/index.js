@@ -22,6 +22,7 @@ import BorderBottomLine from '../../components/BorderBottomLine/index2'
     state.DesiredPositions.list.map(item => item.position)
   )
   DesiredLocations = [...DesiredLocations]
+  console.log(state.resume)
   return {
     option: state.option,
     DesiredJob: state.DesiredJob,
@@ -76,8 +77,7 @@ class ResumeIntention extends PureComponent {
       if (values.work_mode[0] === '' || values.work_mode[0] === undefined) {
         return Toast.info('请选择工作类型', 2)
       }
-
-      if (values.job_status[0] === '' || values.job_status[0] === undefined) {
+      if (!values.job_status[0] || values.job_status[0] === '0') {
         return Toast.info('请选择求职状态', 2)
       }
 
@@ -118,7 +118,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    console.log(DesiredJob.desired_salary)
+    console.log(resume.job_status)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

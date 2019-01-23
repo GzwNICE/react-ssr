@@ -17,7 +17,7 @@ const JobCard = (props) => {
     <div className={style.top}>
       <div className={style.left}>
         <div className={style.position}>
-        {job_name}
+        <span className={style.ellipsis}>{job_name}</span>
         {data.is_urgent === '1'
           ? <img className={style.jizhao} src={jizhaoIcon} /> : null }
         </div>
@@ -38,7 +38,7 @@ const JobCard = (props) => {
     <div className={style.footerBox}>
     <img src={data.company_logo} />
       <div>
-        <p>{data.company_name}</p>
+        <p className={style.ellipsis2}>{data.company_name}</p>
         <p>{data.industry_star}{company_size}</p>
       </div>
     </div>

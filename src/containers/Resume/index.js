@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo, avatar } from '../../actions/resume'
 import { Card, Flex, Modal, TextareaItem, Icon, Progress } from 'antd-mobile'
-// import queryString from 'query-string'
 import BitmapMin from 'bitmap-min'
 import style from './style.less'
 import editIcon from '../../static/edit@3x.png'
@@ -65,7 +64,7 @@ class Resume extends PureComponent {
       quality: 0.7, // jpeg|jpg 图片的质量
     })
     this.setState({
-      toInfo: '/resume/info?redirect=' + this.props.history.location.pathname,
+      toInfo: '/resume/info' + this.props.history.location.search,
     })
     this.props
       .dispatch(
@@ -322,7 +321,7 @@ class Resume extends PureComponent {
                     </span>
                   }
                   extra={
-                    <Link to="/resume/intention">
+                    <Link to={`/resume/intention${this.props.history.location.search}`}>
                       <img src={editIcon} />
                     </Link>
                   }
