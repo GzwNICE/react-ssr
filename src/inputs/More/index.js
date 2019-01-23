@@ -56,15 +56,15 @@ class More extends ComplexSelView {
     return (
       <div>
         <div className={style2.title}>行业类别</div>
-        {this.listView(this.props.options.opts_company_industry_all, 'company_industry')}
+        {this.listView(this.props.options.opts_search_industry, 'company_industry')}
         <div className={style2.title}>发布日期</div>
         {this.listView(this.props.options.opts_update_time, 'update_time')}
         <div className={style2.title}>学历要求</div>
-        {this.listView(this.props.options.opts_education, 'education')}
+        {this.listView(this.props.options.opts_search_degree, 'education')}
         <div className={style2.title}>食宿情况</div>
         {this.listView(this.props.options.opts_room_board, 'room_board')}
         <div className={style2.title}>职位性质</div>
-        {this.listView(this.props.options.opts_work_mode, 'work_mode')}
+        {this.listView(this.props.options.opts_search_work_mode, 'work_mode')}
       </div>
     )
   }

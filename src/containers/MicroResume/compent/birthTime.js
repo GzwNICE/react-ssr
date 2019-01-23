@@ -5,24 +5,12 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
-const maxDate = moment().year(nowYear - 16).month(11)._d
-const minDate = moment().year(nowYear - 80).month(0)._d
-
-
-let timeChange = false
-const CustomChildren = ({ extra, onClick, children }) => {
-  extra = timeChange ? extra : '请选择'
-  return (
-    <div
-      onClick={onClick}
-      className={style.timeContent}
-    >
-      {children}
-      <div className={style.rightIcon} aria-hidden="true" />
-      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
-    </div>
-  )
-}
+const maxDate = moment()
+  .year(nowYear - 16)
+  .month(11)._d
+const minDate = moment()
+  .year(nowYear - 80)
+  .month(0)._d
 
 @connect(state => {
   return {}
@@ -32,10 +20,13 @@ class JobTime extends PureComponent {
     super(props)
     this.state = {
       value: moment().year(nowYear - 22)._d,
+      timeChange: false,
     }
   }
   componentDidMount() {
-    timeChange = false
+    this.setState({
+      timeChange: false,
+    })
   }
   onChange = value => {
     this.setState({
@@ -46,12 +37,24 @@ class JobTime extends PureComponent {
     if (onChange) {
       onChange(value)
     }
-    timeChange = true
+    this.setState({
+      timeChange: true,
+    })
   }
 
   render() {
-    const { value } = this.state
-    const { title="title" } = this.props
+    const { value, timeChange } = this.state
+    const { title = '' } = this.props
+    const CustomChildren = ({ extra, onClick, children }) => {
+      extra = timeChange ? extra : '请选择'
+      return (
+        <div onClick={onClick} className={style.timeContent}>
+          {children}
+          <div className={style.rightIcon} aria-hidden="true" />
+          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+        </div>
+      )
+    }
     return (
       <DatePicker
         mode="month"

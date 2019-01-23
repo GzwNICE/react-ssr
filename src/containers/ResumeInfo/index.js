@@ -13,6 +13,7 @@ import GobackModal from '../../components/GoBackModal/index4'
 import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
+import Cookies from 'js-cookie'
 
 @connect(state => {
   return {
@@ -30,13 +31,15 @@ class ResumeInfo extends PureComponent {
     }
   }
   componentDidMount() {
-    if (this.props.history.action !== 'REPLACE') {
+    const key = Cookies.get('isInfoSave') // key 为1代表跳转过到邮箱、手机绑定页面
+    if (this.props.history.action !== 'REPLACE' && key !== '1') {
       this.props.dispatch(
         getAllInfo({
           appchannel: 'web',
         })
       )
     }
+    Cookies.set('isInfoSave', '')
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
@@ -72,7 +75,9 @@ class ResumeInfo extends PureComponent {
       if (String(values.work_date) !== '0') {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
-        if (start > end) {
+
+        if (moment(values.birthday).format('YYYY-M') !==
+          moment(values.work_date).format('YYYY-M') && start > end) {
           return Toast.info('参加工作时间不能小于出生年月', 2)
         }
       }
@@ -135,6 +140,7 @@ class ResumeInfo extends PureComponent {
         type: 'TEMPORARY_SAVE',
         payload: payloaded,
       })
+      Cookies.set('isInfoSave', '1')
     })
   }
 
@@ -195,9 +201,7 @@ class ResumeInfo extends PureComponent {
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
     // console.log(resume.work_date)
-    // if (resume.gender) {
-    //   console.log(1111)
-    // }
+  
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>

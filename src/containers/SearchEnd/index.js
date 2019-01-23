@@ -303,7 +303,6 @@ class SearchEnd extends PureComponent {
     return allQuery
   }
   noVacancies = query => {
-    console.log(query)
     // 记录地区
     const areas_index = option.areas_index || {}
     const areaVal = areas_index[query.area[0]]
@@ -320,7 +319,9 @@ class SearchEnd extends PureComponent {
       : null
     let ellipsis
     for (let key in more) {
-      console.log(key)
+      if (key !== 'company_industry') {
+        ellipsis = '等'
+      }
     }
     const { initLoading } = this.state
     if (initLoading) {
