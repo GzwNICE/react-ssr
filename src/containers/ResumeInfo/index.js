@@ -56,7 +56,7 @@ class ResumeInfo extends PureComponent {
       }
 
       if (!values.true_name_cn) {
-        return Toast.info('请输入您的姓名', 2)
+        return Toast.info('请填写姓名', 2)
       }
       if (isNull(values.true_name_cn)) {
         return Toast.info('请填写姓名', 2)
@@ -247,7 +247,7 @@ class ResumeInfo extends PureComponent {
               initialValue: resume.true_name_cn,
             })}
             clear
-            placeholder="请输入"
+            placeholder="请填写"
           >
             姓名
           </InputItem>
