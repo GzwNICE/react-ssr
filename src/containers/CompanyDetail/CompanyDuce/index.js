@@ -7,11 +7,6 @@ export default class CompanyDuce extends Component {
     this.state = {
       introduced: true, //有企业信息
       open: true, //显示查看全部
-      data: [
-        'AiyWuByWklrrUDlFignR',
-        'TekJlZRVCjLFexlOCuWn',
-        'IJOtIlfsYdTyaDTRVrLI',
-      ],
       current: 1,
     }
   }
@@ -25,6 +20,14 @@ export default class CompanyDuce extends Component {
         open: false,
       })
     }
+  }
+
+  goLogin = () => {
+    // window.zhuge.track('登陆后查看')
+    // const search = this.props.history.location.search ? this.props.history.location.search : '?'
+    const pathname = this.props.history.location.pathname
+    const url = `/register?redirect=${pathname}`
+    this.props.history.replace(url, {key: '获取联系方式'})
   }
 
   handleUnfold() {
@@ -100,13 +103,22 @@ export default class CompanyDuce extends Component {
             {company.contact_phone ? (
               <div>
                 手　机：
-                <span>{company.contact_phone}</span>
+                {this.props.is_login ? (
+                  <span>{company.contact_phone}</span>
+                ) : (
+                  <span onClick={this.goLogin}>登陆后查看</span>
+                )}
               </div>
             ) : null}
             {company.contact_email ? (
               <div>
                 邮　箱：
-                <span>{company.contact_email}</span>
+                {this.props.is_login ? (
+                  <span>{company.contact_email}</span>
+                ) : (
+                  <span onClick={this.goLogin}>登陆后查看</span>
+                )}
+                
               </div>
             ) : null}
             <div>地　址：{company.address}</div>

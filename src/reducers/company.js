@@ -23,7 +23,8 @@ const initState = {
   brand_index: [],
   searchList: [],
   searchPager: {},
-  label:[],
+  label: [],
+  album: [],
 }
 
 export default (state = initState, action) => {
@@ -32,6 +33,7 @@ export default (state = initState, action) => {
       return {
         ...state,
         ...action.data,
+        album: action.data.album,
       }
     case GET_COMPANYDETAIL_CLEAR:
       return {
@@ -58,7 +60,7 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_CATEGORY:
       return {
         ...state,
-        brand: action.data.map(i=>{
+        brand: action.data.map(i => {
           return {
             code: i.id,
             value: i.category_name,
@@ -66,7 +68,7 @@ export default (state = initState, action) => {
             mode: 1,
           }
         }),
-        brand_index: action.data.map(i=>{
+        brand_index: action.data.map(i => {
           return i.category_name
         }),
       }
@@ -93,16 +95,15 @@ export default (state = initState, action) => {
       return {
         ...state,
         searchList: state.searchList.concat(action.data.data),
-        searchPager:  action.data.pager,
+        searchPager: action.data.pager,
       }
     case GET_BLOCDETAIL_SEARCH_CLEAR:
       return {
         ...state,
         searchList: [],
-        searchPager:  {},
+        searchPager: {},
       }
     default:
       return state
   }
 }
-

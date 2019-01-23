@@ -20,7 +20,7 @@ export default class Album extends Component {
 
   render() {
     const { current } = this.state
-    const album = this.props.album || []
+    const album = this.props.album
     return (
       <div className={style.Album}>
         <div className={style.photoAlbum}>
@@ -32,18 +32,21 @@ export default class Album extends Component {
               dots={false}
               afterChange={this.handleChange.bind(this)}
             >
-              {album.map((val, index) =>{
-                return (
-                <a key={index}>
-                  <img
-                    src={`${val.thumb_url}?x-oss-process=image/resize,w_340,h_180`}
-                    alt="albumimg"
-                    onLoad={()=>{
-                      window.dispatchEvent(new Event('resize'))
-                    }}
-                  />
-                </a>
-              )})}
+              {album.map((val, index) => {
+                    return (
+                      <a key={index}>
+                        <img
+                          src={`${
+                            val.thumb_url
+                          }?x-oss-process=image/resize,w_340,h_180`}
+                          alt="albumimg"
+                          onLoad={() => {
+                            window.dispatchEvent(new Event('resize'))
+                          }}
+                        />
+                      </a>
+                    )
+                  })}
             </Carousel>
             <div className={style.dots}>
               {current} / <span>{album.length}</span>
