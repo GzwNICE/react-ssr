@@ -49,8 +49,14 @@ export default (req, res, next) => {
       const context = {}
       const modules = []
 
-      const isNumber = obj => {
-        return typeof obj === 'number' && isFinite(obj)
+      const isNumber = num => {
+        if (typeof num === 'number') {
+          return num - num === 0;
+        }
+        if (typeof num === 'string' && num.trim() !== '') {
+          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
+        }
+        return false;
       }
       const serverRender = () => {
         frontloadServerRender(() =>
@@ -148,18 +154,16 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
-      if (isNumber(parseInt(com.value, 10))) {
+      if (isNumber(com.value)) {
         if (com.key === 1) { // 职位详情页
           render = false
-          console.log('职位详情页')
-          store.dispatch(positiondetail()).then(() => {
+          store.dispatch(positiondetail({job_id: job[2],company_id: job[1]})).then(() => {
             serverRender()
           })
         } else {   // 企业详情页
           render = false
-          console.log('企业详情页')
-          store.dispatch(companydetail()).then(() => {
-            store.dispatch(companyList()).then(() => {
+          store.dispatch(companydetail({company_id: com.value})).then(() => {
+            store.dispatch(companyList({company_id: com.value})).then(() => {
               serverRender()
             })
           })

@@ -104,7 +104,6 @@ class CompanyList extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.searchEnd) {
       if (this.props.searchList !== nextProps.searchList) {
-        console.log(nextProps.searchList)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(nextProps.searchList),
         })

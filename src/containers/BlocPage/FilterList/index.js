@@ -18,7 +18,6 @@ const querys ={
   area:[],
   brand:0,
 }
-
 @createForm({
   onValuesChange(props, values) {
    if(values.areas){

@@ -141,8 +141,8 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
-    const { list } = this.props
-    if (!list) {
+    const { job_name } = this.props.position
+    if (!job_name) {
       this.props
         .dispatch(
           positiondetail({

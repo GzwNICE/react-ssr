@@ -21,12 +21,6 @@ const CollectCompanyItem = (props) => {
             {company_name}
           </div>
           <div className={style.middle}>
-            {/*<div className={style.middLeft}>
-              <span>{jobs_num}个</span>在招职位
-            </div>
-            <div className={style.middRight}>
-              {followed_date.split(' ')[0]}关注
-            </div>*/}
             <span>{current_location}</span>
             <span>{industry_star}</span>
             <span>{employees_number}</span>
