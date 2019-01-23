@@ -69,7 +69,7 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请选择参加工作时间', 2)
       }
 
-      if (values.work_date !== 0) {
+      if (String(values.work_date) !== '0') {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
         if (start > end) {

@@ -71,7 +71,7 @@ class ResumeEducationEdit extends PureComponent {
       const parmas = {
         ...values,
         id: this.props.match.params.id,
-        is_overseas: values.overseas ? '1' : '2',
+        is_overseas: values.overseas ? '2' : '1',
         begin_year: moment(values.begin).format('YYYY'),
         begin_month: moment(values.begin).format('MM'),
         end_year:  moment(values.end).format('YYYY'),
@@ -200,7 +200,7 @@ class ResumeEducationEdit extends PureComponent {
             <label>
               <Checkbox
                 {...getFieldProps('overseas', {
-                  initialValue: item.is_overseas === '1' ? true : false,
+                  initialValue: item.is_overseas === '2' ? true : false,
                   valuePropName: 'checked',
                 })}
               />

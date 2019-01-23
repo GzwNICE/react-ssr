@@ -387,9 +387,9 @@ class Resume extends PureComponent {
                         className={style['card-job-wraper-circle']}
                       />
                       <div className={style.ellipsis}>
-                        {item.company_name_cn}
-                        {option.positions_index[item.position_id]
-                          ? ` | ${option.positions_index[item.position_id]}`
+                        {item.position_cn}
+                        {item.company_name_cn
+                          ? ` | ${item.company_name_cn}`
                           : null}
                       </div>
                       <img
@@ -433,7 +433,13 @@ class Resume extends PureComponent {
                         src={circleIcon}
                         className={style['card-education-wraper-circle']}
                       />
-                      <p>{item.school_cn || '学校名称'}</p>
+                      <div className={style.ellipsis}>
+                      {item.school_cn}
+                      {item.is_overseas === '2'
+                        ? ` | 海外教育经历`
+                        : null}
+                    </div>
+                     
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(
