@@ -28,12 +28,13 @@ class SearchHistory extends PureComponent {
       searchHis: data,
     })
   }
+  // <img className={`${style.titleImg} ${style.imgMargin}`} src={searchHistory} alt="hot" />
+
   render() {
     return (
       <div className={style.searchHistoryBox}>
         <div className={style.titleBox}>
           <div className={style.title}>
-            <img className={`${style.titleImg} ${style.imgMargin}`} src={searchHistory} alt="hot" />
             <span>搜索记录</span>
           </div>
           <div onClick={this.deleteHistory}>
@@ -50,10 +51,8 @@ class SearchHistory extends PureComponent {
               this.state.searchHis.length
               ? this.state.searchHis.map((d, i) => {
                 return <li key={i} onClick={() => this.props.callback(d)}>
-                  <div className={style.leftTitle}>{d}</div>
-                  <div className={style.rightImg}>
-                    <img src={Rectangle} className={style.Rectangle} alt="Rectangle" />
-                  </div>
+                {d}
+  
                 </li>
               })
               : <p className={style.noData}>近期暂无搜索记录</p>

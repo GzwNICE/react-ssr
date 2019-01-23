@@ -120,7 +120,7 @@ class MicroResume extends PureComponent {
       if (!values.birthday) {
         return Toast.info('请选择出生年月', 2)
       }
-      if (!values.work_date) {
+      if (values.work_date === undefined || values.work_date === '') {
         return Toast.info('请选择参加工作时间', 2)
       }
 
@@ -137,7 +137,7 @@ class MicroResume extends PureComponent {
         return Toast.info('请选择最近工作时间', 2)
       }
       if (!values.job_time[0] || values.job_time[1] === '') {
-        return Toast.info('最近工作时间请选择完整', 2)
+        return Toast.info('请选择最近工作时间', 2)
       }
       if (values.work_date > values.job_time[0]) {
         return Toast.info('开始时间不能小于参加工作时间', 2)
