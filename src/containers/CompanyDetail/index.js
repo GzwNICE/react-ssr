@@ -18,8 +18,12 @@ import CompanyDuce from './CompanyDuce'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
 import missing from '../../static/missing.png'
-import * as Ad from '../../components/Ad'
-import { companydetail, companyList, companydetailClear } from '../../actions/company' // emptyInfo
+// import * as Ad from '../../components/Ad'
+import {
+  companydetail,
+  companyList,
+  companydetailClear,
+} from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 
@@ -29,6 +33,7 @@ import { companyCollect, companyUnCollect } from '../../actions/company'
 @connect(state => {
   return {
     company: state.company,
+    album: state.company.album,
     list: state.company.list,
     pageScroll: state.pageScroll,
     is_login: state.userStatus.is_login,
@@ -39,11 +44,6 @@ class CompanyDetail extends PureComponent {
   state = {
     showRegWrap: true, //引导注册
     searchShow: false, //顶部搜索框默认隐藏
-    data2: [
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545392880487&di=eb69663e60461571b78ab9a81fe36688&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F12%2F58%2F16%2F15bOOOPICae.jpg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545987626&di=b1f9e504a7315f100cd6cd971db21d65&imgtype=jpg&er=1&src=http%3A%2F%2Fwx2.sinaimg.cn%2Flarge%2F6edb7b23ly1fllz9xlhqdj20dw0dw75c.jpg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545382997404&di=f232cc3c0ef9c7efdd678fa3a0fef30c&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Fu%2F2017%2F1221%2F4_143339_4.jpg',
-    ],
     albumShow: false, //相册详情
     current: 1, //相册当前页
     show: true, //引导下载框
@@ -161,9 +161,7 @@ class CompanyDetail extends PureComponent {
       : '?'
     const pathname = this.props.history.location.pathname
     const url = search
-      ? `/register${search}${
-          search === '?' ? '' : '&'
-        }redirect=${pathname}`
+      ? `/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
       : `/register?redirect=${pathname}`
     this.props.history.replace(url, { key: '关注' })
   }
@@ -172,8 +170,8 @@ class CompanyDetail extends PureComponent {
     this.props.history.push('/search')
   }
 
-   /* 下载或者打开app */
-   downLoadAd = () => {
+  /* 下载或者打开app */
+  downLoadAd = () => {
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
   }
 
@@ -205,8 +203,7 @@ class CompanyDetail extends PureComponent {
           this.page.scrollTop = pageScroll['page'] || 0
         })
     }
-   
-      
+
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
       is_login: sessionStorage.getItem('is_login')
@@ -221,8 +218,6 @@ class CompanyDetail extends PureComponent {
     this.props.dispatch(companydetailClear())
   }
 
-
-
   render() {
     const data = this.props.company
     const is_followed = data.is_followed
@@ -230,15 +225,7 @@ class CompanyDetail extends PureComponent {
     const pageScroll = this.props.pageScroll[pathname] || {}
     const key = pageScroll['key'] || '1'
     this.key = key
-    const {
-      searchShow,
-      show,
-      albumShow,
-      current,
-      attention,
-      showRegWrap,
-      is_login,
-    } = this.state
+    const { searchShow, attention, showRegWrap, is_login } = this.state
     const tabs = [
       { title: <Badge key="1">企业信息</Badge> },
       { title: <Badge key="2">在招职位</Badge> },
@@ -298,8 +285,10 @@ class CompanyDetail extends PureComponent {
               onChange={this.onChangeTab}
             >
               <div>
-                <CompanyDuce {...this.props} />
-                <Album album={this.props.company.album}/>
+                <CompanyDuce {...this.props} is_login={this.state.is_login} />
+                {this.props.album.length === 0 ? null : (
+                  <Album album={this.props.album} />
+                )}
               </div>
               <div className={style.PostList}>
                 {this.props.list.length ? (
@@ -320,31 +309,6 @@ class CompanyDetail extends PureComponent {
             onCloseReg={this.handleCloseReg.bind(this)}
             location={this.props.history.location.pathname}
           />
-        ) : null}
-
-        {albumShow ? (
-          <div className={style.albumDetails}>
-            <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
-            <Carousel
-              autoplay={false}
-              dots={false}
-              afterChange={this.handleChange.bind(this)}
-              className={style.carousel}
-            >
-              {this.state.data2.map(val => (
-                <a key={val}>
-                  <img
-                    src={val}
-                    alt=""
-                    style={{ width: '100%', verticalAlign: 'top' }}
-                  />
-                </a>
-              ))}
-            </Carousel>
-            <div className={style.DetailsDots}>
-              {current} / {this.state.data2.length}
-            </div>
-          </div>
         ) : null}
       </div>
     )
