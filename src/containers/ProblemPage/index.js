@@ -6,8 +6,8 @@ import NavBack from '../../components/Back'
 import { connect } from 'react-redux'
 import { answerOpinion } from '../../actions/home'
 import { withRouter } from 'react-router-dom'
-import answer from '../../static/answer.png'
 import style from './style.less'
+const triggerFrom = '来源'
 
 @withRouter
 @connect(state => {
@@ -55,6 +55,9 @@ class ProblemPage extends PureComponent {
             this.props.history.push(
               `/coupleBack?redirect=${this.props.history.location.pathname}`
             )
+            window.zhuge.track('我要反馈',{
+              [`${triggerFrom}`] : '常见问题解答',
+            })
           }}
         >
           我要反馈

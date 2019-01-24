@@ -19,7 +19,7 @@ const Nothing = props => {
       <img src={nothingImg} alt="" />
       {title ? (<p>{title}</p>) : null}
       <span>{font || '什么都没有'}</span>
-      {botton ? <Link to={link}>{botton || `去看看`}</Link> : null}
+      {botton ? <Link to={link} onClick={()=>{window.zhuge.track(botton)}}>{botton || `去看看`}</Link> : null}
     </div>
   )
 }

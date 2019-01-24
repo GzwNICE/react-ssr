@@ -28,29 +28,23 @@ class DeliveryRecord extends PureComponent {
         type: index.page,
       })
     )
-    // .then(() => {
-    //   if(type === '2') {
-    //     this.props.dispatch(getDeliveryLook({
-    //       type,
-    //     }))
-    //   }
-    //   if(type === '3') {
-    //     this.props.dispatch(getDeliveryInterview({
-    //       type,
-    //     }))
-    //   }
-    //   if(type === '4') {
-    //     this.props.dispatch(getDeliveryInappropriate({
-    //       type,
-    //     }))
-    //   }
-    // })
+    if (index.page === '1') {
+      window.zhuge.track('全部')
+    } else if (index.page === '2') {
+      window.zhuge.track('被查看')
+    } else if (index.page === '3') {
+      window.zhuge.track('面试邀约')
+    } else if (index.page === '4') {
+      window.zhuge.track('不合适')
+    }
   }
 
   // 跳转app投递列表
   openApp = () => {
     const triggerFrom = '触发来源'
-    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '打开APP，可以和HR在线沟通' })
+    window.zhuge.track('下载APP', {
+      [`${triggerFrom}`]: '打开APP，可以和HR在线沟通',
+    })
     window.location.href =
       'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
     setTimeout(() => {
@@ -59,6 +53,7 @@ class DeliveryRecord extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('全部')
     const parsed = queryString.parse(window.location.search)
     this.setState({
       key: parsed.key || 1,

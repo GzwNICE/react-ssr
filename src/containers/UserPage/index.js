@@ -33,6 +33,7 @@ class UserPage extends PureComponent {
   }
 
   reFreshResume = () => {
+    window.zhuge.track('刷新')
     this.setState({
       refresh: true,
     })
@@ -44,13 +45,11 @@ class UserPage extends PureComponent {
       )
       .then(data => {
         if (data.status === 1) {
-          // window.zhuge.track('刷新简历')
           Toast.info('简历已刷新', 2)
           this.setState({
             refresh: false,
           })
         } else {
-          // window.zhuge.track('刷新简历')
           Toast.info(data.errMsg, 2)
           this.setState({
             refresh: false,
@@ -59,7 +58,8 @@ class UserPage extends PureComponent {
       })
   }
 
-  showModal = key => e => {
+  showModal = (key,val) => e => {
+    window.zhuge.track(val)
     if (e) e.preventDefault() // 修复 Android 上点击穿透
     this.setState({
       [key]: true,
@@ -113,7 +113,7 @@ class UserPage extends PureComponent {
   }
 
   goNextpage = (url, key) => {
-    // window.zhuge.track(key)
+    window.zhuge.track(key)
     if (this.props.user.user_id && Cookies.get('ticket')) {
       this.props.history.push(url)
     } else {
@@ -169,10 +169,6 @@ class UserPage extends PureComponent {
             '/register?redirect=' + this.props.history.location.pathname,
             { key: '我的' }
           )
-          // Modal.alert('', '请先登录', [
-          //   { text: '稍后', style: 'default' },
-          //   { text: '登录', onPress: () => this.props.history.push('/register?redirect=' + this.props.history.location.pathname, {key: '我的'}) },
-          // ])
         }
       })
     }
@@ -202,7 +198,7 @@ class UserPage extends PureComponent {
                       src={inform}
                       alt="inform"
                       onClick={
-                        this.showModal('messageQueue')
+                        this.showModal('messageQueue','消息')
                       }
                     />
                     {this.props.userStatus.unread_message_num ? (
@@ -301,7 +297,7 @@ class UserPage extends PureComponent {
           </div>
         </div>
         <div className={style.bottom}>
-          <div className={style.quit} onClick={this.showModal('loginOutAlert')}>
+          <div className={style.quit} onClick={this.showModal('loginOutAlert','退出登录')}>
             退出登录
           </div>
           <div className={style.contactWay}>
