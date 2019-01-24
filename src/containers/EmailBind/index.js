@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 import {
   NavBar,
   Flex,
-  List,
   WingBlank,
   InputItem,
   Button,
@@ -16,7 +15,7 @@ import {
 import { createForm } from 'rc-form'
 import store from 'store'
 import _ from 'lodash'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import F from '../../helper/tool'
 import { email_verify_code, email_verify } from '../../actions/bind'
 import style from './style.less'
@@ -52,13 +51,13 @@ class EmailBind extends PureComponent {
         hidden_email: hidden_email,
       })
     } else {
-      if (_.toInteger(email) || (status==='0' && email!=='0')) {       
+      if (_.toInteger(email) || (status === '0' && email !== '0')) {
         this.setState({
           status: 2,
           hidden_email: hidden_email,
         })
         this.props.form.setFieldsValue({
-          email,
+          email: hidden_email,
         })
       }
     }
@@ -87,8 +86,21 @@ class EmailBind extends PureComponent {
         this.alertFail(err)
         return
       }
+      let emailVal = values.email
+      if (emailVal.indexOf('*') !== -1) {
+        emailVal = this.props.match.params.email
+      }
+      let reg = new RegExp(
+        '^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$'
+      ) //正则表达式
+      if (!reg.test(emailVal)) {
+        //正则验证不通过，格式不对
+        Toast.fail('请输入正确的邮箱', 2)
+        return
+      }
       email_verify({
         ...values,
+        email: emailVal,
         appchannel: 'web',
       }).then(data => {
         const { msg, errMsg, status } = data
@@ -101,9 +113,12 @@ class EmailBind extends PureComponent {
           }
         } else {
           Toast.success('绑定成功', 2, () => {
-            store.set('m:auth', {...this.props.auth, email: values.email})
-            this.props.dispatch({type: 'CHANGE_BIND_EMAIL'})
-            this.props.dispatch({type: 'CHANGE_BIND_EMAIL_VALUE', payload: values.email})
+            store.set('m:auth', { ...this.props.auth, email: emailVal })
+            this.props.dispatch({ type: 'CHANGE_BIND_EMAIL' })
+            this.props.dispatch({
+              type: 'CHANGE_BIND_EMAIL_VALUE',
+              payload: emailVal,
+            })
             this.props.history.replace('/resume/info')
           })
         }
@@ -118,11 +133,24 @@ class EmailBind extends PureComponent {
         return
       }
       if (this.state.disableCode) {
+        let emailVal = value.email
+        if (emailVal.indexOf('*') !== -1) {
+          emailVal = this.props.match.params.email
+        }
+        // checkEmail(emailVal)
+        let reg = new RegExp(
+          '^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$'
+        ) //正则表达式
+        if (!reg.test(emailVal)) {
+          //正则验证不通过，格式不对
+          Toast.fail('请输入正确的邮箱', 2)
+          return
+        }
         email_verify_code({
           ...value,
+          email: emailVal,
         }).then(data => {
           const { msg, errMsg, status } = data
-          console.log(data)
           if (status === 0) {
             if (msg || errMsg) {
               Toast.fail(msg || errMsg, 2)
@@ -175,7 +203,10 @@ class EmailBind extends PureComponent {
         </div>
       ) : (
         <div>
-          <p>当前绑定邮箱：{hidden_email}，更改后，请用新邮箱接收投递简历反馈通知、找回密码等</p>
+          <p>
+            当前绑定邮箱：{hidden_email}
+            ，更改后，请用新邮箱接收投递简历反馈通知、找回密码等
+          </p>
         </div>
       )
     return (
@@ -201,16 +232,11 @@ class EmailBind extends PureComponent {
                         required: true,
                         message: '请输入邮箱',
                       },
-                      {
-                        type: 'email',
-                        message: '请输入正确的邮箱',
-                      },
                     ],
                   })}
                   clear
                   placeholder={emailPlacehold}
-                >
-                </InputItem>
+                />
                 <InputItem
                   {...getFieldProps('code', {
                     initialValue: '',
@@ -224,8 +250,7 @@ class EmailBind extends PureComponent {
                   clear
                   className={style.authCode}
                   placeholder="请输入验证码"
-                >
-                </InputItem>
+                />
 
                 <Button
                   onClick={this.getCode}
@@ -237,9 +262,10 @@ class EmailBind extends PureComponent {
                 >
                   {tipFont}
                 </Button>
-
               </div>
-              <p className={style.footer}>注：请登录邮箱查看验证码，并填写到输入框</p>
+              <p className={style.footer}>
+                注：请登录邮箱查看验证码，并填写到输入框
+              </p>
 
               <div className={style.btn}>
                 <Button type="primary" onClick={this.handleSubmit}>

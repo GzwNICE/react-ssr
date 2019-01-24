@@ -16,13 +16,22 @@ import { createForm } from 'rc-form'
 import store from 'store'
 import _ from 'lodash'
 import {connect} from 'react-redux'
-import PrefixMobile from '../../inputs/PrefixMobile'
+// import PrefixMobile from '../../inputs/PrefixMobile'
 import { bindMobile } from '../../actions/auth'
 import { mobile } from '../../actions/bind'
 import F from '../../helper/tool'
 import style from './style.less'
 import County from '../../inputs/County'
 
+// const isPoneAvailable = (str) => {
+//   var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+//   if (!myreg.test(str)) {
+//       return false;
+//   } else {
+//       return true;
+//   }
+// }
+// console.log(isPoneAvailable('18 50 00 00 00'))
 @connect(state => {
   return {
     auth: state.auth,
@@ -48,7 +57,6 @@ class MobileBind extends PureComponent {
     const mobile = this.props.match.params.mobile
     const hidden_mobile = this.props.match.params.hidden_mobile
     const status = this.props.match.params.status
-    console.log(status)
     if (status === '1') {
       this.setState({
         status: 3,
@@ -63,7 +71,7 @@ class MobileBind extends PureComponent {
           hidden_mobile: hidden_mobile,
         })
         this.props.form.setFieldsValue({
-          mobile,
+          mobile: hidden_mobile,
         })
       }
     }
@@ -93,7 +101,11 @@ class MobileBind extends PureComponent {
     e.preventDefault()
     const { phoneCounty } = this.state
     this.props.form.validateFields((err, values) => {
-      if (phoneCounty === '0086' && !/^1[3456789]\d{9}$/.test(values.mobile)) {
+      let mobileVal = values.mobile
+      if (mobileVal.indexOf('*') !== -1) {
+        mobileVal = this.props.match.params.mobile
+      }
+      if (phoneCounty === '0086' && !/^1[3456789]\d{9}$/.test(mobileVal)) {
         Toast.fail('请输入正确的手机号', 2)
         return 
       }
@@ -109,20 +121,22 @@ class MobileBind extends PureComponent {
         page_source: 3,
         user_id: this.props.user_id,
         version: '9.9.9',
+        mobile: mobileVal,
       }).then(data => {
         const { msg, errMsg, status } = data
         if (status !== 1) {
           this.props.form.setFieldsValue({
             code: '',
           })
+          console.log(errMsg)
           if (errMsg || msg) {
             Toast.fail(errMsg || msg, 2)
           }
         } else {
           Toast.success('绑定成功', 2, () => {
-            store.set('m:auth', {...this.props.auth, phone: values.mobile})
+            store.set('m:auth', {...this.props.auth, phone: mobileVal})
             this.props.dispatch({type: 'CHANGE_BIND_MOBILE'})
-            this.props.dispatch({type: 'CHANGE_BIND_MOBILE_VALUE', payload: values.mobile})
+            this.props.dispatch({type: 'CHANGE_BIND_MOBILE_VALUE', payload: mobileVal})
             this.props.history.replace('/resume/info')
           })
         }
@@ -135,14 +149,19 @@ class MobileBind extends PureComponent {
     const { phoneCounty } = this.state
 
     this.props.form.validateFields(['mobile'], (err, value) => {
+      
+      let mobileVal = value.mobile
+      if (mobileVal.indexOf('*') !== -1) {
+        mobileVal = this.props.match.params.mobile
+      }
       if (phoneCounty === '0086') {
-        if(!/^1[3456789]\d{9}$/.test(value.mobile)) {
+        if(!/^[1][3,4,5,7,8][0-9]{9}$/.test(mobileVal)) {
           Toast.fail('请输入正确的手机号', 2)
           return
         }
       }
       const opt = options.filter(item => parseInt(phoneCounty,10) ===parseInt(phoneCounty,10))
-      if(opt && value.mobile.length!==parseInt(opt[0].length,10)) return Toast.fail(phoneCounty==='0086' ? '请输入正确的手机号' : '该手机号与归属地不匹配', 2)
+      if(opt && mobileVal.length!==parseInt(opt[0].length,10)) return Toast.fail(phoneCounty==='0086' ? '请输入正确的手机号' : '该手机号与归属地不匹配', 2)
 
       if (err) {
         this.alertFail(err)
@@ -156,6 +175,7 @@ class MobileBind extends PureComponent {
           page_source: 3,
           user_id: this.props.user_id,
           version: '9.9.9',
+          mobile: mobileVal,
         }).then(data => {
           const { msg, errCode } = data
           if (errCode !== 0) {
@@ -198,6 +218,7 @@ class MobileBind extends PureComponent {
       text,
       mobilePlacehold,
     } = this.state
+  
     const { getFieldProps } = form
     const desc =
       status === 1 ? (

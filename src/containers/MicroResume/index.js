@@ -227,54 +227,45 @@ class MicroResume extends PureComponent {
       type: 'MICRODONWPARAMS',
       paload: values,
     })
-
-    this.props
-      .dispatch(
-        microDone({
-          ...values,
+    if (changeVal) {
+      this.props
+        .dispatch(
+          microDone({
+            ...values,
+          })
+        )
+        .then(res => {
+          if (res.json && res.json.status) {
+            Toast.info(res.json.msg, 2)
+            // window.zhuge.track('微简历保存成功')
+            this.props.history.push('/resume')
+          } else {
+            const msg = res.errMsg
+            // window.zhuge.track('保存失败', {
+            //   原因: msg,
+            // })
+            // window.zhuge.track('微简历页面打开', {
+            //   保存失败: msg,
+            // })
+            if (msg === '未登陆') {
+              return this.goLogin()
+            }
+            return Toast.info(msg, 2)
+          }
         })
-      )
-      .then(res => {
-        if (res.json && res.json.status) {
-          Toast.info(res.json.msg, 2)
-          // window.zhuge.track('微简历保存成功')
-
-          setTimeout(() => {
-            let search = this.props.history.location.search
-            let path = ''
-            if (search.indexOf('?redirect=') !== -1) {
-              path = search.split('?redirect=')[1]
-            }
-            if (changeVal) {
-              this.props.history.push('/resume')
-            } else {
-              this.props.history.push('/resume/micro/perfect')
-              // this.props.history.push('/resume/micro/perfect?redirect=' + path)
-            }
-          }, 999)
-        } else {
-          const msg = res.errMsg
+        .catch(err => {
           // window.zhuge.track('保存失败', {
-          //   原因: msg,
+          //   原因: err.errMsg,
           // })
           // window.zhuge.track('微简历页面打开', {
-          //   保存失败: msg,
+          //   保存失败: err.errMsg,
           // })
-          if (msg === '未登陆') {
-            return this.goLogin()
-          }
-          return Toast.info(msg, 2)
-        }
-      })
-      .catch(err => {
-        // window.zhuge.track('保存失败', {
-        //   原因: err.errMsg,
-        // })
-        // window.zhuge.track('微简历页面打开', {
-        //   保存失败: err.errMsg,
-        // })
-        Toast.info(err.errMsg, 2)
-      })
+          Toast.info(err.errMsg, 2)
+        })
+    } else {
+      let search = this.props.history.location.search
+      this.props.history.push('/resume/micro/perfect' + search)
+    }
   }
   jobRender = () => {
     const { form } = this.props

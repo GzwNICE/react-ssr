@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar, Icon } from 'antd-mobile'
+import { NavBar, Icon,Flex, WhiteSpace } from 'antd-mobile'
 import { connect } from 'react-redux'
 import ComplexSelView, { style } from '../../components/Complex/ComplexSelView'
 import style2 from './style.less'
@@ -35,7 +35,9 @@ class More extends ComplexSelView {
   listView(sublist=[], label) {
     const prevValue = this.state ? this.state.value : {}
     return (
-      <div className={style2.items}>{sublist.map(item => (
+      <div className={style2.items}>
+      {sublist.map(item => (
+        
         <div
           key={item.code}
           onClick={() => this.selectValue(label, item.code)}
@@ -48,7 +50,8 @@ class More extends ComplexSelView {
           }>
           {item.value}
         </div>
-      ))}</div>
+      ))}
+      </div>
     )
   }
 

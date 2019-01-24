@@ -314,9 +314,13 @@ class SearchEnd extends PureComponent {
     const defaultValue = this.state.defaultValue
       ? `-${this.state.defaultValue}`
       : null
-    const salary = this.props.salaryString
+    let salary = this.props.salaryString
       ? `-${this.props.salaryString}`
       : null
+    if (salary && salary.indexOf('不限')) {
+      salary = null
+    }
+      console.log(salary)
     let ellipsis
     for (let key in more) {
       if (key !== 'company_industry') {
