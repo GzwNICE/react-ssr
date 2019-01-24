@@ -247,6 +247,7 @@ class PositionBar extends PureComponent {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`
                 )
+                window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '投递简历-去完善'})
               },
               type: 'ok',
             },
@@ -272,7 +273,8 @@ class PositionBar extends PureComponent {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`
                 )
-                window.zhuge.track('去完善', { [`${triggerPost}`]: this.props.position.job_name})
+                window.zhuge.track('去完善', {[`${triggerPost}`]: this.props.position.job_name})
+                window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '投递简历-去完善'})
               },
               type: 'ok',
             },

@@ -18,6 +18,7 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
+const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
@@ -101,7 +102,6 @@ class UserPage extends PureComponent {
 
   // 跳转app消息列表
   openApp = () =>{
-    const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '您有未读消息' })
     this.setState({
       messageQueue: false,
@@ -256,6 +256,7 @@ class UserPage extends PureComponent {
                 `/resume?source=/user${this.props.history.location.search}`,
                 '我的简历'
               )
+              window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '我的简历'})
             }}
           >
             <LisetItem img={Resume} titleleft="我的简历" />

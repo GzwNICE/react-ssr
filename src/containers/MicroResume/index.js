@@ -65,6 +65,7 @@ class MicroResume extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('微简历-基本信息页面打开')
     setTimeout(() => {
       if (!auth.user_id && !Cookies('ticket')) {
         this.goLogin()
@@ -91,6 +92,7 @@ class MicroResume extends PureComponent {
 
   // 保存
   changeValue() {
+    
     const { initialPage } = this.state
     this.setState(
       {
@@ -244,6 +246,7 @@ class MicroResume extends PureComponent {
               this.props.history.push('/resume/micro/perfect?redirect=' + path)
             }
           }, 999)
+          window.zhuge.track('微简历保存成功')
         } else {
           const msg = res.errMsg
           // window.zhuge.track('保存失败', {
