@@ -6,7 +6,7 @@ import { ListView } from 'antd-mobile'
 import { blocList, blocCategory, blocSearch } from '../../../actions/company'
 import JobList from '../../../components/JobList'
 import companyLogo from '../../../static/detailLogo.png'
-import detailLogo from '../../../static/detailLogo.png'
+// import detailLogo from '../../../static/detailLogo.png'
 import missing from '../../../static/missing.png'
 import style from '../style.less'
 
@@ -24,11 +24,15 @@ import style from '../style.less'
 class CompanyList extends Component {
   constructor(props) {
     super(props)
+
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
+
     this.state = {
-      dataSource,
+      dataSource: this.props.searchEnd
+        ? dataSource.cloneWithRows(this.props.searchList)
+        : dataSource.cloneWithRows(this.props.list),
       // page: 1,
       isLoading: true,
       height: 0,
@@ -42,19 +46,17 @@ class CompanyList extends Component {
       const page = this.props.searchPager.page + 1
       const allPage = this.props.searchPager.allpages
       if (page <= allPage) {
-        this.props
-          .dispatch(
-            blocSearch({
-              c_userid: c_userid,
-              page: page,
-              local: this.props.query.area ? this.props.query.area : '',
-              c_id: this.props.query.brand ? this.props.query.brand : '',
-              key_words: this.props.query.keywords
-                ? this.props.query.keywords
-                : '',
-            })
-          )
-        
+        this.props.dispatch(
+          blocSearch({
+            c_userid: c_userid,
+            page: page,
+            local: this.props.query.area ? this.props.query.area : '',
+            c_id: this.props.query.brand ? this.props.query.brand : '',
+            key_words: this.props.query.keywords
+              ? this.props.query.keywords
+              : '',
+          })
+        )
       } else {
         this.setState({
           isLoading: false,
@@ -64,13 +66,12 @@ class CompanyList extends Component {
       const page = this.props.pagers.cur + 1
       const allPage = this.props.pagers.allPage
       if (page <= allPage) {
-        this.props
-          .dispatch(
-            blocList({
-              c_userid: c_userid,
-              page: page,
-            })
-          )
+        this.props.dispatch(
+          blocList({
+            c_userid: c_userid,
+            page: page,
+          })
+        )
       } else {
         this.setState({
           isLoading: false,
@@ -86,7 +87,7 @@ class CompanyList extends Component {
 
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
-    const height = 
+    const height =
       document.documentElement.clientHeight -
       ReactDOM.findDOMNode(this.lv).parentNode.parentNode.offsetTop
     this.setState({
@@ -99,37 +100,37 @@ class CompanyList extends Component {
       })
     )
   }
-  componentDidUpdate(nextProps){
-    
-  }
+
   componentWillReceiveProps(nextProps) {
-      if(nextProps.searchEnd){
-        if (this.props.searchList !== nextProps.searchList) {
-          console.log(nextProps.searchList);
+    if (nextProps.searchEnd) {
+      if (this.props.searchList !== nextProps.searchList) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(nextProps.searchList),
+        })
+        if (
+          nextProps.searchList.length <= 20 &&
+          nextProps.searchPager.allPage === 1
+        ) {
           this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.searchList),
+            isLoading: false,
           })
-          if (
-            nextProps.searchList.length <= 20 &&
-            nextProps.searchPager.allPage === 1
-          ) {
-            this.setState({
-              isLoading: false,
-            })
-          }
-        }
-      }else {
-        if ((!nextProps.searchEnd && nextProps.list.length > 0) || (this.props.list !== nextProps.list)) {
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
-          })
-          if (nextProps.list.length <= 20 && nextProps.pagers.allPage === 1) {
-            this.setState({
-              isLoading: false,
-            })
-          }
         }
       }
+    } else {
+      if (
+        (!nextProps.searchEnd && nextProps.list.length > 0) ||
+        this.props.list !== nextProps.list
+      ) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
+        })
+        if (nextProps.list.length <= 20 && nextProps.pagers.allPage === 1) {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      }
+    }
   }
 
   render() {
@@ -172,33 +173,34 @@ class CompanyList extends Component {
     }
     return (
       <div className={style.companyList}>
-          <ListView
-            ref={el => (this.lv = el)}
-            className={style['override-am-list-view-scrollview-content']}
-            dataSource={this.state.dataSource}
-            renderRow={Row}
-            scrollRenderAheadDistance={100}
-            onEndReachedThreshold={200}
-            scrollEventThrottle={100}
-            initialListSize={20}
-            pageSize={20}
-            onScroll={this.onScroll}
-            style={{
-              height: this.state.height,
-              overflow: 'auto',
-            }}
-            renderHeader={() =>
-              this.props.searchEnd ? null : (
-                <div
-                  className={style.individuation}
-                  style={{
-                    backgroundImage: `url(${this.props.listPhoto.company_file})`,
-                  }}
-                />
-              )
-            }
-            onEndReached={this.onEndReached} // 上拉加载
-            renderFooter={() =>
+        <ListView
+          ref={el => (this.lv = el)}
+          className={style['override-am-list-view-scrollview-content']}
+          dataSource={this.state.dataSource}
+          renderRow={Row}
+          scrollRenderAheadDistance={100}
+          onEndReachedThreshold={200}
+          scrollEventThrottle={100}
+          initialListSize={20}
+          pageSize={20}
+          onScroll={this.onScroll}
+          style={{
+            height: this.state.height,
+            overflow: 'auto',
+          }}
+          renderHeader={() =>
+            this.props.searchEnd ? null : (
+              <div
+                className={style.individuation}
+                style={{
+                  backgroundImage: `url(${this.props.listPhoto.company_file})`,
+                }}
+              />
+            )
+          }
+          onEndReached={this.onEndReached} // 上拉加载
+          renderFooter={() =>
+            this.props.hasList ? (
               this.state.dataSource._cachedRowCount ? (
                 <div style={{ padding: 5, textAlign: 'center' }}>
                   {this.state.isLoading ? 'Loading...' : '没有更多了'}
@@ -213,8 +215,9 @@ class CompanyList extends Component {
                   <p>当前条件下暂无公司，可以切换条件试试哦~</p>
                 </div>
               )
-            }
-          />
+            ) : null
+          }
+        />
       </div>
     )
   }

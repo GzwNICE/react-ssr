@@ -2,6 +2,8 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import axios from "axios"
 import isServer from './isServer'
+import qs from 'query-string'
+import { Toast} from 'antd-mobile';
 // import { Modal } from 'antd-mobile'
 // import { createBrowserHistory, createMemoryHistory } from 'history'
 
@@ -70,17 +72,17 @@ export const baseUrl = 'http://m.veryeast.cn/s'
  */
 export function pipeline(uri, params, opt = {}) {
   const sUrl = toRealUrl(uri)
+  // loading 加载
+  // Toast.loading('Loading...');
   return axios({
     url: sUrl,
     credentials: "include",
     method: "post",
-    headers: {
-      // 'X-Requested-With': 'XMLHttpRequest',
-      // 'Accept': '*/*',
-    },
     data: parseBody(params),
     ...opt,
   }).then(res => {
+    // loading停止
+    // Toast.hide()
     if (res.status >= 400) throw res
     return res.data
   })
@@ -151,9 +153,8 @@ export function parseBody(params = {}) {
     ...params,
     user_ticket: auth.user_ticket || Cookies.get('ticket'),
   }
-  // todo 这边临时这么做，formData在node上运行报错，还是要解决
   if (isServer) {
-    return params
+    return qs.stringify(params)
   } else {
     const formData = new FormData()
     Object.keys(params).forEach((key) => {

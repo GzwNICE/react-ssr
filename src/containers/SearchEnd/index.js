@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
 import { Link } from 'react-router-dom'
-import { ListView } from 'antd-mobile'
+import { ListView,Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
@@ -67,8 +67,6 @@ class SearchEnd extends PureComponent {
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
     }
-
-  
   }
   componentDidMount() {
     const {
@@ -86,7 +84,7 @@ class SearchEnd extends PureComponent {
       isUsed: 1,
       more: {},
     }
-
+    
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -110,7 +108,9 @@ class SearchEnd extends PureComponent {
         defaultValue: data.keyword || keyword,
       })
     }
+    Toast.loading('Loading...');
     this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+      Toast.hide()
       this.setState({
         initLoading: false,
       })
@@ -306,13 +306,23 @@ class SearchEnd extends PureComponent {
     // 记录地区
     const areas_index = option.areas_index || {}
     const areaVal = areas_index[query.area[0]]
+    const more = query.more ? query.more : {}
+    let company_industry
+    if (more.company_industry) {
+      company_industry =`-${option.opts_company_industry_all_index[more.company_industry]}`   
+    }
     const defaultValue = this.state.defaultValue
       ? `-${this.state.defaultValue}`
       : null
     const salary = this.props.salaryString
       ? `-${this.props.salaryString}`
       : null
-    const more = JSON.stringify(query.more) === '{}' ? null : '等'
+    let ellipsis
+    for (let key in more) {
+      if (key !== 'company_industry') {
+        ellipsis = '等'
+      }
+    }
     const { initLoading } = this.state
     if (initLoading) {
       return null
@@ -322,9 +332,10 @@ class SearchEnd extends PureComponent {
           <img src={vacantIcon} />
           <p>
             【{areaVal}
+            {company_industry}
             {defaultValue}
             {salary}
-            {more}】
+            {ellipsis}】
           </p>
           <p>暂无职位，可以切换条件试试哦~</p>
         </div>

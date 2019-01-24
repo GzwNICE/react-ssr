@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react'
 import { DatePicker } from 'antd-mobile'
-import style from '../style.less'
+import style from './style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
-const maxDate = new Date()
-const minDate = moment()
-  .year(nowYear - 80)
-  .month(0)._d
+const maxDate = moment().year(nowYear + 7).month(11)._d
+const minDate = moment().year(nowYear - 80).month(0)._d
 
 @connect(state => {
   return {}
@@ -17,7 +15,7 @@ class JobTime extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value: moment().year(nowYear - 1)._d,
+      value: moment().year(nowYear).month(5)._d,
       timeChange: false,
     }
   }
@@ -25,6 +23,32 @@ class JobTime extends PureComponent {
     this.setState({
       timeChange: false,
     })
+    const { value } = this.props
+    this.initVal(value)
+  }
+  componentWillReceiveProps(next) {
+    const { value } = next
+    this.initVal(value)
+  }
+  initVal = (value) => {
+    if (
+      value !== undefined &&
+      value &&
+      typeof value === 'string' &&
+      value.indexOf('-') !== -1
+    ) {
+      let arr = value.split('-')
+      let dt = moment().year(arr[0]).month(arr[1] - 1)._d
+      
+      this.setState({
+        value: dt,
+        timeChange: true,
+      })
+      const onChange = this.props.onChange
+      if (onChange) {
+        onChange(dt)
+      }
+    }
   }
   onChange = value => {
     this.setState({
@@ -42,17 +66,27 @@ class JobTime extends PureComponent {
 
   render() {
     const { value, timeChange } = this.state
-    const { title = 'title' } = this.props
+    const { title } = this.props
     const CustomChildren = ({ extra, onClick, children }) => {
       extra = timeChange ? extra : '请选择'
       return (
-        <div onClick={onClick} className={style.timeContent}>
+        <div
+          onClick={onClick}
+          style={{
+            backgroundColor: '#fff',
+            height: '50px',
+            lineHeight: '50px',
+            padding: '0 20px',
+            color: '#4A4A4A',
+          }}
+        >
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
           <span style={{ float: 'right', color: '#888' }}>{extra}</span>
         </div>
       )
     }
+
     return (
       <DatePicker
         mode="month"

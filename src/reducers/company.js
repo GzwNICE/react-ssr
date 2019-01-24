@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/10/24.
+ * Created by gaozhiwen on 2019/1/22.
  */
 import {
   GET_COMPANYDETAIL,
@@ -11,6 +11,8 @@ import {
   GET_BLOCDETAIL_LIST,
   GET_BLOCDETAIL_SEARCH,
   GET_BLOCDETAIL_SEARCH_CLEAR,
+  GET_COMPANYDETAIL_CLEAR,
+  GET_BLOCDETAIL_LIST_CLEAR,
 } from '../actions/company'
 
 const initState = {
@@ -21,6 +23,8 @@ const initState = {
   brand_index: [],
   searchList: [],
   searchPager: {},
+  label: [],
+  album: [],
 }
 
 export default (state = initState, action) => {
@@ -29,6 +33,12 @@ export default (state = initState, action) => {
       return {
         ...state,
         ...action.data,
+        album: action.data.album,
+      }
+    case GET_COMPANYDETAIL_CLEAR:
+      return {
+        ...state,
+        label: [],
       }
     case GET_COMPANYDETAIL_LIST:
       return {
@@ -50,7 +60,7 @@ export default (state = initState, action) => {
     case GET_BLOCDETAIL_CATEGORY:
       return {
         ...state,
-        brand: action.data.map(i=>{
+        brand: action.data.map(i => {
           return {
             code: i.id,
             value: i.category_name,
@@ -58,7 +68,7 @@ export default (state = initState, action) => {
             mode: 1,
           }
         }),
-        brand_index: action.data.map(i=>{
+        brand_index: action.data.map(i => {
           return i.category_name
         }),
       }
@@ -76,20 +86,24 @@ export default (state = initState, action) => {
           company_file: action.data.listPhoto.company_file,
         },
       }
+    case GET_BLOCDETAIL_LIST_CLEAR:
+      return {
+        ...state,
+        listPhoto: {},
+      }
     case GET_BLOCDETAIL_SEARCH:
       return {
         ...state,
         searchList: state.searchList.concat(action.data.data),
-        searchPager:  action.data.pager,
+        searchPager: action.data.pager,
       }
     case GET_BLOCDETAIL_SEARCH_CLEAR:
       return {
         ...state,
         searchList: [],
-        searchPager:  {},
+        searchPager: {},
       }
     default:
       return state
   }
 }
-

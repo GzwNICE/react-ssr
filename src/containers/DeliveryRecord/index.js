@@ -46,6 +46,14 @@ class DeliveryRecord extends PureComponent {
     // })
   }
 
+  // 跳转app投递列表
+  openApp = () =>{
+    window.location.href = 'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    }, 2000)
+  }
+
   componentDidMount() {
     const parsed = queryString.parse(window.location.search)
     this.setState({
@@ -111,7 +119,7 @@ class DeliveryRecord extends PureComponent {
             <DeliveryNo {...this.props} />
           </div>
         </Tabs>
-        <div className={style.openApp}>打开APP，可以和HR在线沟通</div>
+        <div className={style.openApp} onClick={this.openApp}>打开APP，可以和HR在线沟通</div>
       </div>
     )
   }

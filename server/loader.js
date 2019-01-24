@@ -19,11 +19,10 @@ import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
-import { blocList } from '../src/actions/company'
+import { blocList, blocCategory} from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 
 export default (req, res, next) => {
-  console.log(req.url)
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
@@ -50,8 +49,14 @@ export default (req, res, next) => {
       const context = {}
       const modules = []
 
-      const isNumber = obj => {
-        return typeof obj === 'number' && isFinite(obj)
+      const isNumber = num => {
+        if (typeof num === 'number') {
+          return num - num === 0;
+        }
+        if (typeof num === 'string' && num.trim() !== '') {
+          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
+        }
+        return false;
       }
       const serverRender = () => {
         frontloadServerRender(() =>
@@ -149,16 +154,16 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
-      if (isNumber(parseInt(com.value, 10))) {
+      if (isNumber(com.value)) {
         if (com.key === 1) { // 职位详情页
           render = false
-          store.dispatch(positiondetail()).then(() => {
+          store.dispatch(positiondetail({job_id: job[2],company_id: job[1]})).then(() => {
             serverRender()
           })
         } else {   // 企业详情页
           render = false
-          store.dispatch(companydetail()).then(() => {
-            store.dispatch(companyList()).then(() => {
+          store.dispatch(companydetail({company_id: com.value})).then(() => {
+            store.dispatch(companyList({company_id: com.value})).then(() => {
               serverRender()
             })
           })
@@ -177,8 +182,11 @@ export default (req, res, next) => {
         })
       }
       if (blocPage.exec(req.url)) { // 名企专区列表
-        store.dispatch(blocList()).then(() => {
-          serverRender()
+        render = false
+        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then(() => {
+          store.dispatch(blocCategory({c_userid: blocPage.exec(req.url)[1]})).then(() => {
+            serverRender()
+          })
         })
       }
       if(render){

@@ -12,7 +12,9 @@ import WorkMode from '../../inputs/WorkMode'
 import Industry from '../../inputs/Industry'
 import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
+
 // import style2 from './style.less'
 
 @connect(state => {
@@ -20,6 +22,7 @@ import GobackModal from '../../components/GoBackModal/index3'
     state.DesiredPositions.list.map(item => item.position)
   )
   DesiredLocations = [...DesiredLocations]
+  console.log(state.resume)
   return {
     option: state.option,
     DesiredJob: state.DesiredJob,
@@ -64,19 +67,18 @@ class ResumeIntention extends PureComponent {
       }
 
       if (values.desired_locations.length === 0) {
-        return Toast.info('请选择意工作地点', 2)
+        return Toast.info('请选择意向城市', 2)
       }
 
-      if (values.desired_salary[0] === '') {
-        return Toast.info('请输入期望月薪', 2)
+      if (!values.desired_salary[0] || values.desired_salary[0] === '0') {
+        return Toast.info('请选择期望月薪', 2)
       }
 
       if (values.work_mode[0] === '' || values.work_mode[0] === undefined) {
-        return Toast.info('请输入工作类型', 2)
+        return Toast.info('请选择工作类型', 2)
       }
-
-      if (values.job_status[0] === '' || values.job_status[0] === undefined) {
-        return Toast.info('请输入求职状态', 2)
+      if (!values.job_status[0] || values.job_status[0] === '0') {
+        return Toast.info('请选择求职状态', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '求职意向' })
@@ -90,14 +92,16 @@ class ResumeIntention extends PureComponent {
           }))
         ),
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
-        desired_salary: values.desired_salary[0],
-        desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
-        work_mode: `${values.work_mode}`,
+        PersonDesiredJob: JSON.stringify({
+          desired_salary: values.desired_salary[0],
+          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
+          work_mode: `${values.work_mode}`,
+        }),
         job_status: `${values.job_status}`,
       }
       console.log(parmas)
       this.props.dispatch(intentionEdit(parmas)).then(data => {
-        // this.props.history.goBack()
+        this.props.history.goBack()
       })
     })
   }
@@ -114,7 +118,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    console.log(DesiredJob.desired_salary)
+    console.log(resume.job_status)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -140,6 +144,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向职位</List.Item>
           </Post>
+          <BorderBottomLine/>
           <Industry
             {...getFieldProps('company_industry', {
               initialValue: DesiredCompanyTypes.length
@@ -152,6 +157,8 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向行业</List.Item>
           </Industry>
+          <BorderBottomLine/>
+
           <Area
             {...getFieldProps('desired_locations', {
               initialValue: DesiredLocations,
@@ -159,8 +166,10 @@ class ResumeIntention extends PureComponent {
             extra="请选择"
             maxLength={5}
           >
-            <List.Item arrow="horizontal">意向地点</List.Item>
+            <List.Item arrow="horizontal">意向城市</List.Item>
           </Area>
+          <BorderBottomLine/>
+
           <div className={style.noboderline}>
             <Salary
               extra="请选择"
@@ -184,6 +193,8 @@ class ResumeIntention extends PureComponent {
               <span>企业查看时显示为面议</span>
             </label>
           </List.Item>
+          <BorderBottomLine/>
+
           <WorkMode
             {...getFieldProps('work_mode', {
               initialValue: [DesiredJob.work_mode || 0],
@@ -193,6 +204,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">工作类型</List.Item>
           </WorkMode>
+          <BorderBottomLine/>
 
           <JobStatus
             {...getFieldProps('job_status', {

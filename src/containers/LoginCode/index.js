@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 import style from './style.less'
 import queryString from 'query-string'
 import Alert from '../../components/Alert'
-import F from '../../helper/tool'
+// import F from '../../helper/tool'
 import { createForm } from 'rc-form'
 // import {captcha} from '../../actions/auth'
 // import ThirdPartyLogin from '../../components/ThirdPartyLogin'
@@ -94,7 +94,7 @@ class LoginCode extends PureComponent {
         number: value.number,
       })
       if(err) return
-      if(!F.changePhoneNumber(value.number)) return  Toast.info('请输入正确的手机号码' ,2)
+      if(!value.number) return  Toast.info('请输入正确的手机号码' ,2)
       let send = (res) => {
         if (this.state.disableCode){
           mobile({

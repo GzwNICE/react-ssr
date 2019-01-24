@@ -8,6 +8,7 @@ export const SEARCH_LIST_INIT = 'SEARCH_LIST_INIT' // 搜索结果
 export const SEARCH_LIST_ADD = 'SEARCH_LIST_ADD' // 添加搜索结果
 export const SEARCH_LIST_ISLODING = 'SEARCH_LIST_ISLODING' // isloding
 export const SEARCH_END_SAVE = 'SEARCH_END_SAVE' // 保存搜索条件
+export const SEARCH_SAVE_STATE = 'SEARCH_SAVE_STATE' // 保存搜索条件
 export const SEAND_PAGE_UNMOUNT = 'SEAND_PAGE_UNMOUNT' // 页面卸载，保存scrolltop
 export const SEAND_PAGE_GOBACK = 'SEAND_PAGE_GOBACK' // 返回删除数据
 export const SEARCH_SALARYSHOW = 'SEARCH_SALARYSHOW' // 薪资下拉框显示隐藏
@@ -22,6 +23,13 @@ export const saveQuery = args => {
   return {
     args,
     type: SEARCH_END_SAVE,
+  }
+}
+
+export const saveSearch = args => {
+  return {
+    args,
+    type: SEARCH_SAVE_STATE,
   }
 }
 

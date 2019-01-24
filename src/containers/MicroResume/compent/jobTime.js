@@ -20,13 +20,7 @@ const CustomChildren1 = ({ extra, onClick, children }) => {
   return (
     <div
       onClick={onClick}
-      style={{
-        backgroundColor: '#fff',
-        height: '50px',
-        lineHeight: '50px',
-        padding: '0 5px 0 20px',
-        color: '#4A4A4A',
-      }}
+      className = {style.joinTimeTadding}
     >
       {children}
       <span style={{ float: 'right', color: '#888' }}>{extra}</span>
@@ -38,13 +32,7 @@ const CustomChildren2 = ({ extra, onClick, children }) => {
   return (
     <div
       onClick={onClick}
-      style={{
-        backgroundColor: '#fff',
-        height: '50px',
-        lineHeight: '50px',
-        padding: '0 42px 0 0',
-        color: '#4A4A4A',
-      }}
+      className = {style.timeContent}
     >
       {children}
       <span style={{ float: 'right', color: '#888' }}>{extra}</span>

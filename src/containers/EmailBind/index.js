@@ -184,7 +184,7 @@ class EmailBind extends PureComponent {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.replace('/resume/info')}
+          onLeftClick={() => this.props.history.goBack()}
         >
           绑定邮箱
         </NavBar>
@@ -239,6 +239,8 @@ class EmailBind extends PureComponent {
                 </Button>
 
               </div>
+              <p className={style.footer}>注：请登录邮箱查看验证码，并填写到输入框</p>
+
               <div className={style.btn}>
                 <Button type="primary" onClick={this.handleSubmit}>
                   {text}

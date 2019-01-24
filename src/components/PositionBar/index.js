@@ -85,7 +85,7 @@ class PositionBar extends PureComponent {
   toEmploy = () => {
     const isApplied = this.props.position.is_applied
     const toPerfect = this.showModal('toPerfect')
-    const mostPerfect = this.showModal('toPerfect')
+    const mostPerfect = this.showModal('mostPerfect')
     if (!isApplied) {
       this.props
         .dispatch(
@@ -99,21 +99,22 @@ class PositionBar extends PureComponent {
             if (msg === '未登陆') {
               return this.goLogin('应聘')
             }
-            return Toast.info(msg, 2)
-          }
-          if (
+            // return Toast.info(msg, 2)
+          } else if (
             data.data.resume_complete > 0.4 &&
             data.data.resume_complete < 0.8
           ) {
             mostPerfect()
             this.setState({
-              percentage: `${data.data.resume_complete}%`,
+              percentage: `${data.data.resume_complete * 100}%`,
             })
-          }
-          if (data.data.resume_complete < 0.4) {
+            return
+          } else if (data.data.resume_complete < 0.4) {
             toPerfect()
+            return
+          } else {
+            this.deliver()
           }
-          this.deliver()
         })
     }
   }
@@ -137,7 +138,7 @@ class PositionBar extends PureComponent {
           if (msg === '未登陆') {
             return this.goLogin('应聘')
           }
-          return Toast.info(msg, 2)
+          // return Toast.info(msg, 2)
         }
         success()
       })
@@ -145,7 +146,7 @@ class PositionBar extends PureComponent {
 
   // 暂不完善
   wontGo() {
-    this.setState({mostPerfect:false})
+    this.setState({ mostPerfect: false })
     this.deliver()
   }
 
@@ -158,6 +159,18 @@ class PositionBar extends PureComponent {
       search === '?' ? '' : '&'
     }redirect=${pathname}`
     this.props.history.replace(url, { key: key })
+  }
+
+  // 跳转app投递列表
+  openApp = () => {
+    this.setState({
+      Success: false,
+    })
+    window.location.href =
+      'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    }, 2000)
   }
 
   render() {
@@ -205,27 +218,34 @@ class PositionBar extends PureComponent {
         <Alert
           icon={deliver}
           title="投递成功"
-          height={176}
+          height={182}
+          closable={1}
           visible={this.state.Success}
           onClose={this.onClose('Success')}
           message="你可在「最佳东方APP」查看最新投递进展~"
+          openApp={this.openApp}
           actions={[
             {
               text: '打开APP',
-              onPress: this.onClose('Success'),
+              onPress: () => this.openApp(),
             },
           ]}
         />
         {/* 简历信息不完善 */}
         <Alert
           title="简历信息不完善"
+          closable={1}
           visible={this.state.toPerfect}
           onClose={this.onClose('toPerfect')}
           message={`你的简历完整度<40%，通过率极低`}
           actions={[
             {
               text: '去完善',
-              onPress: this.onClose('toPerfect'),
+              onPress: () => {
+                this.props.history.push(
+                  `/resume?redirect=${this.props.history.location.pathname}`
+                )
+              },
               type: 'ok',
             },
           ]}
@@ -233,19 +253,24 @@ class PositionBar extends PureComponent {
         {/* 简历40%-80% */}
         <Alert
           title="简历信息不完善"
+          height={134}
           visible={this.state.mostPerfect}
           onClose={this.onClose('mostPerfect')}
           wontGo={this.wontGo}
-          message={`你的简历完整度为${percentage}，建议你完善后再投递`}
+          message={`你的简历完整度为${percentage}，建议完善后再投递`}
           actions={[
             {
               text: '暂不完善',
-              onPress:()=>this.wontGo(),
+              onPress: () => this.wontGo(),
               type: 'close',
             },
             {
               text: '去完善',
-              onPress: this.onClose('mostPerfect'),
+              onPress: () => {
+                this.props.history.push(
+                  `/resume?redirect=${this.props.history.location.pathname}`
+                )
+              },
               type: 'ok',
             },
           ]}

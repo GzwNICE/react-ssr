@@ -1,3 +1,3 @@
 import './client'
-import registerServiceWorker from './registerServiceWorker'
-registerServiceWorker()
+// import registerServiceWorker from './registerServiceWorker'
+// registerServiceWorker()

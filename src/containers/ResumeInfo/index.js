@@ -9,10 +9,11 @@ import style from './style.less'
 import Area from '../../inputs/Area'
 import Gender from '../../inputs/Gender'
 import moment from 'moment'
-import GobackModal from '../../components/GoBackModal/index3'
+import GobackModal from '../../components/GoBackModal/index4'
 import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
+import Cookies from 'js-cookie'
 
 @connect(state => {
   return {
@@ -30,13 +31,15 @@ class ResumeInfo extends PureComponent {
     }
   }
   componentDidMount() {
-    if (this.props.history.action !== 'REPLACE') {
+    const key = Cookies.get('isInfoSave') // key 为1代表跳转过到邮箱、手机绑定页面
+    if (this.props.history.action !== 'REPLACE' && key !== '1') {
       this.props.dispatch(
         getAllInfo({
           appchannel: 'web',
         })
       )
     }
+    Cookies.set('isInfoSave', '')
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
@@ -48,36 +51,47 @@ class ResumeInfo extends PureComponent {
       if (err) return
       console.log(values)
 
-      if (values.true_name_cn === undefined || values.true_name_cn === '') {
-        return Toast.info('请输入您的姓名', 2)
+      function isNull(str) {
+        if (str == '') return true
+        var regu = '^[ ]+$'
+        var re = new RegExp(regu)
+        return re.test(str)
       }
 
+      if (!values.true_name_cn) {
+        return Toast.info('请填写姓名', 2)
+      }
+      if (isNull(values.true_name_cn)) {
+        return Toast.info('请填写姓名', 2)
+      }
       if (values.birthday === undefined || values.birthday === '') {
-        return Toast.info('请输入您的出生年月', 2)
+        return Toast.info('请选择出生年月', 2)
       }
 
       if (values.work_date === undefined || values.work_date === '') {
-        return Toast.info('请输入参加工作时间', 2)
+        return Toast.info('请选择参加工作时间', 2)
       }
 
-      if (values.work_date !== 0) {
+      if (String(values.work_date) !== '0') {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
-        if (start > end) {
-          return Toast.info('参加工作时间必须大于出生年月', 2)
+
+        if (moment(values.birthday).format('YYYY-M') !==
+          moment(values.work_date).format('YYYY-M') && start > end) {
+          return Toast.info('参加工作时间不能小于出生年月', 2)
         }
       }
 
       if (values.current_location.length === 0) {
-        return Toast.info('请选择您的现居地', 2)
+        return Toast.info('请选择现居地', 2)
       }
       const { resume } = this.props
 
       if (resume.is_phone_bind !== '1') {
-        return Toast.info('请绑定你的手机号', 2)
+        return Toast.info('请绑定手机号', 2)
       }
       if (resume.is_email_bind !== '1') {
-        return Toast.info('请绑定你的邮箱', 2)
+        return Toast.info('请绑定邮箱', 2)
       }
       const work_date =
         values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
@@ -88,7 +102,7 @@ class ResumeInfo extends PureComponent {
         appchannel: 'web',
         work_date,
         birthday,
-        graduation_time: '', // values.graduation_time.join('-')
+        // graduation_time: '', // values.graduation_time.join('-')
       }
       console.log(parmas)
       this.props.dispatch(resumeEdit(parmas)).then(data => {
@@ -116,7 +130,7 @@ class ResumeInfo extends PureComponent {
 
       const payloaded = {
         ...payload,
-        nation_code: '', // values.nation[0] 名族
+        // nation_code: '', // values.nation[0] 名族
         work_date,
         birthday,
         // graduation_time: '', // graduation_time  毕业时间
@@ -126,6 +140,7 @@ class ResumeInfo extends PureComponent {
         type: 'TEMPORARY_SAVE',
         payload: payloaded,
       })
+      Cookies.set('isInfoSave', '1')
     })
   }
 
@@ -149,6 +164,10 @@ class ResumeInfo extends PureComponent {
   // 顶部绑定的文案
   bindText = () => {
     const { resume } = this.props
+    if (!resume.email && !resume.mobile) {
+      return null
+    }
+
     if (resume.is_phone_bind !== '1' && resume.is_email_bind !== '1') {
       return (
         <p className={style.footer}>
@@ -181,10 +200,8 @@ class ResumeInfo extends PureComponent {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
-    // console.log(resume.gender)
-    // if (resume.gender) {
-    //   console.log(1111)
-    // }
+    // console.log(resume.work_date)
+  
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>
@@ -234,30 +251,34 @@ class ResumeInfo extends PureComponent {
               initialValue: resume.true_name_cn,
             })}
             clear
-            placeholder="请输入"
+            placeholder="请填写"
           >
             姓名
           </InputItem>
-
+          <BorderBottomLine />
           <Gender
             {...getFieldProps('gender', {
-              initialValue: resume.gender && resume.gender !== undefined ? resume.gender : 1,
+              initialValue:
+                resume.gender && resume.gender !== undefined
+                  ? resume.gender
+                  : 1,
             })}
           >
             <List.Item>性别</List.Item>
           </Gender>
+          <BorderBottomLine />
           <BirthTime
             extra="请选择"
             {...getFieldProps('birthday', { initialValue: resume.birthday })}
             title="出生年月"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine />
           <JoinJobTime
             extra="请选择"
             {...getFieldProps('work_date', { initialValue: resume.work_date })}
             title="参加工作时间"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine />
 
           <Area
             extra="请选择"
@@ -269,7 +290,7 @@ class ResumeInfo extends PureComponent {
           >
             <List.Item arrow="horizontal">现居地</List.Item>
           </Area>
-
+          <BorderBottomLine />
           <List.Item
             onClick={() => this.bindMobile(1)}
             extra={mobileStatus}
@@ -277,7 +298,7 @@ class ResumeInfo extends PureComponent {
           >
             手机号码
           </List.Item>
-
+          <BorderBottomLine />
           <List.Item
             className={style.email}
             onClick={() => this.bindEmail()}

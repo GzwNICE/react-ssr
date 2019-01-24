@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createForm } from 'rc-form'
-import { remove as languagesRemove } from '../../actions/languages'
-import { remove as skillsRemove } from '../../actions/skills'
-
-import { NavBar, Flex, List, SwipeAction, Icon, Tabs, Radio, Accordion, Checkbox, Modal, Button, InputItem, Toast } from 'antd-mobile'
+// import { remove as languagesRemove } from '../../actions/languages'
+// import { remove as skillsRemove } from '../../actions/skills'
+import { NavBar, Flex, Icon, Tabs, Accordion, Checkbox, Modal, InputItem, Toast } from 'antd-mobile'
 import style from './style.less'
 import tickImg from '../../static/tick.png'
-import { edit as languageEdit } from '../../actions/languages'
+// import { edit as languageEdit } from '../../actions/languages'
 import { lanSkills } from '../../actions/languages'
 import { setLanSkills } from '../../actions/languages'
+import GobackModal from '../../components/GoBackModal/index3'
 
 const CheckboxItem = Checkbox.CheckboxItem
 const tabs = [
@@ -53,12 +53,16 @@ class ResumeInfo extends PureComponent {
       showAddSkillModal: false, // 添加技能modal
       inputChangeVal: '',   // 添加技能输入框内容
       operation: false,    // 页面只有有操作就为true,保存过为false
+      goBackModalVisible: false, // 返回按钮点击时出现的弹框
     }
   }
   componentDidMount() {
     this.init()
   }
-
+  // 所有子组件修改根组件都可以调用这个方法
+  setSst = obj => {
+    this.setState(obj)
+  }
   init = () => {
     this.props.dispatch(lanSkills({
       appchannel: 'web',
@@ -332,30 +336,6 @@ class ResumeInfo extends PureComponent {
     })
   }
 
-  goBack = () => {
-    this.props.history.goBack()
-    // const { operation } = this.state
-    // if (operation) {
-    //   this.setState({
-    //     showModal: true,
-    //   })
-    // } else {
-    //   this.props.history.goBack()
-    // }
-  }
-  // 退出
-  handleExit = () => {
-    this.setState({
-      showModal: false,
-    })
-    this.props.history.goBack()
-  }
-  // 继续填写
-  handleContinue = () => {
-    this.setState({
-      showModal: false,
-    })
-  }
   // 添加技能输入框显示
   handleShowInputModal = () => {
     this.setState({
@@ -399,14 +379,16 @@ class ResumeInfo extends PureComponent {
 
   }
   render() {
-    const { showModal, showAddSkillModal, inputChangeVal } = this.state
+    const { goBackModalVisible, showAddSkillModal, inputChangeVal } = this.state
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={this.goBack}
+          onLeftClick={() => {
+            this.setState({ goBackModalVisible: true })
+          }}
           rightContent={<span onClick={() => this.saveValue()}>保存</span>}>
           语言与技能
         </NavBar>
@@ -428,22 +410,6 @@ class ResumeInfo extends PureComponent {
         </Tabs>
 
         <Modal
-          visible={showModal}
-          transparent
-          maskClosable={false}
-          className={style.modal}
-          title="内容尚未保存"
-        >
-          <div className={style.modalBody}>
-            <p>你确定要退出吗?</p>
-            <div>
-              <div onClick={this.handleExit}>退出</div>
-              <div onClick={this.handleContinue}>继续填写</div>
-            </div>
-          </div>
-        </Modal>
-
-        <Modal
           visible={showAddSkillModal}
           transparent
           maskClosable={true}
@@ -458,6 +424,10 @@ class ResumeInfo extends PureComponent {
             <div onClick={this.handleAddSkill} className={`${inputChangeVal.length > 0 ? style.white : null}`}>确定</div>
           </div>
         </Modal>
+        <GobackModal
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </Flex>
     )
   }

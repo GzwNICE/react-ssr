@@ -126,14 +126,23 @@ class PositionDetail extends PureComponent {
     this.props.history.push('/search')
   }
 
+  // 跳转增值服务（暂时跳转到职位详情）
+  openApp = () =>{
+    const jobId = this.props.match.params.job_id
+    window.location.href = `share2js://app?type=6&job_id=${jobId}`
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    }, 2000)
+  }
+
   componentDidMount() {
     // const href = window.location.href
     const companyId = this.props.match.params.company_id
     const jobId = this.props.match.params.job_id
     this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
-    const { list } = this.props
-    if (!list) {
+    const { job_name } = this.props.position
+    if (!job_name) {
       this.props
         .dispatch(
           positiondetail({
@@ -296,7 +305,7 @@ class PositionDetail extends PureComponent {
                 位求职者投递了该职位，你的简历匹配度为{<img src={dim} alt="" />}
                 ，你的综合竞争力排名为第{<img src={dim} alt="" />}名。
               </div>
-              <div className={style.openApp}>打开APP查看职位竞争力分析</div>
+              <div className={style.openApp} onClick={this.openApp}>打开APP查看职位竞争力分析</div>
             </div>
           ) : null}
 

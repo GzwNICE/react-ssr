@@ -18,7 +18,6 @@ const querys ={
   area:[],
   brand:0,
 }
-
 @createForm({
   onValuesChange(props, values) {
    if(values.areas){
@@ -42,16 +41,6 @@ class FilterList extends (PureComponent || Component) {
       return null
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
-  //     this.props.form.setFieldsValue(nextProps.query)
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   this.props.form.setFieldsValue(this.props.query)
-  // }
 
   render() {
     const { form } = this.props
@@ -82,6 +71,7 @@ class FilterList extends (PureComponent || Component) {
                     ],
                   })} // 触发form，调用onChangeCity
                   format={this.formatBrand}
+                  title="选择品牌"
                 >
                   <SimpleItem arrow="horizontal" />
                 </Brand>

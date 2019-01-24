@@ -15,7 +15,7 @@ const SearchEndBar = (props) => {
     goBack = function() {},
     goSerch = function() {},
     keyword,
-    number,
+    // number,
     location,
   } = props
   const is_login = sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : ''
@@ -34,9 +34,9 @@ const SearchEndBar = (props) => {
           <div className={style.keyWord}>{keyword}</div>
         </div>
         <div className={style.conright}>
-          <div>
-            {number}个职位
-          </div>
+          {/*<div>*/}
+            {/*{number}个职位*/}
+          {/*</div>*/}
         </div>
       </div>
       <Link

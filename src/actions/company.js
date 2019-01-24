@@ -3,12 +3,14 @@
  */
 import { singleApi } from '../helper/reduxFetch'
 export const GET_COMPANYDETAIL = 'GET_COMPANYDETAIL' // 获取公司详情
+export const GET_COMPANYDETAIL_CLEAR = 'GET_COMPANYDETAIL_CLEAR'  //清空公司信息
 export const FLLOW_COMPANY = 'FLLOW_COMPANY' // 关注企业
 export const UN_FLLOW_COMPANY = 'UN_FLLOW_COMPANY' // 取消关注企业
 export const GET_COMPANYDETAIL_LIST = 'GET_COMPANYDETAIL_LIST' // 该企业其他职位
 export const DELETE_COMPANY_INFO = 'DELETE_COMPANY_INFO' // 清楚数据
 export const GET_BLOCDETAIL_CATEGORY = 'GET_BLOCDETAIL_CATEGORY' // 名企专区品牌分类
 export const GET_BLOCDETAIL_LIST = 'GET_BLOCDETAIL_LIST' // 名企专区
+export const GET_BLOCDETAIL_LIST_CLEAR = 'GET_BLOCDETAIL_LIST_CLEAR' // 名企专区清空数据
 export const GET_BLOCDETAIL_SEARCH = 'GET_BLOCDETAIL_SEARCH' // 名企专区搜索
 export const GET_BLOCDETAIL_SEARCH_CLEAR = 'GET_BLOCDETAIL_SEARCH_CLEAR' // 名企专区搜索
 
@@ -29,6 +31,13 @@ export const companydetail = singleApi({
     }
   },
 })
+
+// 企业详情清空数据
+export const companydetailClear = () => {
+  return {
+    type: GET_COMPANYDETAIL_CLEAR,
+  }
+}
 
 export const companyCollect = singleApi({
   url: FLLOW,
@@ -82,6 +91,13 @@ export const blocList = singleApi({
   },
 })
 
+// 名企列表清空数据
+export const blocListClear = () => {
+  return {
+    type: GET_BLOCDETAIL_LIST_CLEAR,
+  }
+}
+
 
 // 名企搜索
 export const blocSearch = singleApi({
@@ -94,7 +110,7 @@ export const blocSearch = singleApi({
   },
 })
 
-// 名企搜索
+// 名企搜索清空数据
 export const blocSearchClear = () => {
   return {
     type: GET_BLOCDETAIL_SEARCH_CLEAR,

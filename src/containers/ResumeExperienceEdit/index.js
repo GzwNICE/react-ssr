@@ -27,7 +27,7 @@ import CompanyIndustry from '../../inputs/CompanyIndustry'
 import TextareaField from '../../inputs/TextareaField'
 import StartTime from '../../components/Time/startTime'
 import EndTime from '../../components/Time/endTime'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 import GobackModal from '../../components/GoBackModal/index3'
 
 @connect(state => {
@@ -74,18 +74,17 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (!values.begin) {
-        return Toast.info('请输入开始时间', 2)
-      }
-
-      if (!values.end) {
-        return Toast.info('请输入结束时间', 2)
+        return Toast.info('请选择开始时间', 2)
       }
 
       if (values.end !== 0) {
+        if (values.end === undefined || values.end === null) {
+          return Toast.info('请选择结束时间', 2)
+        }
         let begin = new Date(moment(values.begin).format('YYYY/M')).valueOf()
         let end = values.end
         if (begin > end) {
-          return Toast.info('结束时间必须大于开始时间', 2)
+          return Toast.info('结束时间不能小于开始时间', 2)
         }
       }
 
@@ -154,7 +153,7 @@ class ResumeExperienceEdit extends PureComponent {
   }
 
   render() {
-    const { form, option, work_exps = [], match } = this.props
+    const { form, work_exps = [], match } = this.props
     const { getFieldProps } = form
     const item =
       work_exps.filter(item => {
@@ -167,6 +166,7 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
+    console.log(item)
 
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -186,16 +186,21 @@ class ResumeExperienceEdit extends PureComponent {
             {...getFieldProps('company_name_cn', {
               initialValue: item.company_name_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">企业名称</List.Item>
           </Company>
+          <BorderBottomLine />
+
           <Job
             {...getFieldProps('position_cn', {
               initialValue: item.position_cn,
             })}
+            extra="请填写"
           >
             <List.Item arrow="horizontal">职位名称</List.Item>
           </Job>
+          <BorderBottomLine />
 
           <StartTime
             extra="请选择"
@@ -207,7 +212,7 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             title="开始时间"
           />
-          <BorderBottomLine style={{ margin: '0 20px' }} />
+          <BorderBottomLine />
           <EndTime
             extra="请选择"
             {...getFieldProps('end', { initialValue: end_time })}
@@ -221,9 +226,11 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             title="所属行业"
             extra="请选择"
+            maxLength={1}
           >
             <List.Item arrow="horizontal">所属行业</List.Item>
           </CompanyIndustry>
+          <BorderBottomLine />
 
           <div className={style.noboderline}>
             <InputItem
@@ -231,7 +238,7 @@ class ResumeExperienceEdit extends PureComponent {
                 initialValue: item.salary,
               })}
               clear
-              placeholder="请输入"
+              placeholder="请填写"
               type="number"
             >
               税前薪资
@@ -249,6 +256,8 @@ class ResumeExperienceEdit extends PureComponent {
               <span>对hr显示为保密</span>
             </label>
           </List.Item>
+          <BorderBottomLine />
+
           <TextareaField
             {...getFieldProps('job_responsibilities_cn', {
               initialValue:

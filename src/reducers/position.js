@@ -10,6 +10,7 @@ import {
 } from '../actions/position'
 
 const initState = {
+  job_name: '',
 }
 
 export default (state = initState, action) => {

@@ -1,33 +1,47 @@
 import React, { Component } from 'react'
 import * as Ad from '../../components/Ad'
 import Search from '../../components/SearchBar/Search'
-// import { WhiteSpace } from 'antd-mobile'
-// import { createForm } from 'rc-form'
 import { Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-// import Salary from '../../inputs/Salary'
-// import { changeAllCity } from '../../actions/home'
-// import { saveCityCode } from '../../actions/userStatus'
-// import { saveQuery } from '../../actions/jobPage'
-// import Area from '../../inputs/Area'
-// import Brand from '../../inputs/Brand'
-// import SimpleItem from '../../inputs/SimpleItem'
-import { blocList, blocSearch, blocSearchClear } from '../../actions/company'
-import { saveQuery } from '../../actions/search'
+// import { createForm } from 'rc-form'
+import {
+  blocList,
+  blocSearch,
+  blocSearchClear,
+  blocListClear,
+} from '../../actions/company'
+import { saveQuery, saveSearch } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
 import style from './style.less'
 
+// const querys = {
+//   area: [],
+//   brand: 0,
+// }
+// @createForm({
+//   onValuesChange(props, values) {
+//     if (values.areas) {
+//       querys.area = values.areas
+//     }
+//     if (values.brand) {
+//       querys.brand = values.brand
+//     }
+//     props.filterList(querys)
+//   },
+// })
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
   list: state.company.list,
+  listPhoto: state.company.listPhoto,
   pagers: state.company.pager,
   searchList: state.company.searchList,
   searchPager: state.company.searchPager,
   query: state.search.query,
+  searchState: state.search.searchState,
 }))
 export default class CompanyArea extends Component {
   state = {
@@ -39,7 +53,8 @@ export default class CompanyArea extends Component {
     c_id: '',
     is_login: '',
     isVisable: false,
-    searchValue:'',
+    searchValue: '',
+    hasList: false,
   }
 
   /* 下载或者打开app */
@@ -57,14 +72,13 @@ export default class CompanyArea extends Component {
 
   handleFilerSearch = (value = {}) => {
     this.props.dispatch(blocSearchClear())
-    this.props
-      .dispatch(
-        saveQuery({
-          area: value.area ? value.area : [],
-          brand: value.brand ? value.brand : [],
-          keywords: this.state.keyWords,
-        })
-      ) 
+    this.props.dispatch(
+      saveQuery({
+        area: value.area ? value.area : [],
+        brand: value.brand ? value.brand : [],
+        keywords: this.state.keyWords,
+      })
+    )
   }
   /* 记录滚动条的位置 */
   onScroll = e => {
@@ -83,7 +97,7 @@ export default class CompanyArea extends Component {
   }
 
   whereWillIGo = () => {
-    const  {redirect}  = queryString.parse(window.location.search)
+    const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
@@ -101,30 +115,36 @@ export default class CompanyArea extends Component {
         keyWords: value,
       })
       this.props.dispatch(
-        saveQuery({
-          keywords: value,
+        saveSearch({
+          searchState: true,
         })
       )
       this.props.dispatch(
-        blocSearch({
-          c_userid: this.props.match.params.c_userid,
-          local: this.props.query.area[0] ? this.props.query.area[0] : '',
-          c_id: this.props.query.brand[0] ? this.props.query.brand[0] : '',
-          key_words: value,
+        saveQuery({
+          keywords: value,
         })
       )
     }
   }
 
   onCancel = () => {
-    this.setState({
-      search: false,
-      searchValue: '',
-    },()=>{
-      this.setState({
-        isVisable: false,
+    // this.formRef.props.form.resetFields()
+    this.setState(
+      {
+        search: false,
+        searchValue: '',
+      },
+      () => {
+        this.setState({
+          isVisable: false,
+        })
+      }
+    )
+    this.props.dispatch(
+      saveSearch({
+        searchState: false,
       })
-    })
+    )
   }
 
   onChange = value => {
@@ -141,18 +161,26 @@ export default class CompanyArea extends Component {
 
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
-    const {listPhoto} =this.props
-    if(!listPhoto){
+    const { listPhoto } = this.props
+    if (JSON.stringify(listPhoto) === '{}') {
+      Toast.loading('Loading...');
       this.props.dispatch(
         blocList({
           c_userid: c_userid,
           local: '',
           c_id: '',
         })
-      )
+      ).then(res=>{
+        Toast.hide()
+        this.setState({
+          hasList: true,
+        })
+      })
     }
     this.setState({
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
     })
   }
 
@@ -167,15 +195,19 @@ export default class CompanyArea extends Component {
     //   }
     // })
 
-    // 选择城市和品牌筛选数据
-    if(nextProps.query.area !== this.props.query.area || nextProps.query.brand !== this.props.query.brand){
-      const c_userid = this.props.match.params.c_userid
-      if (this.state.search) {
+    // 选择城市和品牌筛选数据 
+    const c_userid = this.props.match.params.c_userid
+    if (
+      nextProps.query.area !== this.props.query.area ||
+      nextProps.query.brand !== this.props.query.brand ||
+      nextProps.searchState !== this.props.searchState
+    ) {
+      if (nextProps.searchState) {
         this.props.dispatch(
           blocSearch({
             c_userid: c_userid,
             local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
-            c_id: nextProps.query.brand[0] ?nextProps.query.brand[0] : '',
+            c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
             key_words: nextProps.query.keywords && nextProps.query.keywords,
           })
         )
@@ -191,8 +223,11 @@ export default class CompanyArea extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(blocListClear())
+  }
   render() {
-    const { show, showRegWrap ,is_login} = this.state
+    const { show, showRegWrap, is_login } = this.state
     return (
       <div className={style.CompanyArea}>
         <div className={style.selHead}>
@@ -205,10 +240,13 @@ export default class CompanyArea extends Component {
             Change={this.onChange}
             visable={this.state.isVisable}
           />
-          <FilterList filterList={this.handleFilerSearch} />
+          <FilterList
+            // wrappedComponentRef={inst => (this.formRef = inst)}
+            filterList={this.handleFilerSearch}
+          />
         </div>
         <div className={style.blocCentent}>
-          <CompanyList searchEnd={this.state.search} />
+          <CompanyList searchEnd={this.state.search} hasList={this.state.hasList}/>
         </div>
         {is_login ? null : showRegWrap ? (
           <RegisterWrap

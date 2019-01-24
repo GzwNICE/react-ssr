@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import Rectangle from '../../static/back.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
-import F from '../../helper/tool'
+// import F from '../../helper/tool'
 import style from './style.less'
 import Loginstyle from '../Login/style.less'
 // import { captcha } from '../../actions/auth'
@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
+import Cookies from 'js-cookie'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -89,7 +90,7 @@ class Register extends PureComponent {
     const registered = this.showModal('registered')
     this.props.form.validateFields((err, value) => {
       if (err) return
-      if (!F.changePhoneNumber(value.number))
+      if (!value.number)
         return Toast.info('请输入手机号', 2)
       // window.zhuge.track('获取验证码')
       let send = res => {
@@ -178,6 +179,7 @@ class Register extends PureComponent {
               //   手机号: data.phone,
               //   邮箱: data.email,
               // })
+              Cookies.set('reigsterMobile', value.number)
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
                   this.props.history.replace(

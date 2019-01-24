@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAllInfo, avatar } from '../../actions/resume'
 import { Card, Flex, Modal, TextareaItem, Icon, Progress } from 'antd-mobile'
-// import queryString from 'query-string'
 import BitmapMin from 'bitmap-min'
 import style from './style.less'
 import editIcon from '../../static/edit@3x.png'
@@ -17,6 +16,7 @@ import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
+import { userRefResume } from '../../actions/userStatus'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -44,6 +44,8 @@ const progressStyle = {
     certificates: state.certificates.list || [],
     other_exps: state.other_exps.list || [],
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
+    minutesThree: true, // 3分钟内只能刷一次
+    userStatus: state.userStatus,
   }
 })
 @withRouter
@@ -51,6 +53,7 @@ class Resume extends PureComponent {
   state = {
     toogle: false, // 默认收起
     percentage: '',
+    toInfo: '',  // 跳转到基本信息
   }
 
   componentDidMount() {
@@ -60,10 +63,13 @@ class Resume extends PureComponent {
       jpeg: false, // 强制转为 jpeg|jpg
       quality: 0.7, // jpeg|jpg 图片的质量
     })
+    this.setState({
+      toInfo: '/resume/info' + this.props.history.location.search,
+    })
     this.props
       .dispatch(
         getAllInfo({
-          version: '5.2.1',
+          // version: '5.2.1',
           appchannel: 'web',
         })
       )
@@ -80,6 +86,13 @@ class Resume extends PureComponent {
             },
           ])
         }
+        // 根据姓名判断
+        // const {resume}  = this.props       
+        // if (!resume.true_name_cn) {
+        //   this.props.history.replace(
+        //     '/resume/micro'
+        //   )
+        // }
       })
 
     this.props
@@ -91,10 +104,14 @@ class Resume extends PureComponent {
       .then(data => {
         if (data.errMsg === '未登陆') {
         } else {
-          let resume_complete = Number(data.data.resume_complete) * 100
-          this.setState({
-            percentage: `${resume_complete}%`,
-          })
+          if (data && data.data && data.data.resume_complete) {
+            let resume_complete = (
+              Number(data.data.resume_complete) * 100
+            ).toFixed(0)
+            this.setState({
+              percentage: `${resume_complete}%`,
+            })
+          }
         }
       })
   }
@@ -115,15 +132,32 @@ class Resume extends PureComponent {
         })
     })
   }
+
   handleRefresh = () => {
+    
+    this.setState({
+      refresh: true,
+    })
     this.props
       .dispatch(
-        getAllInfo({
-          appchannel: 'web',
+        userRefResume({
+          resume_status: this.props.userStatus.resume_status,
         })
       )
-      .then(() => {
-        Toast.info('刷新成功', 2)
+      .then(data => {
+        if (data.status === 1) {
+          // window.zhuge.track('刷新简历')
+          Toast.info('简历已刷新', 2)
+          this.setState({
+            refresh: false,
+          })
+        } else {
+          // window.zhuge.track('刷新简历')
+          Toast.info(data.errMsg, 2)
+          this.setState({
+            refresh: false,
+          })
+        }
       })
   }
   handleGoto = item => {
@@ -133,6 +167,14 @@ class Resume extends PureComponent {
     this.setState({
       toogle: !this.state.toogle,
     })
+  }
+  gotoPreview = () => {
+    const {isAllowPreview} = this.props.resume
+    if (isAllowPreview === '1' ) {
+      this.props.history.push('/resumepreview')
+    } else {
+      Toast.info('您还未创建简历', 2)
+    }
   }
   whereWillIGo = () => {
     const search = this.props.history.location.search
@@ -157,16 +199,13 @@ class Resume extends PureComponent {
       work_exps,
       languages,
       skills,
-      training_exps,
-      certificates,
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage } = this.state
-    // console.log(option.opts_salary.salary_scope_index[
+    const { toogle, percentage, toInfo } = this.state
+    // console.log(
     //   DesiredJob.desired_salary
-    // ])
-
+    // )
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -198,7 +237,7 @@ class Resume extends PureComponent {
                     : '暂无'}
                 </p>
                 <p className={style.subTitle}>
-                  简历完善度:<span>{percentage}</span>
+                  简历完善度:<span>{percentage ? percentage : '暂无'}</span>
                 </p>
                 <Flex>
                   <Flex.Item
@@ -208,7 +247,7 @@ class Resume extends PureComponent {
                     <p>设置</p>
                   </Flex.Item>
                   <Flex.Item
-                    onClick={this.handleGoto.bind(this, `/resumepreview`)}
+                    onClick={this.gotoPreview}
                   >
                     <img src={previewIcon} />
                     <p>预览</p>
@@ -227,7 +266,7 @@ class Resume extends PureComponent {
                     </span>
                   }
                   extra={
-                    <Link to="/resume/info">
+                    <Link to={toInfo}>
                       <img src={editIcon} />
                     </Link>
                   }
@@ -250,8 +289,8 @@ class Resume extends PureComponent {
                           .filter(
                             item => parseInt(resume.gender, 10) === item.code
                           )
-                          .map(item => item.value)[0] || '未知'
-                      : '未知'}
+                          .map(item => item.value)[0] || '暂无'
+                      : '暂无'}
                   </div>
                   <div>
                     <span>
@@ -282,7 +321,7 @@ class Resume extends PureComponent {
                     </span>
                   }
                   extra={
-                    <Link to="/resume/intention">
+                    <Link to={`/resume/intention${this.props.history.location.search}`}>
                       <img src={editIcon} />
                     </Link>
                   }
@@ -290,30 +329,35 @@ class Resume extends PureComponent {
                 <Card.Body className={style['card-body']}>
                   <div className={style.ellipsis}>
                     <span>意向职位：</span>
-                    {DesiredPositions&&DesiredPositions.length>0 ? DesiredPositions.map(
-                      item => option.positions_index[item]
-                    ).join(', ') : '暂无'}
+                    {DesiredPositions && DesiredPositions.length > 0
+                      ? DesiredPositions.map(
+                          item => option.positions_index[item]
+                        ).join(', ')
+                      : '暂无'}
                   </div>
                   <div className={style.ellipsis}>
                     <span>意向行业：</span>
-                    {DesiredCompanyTypes&&DesiredCompanyTypes.length>0
+                    {DesiredCompanyTypes && DesiredCompanyTypes.length > 0
                       ? DesiredCompanyTypes.map(
                           item =>
                             option.opts_company_industry_all_index[
                               item.industry
                             ]
-                        )
+                        ).join(', ')
                       : '暂无'}
                   </div>
                   <div className={style.ellipsis}>
                     <span>意向地点：</span>
-                    {DesiredLocations&&DesiredLocations.length>0?DesiredLocations.map(
-                      item => option.areas_index[item]
-                    ).join(', '): '暂无'}
+                    {DesiredLocations && DesiredLocations.length > 0
+                      ? DesiredLocations.map(
+                          item => option.areas_index[item]
+                        ).join(', ')
+                      : '暂无'}
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {DesiredJob.desired_salary && DesiredJob.desired_salary !== '0'
+                    {DesiredJob.desired_salary &&
+                    DesiredJob.desired_salary !== '0'
                       ? option.opts_salary.salary_scope_index[
                           DesiredJob.desired_salary
                         ]
@@ -321,7 +365,9 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>求职状态：</span>
-                    {resume.job_status && resume.job_status !== '0' ? option.opts_job_status_index[resume.job_status] : '暂无'}
+                    {resume.job_status && resume.job_status !== '0'
+                      ? option.opts_job_status_index[resume.job_status]
+                      : '暂无'}
                   </div>
                 </Card.Body>
               </Card>
@@ -340,10 +386,12 @@ class Resume extends PureComponent {
                         src={circleIcon}
                         className={style['card-job-wraper-circle']}
                       />
-                      <span>
-                        {item.company_name_cn} |{' '}
-                        {option.positions_index[item.position_id]}
-                      </span>
+                      <div className={style.ellipsis}>
+                        {item.position_cn}
+                        {item.company_name_cn
+                          ? ` | ${item.company_name_cn}`
+                          : null}
+                      </div>
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(
@@ -385,7 +433,13 @@ class Resume extends PureComponent {
                         src={circleIcon}
                         className={style['card-education-wraper-circle']}
                       />
-                      <p>{item.school_cn || '学校名称'}</p>
+                      <div className={style.ellipsis}>
+                      {item.school_cn}
+                      {item.is_overseas === '2'
+                        ? ` | 海外教育经历`
+                        : null}
+                    </div>
+                     
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(

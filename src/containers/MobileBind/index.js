@@ -215,7 +215,7 @@ class MobileBind extends PureComponent {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.props.history.replace('/resume/info')}
+          onLeftClick={() => this.props.history.goBack()}
         >
           绑定手机
         </NavBar>

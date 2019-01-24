@@ -8,6 +8,7 @@ import {
   SEARCH_LIST_ISLODING,
   SEARCH_LIST_ADD,
   SEARCH_END_SAVE,
+  SEARCH_SAVE_STATE,
   SEAND_PAGE_UNMOUNT,
   SEAND_PAGE_GOBACK,
   SEARCH_SALARYSHOW,
@@ -50,6 +51,7 @@ const initState = {
     rangeString: '不限',
     rangeTitle: '薪资',
   },
+  searchState: false,
 }
 
 export default (state = initState, action) => {
@@ -122,6 +124,11 @@ export default (state = initState, action) => {
             },
           },
         }
+      }
+    case SEARCH_SAVE_STATE:
+      return {
+        ...state,
+        ...action.args,
       }
     case HOME_CHANGE_CITY:
       return {
