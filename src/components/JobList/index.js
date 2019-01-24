@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import detailLogo from '../../static/detailLogo.png'
 import { withRouter, Link } from 'react-router-dom'
 import style from './style.less'
-
+const triggerFrom = '触发来源'
 class JobList extends Component {
-
   render() {
     const d = this.props.data
     return (
@@ -17,46 +16,34 @@ class JobList extends Component {
       //             to={`/${item.company_id}/${item.job_id}`}
       //             key={index}
       //           >
-                  <div className={style.single}>
-                    <div className={style.payJob}>
-                      <h1 className={style.Job}>{d.job_name}</h1>
-                      <span className={style.Pay}>{d.salary}</span>
-                    </div>
-                    <div className={style.benefits}>
-                      <div className={style.scale}>
-                        {d.work_place ? (
-                          <span>{d.work_place}</span>
-                        ) : null}
-                        {d.exp ? <span>{d.exp}</span> : null}
-                        {d.education ? <span>{d.education}</span> : null}
-                        {d.room_board ? (
-                          <span>{d.room_board}</span>
-                        ) : null}
-                      </div>
-                      <span className={style.time}>{d.update_time}</span>
-                    </div>
-                    <div className={style.hotelInfo}>
-                      <img
-                        src={
-                          d.company_logo === ''
-                            ? detailLogo
-                            : d.company_logo
-                        }
-                        alt="img"
-                      />
-                      <div className={style.right}>
-                        <h1>{d.company_name}</h1>
-                        <div className={style.scale}>
-                          {d.industry_star ? (
-                            <span>{d.industry_star}</span>
-                          ) : null}
-                          {d.company_size ? (
-                            <span>{d.company_size}</span>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <div className={style.single}>
+        <div className={style.payJob}>
+          <h1 className={style.Job}>{d.job_name}</h1>
+          <span className={style.Pay}>{d.salary}</span>
+        </div>
+        <div className={style.benefits}>
+          <div className={style.scale}>
+            {d.work_place ? <span>{d.work_place}</span> : null}
+            {d.exp ? <span>{d.exp}</span> : null}
+            {d.education ? <span>{d.education}</span> : null}
+            {d.room_board ? <span>{d.room_board}</span> : null}
+          </div>
+          <span className={style.time}>{d.update_time}</span>
+        </div>
+        <div className={style.hotelInfo}>
+          <img
+            src={d.company_logo === '' ? detailLogo : d.company_logo}
+            alt="img"
+          />
+          <div className={style.right}>
+            <h1>{d.company_name}</h1>
+            <div className={style.scale}>
+              {d.industry_star ? <span>{d.industry_star}</span> : null}
+              {d.company_size ? <span>{d.company_size}</span> : null}
+            </div>
+          </div>
+        </div>
+      </div>
       //           </Link>
       //         )
       //       })
@@ -67,6 +54,16 @@ class JobList extends Component {
 }
 
 class PostList extends Component {
+  goPosition = key => {
+    if (key === '企业详情页-在招职位') {
+      window.zhuge.track('职位详情页打开', {
+        [`${triggerFrom}`]: '企业详情页-在招职位',
+      })
+    }else {
+
+    }
+  }
+
   render() {
     let { data } = this.props
     let list = data || []
@@ -79,6 +76,9 @@ class PostList extends Component {
                   rel="stylesheet"
                   to={`/${item.company_id}/${item.job_id}`}
                   key={index}
+                  onClick={() => {
+                    this.goPosition(this.props.zhugeFrom)
+                  }}
                 >
                   <div className={style.PostCard}>
                     <div className={style.PostTop}>

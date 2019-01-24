@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/10/25.
+ * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
@@ -23,8 +23,8 @@ import F from '../../helper/tool'
 import vacantIcon from '../../static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
-
 const option = store.get('m:option')
+const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
@@ -166,6 +166,10 @@ class SearchEnd extends PureComponent {
       this.scrollTop = 0
       this.props.history.go(-1)
     }
+  }
+
+  goPosition = () => {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '搜索职位列表页' })
   }
 
   onEndReached = () => {
@@ -439,7 +443,7 @@ class SearchEnd extends PureComponent {
     const Row = d => {
       return (
         <div className={style.listItem}>
-          <Link to={`/${d.company_id}/${d.job_id}`}>
+          <Link to={`/${d.company_id}/${d.job_id}`} onClick={this.goPosition}>
             <JobCard data={d} />
           </Link>
         </div>

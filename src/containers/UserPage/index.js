@@ -9,7 +9,6 @@ import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
-// import { Modal } from 'antd-mobile'
 import delivce from '../../static/delivce@3x.png'
 import collectpost from '../../static/collectpost@3x.png'
 import Resume from '../../static/resume@3x.png'
@@ -19,7 +18,6 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
-// const alert = Modal.alert
 
 @connect(state => {
   return {
@@ -205,7 +203,6 @@ class UserPage extends PureComponent {
                       alt="inform"
                       onClick={
                         this.showModal('messageQueue')
-                        // this.goNextpage('/person/message', '系统消息')
                       }
                     />
                     {this.props.userStatus.unread_message_num ? (

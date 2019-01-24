@@ -275,7 +275,7 @@ class CompanyDetail extends PureComponent {
               </div>
               <div className={style.PostList}>
                 {this.props.list.length ? (
-                  <JobList.PostList data={this.props.list} />
+                  <JobList.PostList data={this.props.list}  zhugeFrom="企业详情页-在招职位"/>
                 ) : (
                   <div className={style.noMore}>
                     <img src={missing} alt="" />

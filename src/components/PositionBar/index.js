@@ -18,15 +18,14 @@ import {
   positionApply,
 } from '../../actions/position'
 import { getUserStatus } from '../../actions/userStatus'
-// import store from 'store'
-// import Cookies from 'js-cookie'
-// const auth = store.get('m:auth') || {}
 const triggerFrom = '触发来源'
+const triggerPost = '岗位'
 
-@connect(state => ({}))
+@connect(state => ({
+  position: state.position,
+}))
 class PositionBar extends PureComponent {
   state = {
-    // isSelect: true,
     Success: false, //投递成功弹窗
     toPerfect: false, //简历<40%
     mostPerfect: false, //40%< 简历 <80%
@@ -63,7 +62,8 @@ class PositionBar extends PureComponent {
               window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '职位收藏' })
             }
           } else {
-            return Toast.success('收藏成功', 2)
+            Toast.success('收藏成功', 2)
+            window.zhuge.track('收藏', { [`${triggerPost}`]: this.props.position.job_name})
           }
         })
     }
@@ -272,6 +272,7 @@ class PositionBar extends PureComponent {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`
                 )
+                window.zhuge.track('去完善', { [`${triggerPost}`]: this.props.position.job_name})
               },
               type: 'ok',
             },

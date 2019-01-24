@@ -14,6 +14,7 @@ import {
   saveScrollTop,
   deleteCache,
 } from '../../actions/CollectPost'
+const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
@@ -51,6 +52,10 @@ class SelectPost extends PureComponent {
   onScroll = () => {
     let scrollTop = this.refs['page'].listviewRef.scrollProperties.offset
     this.scrollTop = scrollTop
+  }
+
+  goPostion = () => {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '收藏的职位' })
   }
 
   componentDidMount() {
@@ -97,7 +102,7 @@ class SelectPost extends PureComponent {
             },
           ]}
         >
-          <Link to={`/${data.company_id}/${data.job_id}`}>
+          <Link to={`/${data.company_id}/${data.job_id}`} onClick={this.goPostion}>
             <CollectPostItem {...data} />
           </Link>
         </SwipeAction>
