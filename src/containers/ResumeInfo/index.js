@@ -21,7 +21,15 @@ import Cookies from 'js-cookie'
     resume: state.resume,
   }
 })
-@createForm()
+@createForm({
+  onValuesChange(props, values) {
+    // console.log(props)
+    // console.log(values.true_name_cn)
+    // props.form.setFieldsValue({
+    //   true_name_cn: '1111',
+    // });
+  },
+})
 @withRouter
 class ResumeInfo extends PureComponent {
   constructor(props) {
@@ -45,7 +53,9 @@ class ResumeInfo extends PureComponent {
   setSst = obj => {
     this.setState(obj)
   }
-
+  handleNameChange = (val) => {
+   console.log(val)
+  }
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
@@ -111,8 +121,10 @@ class ResumeInfo extends PureComponent {
         }
         Toast.info('保存成功', 2)
         setTimeout(() => {
-          this.props.history.goBack()
-        }, 999)
+          this.props.history.replace(
+            '/resume' + this.props.history.location.search
+          )
+        }, 500)
       })
     })
   }
@@ -249,9 +261,17 @@ class ResumeInfo extends PureComponent {
           <InputItem
             {...getFieldProps('true_name_cn', {
               initialValue: resume.true_name_cn,
+              // rules: [
+              //   {
+              //     pattern: '[^a-zA-Z0-9\u4E00-\u9FA5_]',
+                
+              //   },
+              // ],
             })}
             clear
             placeholder="请填写"
+            // onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
+            // onChange={(v) => { console.log('onChange', v); }}
           >
             姓名
           </InputItem>

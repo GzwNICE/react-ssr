@@ -48,13 +48,13 @@ class ResumeEducationEdit extends PureComponent {
       if (err) return
       console.log(values)
       if (!values.school_cn) {
-        return Toast.info('请填写学校名称', 2)
+        return Toast.info('请填写学校', 2)
       }
       if (!values.major_cn) {
-        return Toast.info('请填写专业名称', 2)
+        return Toast.info('请填写专业', 2)
       }
       if (!values.degree) {
-        return Toast.info('请选择最高学历', 2)
+        return Toast.info('请选择学历', 2)
       }
       if (!values.begin) {
         return Toast.info('请选择入学时间', 2)
@@ -67,11 +67,11 @@ class ResumeEducationEdit extends PureComponent {
       }
 
       // window.zhuge.track('我的简历', { '模块': '教育经历' })
-      // overseas 1 是无海外经历，2是有海外经历
+      // overseas 1 有海外经历 ，2是无海外经历
       const parmas = {
         ...values,
         id: this.props.match.params.id,
-        is_overseas: values.overseas ? '2' : '1',
+        is_overseas: values.overseas ? '1' : '2',
         begin_year: moment(values.begin).format('YYYY'),
         begin_month: moment(values.begin).format('MM'),
         end_year:  moment(values.end).format('YYYY'),
@@ -148,7 +148,7 @@ class ResumeEducationEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">学校名称</List.Item>
+            <List.Item arrow="horizontal">学校</List.Item>
           </School>
           <BorderBottomLine />
           <Specialty
@@ -157,7 +157,7 @@ class ResumeEducationEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">专业名称</List.Item>
+            <List.Item arrow="horizontal">专业</List.Item>
           </Specialty>
           <BorderBottomLine />
             <div className={style2.pad20}>
@@ -165,10 +165,10 @@ class ResumeEducationEdit extends PureComponent {
             {...getFieldProps('degree', {
               initialValue: item.degree,
             })}
-            title="最高学历"
+            title="学历"
             extra="请选择"
           >
-            <List.Item arrow="horizontal">最高学历</List.Item>
+            <List.Item arrow="horizontal">学历</List.Item>
           </Education>
             </div>
           
@@ -200,7 +200,7 @@ class ResumeEducationEdit extends PureComponent {
             <label>
               <Checkbox
                 {...getFieldProps('overseas', {
-                  initialValue: item.is_overseas === '2' ? true : false,
+                  initialValue: item.is_overseas === '1' ? true : false,
                   valuePropName: 'checked',
                 })}
               />

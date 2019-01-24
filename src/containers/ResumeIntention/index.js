@@ -94,14 +94,22 @@ class ResumeIntention extends PureComponent {
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
         PersonDesiredJob: JSON.stringify({
           desired_salary: values.desired_salary[0],
-          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1",
+          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1", // 1显示（不打钩）       2不显示（打钩）
           work_mode: `${values.work_mode}`,
         }),
         job_status: `${values.job_status}`,
       }
       console.log(parmas)
       this.props.dispatch(intentionEdit(parmas)).then(data => {
-        this.props.history.goBack()
+        if (data.status === 0) {
+          return Toast.info(data.errMsg, 2)
+        }
+        Toast.info('保存成功', 2)
+        setTimeout(() => {
+          this.props.history.replace(
+            '/resume' + this.props.history.location.search
+          )
+        }, 500)
       })
     })
   }
@@ -118,7 +126,6 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
-    console.log(resume.job_status)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

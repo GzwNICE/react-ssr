@@ -53,7 +53,7 @@ class Resume extends PureComponent {
   state = {
     toogle: false, // 默认收起
     percentage: '',
-    toInfo: '',  // 跳转到基本信息
+    toInfo: '', // 跳转到基本信息
   }
 
   componentDidMount() {
@@ -87,7 +87,7 @@ class Resume extends PureComponent {
           ])
         }
         // 根据姓名判断
-        // const {resume}  = this.props       
+        // const {resume}  = this.props
         // if (!resume.true_name_cn) {
         //   this.props.history.replace(
         //     '/resume/micro'
@@ -135,7 +135,6 @@ class Resume extends PureComponent {
   }
 
   handleRefresh = () => {
-    
     this.setState({
       refresh: true,
     })
@@ -170,8 +169,8 @@ class Resume extends PureComponent {
     })
   }
   gotoPreview = () => {
-    const {isAllowPreview} = this.props.resume
-    if (isAllowPreview === '1' ) {
+    const { isAllowPreview } = this.props.resume
+    if (isAllowPreview === '1') {
       this.props.history.push('/resumepreview')
     } else {
       Toast.info('您还未创建简历', 2)
@@ -207,6 +206,14 @@ class Resume extends PureComponent {
     // console.log(
     //   DesiredJob.desired_salary
     // )
+    let desiredSalary = '暂无'
+    if (DesiredJob.desired_salary && DesiredJob.desired_salary !== '0') {
+      desiredSalary =
+        option.opts_salary.salary_scope_index[DesiredJob.desired_salary]
+      if (desiredSalary.indexOf('以上') === -1) {
+        desiredSalary = desiredSalary + '元'
+      }
+    }
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
         <div className={style.header}>
@@ -247,9 +254,7 @@ class Resume extends PureComponent {
                     <img src={setIcon} />
                     <p>设置</p>
                   </Flex.Item>
-                  <Flex.Item
-                    onClick={this.gotoPreview}
-                  >
+                  <Flex.Item onClick={this.gotoPreview}>
                     <img src={previewIcon} />
                     <p>预览</p>
                   </Flex.Item>
@@ -322,7 +327,11 @@ class Resume extends PureComponent {
                     </span>
                   }
                   extra={
-                    <Link to={`/resume/intention${this.props.history.location.search}`}>
+                    <Link
+                      to={`/resume/intention${
+                        this.props.history.location.search
+                      }`}
+                    >
                       <img src={editIcon} />
                     </Link>
                   }
@@ -357,12 +366,7 @@ class Resume extends PureComponent {
                   </div>
                   <div>
                     <span>期望薪资：</span>
-                    {DesiredJob.desired_salary &&
-                    DesiredJob.desired_salary !== '0'
-                      ? option.opts_salary.salary_scope_index[
-                          DesiredJob.desired_salary
-                        ]
-                      : '暂无'}
+                    {desiredSalary}
                   </div>
                   <div>
                     <span>求职状态：</span>
@@ -397,7 +401,9 @@ class Resume extends PureComponent {
                         src={editIcon}
                         onClick={this.handleGoto.bind(
                           this,
-                          `/resume/experience/${item.id}`
+                          `/resume/experience/${item.id}${
+                            this.props.history.location.search
+                          }`
                         )}
                         className={style['card-job-wraper-editor']}
                       />
@@ -407,7 +413,15 @@ class Resume extends PureComponent {
                           ? `${item.end_year}.${item.end_month}`
                           : '至今'}
                       </p>
-                      <p>{item.job_responsibilities_cn}</p>
+                      <p>暂未填写岗位职责</p>
+                      {item.job_responsibilities_cn ? (
+                        <TextareaItem
+                          autoHeight
+                          value={`${item.job_responsibilities_cn || ''}`}
+                          editable={false}
+                        />
+                      ) : <p>暂未填写岗位职责</p>}
+
                       {work_exps.length - 1 !== key ? (
                         <div className={style['card-education-wraper-line']} />
                       ) : null}
@@ -435,12 +449,10 @@ class Resume extends PureComponent {
                         className={style['card-education-wraper-circle']}
                       />
                       <div className={style.ellipsis}>
-                      {item.school_cn}
-                      {item.is_overseas === '2'
-                        ? ` | 海外教育经历`
-                        : null}
-                    </div>
-                     
+                        {item.school_cn}
+                        {item.is_overseas === '2' ? ` | 海外教育经历` : null}
+                      </div>
+
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(

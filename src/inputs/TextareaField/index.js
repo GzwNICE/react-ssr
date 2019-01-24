@@ -3,7 +3,7 @@ import ComplexFormField from '../../components/Complex/ComplexFormField'
 import { NavBar, List, TextareaItem, Icon, Toast } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import {getWorkExample} from '../../actions/work_exps'
+import { getWorkExample } from '../../actions/work_exps'
 
 @connect(state => {
   return {
@@ -20,11 +20,13 @@ class TextareaField extends ComplexFormField {
     }
   }
   componentDidMount() {
-    this.props.dispatch(getWorkExample({
-      appchannel: 'web',
-    }))
+    this.props.dispatch(
+      getWorkExample({
+        appchannel: 'web',
+      })
+    )
   }
-  handleValueChange = (value) => {
+  handleValueChange = value => {
     const len = value.length
     this.setState({
       value,
@@ -34,13 +36,12 @@ class TextareaField extends ComplexFormField {
 
   changeValue() {
     const { count } = this.state
-    if (count === 0 ) {
+    if (count === 0) {
       Toast.info('请填写岗位职责', 2)
     } else {
       this.props.onChange(this.state.value)
       this.changeVisible()
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,30 +55,39 @@ class TextareaField extends ComplexFormField {
     })
   }
   handleExchange = () => {
-    this.props.dispatch(getWorkExample({
-      appchannel: 'web',
-    }))
+    this.props.dispatch(
+      getWorkExample({
+        appchannel: 'web',
+      })
+    )
   }
   modelRender = () => {
     const { getWorkExample } = this.props
     // const arr = getWorkExample.content_cn.split('。')
     // console.log(arr)
     // todo 这边分行有问题
-    return <div className={style.wraper2}>
-      <div className={style.moadl}>
-        <div className={style.title}>
-          <span>{getWorkExample.title_cn}</span>
-          <span onClick={this.handleExchange}>换一个</span>
-        </div>
-        <div className={style.content}>
-          {getWorkExample.content_cn}
-          {/*{*/}
+    return (
+      <div className={style.wraper2}>
+        <div className={style.moadl}>
+          <div className={style.title}>
+            <span>{getWorkExample.title_cn}</span>
+            <span onClick={this.handleExchange}>换一个</span>
+          </div>
+          <div className={style.content}>
+            <TextareaItem
+              autoHeight
+              value={`${getWorkExample.content_cn || ''}`}
+              rows={1}
+              editable={false}
+            />
+            {/*{*/}
             {/*arr.map((item, index) => <p key={index}>{item}。</p>)*/}
-          {/*}*/}
+            {/*}*/}
+          </div>
         </div>
+        <div className={style['triangle-up']} />
       </div>
-      <div className={style["triangle-up"]}/>
-    </div>
+    )
   }
   allView() {
     // console.log(this.props)
@@ -85,7 +95,8 @@ class TextareaField extends ComplexFormField {
     return (
       <List>
         <TextareaItem
-          autoHeight rows={5}
+          autoHeight
+          rows={5}
           value={this.state.value}
           placeholder={this.props.placeholder}
           maxLength={this.props.maxLength}
@@ -95,13 +106,12 @@ class TextareaField extends ComplexFormField {
         <div className={style.footer}>
           <div className={style.wraper}>
             <span onClick={this.handleLook}>看看别人怎么写</span>
-            <span className={style.last}>{count}
+            <span className={style.last}>
+              {count}
               <span>/2000</span>
             </span>
           </div>
-          {
-            hide ? null : this.modelRender()
-          }
+          {hide ? null : this.modelRender()}
         </div>
       </List>
     )
@@ -124,13 +134,12 @@ class TextareaField extends ComplexFormField {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
-          rightContent={<span onClick={() => this.changeValue()}>保存</span>}>
+          rightContent={<span onClick={() => this.changeValue()}>保存</span>}
+        >
           {this.props.title || this.props.children.props.children}
         </NavBar>
         {/*{this.allView(this.props.options)}*/}
-        {this.wrapView(
-          this.allView(this.props.options)
-        )}
+        {this.wrapView(this.allView(this.props.options))}
       </div>
     )
   }

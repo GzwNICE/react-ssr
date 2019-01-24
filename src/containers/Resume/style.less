@@ -148,7 +148,7 @@
   }
   &-job {
     &-wraper {
-      padding: 0 15px 25px 23px;
+      padding: 0 15px 0 23px;
       position: relative;
       font-size: 13px;
       color: #9b9b9b;
@@ -189,6 +189,19 @@
         width: 16px;
         height: 16px;
         padding-right: 5px;
+      }
+    }
+    :global {
+      .am-textarea-control textarea {
+        font-size: 13px;
+color: #9B9B9B;
+font-family: PingFangSC-Regular;
+      }
+      .am-textarea-item, .am-textarea-control {
+        padding: 0 !important;
+      }
+      .am-list-item {
+        min-height: 0 !important;
       }
     }
   }

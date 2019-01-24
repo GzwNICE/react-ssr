@@ -66,18 +66,18 @@ class ResumeExperienceEdit extends PureComponent {
       console.log(values)
 
       if (!values.company_name_cn) {
-        return Toast.info('请输入企业名称', 2)
+        return Toast.info('请填写企业名称', 2)
       }
 
       if (!values.position_cn) {
-        return Toast.info('请输入职位名称', 2)
+        return Toast.info('请填写职位名称', 2)
       }
 
       if (!values.begin) {
         return Toast.info('请选择开始时间', 2)
       }
 
-      if (values.end !== 0) {
+      if (String(values.end) !== '0') {
         if (values.end === undefined || values.end === null) {
           return Toast.info('请选择结束时间', 2)
         }
@@ -93,7 +93,7 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (!values.salary) {
-        return Toast.info('请输入税前薪资', 2)
+        return Toast.info('请填写税前薪资', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '工作经历' })
@@ -119,8 +119,10 @@ class ResumeExperienceEdit extends PureComponent {
         }
         Toast.info('保存成功', 2)
         setTimeout(() => {
-          this.props.history.goBack()
-        }, 999)
+          this.props.history.replace(
+            '/resume' + this.props.history.location.search
+          )
+        }, 500)
       })
     })
   }
@@ -166,7 +168,6 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
-    console.log(item)
 
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -241,7 +242,7 @@ class ResumeExperienceEdit extends PureComponent {
               placeholder="请填写"
               type="number"
             >
-              税前薪资
+             税前月薪
             </InputItem>
           </div>
 
@@ -253,7 +254,7 @@ class ResumeExperienceEdit extends PureComponent {
                   valuePropName: 'checked',
                 })}
               />
-              <span>对hr显示为保密</span>
+              <span>企业查看时显示为保密</span>
             </label>
           </List.Item>
           <BorderBottomLine />

@@ -95,11 +95,26 @@
         justify-content: space-between;
       }
       .content {
-        padding: 8px 10px;
+        padding: 0 10px;
         line-height: 22px;
         text-align: left;
+        max-height: 200px;
+        overflow-y: auto;
       }
     }
-
   }
+  :global {
+    .am-list-item {
+      background-color: #FF7214;
+      
+    }
+    .am-textarea-control textarea {
+      font-size: 12px;
+      color: #FFFFFF;
+    }
+    .am-textarea-item {
+      padding: 0 !important;
+    }
+  }
+  
 }

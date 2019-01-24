@@ -7,7 +7,6 @@ export const BIND_PHONE = 'BIND_PHONE' // 绑定手机
 export const FEED_BACK = 'FEED_BACK' // 意见反馈
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD' // 重制密码
 
-
 const URL = ':ve.sso/user/email_authenticate' // 绑定邮箱
 const PASS = ':ve.sso/user/reset_password' // 重制密码 new_password old_password
 const FEED = ':ve.mobile.interface/util/feedback' // 意见反馈
