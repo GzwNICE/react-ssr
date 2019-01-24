@@ -1,16 +1,12 @@
 /**
- * Created by huangchao on 2017/10/10.
+ * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { Tabs, Badge, Carousel, Toast } from 'antd-mobile'
+import { Tabs, Badge, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import queryString from 'query-string'
-// import ComInfor from '../../components/ComInfor'
-// import ShowArticle from '../PositionDetail/ShowArticle'
-// import Connection from '../../components/Connection/'
-// import RestPosition from '../../components/RestPosition'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
@@ -18,7 +14,6 @@ import CompanyDuce from './CompanyDuce'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
 import missing from '../../static/missing.png'
-// import * as Ad from '../../components/Ad'
 import {
   companydetail,
   companyList,
@@ -26,9 +21,8 @@ import {
 } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
+const triggerFrom = '触发来源'
 
-// import company from '../../static/company@3x.png'
-// const TabPane = Tabs.TabPane
 
 @connect(state => {
   return {
@@ -99,9 +93,9 @@ class CompanyDetail extends PureComponent {
           if (data.status === 0) {
             const msg = data.errMsg
             if (msg === '未登陆') {
-              return this.goLogin()
+              this.goLogin()
+              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '关注企业' })
             }
-            return Toast.info(msg, 2)
           } else {
             Toast.success('关注成功', 2)
             this.setState({
@@ -142,18 +136,6 @@ class CompanyDetail extends PureComponent {
       showRegWrap: false,
     })
   }
-
-  // goLogin = key => {
-  //   window.zhuge.track('登陆后查看')
-  //   const search = this.props.history.location.search
-  //     ? this.props.history.location.search
-  //     : '?'
-  //   const pathname = this.props.history.location.pathname
-  //   const url = `/register${search}${
-  //     search === '?' ? '' : '&'
-  //   }redirect=${pathname}`
-  //   this.props.history.replace(url, { key: '获取联系方式' })
-  // }
 
   goLogin = () => {
     const search = this.props.history.location.search
@@ -237,6 +219,7 @@ class CompanyDetail extends PureComponent {
           goBack={this.whereWillIGo}
           title="公司详情"
           searchFocus={this.searchFocus}
+          zhugeFrom={1}
         />
 
         <div className={style.DetailWrap} onScroll={this.onScroll} id="page">
@@ -308,6 +291,7 @@ class CompanyDetail extends PureComponent {
           <RegisterWrap
             onCloseReg={this.handleCloseReg.bind(this)}
             location={this.props.history.location.pathname}
+            zhugeFrom="企业详情页底部推荐注册"
           />
         ) : null}
       </div>

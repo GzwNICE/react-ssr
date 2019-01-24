@@ -60,10 +60,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
 spec:
-  #tls:
+  tls:
   #- hosts:
   #  - hotel-dfws-manage.cluster.dfwsgroup.cn
-  #  secretName: hotel-dfws-manage-tls
+  - secretName: veryeast-tls
   rules:
   - host: m.veryeast.cn
     http:

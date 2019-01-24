@@ -17,7 +17,10 @@ class Search extends Component {
     }
   }
 
-  handleSearch() {}
+  goRegister = () => {
+    const triggerFrom = '触发来源'
+    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '名企列表页个人中心icon' })
+  }
 
   componentDidMount() {
     this.setState({
@@ -52,6 +55,7 @@ class Search extends Component {
               ? `/user?redirect=${this.props.location.pathname}`
               : `/register?redirect=${this.props.location.pathname}`
           }
+          onClick={this.goRegister}
         >
           <img
             src={is_login ? (photo ? photo : Userdefault) : personal}

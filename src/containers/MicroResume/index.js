@@ -65,6 +65,7 @@ class MicroResume extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('注册成功')
     setTimeout(() => {
       if (!auth.user_id && !Cookies('ticket')) {
         this.goLogin()

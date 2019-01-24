@@ -12,7 +12,6 @@ import select from '../../static/select@3x.png'
 import unselect from '../../static/unselect@3x.png'
 import validselect from '../../static/validselect.png'
 import deliver from '../../static/deliverSuccess@3x.png'
-
 import {
   positionCollect,
   positionUnColiect,
@@ -22,6 +21,7 @@ import { getUserStatus } from '../../actions/userStatus'
 // import store from 'store'
 // import Cookies from 'js-cookie'
 // const auth = store.get('m:auth') || {}
+const triggerFrom = '触发来源'
 
 @connect(state => ({}))
 class PositionBar extends PureComponent {
@@ -46,7 +46,6 @@ class PositionBar extends PureComponent {
         )
         .then(data => {
           Toast.success('取消收藏', 2)
-          // window.zhuge.track('取消收藏')
         })
     } else {
       // 去收藏
@@ -60,14 +59,15 @@ class PositionBar extends PureComponent {
           if (data.status === 0) {
             const msg = data.errMsg
             if (msg === '未登陆') {
-              return this.goLogin('收藏')
+              this.goLogin('收藏')
+              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '职位收藏' })
             }
           } else {
-            // window.zhuge.track('收藏职位')
             return Toast.success('收藏成功', 2)
           }
         })
     }
+
   }
   showModal = key => e => {
     if (e) e.preventDefault() // 修复 Android 上点击穿透
@@ -97,7 +97,8 @@ class PositionBar extends PureComponent {
           if (data.status === 0) {
             const msg = data.errMsg
             if (msg === '未登陆') {
-              return this.goLogin('应聘')
+              this.goLogin('应聘')
+              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '投递简历' })
             }
             // return Toast.info(msg, 2)
           } else if (
@@ -163,6 +164,7 @@ class PositionBar extends PureComponent {
 
   // 跳转app投递列表
   openApp = () => {
+    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '投递成功弹窗' })
     this.setState({
       Success: false,
     })

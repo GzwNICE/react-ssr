@@ -6,14 +6,14 @@ import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
 import FamousCompany from './FamousCompany'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import HotTrade from './HotTrade'
 import { WhiteSpace } from 'antd-mobile'
 // import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
 import {
-  getPostInit,
-  changeCity,
+  // getPostInit,
+  // changeCity,
   // refReshPost,
   // addPost,
   saveScrollTop,
@@ -112,57 +112,21 @@ class HomePage extends PureComponent {
 
   /* 关闭广告 */
   onCloseAd = () => {
-    // sessionStorage.setItem('ad', true)
-    Cookies.set('ad', true)
+    sessionStorage.setItem('ad', true)
+    // Cookies.set('ad', true)
     this.setState({ show: true })
   }
 
   /* 下载或者打开app */
-  downLoadAd = () => {
+  downLoadAd = key => {
+    const triggerFrom = '触发来源'
+    if (key === 1) {
+      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页弹窗' })
+    } else {
+      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
+    }
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
-
-  /* 下拉刷新 */
-  // onRefresh = () => {
-  //   const location =
-  //     this.props.userStatus.code && this.props.userStatus.code[0]
-  //       ? this.props.userStatus.code
-  //       : this.props.supers.location.address.code
-  //   if (!this.props.homeDate.refreshing) {
-  //     this.setState({
-  //       page: 1,
-  //     })
-
-  //     this.props.dispatch(
-  //       refReshPost({
-  //         location,
-  //         page: 1,
-  //       })
-  //     )
-  //   }
-  // }
-
-  /* 上拉加载 */
-  // onEndReached = () => {
-  //   const page = this.state.page + 1
-  //   const allPage = this.props.homeDate.pager.allPages
-  //   this.setState({
-  //     page: page,
-  //   })
-  //   if (page <= allPage) {
-  //     this.props.dispatch(
-  //       addPost({
-  //         page: page,
-  //         location:
-  //           this.props.userStatus.code && (this.props.userStatus.code[0] || ''),
-  //       })
-  //     )
-  //   } else {
-  //     this.setState({
-  //       Loaded: '没有更多了',
-  //     })
-  //   }
-  // }
 
   /* 记录滚动条的位置 */
   // onScroll = e => {
@@ -199,8 +163,10 @@ class HomePage extends PureComponent {
     // }
 
     this.setState({
-      show: Cookies.get('ad'),
-      is_login: sessionStorage.getItem('is_login') ? sessionStorage.getItem('is_login') : '',
+      show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
+      is_login: sessionStorage.getItem('is_login')
+        ? sessionStorage.getItem('is_login')
+        : '',
     })
   }
 
@@ -249,16 +215,16 @@ class HomePage extends PureComponent {
     const { show, showRegWrap, is_login } = this.state
     return (
       <div className={style.HomePageWrap}>
-      { !show &&
-        <Ad.AdWindow
-          show={show}
-          onCloseAd={this.onCloseAd}
-          downLoadAd={this.downLoadAd}
-        />
-      }
+        {!show && (
+          <Ad.AdWindow
+            show={show}
+            onCloseAd={this.onCloseAd}
+            downLoadAd={() => this.downLoadAd(1)}
+          />
+        )}
         <div className={style.homehead}>
           <div className={style.searchBar}>
-            <Ad.AdTop downLoadAd={this.downLoadAd} />
+            <Ad.AdTop downLoadAd={() => this.downLoadAd(2)} />
             <MySearchBar
               searchFocus={this.searchFocus}
               onChangeCity={this.onChangeCity}
@@ -275,14 +241,13 @@ class HomePage extends PureComponent {
           <FamousCompany />
           <HotTrade />
         </div>
-        {is_login ? null : (
-          showRegWrap ? (
-            <RegisterWrap
-              onCloseReg={this.handleCloseReg.bind(this)}
-              location={this.props.history.location.pathname}
-            />
-          ) : null
-        )}
+        {is_login ? null : showRegWrap ? (
+          <RegisterWrap
+            onCloseReg={this.handleCloseReg.bind(this)}
+            location={this.props.history.location.pathname}
+            zhugeFrom="首页底部推荐注册"
+          />
+        ) : null}
       </div>
     )
   }

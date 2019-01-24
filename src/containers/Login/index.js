@@ -48,13 +48,14 @@ class Login extends PureComponent {
   }
   goRegister = (url, key) => {
     const search = window.location.search
+    const triggerFrom = '触发来源'
     if (key) {
-      // window.zhuge.track('手机号注册')
+      window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '登录页点击注册' })
     }
     if (search) {
-      this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
+      this.props.history.replace(`${url}` + search, { key: '登录' })
     } else {
-      this.props.history.replace(url, { key: '登录弹窗' })
+      this.props.history.replace(url, { key: '登录' })
     }
   }
 
@@ -197,7 +198,7 @@ class Login extends PureComponent {
             </a>
           </div>
           <div className={style.otherLogin}>
-            <div onClick={() => this.goRegister(`/register`, '手机号注册')}>
+            <div onClick={() => this.goRegister(`/register`, '登录页点击注册')}>
               <span>立即注册</span>
             </div>
             <div className={style.rule} />

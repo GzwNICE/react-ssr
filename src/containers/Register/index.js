@@ -7,10 +7,8 @@ import { Link } from 'react-router-dom'
 import Rectangle from '../../static/back.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
-// import F from '../../helper/tool'
 import style from './style.less'
 import Loginstyle from '../Login/style.less'
-// import { captcha } from '../../actions/auth'
 import { mobile, register } from '../../actions/auth'
 import { errCode } from '../../helper/errCode'
 import { connect } from 'react-redux'
@@ -18,6 +16,7 @@ import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
 import Cookies from 'js-cookie'
+const triggerType = "类型"
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -92,7 +91,7 @@ class Register extends PureComponent {
       if (err) return
       if (!value.number)
         return Toast.info('请输入手机号', 2)
-      // window.zhuge.track('获取验证码')
+      window.zhuge.track('获取验证码_注册')
       let send = res => {
         if (this.state.disableCode) {
           mobile({
@@ -111,17 +110,12 @@ class Register extends PureComponent {
                 if (this.state.index <= 0) {
                   return this.Clear()
                 }
-
                 this.setState({
                   index: this.state.index - 1,
                   tipFont: `${this.state.index - 1}s`,
                 })
               }, 999)
-            } else if (data.flag === 5012) {
-              registered()
-              // window.zhuge.track('注册失败', {
-              //   手机号已注册: '',
-              // })
+              window.zhuge.track('获取验证码成功_注册')
             } else {
               const flag = data.flag
               const errMs = errCode[flag]
@@ -129,12 +123,14 @@ class Register extends PureComponent {
                 upperLimit()
               }else if(data.flag === 5014){
                 Toast.info('手机号与归属地不匹配', 2)
+              }else if (data.flag === 5012) {
+                registered()
               }else {
                 Toast.info(errMs, 2)
               }
-              // window.zhuge.track('注册失败', {
-              //   验证码错误: '',
-              // })
+              window.zhuge.track('获取验证码失败_注册', {
+                [`${triggerType}`]: errMs,
+              })
             }
           })
         }
@@ -157,7 +153,6 @@ class Register extends PureComponent {
         const { register_page_source } = queryString.parse(
           window.location.search
         )
-        // console.log(value)
         register({
           register_page_source: register_page_source || 'https://m.veryeast.cn',
           username: value.number,
@@ -174,11 +169,7 @@ class Register extends PureComponent {
           .then(data => {
             if (data.status) {
               Toast.info('注册成功', 2)
-              // window.zhuge.track('注册成功', {
-              //   用户ID: data.user_id,
-              //   手机号: data.phone,
-              //   邮箱: data.email,
-              // })
+              window.zhuge.track('注册成功')
               Cookies.set('reigsterMobile', value.number)
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
@@ -190,9 +181,9 @@ class Register extends PureComponent {
             }
           })
           .catch(err => {
-            // window.zhuge.track('注册失败', {
-            //   服务器返回原因: err.errMsg,
-            // })
+            window.zhuge.track('注册失败', {
+              [`${triggerType}`]: err.errMsg,
+            })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
               console.log(payload)

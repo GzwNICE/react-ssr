@@ -103,6 +103,8 @@ class UserPage extends PureComponent {
 
   // 跳转app消息列表
   openApp = () =>{
+    const triggerFrom = '触发来源'
+    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '您有未读消息' })
     this.setState({
       messageQueue: false,
     })

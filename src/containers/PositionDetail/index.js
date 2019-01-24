@@ -28,6 +28,7 @@ import {
   shareToPeople,
   shareToAll,
 } from '../../actions/auth'
+const triggerFrom = '触发来源'
 
 @connect(state => ({
   position: state.position,
@@ -126,10 +127,20 @@ class PositionDetail extends PureComponent {
     this.props.history.push('/search')
   }
 
-  // 跳转增值服务（暂时跳转到职位详情）
+  // 跳转到职位详情
   openApp = () =>{
+    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '打开APP查看职位竞争力分析' })
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    }, 2000)
+  }
+
+  // 跳转首页
+  openAppHome = () =>{
+    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
+    window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
       window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
     }, 2000)
@@ -209,6 +220,7 @@ class PositionDetail extends PureComponent {
           searchShow={searchShow}
           goBack={this.whereWillIGo}
           searchFocus={this.searchFocus}
+          zhugeFrom={2}
         />
 
         <div id="page" className={style.connent} onScroll={this.onScroll}>
@@ -318,7 +330,7 @@ class PositionDetail extends PureComponent {
           {is_valid === 1 ? <HotTopic data={hotData} /> : null}
           {is_valid === 0 ? (
             <div className={style.guidance}>
-              <div className={style.finishApp}>
+              <div className={style.finishApp} onClick={this.openAppHome}>
                 没有你想要的职位？打开APP查看更多
               </div>
             </div>
