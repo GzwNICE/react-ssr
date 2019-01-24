@@ -124,6 +124,7 @@ class Resume extends PureComponent {
           })
         )
         .then(() => {
+          Toast.info('上传头像成功', 2)
           this.props.dispatch(
             getAllInfo({
               appchannel: 'web',
@@ -297,7 +298,7 @@ class Resume extends PureComponent {
                       年<Pla w={2} />
                       龄：
                     </span>
-                    {resume.age ? resume.age : '暂无'}
+                    {resume.age ? `${resume.age}岁` : '暂无'}
                   </div>
                   <div>
                     <span>工作年限：</span>

@@ -47,18 +47,19 @@
 }
 
 .title {
-  padding: 10px 30px 5px;
+  padding: 10px 20px 5px;
   font-size: 15px;
   color: #333333;
 }
 
 .items {
-  width: calc(~"100% - 50px");
+  // width: calc(~"100% - 50px");
+  padding: 0 20px;
   margin: 0 auto 10px;
   >div {
     float: left;
-    width: 20%;
-    margin: 5px 2.5%;
+    width: 72px;
+    margin: 5px 14px 5px 0;
     height: 27px;
     text-align: center;
     border: 1PX solid #c8c7cc;
@@ -70,6 +71,9 @@
     justify-content: center;
     line-height: 1;
     overflow: scroll;
+    &:nth-of-type(4n) {
+      margin-right: 0;
+    }
   }
   >div::-webkit-scrollbar{
     display: none;
