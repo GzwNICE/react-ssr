@@ -9,8 +9,7 @@ import style from './style.less'
 // import PropTypes from 'prop-types'
 
 class SearchHistory extends PureComponent {
-  static propTypes = {
-  }
+  static propTypes = {}
   state = {
     searchHis: [],
   }
@@ -23,7 +22,7 @@ class SearchHistory extends PureComponent {
 
   componentDidMount() {
     const searchHis = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
-    const data = searchHis ==='undefined' ? [] : searchHis.slice(0,5)
+    const data = searchHis === 'undefined' ? [] : searchHis.slice(0, 5)
     this.setState({
       searchHis: data,
     })
@@ -38,25 +37,28 @@ class SearchHistory extends PureComponent {
             <span>搜索记录</span>
           </div>
           <div onClick={this.deleteHistory}>
-            {
-              this.state.searchHis.length
-              ? <img className={style.titleImg} src={deleteHistory} alt="delete_history" />
-              : null
-            }
+            {this.state.searchHis.length ? (
+              <img
+                className={style.titleImg}
+                src={deleteHistory}
+                alt="delete_history"
+              />
+            ) : null}
           </div>
         </div>
         <div className={style.historyItem}>
           <ul>
-            {
-              this.state.searchHis.length
-              ? this.state.searchHis.map((d, i) => {
-                return <li key={i} onClick={() => this.props.callback(d)}>
-                {d}
-  
-                </li>
+            {this.state.searchHis.length ? (
+              this.state.searchHis.map((d, i) => {
+                return (
+                  <li key={i} onClick={() => this.props.callback(d)}>
+                    {d}
+                  </li>
+                )
               })
-              : <p className={style.noData}>近期暂无搜索记录</p>
-            }
+            ) : (
+              <p className={style.noData}>近期暂无搜索记录</p>
+            )}
           </ul>
         </div>
       </div>

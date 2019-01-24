@@ -12,11 +12,10 @@ import SearchHot from '../../components/SearchHot'
 import SearchHistory from '../../components/SearchHistory'
 import F from '../../helper/tool'
 import resume from '../../static/sresume@3x.png'
-import qiye from '../../static/scompany@3x.png'
 import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import {getSearchHot} from '../../actions/search'
-// const option = store.get('m:option')
+const tiggerSearchKeyWord = "搜索词"
 
 @connect(state => {
   return {
@@ -62,6 +61,7 @@ class SearchPage extends PureComponent {
   }
 
   touchHot = (item) => { //热门搜索
+    window.zhuge.track('热门搜索', { [`${tiggerSearchKeyWord}`]: item })
     const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
     searchHistory.unshift(item)
     const newHis = searchHistory.slice(0, 5)
@@ -90,11 +90,7 @@ class SearchPage extends PureComponent {
   }
 
   touchSearchItem = (val) => { // 点击筛选结果
-
-    // window.zhuge.track("搜索", {
-    //   "关键字": val.keyword,
-    // })
-
+    window.zhuge.track('点击搜索推荐职位', { [`${tiggerSearchKeyWord}`]: val.keyword })
     const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
     searchHistory.unshift(val.keyword)
     const newHis = searchHistory.slice(0, 5)
@@ -109,6 +105,7 @@ class SearchPage extends PureComponent {
   }
 
   searcHis = (keyWord) => { // 点击历史记录
+    window.zhuge.track('搜索记录', { [`${tiggerSearchKeyWord}`]: keyWord })
     const searchHistory = JSON.parse(localStorage.getItem('m:searchHis') || '[]')
     searchHistory.unshift(keyWord)
     const newHis = searchHistory.slice(0, 5)
@@ -159,7 +156,6 @@ class SearchPage extends PureComponent {
     }
   }
   ShowSearchEnd = () => {
-    // console.log(this.props.tips)
     if(this.state.stareSearch) {
       return <div>
         {this.ShowPost(this.props.tips.job)}
