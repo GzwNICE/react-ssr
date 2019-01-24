@@ -193,7 +193,7 @@ class ResumeIntention extends PureComponent {
             <label>
               <Checkbox
                 {...getFieldProps('desired_salary_is_show', {
-                  initialValue: DesiredJob.desired_salary_is_show === '2',
+                  initialValue: DesiredJob.desired_salary_is_show === '2' ? true : false,
                   valuePropName: 'checked',
                 })}
               />

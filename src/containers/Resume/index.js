@@ -14,6 +14,7 @@ import addIcon from '../../static/add@3x.png'
 import circleIcon from '../../static/circle.png'
 import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
+// import downIcon from '../../static/packDown@3x.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
@@ -413,14 +414,14 @@ class Resume extends PureComponent {
                           ? `${item.end_year}.${item.end_month}`
                           : '至今'}
                       </p>
-                      <p>暂未填写岗位职责</p>
+
                       {item.job_responsibilities_cn ? (
                         <TextareaItem
                           autoHeight
                           value={`${item.job_responsibilities_cn || ''}`}
                           editable={false}
                         />
-                      ) : <p>暂未填写岗位职责</p>}
+                      ) : <p>暂未填写岗位</p>}
 
                       {work_exps.length - 1 !== key ? (
                         <div className={style['card-education-wraper-line']} />
@@ -450,7 +451,7 @@ class Resume extends PureComponent {
                       />
                       <div className={style.ellipsis}>
                         {item.school_cn}
-                        {item.is_overseas === '2' ? ` | 海外教育经历` : null}
+                        {item.is_overseas === '1' ? ` | 海外教育经历` : null}
                       </div>
 
                       <img
