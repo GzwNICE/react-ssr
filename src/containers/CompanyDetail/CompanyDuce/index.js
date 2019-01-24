@@ -34,6 +34,7 @@ export default class CompanyDuce extends Component {
     this.setState({
       open: false,
     })
+    window.zhuge.track('公司介绍展开')
   }
 
   handleChange(i) {

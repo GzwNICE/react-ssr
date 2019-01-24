@@ -12,7 +12,7 @@ import {
   DeletetDelivery,
   saveScrollTop,
 } from '../../actions/DeliveryInvite'
-
+const triggerFrom = '触发来源'
 @connect(state => ({
   list: state.DeliveryInvite.list,
   scrollTop: state.DeliveryInvite.scrollTop,
@@ -42,8 +42,9 @@ class DeliveryInvite extends PureComponent {
   //   this.props.history.push(`/person/letter/${message_id}`)
   // }
 
-   /*工作详情页*/
+   /*职位详情页*/
   goPostionDetailpage = (job_id, company_id) => {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '投递进展' })
     this.props.history.push(`/${company_id}/${job_id}`)
   }
 

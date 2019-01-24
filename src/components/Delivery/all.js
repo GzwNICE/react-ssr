@@ -13,6 +13,7 @@ import {
   remindHr,
   saveScrollTop,
 } from '../../actions/DeliveryAll'
+const triggerFrom = '触发来源'
 
 @connect(state => ({
   list: state.DeliveryAll.list,
@@ -76,8 +77,9 @@ class DeliveryAll extends PureComponent {
     this.props.history.push(`/chat/${company_id}`)
   }
 
-  /*去工作详情页*/
+  /*去职位详情页*/
   goPostionDetailpage = (job_id, company_id) => {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '投递进展' })
     this.props.history.push(`/${company_id}/${job_id}`)
   }
 

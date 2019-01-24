@@ -74,8 +74,7 @@ class PositionDetail extends PureComponent {
   }
 
   goCompany = c_userid => {
-    // window.zhuge.track('点击公司名')
-    // window.zhuge.track('公司详情页打开')
+    window.zhuge.track('企业详情页打开',{[`${triggerFrom}`]: '职位详情页'})
     this.props.history.push(`/${c_userid}`)
   }
 

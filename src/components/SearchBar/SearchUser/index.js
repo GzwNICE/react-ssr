@@ -39,6 +39,14 @@ class SearchUser extends Component {
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
   }
 
+  goHome=(key)=>{
+    if(key === 1){
+      window.zhuge.track('企业详情页点击首页icon')
+    }else {
+      window.zhuge.track('职位详情页点击首页icon')
+    }
+  }
+
   /* 诸葛  注册页面打开 */
   goRegister = (key) => {
     if(key === 1){
@@ -81,7 +89,7 @@ class SearchUser extends Component {
             <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
-            <Link rel="stylesheet" to={`/home`}>
+            <Link rel="stylesheet" to={`/home`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
             <Link

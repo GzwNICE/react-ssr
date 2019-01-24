@@ -55,7 +55,7 @@ class SelectCompany extends PureComponent {
   }
 
   goPostion = () => {
-    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '收藏的职位' })
+    window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '关注的企业' })
   }
 
   componentDidMount() {

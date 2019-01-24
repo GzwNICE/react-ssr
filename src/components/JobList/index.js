@@ -7,15 +7,6 @@ class JobList extends Component {
   render() {
     const d = this.props.data
     return (
-      // <div className={style.JobList}>
-      //   {list
-      //     ? list.map((item, index) => {
-      //         return (
-      //           <Link
-      //             rel="stylesheet"
-      //             to={`/${item.company_id}/${item.job_id}`}
-      //             key={index}
-      //           >
       <div className={style.single}>
         <div className={style.payJob}>
           <h1 className={style.Job}>{d.job_name}</h1>
@@ -44,11 +35,6 @@ class JobList extends Component {
           </div>
         </div>
       </div>
-      //           </Link>
-      //         )
-      //       })
-      //     : null}
-      // </div>
     )
   }
 }
@@ -59,8 +45,7 @@ class PostList extends Component {
       window.zhuge.track('职位详情页打开', {
         [`${triggerFrom}`]: '企业详情页-在招职位',
       })
-    }else {
-
+    } else {
     }
   }
 

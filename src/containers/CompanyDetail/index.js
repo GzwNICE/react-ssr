@@ -101,6 +101,7 @@ class CompanyDetail extends PureComponent {
             this.setState({
               attention: '已关注',
             })
+            window.zhuge.track('关注企业')
           }
         })
     }
