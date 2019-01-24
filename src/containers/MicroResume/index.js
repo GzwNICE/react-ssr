@@ -239,7 +239,7 @@ class MicroResume extends PureComponent {
         .then(res => {
           if (res.json && res.json.status) {
             Toast.info(res.json.msg, 2)
-            // window.zhuge.track('微简历保存成功')
+            window.zhuge.track('微简历保存成功')
             this.props.history.push('/resume')
           } else {
             const msg = res.errMsg
@@ -253,7 +253,6 @@ class MicroResume extends PureComponent {
               return this.goLogin()
             }
             Toast.info(msg, 2)
-            window.zhuge.track('微简历保存成功')
           }
         })
         .catch(err => {
