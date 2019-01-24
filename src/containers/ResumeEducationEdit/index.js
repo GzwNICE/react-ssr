@@ -85,8 +85,10 @@ class ResumeEducationEdit extends PureComponent {
         }
         Toast.info('保存成功', 2)
         setTimeout(() => {
-          this.props.history.goBack()
-        }, 999)
+          this.props.history.replace(
+            '/resume' + this.props.history.location.search
+          )
+        }, 500)
       })
     })
   }

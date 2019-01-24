@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 const defaultDate = new Date()
 
 const nowYear = moment().weekYear()
-const maxDate = moment().year(nowYear + 7)._d
-const minDate = moment().year(nowYear - 80)._d
+const maxDate = moment().year(nowYear + 7).month(11)._d
+const minDate = moment().year(nowYear - 80).month(0)._d
 
 let timeChange = false
 const CustomChildren = ({ extra, onClick, children }) => {

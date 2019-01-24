@@ -115,17 +115,17 @@ class ResumeInfo extends PureComponent {
         // graduation_time: '', // values.graduation_time.join('-')
       }
       console.log(parmas)
-      this.props.dispatch(resumeEdit(parmas)).then(data => {
-        if (data.status === 0) {
-          return Toast.info(data.errMsg, 2)
-        }
-        Toast.info('保存成功', 2)
-        setTimeout(() => {
-          this.props.history.replace(
-            '/resume' + this.props.history.location.search
-          )
-        }, 500)
-      })
+      // this.props.dispatch(resumeEdit(parmas)).then(data => {
+      //   if (data.status === 0) {
+      //     return Toast.info(data.errMsg, 2)
+      //   }
+      //   Toast.info('保存成功', 2)
+      //   setTimeout(() => {
+      //     this.props.history.replace(
+      //       '/resume' + this.props.history.location.search
+      //     )
+      //   }, 500)
+      // })
     })
   }
 
@@ -279,7 +279,7 @@ class ResumeInfo extends PureComponent {
           <Gender
             {...getFieldProps('gender', {
               initialValue:
-                resume.gender && resume.gender !== undefined
+                resume.gender && resume.gender !== undefined && resume.gender !== '0'
                   ? resume.gender
                   : 1,
             })}
