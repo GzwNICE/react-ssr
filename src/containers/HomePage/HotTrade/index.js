@@ -4,8 +4,10 @@ import { connect } from 'react-redux'
 import { hotTrade } from '../../../actions/home'
 import { withRouter, Link } from 'react-router-dom'
 import hotjobs from '../../../static/hotJobs@3x.png'
-
 import style from '../style.less'
+const tiggerModule = '模块'
+const tiggerCompany = '企业'
+const tiggerPost = '职位'
 
 @connect(state => ({
   tradeDtata: state.home.tradeDtata,
@@ -16,6 +18,22 @@ class HotTrade extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+  }
+
+  goClassify = (key)=>{
+    window.zhuge.track('分类模块', { [`${tiggerModule}`]: key })
+  }
+
+  goCompany = (key)=>{
+    window.zhuge.track('分类模块企业', { [`${tiggerCompany}`]: key })
+  }
+
+  goSearchPost = (key)=>{
+    window.zhuge.track('分类模块岗位', { [`${tiggerPost}`]: key })
+  }
+
+  goHotPost = (key)=>{
+    window.zhuge.track('热门职位_8个职位', { [`${tiggerPost}`]: key })
   }
 
   componentDidMount() {
@@ -65,6 +83,7 @@ class HotTrade extends Component {
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
                       }`}
+                      onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}
                     </Link>
@@ -80,6 +99,7 @@ class HotTrade extends Component {
                                   to={`/${item.c_userid}?redirect=${
                                     this.props.location.pathname
                                   }`}
+                                  onClick={()=>this.goCompany(item.company_name)}
                                 >
                                   <img src={item.company_logo} alt="img" />
                                 </Link>
@@ -96,6 +116,7 @@ class HotTrade extends Component {
                           rel="stylesheet"
                           to={`/search/${item}?keyword=${item}`}
                           key={index}
+                          onClick={()=>this.goSearchPost(item)}
                         >
                           {item}
                         </Link>
@@ -119,6 +140,7 @@ class HotTrade extends Component {
                         rel="stylesheet"
                         to={`/search/${item}?keyword=${item}`}
                         key={index}
+                        onClick={()=>this.goHotPost(item)}
                       >
                         {item}
                       </Link>

@@ -15,9 +15,8 @@ import searchIocn from '../../static/searchIocn.png'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
-// import { loggingStatus } from '../../actions/userStatus'
-// import SearchUser from './SearchUser'
-// import { domainToASCII } from 'url';
+const tiggerCity = '城市'
+const triggerFrom = '触发来源'
 
 @withRouter
 @connect(state => ({
@@ -47,6 +46,15 @@ class MySearchBar extends PureComponent {
 
   formatArea(value) {
     return value.length ? value.optIndex[value[0]] : '城市'
+  }
+
+  goRegister = () => {
+    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '首页个人中心icon' })
+  }
+
+  cityFiltrate =() =>{
+    console.log(12312312312)
+    // window.zhuge.track('城市筛选', { [`${tiggerCity}`]: this.props.supers.location.address.code })
   }
 
   componentDidMount() {
@@ -89,7 +97,7 @@ class MySearchBar extends PureComponent {
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
           <div className={style.leftContant}>
-            <div>
+            <div onClick={this.cityFiltrate}>
               <Area
                 {...getFieldProps('areas', {
                   initialValue: supers.location.address.code,
@@ -126,24 +134,30 @@ class MySearchBar extends PureComponent {
               autoplay
               infinite
             >
-              <div className={style.searchItem}><img src={searchIocn}/>搜索职位/公司</div>
-              <div className={style.searchItem}>{`${this.props.banner.job_nums}个职位更新`}</div>
+              <div className={style.searchItem}>
+                <img src={searchIocn} />
+                搜索职位/公司
+              </div>
+              <div className={style.searchItem}>{`${
+                this.props.banner.job_nums
+              }个职位更新`}</div>
             </Carousel>
           ) : null}
         </div>
         {this.props.SearchUser ? (
           <Link
-            rel="stylesheet"
             to={
               is_login
                 ? `/user?redirect=${this.props.location.pathname}`
                 : `/register?redirect=${this.props.location.pathname}`
             }
+            onClick={this.goRegister}
           >
             <img
               src={is_login ? (photo ? photo : Userdefault) : personal}
               alt="img"
               className={style.personal}
+              
             />
           </Link>
         ) : null}

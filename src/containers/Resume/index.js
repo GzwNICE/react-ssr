@@ -58,6 +58,7 @@ class Resume extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('简历页面打开')
     this.bitmapMin = new BitmapMin({
       width: 360, // 最大宽度
       height: 360, // 最大高度

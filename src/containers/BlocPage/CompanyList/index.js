@@ -6,9 +6,9 @@ import { ListView } from 'antd-mobile'
 import { blocList, blocCategory, blocSearch } from '../../../actions/company'
 import JobList from '../../../components/JobList'
 import companyLogo from '../../../static/detailLogo.png'
-// import detailLogo from '../../../static/detailLogo.png'
 import missing from '../../../static/missing.png'
 import style from '../style.less'
+const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
@@ -85,6 +85,18 @@ class CompanyList extends Component {
     this.scrollTop = top
   }
 
+  goPostion = () =>{
+    window.zhuge.track('职位详情页打开', {
+      [`${triggerFrom}`]: '名企搜索列表页',
+    })
+  }
+
+  goCompany = () =>{
+    window.zhuge.track('企业详情页打开', {
+      [`${triggerFrom}`]: '名企列表页',
+    })
+  }
+
   componentDidMount() {
     const c_userid = this.props.match.params.c_userid
     const height =
@@ -142,6 +154,7 @@ class CompanyList extends Component {
             this.props.location.pathname
           }`}
           key={d.job_id}
+          onClick={this.goPostion}
         >
           <JobList.JobList data={d} />
         </Link>
@@ -150,6 +163,7 @@ class CompanyList extends Component {
           rel="stylesheet"
           to={`/${d.c_userid}?redirect=${this.props.location.pathname}`}
           key={d.c_userid}
+          onClick={this.goCompany}
         >
           <div className={style.ContentModule}>
             <img

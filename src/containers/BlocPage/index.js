@@ -59,7 +59,8 @@ export default class CompanyArea extends Component {
 
   /* 下载或者打开app */
   downLoadAd = () => {
-    // window.zhuge.track('下载App')
+    const triggerFrom = '触发来源'
+    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
@@ -169,7 +170,7 @@ export default class CompanyArea extends Component {
           c_userid: c_userid,
           local: '',
           c_id: '',
-        })
+        })    
       ).then(res=>{
         Toast.hide()
         this.setState({
@@ -252,6 +253,7 @@ export default class CompanyArea extends Component {
           <RegisterWrap
             onCloseReg={this.handleCloseReg.bind(this)}
             location={this.props.history.location.pathname}
+            zhugeFrom="名企页底部推荐注册"
           />
         ) : null}
       </div>

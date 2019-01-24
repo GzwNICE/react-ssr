@@ -1,14 +1,20 @@
 /**
- * Created by huangchao on 2017/10/12.
+ * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
 import style from './style.less'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
-import { NavBar, SwipeAction, ListView } from 'antd-mobile'
+import { connect } from 'react-redux'
+import { SwipeAction, ListView } from 'antd-mobile'
 import CollectCompanyItemWrap from '../../components/CollectCompanyItem'
 import Nothing from '../../components/Nothing'
-import {getCollectCompantInit, deleteCompany, saveScrollTop, deleteCache} from '../../actions/CollectCompany'
+import {
+  getCollectCompantInit,
+  deleteCompany,
+  saveScrollTop,
+  deleteCache,
+} from '../../actions/CollectCompany'
+const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
@@ -17,12 +23,11 @@ import {getCollectCompantInit, deleteCompany, saveScrollTop, deleteCache} from '
   }
 })
 class SelectCompany extends PureComponent {
-
   constructor(props) {
     super(props)
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+    })
     this.state = {
       dataSource,
     }
@@ -37,9 +42,11 @@ class SelectCompany extends PureComponent {
 
   /*删除记录*/
   cancleCollect = id => {
-    this.props.dispatch(deleteCompany({
-      company_id: id,
-    }))
+    this.props.dispatch(
+      deleteCompany({
+        company_id: id,
+      })
+    )
   }
 
   onScroll = () => {
@@ -47,6 +54,9 @@ class SelectCompany extends PureComponent {
     this.scrollTop = scrollTop
   }
 
+  goPostion = () => {
+    window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '关注的企业' })
+  }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
@@ -57,13 +67,16 @@ class SelectCompany extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const scrollTop = nextProps.scrollTop
     if (nextProps.list && this.props.list !== nextProps.list) {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
-      }, () => {
-        if(scrollTop !== 0) {
-          this.refs['page'].scrollTo(0,scrollTop)
+      this.setState(
+        {
+          dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
+        },
+        () => {
+          if (scrollTop !== 0) {
+            this.refs['page'].scrollTo(0, scrollTop)
+          }
         }
-      })
+      )
     }
   }
 
@@ -74,8 +87,8 @@ class SelectCompany extends PureComponent {
   }
 
   render() {
-    const {list} = this.props
-    const Row = (data) => {
+    const { list } = this.props
+    const Row = data => {
       return (
         <SwipeAction
           autoClose
@@ -83,11 +96,15 @@ class SelectCompany extends PureComponent {
             {
               text: '删除',
               onPress: () => this.cancleCollect(data.company_id),
-              style: { backgroundColor: '#F4333C', color: 'white', width: '120px' },
+              style: {
+                backgroundColor: '#F4333C',
+                color: 'white',
+                width: '120px',
+              },
             },
           ]}
         >
-          <Link  to={`/${data.company_id}`}>
+          <Link to={`/${data.company_id}`} onClick={this.goPostion}>
             <CollectCompanyItemWrap {...data} />
           </Link>
         </SwipeAction>
@@ -96,8 +113,7 @@ class SelectCompany extends PureComponent {
     return (
       <div className={style.SelectCompanyWrap}>
         <div id="page" className={style.listbox} onScroll={this.onScroll}>
-          {
-            list.length > 0 ?
+          {list.length > 0 ? (
             <ListView
               ref="page"
               dataSource={this.state.dataSource}
@@ -112,9 +128,15 @@ class SelectCompany extends PureComponent {
                 height: 'calc(100vh - 0.95rem)',
               }}
               onScroll={this.onScroll}
-              />
-              : <Nothing font="关注企业后，第一时间收到企业发布的最新职位，快去关注吧！" botton="去关注" link="/" height="0.95rem"/>
-          }
+            />
+          ) : (
+            <Nothing
+              font="关注企业后，第一时间收到企业发布的最新职位，快去关注吧！"
+              botton="去关注"
+              link="/"
+              height="0.95rem"
+            />
+          )}
         </div>
       </div>
     )

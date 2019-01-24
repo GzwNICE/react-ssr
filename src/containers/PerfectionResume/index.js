@@ -35,6 +35,7 @@ class MicroResume extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('微简历-完善信息页面打开')
     setTimeout(() => {
       if (!auth.user_id && !Cookies('ticket')) {
         this.goLogin()

@@ -1,13 +1,11 @@
 /**
- * Created by huangchao on 2017/10/18.
+ * Created by gaozhiwen on 2019/01/13.
  */
 
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import style from './style.less'
-// import Rectangle from '../../static/Rectangle@3x.png'
-// import logopng from '../../static/logo@320x.png'
 import passwordno from '../../static/paswordno@3x.png'
 import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
@@ -16,6 +14,7 @@ import { withRouter } from 'react-router-dom'
 import { loggingStatus } from '../../actions/userStatus'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
+const triggerType = "类型"
 
 @createForm()
 @withRouter
@@ -48,13 +47,16 @@ class Login extends PureComponent {
   }
   goRegister = (url, key) => {
     const search = window.location.search
+    const triggerFrom = '触发来源'
     if (key) {
-      // window.zhuge.track('手机号注册')
+      window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '登录页点击注册' })
+    }else {
+      window.zhuge.track('忘记密码')
     }
     if (search) {
-      this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
+      this.props.history.replace(`${url}` + search, { key: '登录' })
     } else {
-      this.props.history.replace(url, { key: '登录弹窗' })
+      this.props.history.replace(url, { key: '登录' })
     }
   }
 
@@ -114,12 +116,7 @@ class Login extends PureComponent {
           .then(data => {
             if (data) {
               Toast.info('登录成功', 2)
-              // window.zhuge.track('登录页面填写', {
-              //   登录成功: '',
-              //   用户ID: data.user_id,
-              //   手机号: data.phone,
-              //   邮箱: data.email,
-              // })
+              window.zhuge.track('密码登录成功')
               window.zhuge.identify(data.user_id)
               Cookies.set('reigsterMobile', data.phone)
               this.props.dispatch(loggingStatus()).then(() => {
@@ -138,9 +135,9 @@ class Login extends PureComponent {
             }
           })
           .catch(err => {
-            // window.zhuge.track('登录页面填写', {
-            //   登录失败: err.errMsg,
-            // })
+            window.zhuge.track('密码登录失败', {
+              [`${triggerType}`]: err.errMsg,
+            })
             Toast.info(err.errMsg, 2)
           })
       }
@@ -153,12 +150,6 @@ class Login extends PureComponent {
     })
   }
 
-  // componentDidMount() {
-  //   const {key} = this.props.location.state || {}
-  //   window.zhuge.track('登录页面打开', {
-  //     '触发来源': key || '我的',
-  //   })
-  // }
 
   render() {
     const { getFieldProps } = this.props.form
@@ -197,7 +188,7 @@ class Login extends PureComponent {
             </a>
           </div>
           <div className={style.otherLogin}>
-            <div onClick={() => this.goRegister(`/register`, '手机号注册')}>
+            <div onClick={() => this.goRegister(`/register`, '登录页点击注册')}>
               <span>立即注册</span>
             </div>
             <div className={style.rule} />

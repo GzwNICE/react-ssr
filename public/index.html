@@ -42,7 +42,7 @@
       //     dpr = 1;
       //   }
       //   var scale = 1 / dpr;
-      //
+      
       //   var metaEl = doc.querySelector('meta[Name="viewport"]');
       //   if (!metaEl) {
       //     metaEl = doc.createElement('meta');
@@ -76,8 +76,9 @@
           a.type = "text/javascript";a.id = "zhuge-js";a.async = !0;a.src = (location.protocol == 'http:' ? "http://sdk.zhugeio.com/zhuge.min.js?v=" : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr;
           a.onerror = function(){window.zhuge.identify = window.zhuge.track = function(ename, props, callback){if(callback && Object.prototype.toString.call(callback) === '[object Function]')callback();};};
           var c = document.getElementsByTagName("script")[0];c.parentNode.insertBefore(a, c);window.zhuge._init(b, x)}};
-      window.zhuge.load('d4a8ee42253b448a8b54eedb2c58c590',{
-        visualizer: true
+      window.zhuge.load('fc27aedcde6a4de3b4f681ad5f08ab42',{
+        visualizer: true,
+        debug:true,
       });
     </script>
 
@@ -116,13 +117,13 @@
     -->
 
     <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
-    <!-- <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273173446' type='text/javascript'%3E%3C/script%3E"));</script> -->
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273173446' type='text/javascript'%3E%3C/script%3E"));</script>
     <!--微信share-->
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
     <script src="https://api.map.baidu.com/api?v=2.0&ak=a4izOFN6pDpKi5ni1chTavgsv8rN6aMa&s=1"></script>
   </body>
-  <!-- <script>
+  <script>
     var as = document.getElementsByTagName('a');
     var current = as.length - 1;
     as[current].style.display = 'none';
@@ -135,5 +136,5 @@
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script> -->
+  </script>
 </html>

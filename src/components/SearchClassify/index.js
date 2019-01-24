@@ -36,7 +36,7 @@ class SearchClassify extends PureComponent {
     return result
   }
   render() {
-    let {src, title, data = [], callback, scope} = this.props
+    let { data = [], callback, scope} = this.props
     return (
       <div className={style.SearchClassify}>
        

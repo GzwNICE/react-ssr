@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import style from '../style.less'
+const triggerFrom = '触发来源'
 
 export default class CompanyDuce extends Component {
   constructor(props) {
@@ -23,8 +24,7 @@ export default class CompanyDuce extends Component {
   }
 
   goLogin = () => {
-    // window.zhuge.track('登陆后查看')
-    // const search = this.props.history.location.search ? this.props.history.location.search : '?'
+    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '企业联系方式获取' })
     const pathname = this.props.history.location.pathname
     const url = `/register?redirect=${pathname}`
     this.props.history.replace(url, {key: '获取联系方式'})
@@ -34,6 +34,7 @@ export default class CompanyDuce extends Component {
     this.setState({
       open: false,
     })
+    window.zhuge.track('公司介绍展开')
   }
 
   handleChange(i) {

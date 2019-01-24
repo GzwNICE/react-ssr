@@ -1,5 +1,5 @@
 /**
- * Created by huangchao on 2017/10/18.
+ * Created by gaozhiwen on 2019/01/13.
  */
 
 import React, { PureComponent } from 'react'
@@ -8,16 +8,13 @@ import {connect} from 'react-redux'
 import style from './style.less'
 import queryString from 'query-string'
 import Alert from '../../components/Alert'
-// import F from '../../helper/tool'
 import { createForm } from 'rc-form'
-// import {captcha} from '../../actions/auth'
-// import ThirdPartyLogin from '../../components/ThirdPartyLogin'
 import { loggingStatus } from '../../actions/userStatus'
 import {mobile, loginCode} from '../../actions/auth'
 import {errCode} from "../../helper/errCode";
 import { withRouter } from 'react-router-dom'
 import County from '../../inputs/County'
-// import {ACCOUNT_GET_MOBILE, GET_ACCOUNT_PAGE_DATA} from "../../actions/bindExistAccount";
+const triggerType = "类型"
 
 @createForm()
 @withRouter
@@ -86,9 +83,6 @@ class LoginCode extends PureComponent {
 
   getCode = () => {
     const upperLimit = this.showModal('upperLimit')
-    // window.zhuge.track('验证码登录', {
-    //   '获取验证码': '',
-    // })
     this.props.form.validateFields((err, value) => {
       this.setState({
         number: value.number,
@@ -118,6 +112,7 @@ class LoginCode extends PureComponent {
                   tipFont: `${this.state.index -1}s`,
                 })
               }, 999)
+              window.zhuge.track('获取验证码成功_登录')
             } else {
               const flag = data.flag
               const errMs = errCode[flag]
@@ -128,6 +123,9 @@ class LoginCode extends PureComponent {
               }else{
                 Toast.info(errMs, 2)
               }
+              window.zhuge.track('获取验证码失败_登录',{
+                [`${triggerType}`]: errMs,
+              })
             }
           })
         }
@@ -163,12 +161,7 @@ class LoginCode extends PureComponent {
         }).then(data => {
           if(data) {
             Toast.info('登录成功', 2)
-            // window.zhuge.track('验证码登录', {
-            //   '登录成功': '',
-            //   '用户ID': data.user_id,
-            //   '手机号': data.phone,
-            //   '邮箱': data.email,
-            // })
+            window.zhuge.track('验证码登录')
             this.props.dispatch(loggingStatus()).then(() => {
               setTimeout(() => {
                 if(parsed.redirect) {
@@ -181,9 +174,9 @@ class LoginCode extends PureComponent {
           }
         })
           .catch(err => {
-            // window.zhuge.track('验证码登录', {
-            //   '登录失败': err.errMsg,
-            // })
+            window.zhuge.track('验证码登录失败', {
+              [`${triggerType}`]: err.errMsg,
+            })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
               this.props.dispatch({type: 'GET_ACCOUNT_PAGE_DATA', payload })
@@ -218,13 +211,14 @@ class LoginCode extends PureComponent {
 
   goRegister = (url, key) => {
     const search = window.location.search
+    const triggerFrom = '触发来源'
     if(key) {
-      // window.zhuge.track('手机号注册')
+      window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '登录页点击注册' })
     }
     if(search) {
-      this.props.history.replace(`${url}` + search, {key: '登录弹窗'})
+      this.props.history.replace(`${url}` + search, {key: '登录'})
     } else {
-      this.props.history.replace(url, {key: '登录弹窗'})
+      this.props.history.replace(url, {key: '登录'})
     }
   }
 
@@ -273,7 +267,7 @@ class LoginCode extends PureComponent {
         <div onClick={this.login} className={style.subBtn}>
           <a className={this.state.disabled ? null : `${style.disabled}`}>登 录</a>
         </div>
-        <div onClick={() => this.props.history.replace(`/register${window.location.search}`)} className={style.goRegister}>
+        <div onClick={() => this.goRegister(`/register`, '登录页点击注册')} className={style.goRegister}>
           <span>立即注册</span>
         </div>
         <Alert
@@ -282,7 +276,6 @@ class LoginCode extends PureComponent {
           closable={0}
           visible={this.state.upperLimit}
           onClose={this.onClose('upperLimit')}
-          // message={`手机号${this.state.number}验证码达到上限(5次）,今日无法继续发送`}
           message={`当前手机号请求验证码次数过多，请稍后再试`}
           actions={[
             {

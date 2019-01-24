@@ -27,9 +27,9 @@ class ShowArticle extends PureComponent {
     return (
       <div className={style.articleWrap}>
         <div className={style.title}>{this.props.title}</div>
-        {this.props.data.apply_nums ? (
+        {this.props.data.recruit_num ? (
           <div className={style.recruitingNum}>{`招聘人数：${
-            this.props.data.apply_nums
+            this.props.data.recruit_num
           }人`}</div>
         ) : null}
         <div className={style.moreArticle}>

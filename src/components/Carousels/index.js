@@ -1,9 +1,10 @@
-import React,{PureComponent, Component} from 'react'
+import React, { PureComponent, Component } from 'react'
 import { Carousel } from 'antd-mobile'
 import PropTypes from 'prop-types'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { getBanner } from '../../actions/banner'
+const triggerFrames = "帧"
 
 @connect(state => {
   return {
@@ -19,28 +20,27 @@ class Carousels extends (PureComponent || Component) {
   }
   goPosition = (val, key) => {
     const banner = key + 1
-    // window.zhuge.track('banner', {
-    //   "帧": banner,
-    // })
+    window.zhuge.track('banner', {
+      [`${triggerFrames}`]: banner,
+    })
     if (val.action === '2') {
-      return  this.props.history.push(`/${val.c_userid}`)
+      return this.props.history.push(`/${val.c_userid}`)
     }
     if (val.action === '3') {
-      return  this.props.history.push(`/${val.c_userid}/${val.job_id}`)
+      return this.props.history.push(`/${val.c_userid}/${val.job_id}`)
     }
-    if(val.action === '1' || val.action === '4' || val.action === '5') {
-      return window.location.href = val.uri
+    if (val.action === '1' || val.action === '4' || val.action === '5') {
+      return (window.location.href = val.uri)
     }
   }
   componentDidMount() {
-    const {ad = []} = this.props.banner
+    const { ad = [] } = this.props.banner
     if (ad.length === 0) {
       this.props.dispatch(getBanner())
     }
   }
   render() {
-    let {ad = []} = this.props.banner
-    // const hProp = this.state.initialHeight ? { height: this.state.initialHeight } : {};
+    let { ad = [] } = this.props.banner
     return (
       <div className={style.CarouselsWrap}>
         <Carousel
@@ -52,27 +52,29 @@ class Carousels extends (PureComponent || Component) {
           dotStyle={DOT.dotStyle}
           dotActiveStyle={DOT.dotActiveStyle}
         >
-          {
-            ad.map((val, i) => {
-              // console.log(val);
-              return (<div key={i}
-                           style={{height: this.state.initialHeight}}
-                           className={style.aLink}>
+          {ad.map((val, i) => {
+            return (
+              <div
+                key={i}
+                style={{ height: this.state.initialHeight }}
+                className={style.aLink}
+              >
                 <img
-                  onClick={() => {this.goPosition(val, i)}}
+                  onClick={() => {
+                    this.goPosition(val, i)
+                  }}
                   src={val.image}
                   alt="img"
                   onLoad={() => {
-                    // fire window resize event to change height
                     window.dispatchEvent(new Event('resize'))
                     this.setState({
                       initialHeight: 'auto',
                     })
                   }}
                 />
-              </div>)
-            })
-          }
+              </div>
+            )
+          })}
         </Carousel>
       </div>
     )
