@@ -6,7 +6,7 @@ import LoginCode from '../LoginCode'
 import style from './style.less'
 import Rectangle from '../../static/back.png'
 import queryString from 'query-string'
-
+const triggerFrom = "触发来源"
 
 @connect(state => ({}))
 class LoginPage extends PureComponent {
@@ -21,6 +21,7 @@ class LoginPage extends PureComponent {
   }
 
   componentDidMount(){
+    window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '登录链接直接打开' })
     const login = sessionStorage.getItem('is_login')
     if(login){
       this.props.history.push('/user')

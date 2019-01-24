@@ -17,6 +17,7 @@ import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
 import Cookies from 'js-cookie'
 const triggerType = "类型"
+const triggerFrom = "触发来源"
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -205,13 +206,17 @@ class Register extends PureComponent {
     }
   }
 
-  goRegister = (url, key) => {
+  goLogin = (url, key) => {
+    if(key){
+      window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '注册页点击登录' })
+    }else {
+      window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '手机号已注册弹框点击登录' })
+    }
     const search = window.location.search
-
     if (search) {
-      this.props.history.replace(`${url}` + search, { key: '登录弹窗' })
+      this.props.history.replace(`${url}` + search, { key: '注册页面' })
     } else {
-      this.props.history.replace(url, { key: '登录弹窗' })
+      this.props.history.replace(url, { key: '注册页面' })
     }
   }
 
@@ -224,9 +229,6 @@ class Register extends PureComponent {
     }
   }
 
-  goLogin = () => {
-    this.props.history.push(`/login${window.location.search}`)
-  }
 
   componentDidMount() {
     // const { key } = this.props.location.state || {}
@@ -301,7 +303,7 @@ class Register extends PureComponent {
 
             <div className={Loginstyle.otherLogin}>
               <div />
-              <div onClick={() => this.goRegister('/login')}>
+              <div onClick={() => this.goLogin('/login', '注册页点击登录')}>
                 <span>直接登录</span>
               </div>
             </div>
@@ -343,7 +345,7 @@ class Register extends PureComponent {
             },
             {
               text: '登录',
-              onPress: () => this.goLogin(),
+              onPress: () => this.goLogin('/login'),
               type: 'ok',
             },
           ]}
