@@ -4,6 +4,7 @@ import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { Toast } from 'antd-mobile/lib/index'
+const triggerCity = "城市"
 
 @connect(state => {
   return {
@@ -68,8 +69,9 @@ class ComplexSelView extends ComplexFormField {
   filter = code => {
     return this.getValue().indexOf(code) >= 0
   }
-  selectValue = code => {
+  selectValue = (code,value) => {
     code = String(code)
+    window.zhuge.track('城市筛选', {[`${triggerCity}`]: value})
     if (this.props.maxLength > 1) {
       const { maxLength } = this.props
       let value = [...this.getValue()]
@@ -106,12 +108,6 @@ class ComplexSelView extends ComplexFormField {
   }
 
   changeValue = () => {
-    // console.log(this.props.pageName);
-    // if(this.props.pageName){
-    //   if(this.props.pageName === 'hangzhi'){
-    //     console.log(this.getValue());
-    //   }
-    // }
     if (this.props.onChange) {
       this.props.onChange(this.serialize(this.getValue()))
       this.changeVisible(false, true)
@@ -297,7 +293,7 @@ class ComplexSelView extends ComplexFormField {
                       <li
                         className={style.citymode}
                         onClick={() =>
-                          (this.props.onSelect || this.selectValue)(item.code)
+                          (this.props.onSelect || this.selectValue)(item.code,item.value)
                         }
                         style={{ color: isChecked ? '#FF4F00' : '#4A4A4A' }}
                         key={index}

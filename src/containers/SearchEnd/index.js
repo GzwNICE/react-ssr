@@ -24,7 +24,16 @@ import vacantIcon from '../../static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
 const option = store.get('m:option')
+const triggerPost = '职位'
 const triggerFrom = '触发来源'
+const tiggerCity = '地区'
+const tiggerSalary = '薪资'
+const tiggerIndustry = '行业类别'
+const tiggerUpdateTime = '发布日期'
+const tiggerDegree = '学历要求'
+const tiggerBoard = '食宿情况'
+const tiggerWorkMode = '职位性质'
+const tiggerKeyWord = '搜索词'
 
 @connect(state => {
   return {
@@ -109,11 +118,14 @@ class SearchEnd extends PureComponent {
       })
     }
     Toast.loading('Loading...');
-    this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+    this.props.dispatch(getSearchListInit(allQuery)).then((res) => {
       Toast.hide()
       this.setState({
         initLoading: false,
       })
+      if(res.data.count === 0){
+        window.zhuge.track('搜索无结果', { [`${tiggerKeyWord}`]: allQuery.keyword})
+      }
     })
 
     delete this.getQuery.keyword
@@ -207,31 +219,56 @@ class SearchEnd extends PureComponent {
   filterSearch = (value = {}) => {
     //zhuge统计
     let val = ''
-    if (value.position) {
-      // 记录职位
+    if (value.position) {// 记录职位
       const positions_index = option.positions_index || {}
       value.position.map(item => {
         val += positions_index[item] + ';'
         return null
       })
-      window.zhuge.track('工作筛选项', { 职位: val })
+      console.log(value.position);
+      window.zhuge.track('搜索无结果', { [`${triggerPost}`]: val })
     }
-    if (value.area) {
-      // 记录地区
+    if (value.area) {// 城市选择
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
-      window.zhuge.track('工作筛选项', { 地区: val })
+      window.zhuge.track('城市筛选', { [`${tiggerCity}`]: val })
     }
-    if (value.salary) {
-      // 记录薪资
-      const salary_scope_index =
-        (option.opts_salary && option.opts_salary.salary_scope_index) || {}
-      val = salary_scope_index[value.salary[0]]
-      window.zhuge.track('工作筛选项', { 薪资: val })
+    if (value.salary) {// 薪资
+      window.zhuge.track('薪资筛选', { [`${tiggerSalary}`]: `${value.salary[0]}-${value.salary[1]}` })
     }
-    if (value.more) {
-      // 记录更多
-      window.zhuge.track('工作筛选项', { 更多: 'click' })
+    if (value.more) { // 筛选
+      // 行业类别
+      const industry_index =
+        (option.opts_company_industry_all && option.opts_company_industry_all_index) || {}
+      const industry = industry_index[value.more.company_industry] || ''
+      // 发布日期
+      const update_time_index = (option.opts_update_time && option.opts_update_time_index) || {}
+      const update_time = update_time_index[value.more.update_time] || ''
+      // 学历要求 
+      const degree_level = (option.opts_search_degree && option.opts_education_index) || {}
+      const degree = degree_level[value.more.education] || ''
+      // 食宿情况  
+      const room_board = (option.opts_room_board && option.opts_room_board_index) || {}
+      const board = room_board[value.more.room_board] || ''
+      // 企业性质
+      const work_mode_index = (option.opts_search_work_mode && option.opts_work_mode_index) || {}
+      const work_mode = work_mode_index[value.more.work_mode] || ''
+      
+      if(industry){
+        window.zhuge.track('更多筛选', { [`${tiggerIndustry}`]:  industry})
+      }
+      if(update_time){
+        window.zhuge.track('更多筛选', { [`${tiggerUpdateTime}`]: update_time})
+      }
+      if(degree){
+        window.zhuge.track('更多筛选', { [`${tiggerDegree}`]: degree})
+      }
+      if(board){
+        window.zhuge.track('更多筛选', { [`${tiggerBoard}`]: board})
+      }
+      if(work_mode){
+        window.zhuge.track('更多筛选', { [`${tiggerWorkMode}`]: work_mode})
+      }
     }
 
     this.props.dispatch({
@@ -324,7 +361,6 @@ class SearchEnd extends PureComponent {
     if (salary && salary.indexOf('不限')) {
       salary = null
     }
-      console.log(salary)
     let ellipsis
     for (let key in more) {
       if (key !== 'company_industry') {

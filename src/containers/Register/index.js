@@ -187,7 +187,6 @@ class Register extends PureComponent {
             })
             if (err.errCode === -404) {
               const payload = JSON.parse(err.errMsg)
-              console.log(payload)
               this.props.dispatch({ type: 'GET_ACCOUNT_PAGE_DATA', payload })
               this.props.dispatch({
                 type: 'ACCOUNT_GET_MOBILE',
@@ -250,6 +249,7 @@ class Register extends PureComponent {
 
   componentWillUnmount() {
     this.timer && this.Clear()
+    this.props.dispatch({ type: 'ACCOUNT_IS_VERIFY', payload: '' })
   }
 
   render() {

@@ -58,13 +58,14 @@ class FilterSearch extends (PureComponent || Component) {
             <img src={angleDownGray} alt="" />
           </div>
         </div>
+
         <div className={style.item}>
           <Salary {...getFieldProps('salary', {
             initialValue: query.salary ? query.salary : {},
           })}>
           </Salary>
-        
         </div>
+
         <div className={style.item}>
           <More {...getFieldProps('more', {
             initialValue: query.more ? query.more : {},
