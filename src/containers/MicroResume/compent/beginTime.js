@@ -85,7 +85,6 @@ class JobTime extends PureComponent {
         </div>
       )
     }
-    console.log(value)
     return (
       <DatePicker
         mode="month"

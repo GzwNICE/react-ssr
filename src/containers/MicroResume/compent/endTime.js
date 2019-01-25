@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import { Picker } from 'antd-mobile'
-import style from './style.less'
+import style from '../style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import initDate from '../../helper/datePlugin'
+import initDate from '../../../helper/datePlugin'
 
 const YING_JIE_SHENG = '至今'
 
@@ -119,10 +119,9 @@ class JobTime extends PureComponent {
       return (
         <div
           onClick={onClick}
-          className={style.content}  
+          className = {style.joinTimeTadding}
         >
           {children}
-          <div className={style.rightIcon} aria-hidden="true" />
           <span style={{ float: 'right', color: '#888' }}>{extra}</span>
         </div>
       )
