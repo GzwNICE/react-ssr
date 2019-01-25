@@ -64,8 +64,9 @@
       }
     }
     .am-accordion .am-accordion-item .am-accordion-header i {
-      left: 65px;
+      right: 15px;
       top: 23px;
+      // display: none;
     }
     .am-accordion-header::after {
       height: 0;
@@ -150,6 +151,15 @@
     color: #4a4a4a;
     padding-left: 20px;
   }
+  :global {
+    .am-icon-md {
+      vertical-align: middle;
+      margin-bottom: 5px;
+      margin-left: 10px;
+      color: #979797;
+    }
+  }
+
 }
 .option {
   background: #f6f6f6;
@@ -297,4 +307,12 @@
   .white {
     color: #ffffff !important;
   }
+}
+
+.icondownup {
+  animation: rotateIcon .4s;
+}
+@keyframes rotateIcon {
+  0% {transform : rotate(0deg);}
+  100% {transform : rotate(360deg);}
 }

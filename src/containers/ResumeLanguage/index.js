@@ -62,6 +62,7 @@ class ResumeInfo extends PureComponent {
       inputChangeVal: '', // 添加技能输入框内容
       operation: false, // 页面只有有操作就为true,保存过为false
       goBackModalVisible: false, // 返回按钮点击时出现的弹框
+      iconup: ['0'], // 语言中icon向上的
     }
   }
   componentDidMount() {
@@ -149,9 +150,14 @@ class ResumeInfo extends PureComponent {
       operation: true,
     })
   }
-
+  accordionChange = (key) => {
+    console.log(key);
+    this.setState({
+      iconup: key,
+    })
+  }
   language = () => {
-    const { language } = this.state
+    const { language, iconup } = this.state
     const { opts_language } = this.props
     const data = [...ability]
     const arr = [
@@ -166,13 +172,11 @@ class ResumeInfo extends PureComponent {
       .filter(item => item.code !== 21)
       .map(item => {
         let obj = {
-          key: item.code,
+          key: String(item.code),
           title: item.value,
         }
         arr.push(obj)
       })
-      console.log(language)
-
     const content = arr.map((item, index) => {
       let showImg = false
       language.map(itemShow => {
@@ -180,12 +184,17 @@ class ResumeInfo extends PureComponent {
           showImg = true
         }
       })
+      // todo console.log(iconup)  这边自定义header为函数有问题
+      // {this.props.index === '0' ? <Icon type="down" /> : null}
+
       const header = (
         <div className={style.title}>
           {showImg ? <img src={tickImg} /> : null}
           <span>{item.title}</span>
+          
         </div>
       )
+ 
       return (
         <Accordion.Panel header={header} key={index}>
           <Flex className={style.option}>
@@ -214,7 +223,7 @@ class ResumeInfo extends PureComponent {
       )
     })
 
-    return <Accordion defaultActiveKey="0">{content}</Accordion>
+    return <Accordion defaultActiveKey="0" onChange={this.accordionChange}>{content}</Accordion>
   }
 
   onChange = (oldVal, value, key) => {

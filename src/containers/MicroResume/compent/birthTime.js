@@ -27,6 +27,36 @@ class JobTime extends PureComponent {
     this.setState({
       timeChange: false,
     })
+    const { value } = this.props
+    this.initVal(value)
+  }
+  componentWillReceiveProps(next) {
+    const { value } = next
+    this.initVal(value)
+  }
+  initVal = value => {
+    if (
+      value !== undefined &&
+      value &&
+      typeof value === 'string' &&
+      value.indexOf('-') !== -1
+    ) {
+      let arr = value.split('-')
+      let dt = moment()
+        .year(arr[0])
+        .month(arr[1] - 1)._d
+      this.setState({
+        timeChange: true,
+      })
+      this.setState({
+        value: dt,
+      })
+      const onChange = this.props.onChange
+
+      if (onChange) {
+        onChange(dt)
+      }
+    }
   }
   onChange = value => {
     this.setState({
@@ -44,7 +74,7 @@ class JobTime extends PureComponent {
 
   render() {
     const { value, timeChange } = this.state
-    const { title = '' } = this.props
+    const { title } = this.props
     const CustomChildren = ({ extra, onClick, children }) => {
       extra = timeChange ? extra : '请选择'
       return (

@@ -17,6 +17,8 @@ import JobTime from './compent/jobTime'
 import BirthTime from './compent/birthTime'
 import GraduateTime from './compent/graduateTime'
 import JoinJobTime from './compent/joinJobTime'
+import BeginTime from './compent/beginTime'
+
 import School from '../../components/SchoolSearch'
 import GobackModal from '../../components/GoBackModal/index1'
 import BorderBottomLine from '../../components/BorderBottomLine'
@@ -34,6 +36,7 @@ const isNull = str => {
   return {
     auth: state.auth,
     resume: state.resume,
+    microresumeParams: state.microresume.microresumeParams,
   }
 })
 @createForm({
@@ -65,24 +68,24 @@ class MicroResume extends PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (!auth.user_id && !Cookies('ticket')) {
-        this.goLogin()
-      } else {
-        this.props
-          .dispatch(
-            getAllInfo({
-              // version: '5.2.1',
-              appchannel: 'web',
-            })
-          )
-          .then(data => {
-            if (this.props.resume.true_name_cn) {
-              this.props.history.replace('/resume')
-            }
-          })
-      }
-    }, 400)
+    // setTimeout(() => {
+    //   if (!auth.user_id && !Cookies('ticket')) {
+    //     this.goLogin()
+    //   } else {
+    //     this.props
+    //       .dispatch(
+    //         getAllInfo({
+    //           // version: '5.2.1',
+    //           appchannel: 'web',
+    //         })
+    //       )
+    //       .then(data => {
+    //         if (this.props.resume.true_name_cn) {
+    //           this.props.history.replace('/resume')
+    //         }
+    //       })
+    //   }
+    // }, 400)
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
@@ -174,7 +177,7 @@ class MicroResume extends PureComponent {
         mobile: Cookies.get('reigsterMobile'),
       }
       console.log(params)
-      this.handleSave(params)
+      // this.handleSave(params)
     })
   }
   // 在校简历继续完善
@@ -267,15 +270,51 @@ class MicroResume extends PureComponent {
       this.props.history.push('/resume/micro/perfect' + search)
     }
   }
+
   jobRender = () => {
-    const { form } = this.props
+    const { form, microresumeParams } = this.props
     const { getFieldProps } = form
+    let obj ={
+      begin_month:"1",
+      begin_year:"2018",
+      birthday:"1997-1",
+      company_name_cn:"粤海（国际）酒店管理集团有限公司",
+      end_month:"2",
+      end_year:"2018",
+      gender: 1,
+      mobile: "17528000000",
+      position_cn:"紧急职位",
+      true_name_cn:"zhang",
+      work_date:"2018-1",
+    }
+    const {
+      true_name_cn,
+      gender,
+      birthday,
+      work_date,
+      company_name_cn,
+      position_cn,
+      begin_year,
+      begin_month,
+      end_year,
+      end_month,
+    } = obj
+    const job_time = {
+      begin_year,
+      begin_month,
+      end_year,
+      end_month,
+    }
+    const begin_time = `${begin_year}-${begin_month}`
+    console.log(begin_time)
     return (
       <div className={style.job}>
         <div className={style.underlineleft} />
         <div className={style.jobtontent}>
           <InputItem
-            {...getFieldProps('true_name_cn')}
+            {...getFieldProps('true_name_cn', {
+              initialValue: !true_name_cn ? null : true_name_cn,
+            })}
             clear
             placeholder="请填写"
           >
@@ -285,31 +324,61 @@ class MicroResume extends PureComponent {
           <BorderBottomLine />
           <Gender
             {...getFieldProps('gender', {
-              initialValue: 1,
+              initialValue: !gender ? 1 : gender,
             })}
           >
             <List.Item>性别</List.Item>
           </Gender>
           <BorderBottomLine />
 
-          <BirthTime title="出生年月" {...getFieldProps('birthday', {})} />
+          <BirthTime
+            title="出生年月"
+            {...getFieldProps('birthday', {
+              initialValue: !birthday ? null : birthday,
+            })}
+          />
 
           <BorderBottomLine />
           <JoinJobTime
             title="参加工作时间"
-            {...getFieldProps('work_date', {})}
+            {...getFieldProps('work_date', {
+              initialValue: !work_date ? null : work_date,
+            })}
           />
 
           <BorderBottomLine />
-          <Company {...getFieldProps('company_name_cn', {})} extra="请填写">
+          <Company
+            {...getFieldProps('company_name_cn', {
+              initialValue: !company_name_cn ? null : company_name_cn,
+            })}
+            extra="请填写"
+          >
             <List.Item arrow="horizontal">最近所在公司</List.Item>
           </Company>
           <BorderBottomLine />
-          <Job {...getFieldProps('position_cn', {})} extra="请填写">
+          <Job
+            {...getFieldProps('position_cn', {
+              initialValue: !position_cn ? null : position_cn,
+            })}
+            extra="请填写"
+          >
             <List.Item arrow="horizontal">最近所任职位</List.Item>
           </Job>
           <BorderBottomLine />
-          <JobTime {...getFieldProps('job_time', {})} />
+          
+          <BeginTime
+          title="最近工作时间"
+          {...getFieldProps('begin_time', {
+            initialValue: !begin_time ? null : begin_time,
+          })}
+          ></BeginTime>
+
+          
+          <JobTime
+            {...getFieldProps('job_time', {
+              initialValue: !job_time ? job_time : null,
+            })}
+          />
           <BorderBottomLine />
         </div>
 
@@ -370,6 +439,11 @@ class MicroResume extends PureComponent {
         </div>
       </div>
     )
+  }
+  componentWillReceiveProps() {
+    this.setState({
+      changeVal: false,
+    })
   }
   render() {
     const { initialPage, goBackModalVisible } = this.state
