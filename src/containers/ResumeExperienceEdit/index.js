@@ -63,7 +63,7 @@ class ResumeExperienceEdit extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
+      // console.log(values)
 
       if (!values.company_name_cn) {
         return Toast.info('请填写企业名称', 2)
@@ -93,7 +93,7 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (!values.salary) {
-        return Toast.info('请填写税前薪资', 2)
+        return Toast.info('请填写税前月薪', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '工作经历' })
@@ -112,7 +112,7 @@ class ResumeExperienceEdit extends PureComponent {
         job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       }
-      console.log(parmas)
+      // console.log(parmas)
       this.props.dispatch(workExpsEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)
@@ -168,7 +168,7 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
-
+    console.log(end_time)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

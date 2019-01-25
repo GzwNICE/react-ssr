@@ -34,6 +34,7 @@ class JobTime extends PureComponent {
   }
   componentWillReceiveProps(next) {
     const { value } = next
+    // console.log(value)
     this.initVal(value)
   }
   initVal = (value) => {

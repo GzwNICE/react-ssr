@@ -194,7 +194,7 @@ class Resume extends PureComponent {
     }
   }
   componentWillReceiveProps(next) {
-    console.log(next)
+    // console.log(next)
     const {skills, languages, other_exps} = next
     if (skills.length === 0 || languages.length === 0) {
       if (other_exps.length === 0) {
