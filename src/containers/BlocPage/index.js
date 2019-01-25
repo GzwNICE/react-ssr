@@ -4,7 +4,6 @@ import Search from '../../components/SearchBar/Search'
 import { Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
-// import { createForm } from 'rc-form'
 import {
   blocList,
   blocSearch,
@@ -16,6 +15,9 @@ import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
 import style from './style.less'
+const tiggerKeyWord = '搜索词'
+const tiggerCity = '地区'
+const tiggerBrand = '品牌'
 
 // const querys = {
 //   area: [],
@@ -42,6 +44,8 @@ import style from './style.less'
   searchPager: state.company.searchPager,
   query: state.search.query,
   searchState: state.search.searchState,
+  option: state.option,
+  company: state.company,
 }))
 export default class CompanyArea extends Component {
   state = {
@@ -72,6 +76,19 @@ export default class CompanyArea extends Component {
   }
 
   handleFilerSearch = (value = {}) => {
+    const option = this.props.option
+    if (value.area) {// 城市选择
+      const areas_index = option.areas_index || {}
+      const city = areas_index[value.area[0]]
+      window.zhuge.track('名企城市筛选', { [`${tiggerCity}`]: city })
+    }
+
+    if (value.brand) {// 薪资
+      const brand_index = this.props.company.brand || []
+      const brand = brand_index.filter(v=>v.code===value.brand[0])[0].value || ''
+      window.zhuge.track('名企品牌筛选', { [`${tiggerBrand}`]: brand })
+    }
+    
     this.props.dispatch(blocSearchClear())
     this.props.dispatch(
       saveQuery({
@@ -211,7 +228,11 @@ export default class CompanyArea extends Component {
             c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
             key_words: nextProps.query.keywords && nextProps.query.keywords,
           })
-        )
+        ).then((res)=>{
+          if(res.data.data.length === 0 || res.data.pager.total === 0){
+            window.zhuge.track('名企搜索无结果', { [`${tiggerKeyWord}`]: nextProps.query.keywords && nextProps.query.keywords })
+          }
+        })
       } else {
         this.props.dispatch(
           blocList({

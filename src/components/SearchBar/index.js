@@ -52,10 +52,6 @@ class MySearchBar extends PureComponent {
     window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '首页个人中心icon' })
   }
 
-  cityFiltrate =() =>{
-    console.log(12312312312)
-    // window.zhuge.track('城市筛选', { [`${tiggerCity}`]: this.props.supers.location.address.code })
-  }
 
   componentDidMount() {
     if (this.props.autoFocus) {
@@ -97,7 +93,7 @@ class MySearchBar extends PureComponent {
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
           <div className={style.leftContant}>
-            <div onClick={this.cityFiltrate}>
+            <div >
               <Area
                 {...getFieldProps('areas', {
                   initialValue: supers.location.address.code,
