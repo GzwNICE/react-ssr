@@ -81,7 +81,6 @@ class ResumeInfo extends PureComponent {
       )
       .then(() => {
         const { languages, skills } = this.props
-        // console.log(languages)
         // console.log(skills)
 
         let arrLan = languages.map(item => {
@@ -172,6 +171,7 @@ class ResumeInfo extends PureComponent {
         }
         arr.push(obj)
       })
+      console.log(language)
 
     const content = arr.map((item, index) => {
       let showImg = false

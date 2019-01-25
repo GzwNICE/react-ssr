@@ -154,7 +154,7 @@ export const bindMobile = (params) => {
   // :ve.m/client-service/api/mobile
   // :ve.mobile.interface/client-service/api/mobile
   return axios({
-    url: toRealUrl(':ve.m/client-service/api/mobile'),
+    url: toRealUrl(':ve.mobile.interface/client-service/api/mobile'),
     credentials: 'include',
     method: 'post',
     data: parseBody({
