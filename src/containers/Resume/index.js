@@ -194,8 +194,8 @@ class Resume extends PureComponent {
     }
   }
   componentWillReceiveProps(next) {
-    // console.log(next)
     const {skills, languages, other_exps} = next
+
     if (skills.length === 0 || languages.length === 0) {
       if (other_exps.length === 0) {
         this.setState({
@@ -227,9 +227,9 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage, toInfo, search, showToogleModal } = this.state
-    // console.log(
-    //   (languages.length === 0)
-    // )
+    console.log(
+      showToogleModal
+    )
     // console.log(
     //   toogle || (languages.length === 0 && skills.length === 0)
     // )
@@ -445,7 +445,7 @@ class Resume extends PureComponent {
                           value={`${item.job_responsibilities_cn || ''}`}
                           editable={false}
                         />
-                      ) : <p>暂未填写岗位</p>}
+                      ) : <p>暂未填写岗位职责</p>}
 
                       {work_exps.length - 1 !== key ? (
                         <div className={style['card-education-wraper-line']} />

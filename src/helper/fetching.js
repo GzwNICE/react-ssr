@@ -63,7 +63,7 @@ export default (options) => {
 /**
  * 代理服务
  */
-export const baseUrl = 'https://m.veryeast.cn/s'
+export const baseUrl = '//m.veryeast.cn/s'
 
 /**
  * 数据请求

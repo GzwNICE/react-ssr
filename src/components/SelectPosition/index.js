@@ -99,9 +99,11 @@ class ComplexSelView extends ComplexFormField {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.root && JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)) {
-      this.setState({ value: nextProps.value })
-    }
+    this.setState({ value: nextProps.value })
+    // if (this.props.root && JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)) {
+    //   this.setState({ value: nextProps.value })
+    //   console.log(nextProps.value)
+    // }
   }
   componentDidUpdate(){
     if (this.refDom) {
@@ -143,16 +145,17 @@ class ComplexSelView extends ComplexFormField {
 
 
   optView() {
-    const selected = this.getValue() || []
+    // const selected = this.getValue() || []
+    const { value } = this.state
     return (
       <div className={style.selected} ref={this.saveRef}>
         {
-          selected.length === 0 ? <div className={style.title}>{`最多可选 ${this.props.maxLength} 个`}</div> : null
+          value.length === 0 ? <div className={style.title}>{`最多可选 ${this.props.maxLength} 个`}</div> : null
         }
         <div className={style.num}>
-          {selected.length}<span>/{this.props.maxLength}</span>
+          {value.length}<span>/{this.props.maxLength}</span>
         </div>
-        {selected.map(code => (
+        {value.map(code => (
           <div key={code} className={style["select-content"]}>
             <slot>{this.props.optIndex ? this.props.optIndex[code] : null}</slot>
             <Icon onClick={() => (this.props.onSelect || this.selectValue)(code)} type="cross"/>
