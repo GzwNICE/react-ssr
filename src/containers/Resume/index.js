@@ -56,6 +56,7 @@ class Resume extends PureComponent {
     percentage: '',
     toInfo: '', // 跳转到基本信息
     search: '', // history search
+    showToogleModal: false, // 底部toogle是否展示
   }
 
   componentDidMount() {
@@ -192,6 +193,25 @@ class Resume extends PureComponent {
       this.props.history.push('/home')
     }
   }
+  componentWillReceiveProps(next) {
+    console.log(next)
+    const {skills, languages, other_exps} = next
+    if (skills.length === 0 || languages.length === 0) {
+      if (other_exps.length === 0) {
+        this.setState({
+          toogle: true,
+        })
+      }
+    }
+    if (skills.length > 0 || languages.length > 0) {
+      if (other_exps.length > 0) {
+        this.setState({
+          showToogleModal: true,
+          toogle: false,
+        })
+      }
+    }
+  }
   render() {
     const {
       option,
@@ -206,9 +226,12 @@ class Resume extends PureComponent {
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage, toInfo, search } = this.state
+    const { toogle, percentage, toInfo, search, showToogleModal } = this.state
     // console.log(
-    //   DesiredJob.desired_salary
+    //   (languages.length === 0)
+    // )
+    // console.log(
+    //   toogle || (languages.length === 0 && skills.length === 0)
     // )
     let desiredSalary = '暂无'
     if (DesiredJob.desired_salary && DesiredJob.desired_salary !== '0') {
@@ -574,7 +597,7 @@ class Resume extends PureComponent {
                 </Card>
               ) : null}
               {
-                skills.length > 0 && languages.length > 0 ?
+                showToogleModal ?
                 (
                   toogle ? 
                    (
