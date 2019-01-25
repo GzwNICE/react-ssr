@@ -210,12 +210,9 @@ class UserPage extends PureComponent {
             </div>
             <div className={style.left} onClick={this.goLogin}>
               <Link to={`/resume?source=/user${this.props.history.location.search}`}>
-                <div
+                <img
                   className={style.imgBox}
-                  style={{
-                    backgroundImage: `url(${this.props.userStatus.avatar ||
-                      headimg})`,
-                  }}
+                  src={this.props.userStatus.avatar || headimg}
                 />
               </Link>
             </div>

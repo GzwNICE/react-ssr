@@ -7,14 +7,11 @@ import store from 'store'
 import style from './style.less'
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form'
-// import {captcha} from '../../actions/auth'
+import { loggingStatus } from '../../actions/userStatus'
 import F from '../../helper/tool'
 import {bindMobile} from '../../actions/auth'
 import { mobile as mobile_bind } from '../../actions/bind'
 import PrefixMobile from '../../inputs/PrefixMobile'
-// import {bindMobile} from '../../actions/moreSeeting'
-// import LisetItem from '../../components/ListItem'
-// import { NavBar, Toast } from 'antd-mobile'
 
 @connect(state => {
   return {
@@ -158,6 +155,7 @@ class BindMoblePhone extends PureComponent {
         if(data.status === 1) {
           store.set('m:auth', {...this.props.auth, phone: this.state.mobile})
           this.props.dispatch({type: 'CHANGE_BIND_MOBILE'})
+          this.props.dispatch(loggingStatus())
           Toast.info('绑定成功', 2, ()=>{
             this.props.history.goBack()
           })
@@ -167,7 +165,6 @@ class BindMoblePhone extends PureComponent {
       })
         .catch(err => {
           Toast.info(err.errMsg, 2)
-         // console.log(err)
         })
     }
   }

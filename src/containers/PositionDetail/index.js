@@ -74,7 +74,7 @@ class PositionDetail extends PureComponent {
   }
 
   goCompany = c_userid => {
-    window.zhuge.track('企业详情页打开',{[`${triggerFrom}`]: '职位详情页'})
+    window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '职位详情页' })
     this.props.history.push(`/${c_userid}`)
   }
 
@@ -127,8 +127,10 @@ class PositionDetail extends PureComponent {
   }
 
   // 跳转到职位详情
-  openApp = () =>{
-    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '打开APP查看职位竞争力分析' })
+  openApp = () => {
+    window.zhuge.track('下载APP', {
+      [`${triggerFrom}`]: '打开APP查看职位竞争力分析',
+    })
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
     setTimeout(() => {
@@ -137,7 +139,7 @@ class PositionDetail extends PureComponent {
   }
 
   // 跳转首页
-  openAppHome = () =>{
+  openAppHome = () => {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
@@ -299,13 +301,15 @@ class PositionDetail extends PureComponent {
               />
             ) : null}
             {is_valid === 1 ? (
-              <div className={style.workplace}>
-                <h4>工作地点</h4>
-                <div className={style.site}>
-                  <img src={site} alt="img" />
-                  <div>{data.address}</div>
+              data.address !== '' ? (
+                <div className={style.workplace}>
+                  <h4>工作地点</h4>
+                  <div className={style.site}>
+                    <img src={site} alt="img" />
+                    <div>{data.address}</div>
+                  </div>
                 </div>
-              </div>
+              ) : null
             ) : null}
           </div>
           {is_valid === 1 ? (
@@ -316,7 +320,9 @@ class PositionDetail extends PureComponent {
                 位求职者投递了该职位，你的简历匹配度为{<img src={dim} alt="" />}
                 ，你的综合竞争力排名为第{<img src={dim} alt="" />}名。
               </div>
-              <div className={style.openApp} onClick={this.openApp}>打开APP查看职位竞争力分析</div>
+              <div className={style.openApp} onClick={this.openApp}>
+                打开APP查看职位竞争力分析
+              </div>
             </div>
           ) : null}
 

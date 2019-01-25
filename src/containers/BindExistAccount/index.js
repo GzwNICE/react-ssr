@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import style from './style.less'
+import { loggingStatus } from '../../actions/userStatus'
 import { Button, Icon, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import * as auth from '../../actions/auth'
@@ -66,16 +67,16 @@ class BindExistAccount extends PureComponent {
       })
       .then(data => {
         if (data) {
-          console.log(data)
           Toast.info('绑定成功', 2)
-          setTimeout(() => {
-            if (parsed.redirect) {
-              // window.location.href = redirect
-              this.props.history.replace(_url)
-            } else {
-              this.props.history.replace('/user')
-            }
-          }, 1200)
+          this.props.dispatch(loggingStatus()).then(() => {
+            setTimeout(() => {
+              if (parsed.redirect) {
+                this.props.history.replace(_url)
+              } else {
+                this.props.history.replace('/user')
+              }
+            }, 1200)
+          })
         }
       })
       .catch(err => {
@@ -87,20 +88,7 @@ class BindExistAccount extends PureComponent {
     this.props.history.replace(`/register${this.props.history.location.search}`)
   }
   goBack = () => {
-    const parsed = queryString.parse(window.location.search)
-    let _url = `${parsed.redirect}?`
-    Object.keys(parsed).map(k => {
-      if (k !== 'redirect') {
-        _url += `${k}=${parsed[k]}&`
-      }
-      return null
-    })
-    if (parsed.redirect) {
-      _url = `code?redirect=${_url}`
-      this.props.history.replace(_url)
-    } else {
-      this.props.history.replace('code')
-    }
+    this.props.history.goBack()
   }
   render() {
     const {

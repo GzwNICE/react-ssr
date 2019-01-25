@@ -32,6 +32,8 @@ class PositionBar extends PureComponent {
     percentage: '0%', //简历完善度
   }
 
+  
+
   collect = () => {
     const jobId = this.props.position.job_id
     const isFavorited = this.props.position.is_favorited
@@ -183,7 +185,7 @@ class PositionBar extends PureComponent {
       <div className={style.PositionBarWrap}>
         <div className={style.leftBtns}>
           <div
-            onClick={valid === 0 ? null : this.collect}
+            onClick={valid === 0 ? ()=>Toast.info('该职位已停止招聘', 2) : this.collect}
             className={style.select}
           >
             <img
@@ -198,7 +200,7 @@ class PositionBar extends PureComponent {
               alt="img1"
             />
             <span className={valid === 0 ? style.validLeftBtns : null}>
-              {data.is_favorited ? '取消' : '收藏'}
+              {data.is_favorited ? '已收藏' : '收藏'}
             </span>
           </div>
         </div>
