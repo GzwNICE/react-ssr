@@ -16,8 +16,8 @@ import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
 import Cookies from 'js-cookie'
-const triggerType = "类型"
-const triggerFrom = "触发来源"
+const triggerType = '类型'
+const triggerFrom = '触发来源'
 
 @connect(state => ({
   bindExistAccount: state.bindExistAccount,
@@ -90,8 +90,13 @@ class Register extends PureComponent {
     const registered = this.showModal('registered')
     this.props.form.validateFields((err, value) => {
       if (err) return
-      if (!value.number)
-        return Toast.info('请输入手机号', 2)
+      if (!value.number) return Toast.info('请输入手机号', 2)
+      if (this.state.phoneCounty === '0086') {
+        if (!/^1[3456789]\d{9}$/.test(value.number)) {
+          Toast.info('请输入正确的手机号', 2)
+          return
+        }
+      }
       window.zhuge.track('获取验证码_注册')
       let send = res => {
         if (this.state.disableCode) {
@@ -122,11 +127,11 @@ class Register extends PureComponent {
               const errMs = errCode[flag]
               if (data.flag === 5117 && errMs) {
                 upperLimit()
-              }else if(data.flag === 5014){
+              } else if (data.flag === 5014) {
                 Toast.info('手机号与归属地不匹配', 2)
-              }else if (data.flag === 5012) {
+              } else if (data.flag === 5012) {
                 registered()
-              }else {
+              } else {
                 Toast.info(errMs, 2)
               }
               window.zhuge.track('获取验证码失败_注册', {
@@ -206,10 +211,14 @@ class Register extends PureComponent {
   }
 
   goLogin = (url, key) => {
-    if(key){
-      window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '注册页点击登录' })
-    }else {
-      window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '手机号已注册弹框点击登录' })
+    if (key) {
+      window.zhuge.track('登录页面打开', {
+        [`${triggerFrom}`]: '注册页点击登录',
+      })
+    } else {
+      window.zhuge.track('登录页面打开', {
+        [`${triggerFrom}`]: '手机号已注册弹框点击登录',
+      })
     }
     const search = window.location.search
     if (search) {
@@ -227,7 +236,6 @@ class Register extends PureComponent {
       this.props.history.push('/')
     }
   }
-
 
   componentDidMount() {
     // const { key } = this.props.location.state || {}
