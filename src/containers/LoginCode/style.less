@@ -27,7 +27,7 @@
       .am-input-clear{
         width: 16px;
         height: 16px;
-        margin-top: 14px;
+        margin-top: 16px;
         background-position: inherit !important;
       }
     }
@@ -40,6 +40,11 @@
   padding: 0 40px;
   input {
     text-align: left !important;
+  }
+  :global {
+    .am-list-item .am-input-control input {
+      color: #4A4A4A;
+    }
   }
 }
 .pictureCode{
@@ -61,13 +66,13 @@
   }
 }
 .numberCode {
-  border-bottom: 1Px solid rgba(200,199,204,0.50);
+  border-bottom: 0.5Px solid rgba(200,199,204,0.50);
 }
 .massageCode{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1Px solid rgba(200,199,204,0.50);
+  border-bottom: 0.5Px solid rgba(200,199,204,0.50);
   .massageLeft{
     flex: 1;
     :global{
@@ -123,7 +128,7 @@
   }
 }
 .disabled{
-  color: rgb(244,128,81) !important;
+  color: rgba(255,255,255,0.5) !important;
 }
 .goRegister {
   padding: 15px 40px 0;

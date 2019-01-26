@@ -131,7 +131,7 @@ export default class CompanyDuce extends Component {
                 )}
               </div>
             ) : null}
-            <div>地　址：{company.address}</div>
+            {company.address ? <div>地　址：{company.address}</div> : null} 
           </div>
         </div>
       </div>
