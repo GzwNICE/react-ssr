@@ -166,7 +166,18 @@
   }
 }
 
-// allView --------
 .allView {
-  margin-bottom: 100px;
+  padding-top: 20px;
+  :global {
+    .am-list-content {
+      color: #4A4A4A !important;
+    }
+    .am-list-body::before,
+    .am-list-body::after {
+      display: none !important;
+    }
+    .am-list-item-active {
+      background-color: #F0F0F0 !important;
+    }
+  }
 }

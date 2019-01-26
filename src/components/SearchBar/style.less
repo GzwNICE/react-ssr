@@ -1,5 +1,8 @@
 .SearchBarWrap {
-  background-color: #ff4f00;
+  background: -webkit-linear-gradient(left, #FF7214 , #FF4F00); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #FF7214 , #FF4F00); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, #FF7214 , #FF4F00); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #FF7214 , #FF4F00);
   height: 50px;
   display: flex;
   align-items: center;
@@ -89,9 +92,9 @@
   }
 }
 .personal {
-  width: 22px;
-  height: 22px;
-  margin-left: 10px;
+  width: 24px;
+  height: 24px;
+  margin-left: 6px;
   border-radius: 50%;
 }
 .positionHead,
@@ -106,12 +109,12 @@
     align-items: center;
     background-color: #fff;
     z-index: 2;
-    padding: 0 15px;
+    padding: 0 15px 0 10px;
     box-sizing: border-box;
     position: relative;
     .goBack {
-      height: 22px;
-      width: 22px;
+      height: 24px;
+      width: 24px;
       img {
         height: 100%;
         width: 100%;
@@ -119,10 +122,10 @@
     }
     :global {
       .am-search {
-        width: 250px;
+        width: 240px;
         background: none;
         padding: 0;
-        margin: 0 4px;
+        margin: 0 4px 0 8px;
         box-sizing: border-box;
       }
 
@@ -143,25 +146,25 @@
       }
     }
     .companyTitle {
-      width: 250px;
+      width: 240px;
       text-align: center;
       line-height: 50px;
       font-family: PingFangSC-Medium;
       font-size: 0.18rem;
       color: #333333;
-      margin: 0 4px;
+      margin: 0 4px 0 8px;
     }
     .navLink {
-      // position: absolute;
-      right: 20px;
+      right: 14px;
       .searcHome {
-        width: 21px;
-        height: 21px;
-        margin-left: 4px;
+        width: 24px;
+        height: 24px;
+        margin-left: 8px;
       }
       .personal {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
+        margin-left: 18px;
       }
     }
   }
