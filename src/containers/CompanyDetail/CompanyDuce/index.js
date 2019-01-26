@@ -12,6 +12,14 @@ export default class CompanyDuce extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.otext.clientHeight < 50 && this.otext.clientHeight > 0) {
+      this.setState({
+        open: false,
+      })
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (
       this.props.company.description !== prevProps.company.description &&
@@ -24,10 +32,12 @@ export default class CompanyDuce extends Component {
   }
 
   goLogin = () => {
-    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '企业联系方式获取' })
+    window.zhuge.track('注册页面打开', {
+      [`${triggerFrom}`]: '企业联系方式获取',
+    })
     const pathname = this.props.history.location.pathname
     const url = `/register?redirect=${pathname}`
-    this.props.history.replace(url, {key: '获取联系方式'})
+    this.props.history.replace(url, { key: '获取联系方式' })
   }
 
   handleUnfold() {
@@ -119,7 +129,6 @@ export default class CompanyDuce extends Component {
                 ) : (
                   <span onClick={this.goLogin}>登陆后查看</span>
                 )}
-                
               </div>
             ) : null}
             <div>地　址：{company.address}</div>
