@@ -96,13 +96,19 @@ class PositionDetail extends PureComponent {
 
   //返回上一页，没有上一页返回到首页
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
-    if (pathSearch) {
-      this.props.history.go(-1)
+    // const { pathSearch } = queryString.parse(window.location.search)
+    // if (pathSearch) {
+    //   this.props.history.go(-1)
+    // } else {
+    //   this.props.history.length === 2 || this.props.history.length === 1
+    //     ? this.props.history.push('/home')
+    //     : this.props.history.go(-1)
+    // }
+    const { redirect } = queryString.parse(window.location.search)
+    if (redirect) {
+      this.props.history.replace(redirect)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/home')
-        : this.props.history.go(-1)
+      this.props.history.replace('/home')
     }
   }
 
@@ -330,6 +336,7 @@ class PositionDetail extends PureComponent {
             callback={this.nextPost}
             title={is_valid === 0 ? '为你推荐以下相似职位' : '相似职位推荐'}
             data={list}
+            history={this.props.history}
           />
 
           {is_valid === 1 ? <HotTopic data={hotData} /> : null}

@@ -30,9 +30,8 @@ class PositionBar extends PureComponent {
     toPerfect: false, //简历<40%
     mostPerfect: false, //40%< 简历 <80%
     percentage: '0%', //简历完善度
+    perfectContent: 0, //简历不完善弹框内容
   }
-
-  
 
   collect = () => {
     const jobId = this.props.position.job_id
@@ -61,15 +60,18 @@ class PositionBar extends PureComponent {
             const msg = data.errMsg
             if (msg === '未登陆') {
               this.goLogin('收藏')
-              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '职位收藏' })
+              window.zhuge.track('注册页面打开', {
+                [`${triggerFrom}`]: '职位收藏',
+              })
             }
           } else {
             Toast.success('收藏成功', 2)
-            window.zhuge.track('收藏', { [`${triggerPost}`]: this.props.position.job_name})
+            window.zhuge.track('收藏', {
+              [`${triggerPost}`]: this.props.position.job_name,
+            })
           }
         })
     }
-
   }
   showModal = key => e => {
     if (e) e.preventDefault() // 修复 Android 上点击穿透
@@ -100,20 +102,36 @@ class PositionBar extends PureComponent {
             const msg = data.errMsg
             if (msg === '未登陆') {
               this.goLogin('应聘')
-              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '投递简历' })
+              window.zhuge.track('注册页面打开', {
+                [`${triggerFrom}`]: '投递简历',
+              })
             }
-            // return Toast.info(msg, 2)
+          } else if (data.data.resume_complete < 0.01) {
+            this.setState({
+              perfectContent: 0, //没有简历
+            })
+            toPerfect()
+            return
+          } else if (data.data.true_name === '') {
+            this.setState({
+              perfectContent: 1, //简历没有姓名
+            })
+            toPerfect()
+            return
+          } else if (data.data.resume_complete < 0.4) {
+            this.setState({
+              perfectContent: 2, //简历完整度<40
+            })
+            toPerfect()
+            return
           } else if (
             data.data.resume_complete > 0.4 &&
-            data.data.resume_complete < 0.8
+            data.data.resume_complete < 0.8 // 40 <简历完整度 < 80
           ) {
             mostPerfect()
             this.setState({
               percentage: `${data.data.resume_complete * 100}%`,
             })
-            return
-          } else if (data.data.resume_complete < 0.4) {
-            toPerfect()
             return
           } else {
             this.deliver()
@@ -138,12 +156,12 @@ class PositionBar extends PureComponent {
       .then(data => {
         if (data.status === 0) {
           const msg = data.errMsg
-          if (msg === '未登陆') {
-            return this.goLogin('应聘')
-          }
-          // return Toast.info(msg, 2)
+          if (msg) {
+            return Toast.info(msg, 2)
+          } 
+        }else {
+          success()
         }
-        success()
       })
   }
 
@@ -154,14 +172,14 @@ class PositionBar extends PureComponent {
   }
 
   goLogin = key => {
-    const search = this.props.history.location.search
-      ? this.props.history.location.search
-      : '?'
+    // const search = this.props.history.location.search
+    //   ? this.props.history.location.search
+    //   : '?'
     const pathname = this.props.history.location.pathname
-    const url = `/register${search}${
-      search === '?' ? '' : '&'
-    }redirect=${pathname}`
-    this.props.history.replace(url, { key: key })
+    // const url = `/register${search}${
+    //   search === '?' ? '' : '&'
+    // }redirect=${pathname}`
+    this.props.history.replace(`/register?redirect=${pathname}`, { key: key })
   }
 
   // 跳转app投递列表
@@ -180,12 +198,16 @@ class PositionBar extends PureComponent {
   render() {
     const data = this.props.position
     const valid = this.props.valid
-    const { percentage } = this.state
+    const { percentage, perfectContent } = this.state
     return (
       <div className={style.PositionBarWrap}>
         <div className={style.leftBtns}>
           <div
-            onClick={valid === 0 ? ()=>Toast.info('该职位已停止招聘', 2) : this.collect}
+            onClick={
+              valid === 0
+                ? () => Toast.info('该职位已停止招聘', 2)
+                : this.collect
+            }
             className={style.select}
           >
             <img
@@ -237,19 +259,27 @@ class PositionBar extends PureComponent {
         />
         {/* 简历信息不完善 */}
         <Alert
-          title="简历信息不完善"
+          title={perfectContent === 0 ? `你还没有简历` : `简历信息不完善`}
           closable={1}
           visible={this.state.toPerfect}
           onClose={this.onClose('toPerfect')}
-          message={`你的简历完整度<40%，通过率极低`}
+          message={
+            perfectContent === 0
+              ? `投递前必须先创建一份简历`
+              : perfectContent === 1
+              ? `你的简历没有姓名，无法投递`
+              : `你的简历完整度<40%，通过率极低`
+          }
           actions={[
             {
-              text: '去完善',
+              text: perfectContent === 0 ? `去创建` : `去完善`,
               onPress: () => {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`
                 )
-                window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '投递简历-去完善'})
+                window.zhuge.track('简历页面打开', {
+                  [`${triggerFrom}`]: '投递简历-去完善',
+                })
               },
               type: 'ok',
             },
@@ -275,8 +305,12 @@ class PositionBar extends PureComponent {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`
                 )
-                window.zhuge.track('去完善', {[`${triggerPost}`]: this.props.position.job_name})
-                window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '投递简历-去完善'})
+                window.zhuge.track('去完善', {
+                  [`${triggerPost}`]: this.props.position.job_name,
+                })
+                window.zhuge.track('简历页面打开', {
+                  [`${triggerFrom}`]: '投递简历-去完善',
+                })
               },
               type: 'ok',
             },

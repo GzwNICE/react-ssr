@@ -6,7 +6,7 @@ const triggerFrom = '触发来源'
 
 const RestPosition = props => {
   
-  let { title, data, noTitle = true } = props
+  let { title, data, noTitle = true, history} = props
   let list = data || []
   return (
     <div
@@ -23,7 +23,7 @@ const RestPosition = props => {
               return (
                 <Link
                   rel="stylesheet"
-                  to={`/${item.company_id}/${item.job_id}`}
+                  to={`/${item.company_id}/${item.job_id}?redirect=${history.location.pathname}`}
                   key={index}
                   onClick={()=>{
                     window.zhuge.track('职位详情页打开', {

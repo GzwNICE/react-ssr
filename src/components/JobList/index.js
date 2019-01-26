@@ -48,7 +48,7 @@ class PostList extends Component {
     } else {
     }
   }
-
+  
   render() {
     let { data } = this.props
     let list = data || []
@@ -59,7 +59,7 @@ class PostList extends Component {
               return (
                 <Link
                   rel="stylesheet"
-                  to={`/${item.company_id}/${item.job_id}`}
+                  to={`/${item.company_id}/${item.job_id}?redirect=${this.props.history.location.pathname}`}
                   key={index}
                   onClick={() => {
                     this.goPosition(this.props.zhugeFrom)

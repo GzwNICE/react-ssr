@@ -137,14 +137,15 @@ class CompanyDetail extends PureComponent {
   }
 
   goLogin = () => {
-    const search = this.props.history.location.search
-      ? this.props.history.location.search
-      : '?'
+    // const search = this.props.history.location.search
+    //   ? this.props.history.location.search
+    //   : '?'
     const pathname = this.props.history.location.pathname
-    const url = search
-      ? `/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
-      : `/register?redirect=${pathname}`
-    this.props.history.replace(url, { key: '关注' })
+    // const url = search
+    //   ? `/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
+    //   : `/register?redirect=${pathname}`
+    // this.props.history.replace(url, )
+    this.props.history.replace(`/register?redirect=${pathname}`, { key: '关注' })
   }
 
   searchFocus = () => {
