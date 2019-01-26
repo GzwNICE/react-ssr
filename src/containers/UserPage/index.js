@@ -24,6 +24,7 @@ const triggerFrom = '触发来源'
   return {
     user: state.auth,
     userStatus: state.userStatus,
+    
   }
 })
 class UserPage extends PureComponent {
