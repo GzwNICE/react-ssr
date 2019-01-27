@@ -59,7 +59,8 @@ class SearchPage extends PureComponent {
   }
 
   Cancel = () => {
-    this.props.history.go(-1)
+    // this.props.history.go(-1)
+    this.props.history.replace('/home')
   }
 
   touchHot = (item) => { //热门搜索

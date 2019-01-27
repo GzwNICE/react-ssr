@@ -33,12 +33,14 @@ class ComplexSelView extends ComplexFormField {
     }
   }
   onChange = (value) => {
+    // let val = value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5_]/g,'')
+    let val = value.replace(/\?/g,'')
     const parmas = {
-      keyword: value,
+      keyword: val,
     }
     this.props.dispatch(getData(parmas)).then(() => {
       this.setState({
-        value,
+        value: val,
         show: true,
       })
     })
@@ -85,6 +87,7 @@ class ComplexSelView extends ComplexFormField {
           <InputItem
             clear
             defaultValue={defaultValue}
+            value={value}
             placeholder="请输入学校名称"
             onChange={this.onChange}
           />

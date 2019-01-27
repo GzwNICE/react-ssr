@@ -84,16 +84,19 @@ class Resume extends PureComponent {
       )
       .then(data => {
         if (data.errMsg === '未登陆') {
-          return Modal.alert('', '请先登录', [
-            { text: '稍后', style: 'default' },
-            {
-              text: '登录',
-              onPress: () =>
-                this.props.history.replace(
-                  '/register?redirect=' + this.props.history.location.pathname
-                ),
-            },
-          ])
+          this.props.history.replace(
+            '/register?redirect=' + this.props.history.location.pathname
+          )
+          // return Modal.alert('', '请先登录', [
+          //   { text: '稍后', style: 'default' },
+          //   {
+          //     text: '登录',
+          //     onPress: () =>
+          //       this.props.history.replace(
+          //         '/register?redirect=' + this.props.history.location.pathname
+          //       ),
+          //   },
+          // ])
         }
         this.languageKillArr()
         // 根据姓名判断

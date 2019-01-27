@@ -162,7 +162,7 @@ class SearchEnd extends PureComponent {
       this.props.history.push(redirect)
     }
     this.scrollTop = 0
-    this.props.history.go(-1)
+    this.props.history.replace('/search')
   }
 
   goSerch = () => {

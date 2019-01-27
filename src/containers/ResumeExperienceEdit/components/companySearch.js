@@ -33,12 +33,14 @@ class ComplexSelView extends ComplexFormField {
     }
   }
   onChange = (value) => {
+    let val = value.replace(/\?/g,'')
+    // let val = value
     const parmas = {
-      keyword: value,
+      keyword: val,
     }
     this.props.dispatch(getCompanyTips(parmas)).then(() => {
       this.setState({
-        value,
+        value: val,
         show: true,
       })
     })
@@ -65,8 +67,8 @@ class ComplexSelView extends ComplexFormField {
     const { value, show } = this.state
     let arr = []
     dataList.map((item,index) => {
-      let re =new RegExp(value,"g"); //定义正则
-      item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
+        let re =new RegExp(value,"g"); //定义正则
+        item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
       arr.push(item)
     })
     return (
@@ -83,6 +85,7 @@ class ComplexSelView extends ComplexFormField {
           <InputItem
             clear
             defaultValue={defaultValue}
+            value={value}
             placeholder="请输入公司名称"
             onChange={this.onChange}
           />
