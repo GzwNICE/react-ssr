@@ -349,7 +349,7 @@ class SearchEnd extends PureComponent {
   }
   noVacancies = query => {
     // 记录地区
-    const areas_index = option.areas_index || {}
+    const areas_index = (option && option.areas_index) ?  option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     const more = query.more ? query.more : {}
     let company_industry
@@ -362,9 +362,11 @@ class SearchEnd extends PureComponent {
     let salary = this.props.salaryString
       ? `-${this.props.salaryString}`
       : null
-    if (salary && salary.indexOf('不限')) {
+
+    if (salary && salary.indexOf('不限') !== -1) {
       salary = null
     }
+ 
     let ellipsis
     for (let key in more) {
       if (key !== 'company_industry') {
@@ -392,7 +394,7 @@ class SearchEnd extends PureComponent {
    
   }
   selectProjectRender = query => {
-    const areas_index = option.areas_index || {}
+    const areas_index = (option && option.areas_index) ?  option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     const more = query.more ? query.more : {}
     let company_industry

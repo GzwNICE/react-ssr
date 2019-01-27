@@ -3,11 +3,16 @@ import F from '../helper/tool'
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case $.get_all_info:
+    case $.resumetoogle:
+    // console.log(action.payload)
+      return {
+        ...state,
+        toogleSet: action.payload,
+      }
+      case $.get_all_info:
       return {
         ...(action.payload && action.payload.get_base),
       }
-
     case $.edit:
       return {
         ...state,

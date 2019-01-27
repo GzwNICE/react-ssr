@@ -8,6 +8,8 @@ export { default as auth } from './auth'
 export { default as users } from './users'
 
 export { default as resume } from './resume'
+export { default as resumeNew } from './resumeNew'
+
 export { default as DesiredCompanyTypes } from './DesiredCompanyTypes'
 export { default as DesiredLocations } from './DesiredLocations'
 export { default as DesiredPositions } from './DesiredPositions'

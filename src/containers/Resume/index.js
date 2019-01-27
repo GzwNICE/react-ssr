@@ -18,6 +18,7 @@ import overSeaIcon from '../../static/icon_studay.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
+import { $ } from '../../actions/resume'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -47,6 +48,7 @@ const progressStyle = {
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
     minutesThree: true, // 3分钟内只能刷一次
     userStatus: state.userStatus,
+    resumeToogle: state.resumeNew,
   }
 })
 @withRouter
@@ -57,6 +59,8 @@ class Resume extends PureComponent {
     toInfo: '', // 跳转到基本信息
     search: '', // history search
     showToogleModal: false, // 底部toogle是否展示
+    languagesArr: [],
+    skillsArr: [],
   }
 
   componentDidMount() {
@@ -91,6 +95,7 @@ class Resume extends PureComponent {
             },
           ])
         }
+        this.languageKillArr()
         // 根据姓名判断
         // const {resume}  = this.props
         // if (!resume.true_name_cn) {
@@ -119,6 +124,46 @@ class Resume extends PureComponent {
           }
         }
       })
+  }
+  languageKillArr = () => {
+    // console.log(this.props.resumeToogle)
+
+    const {skills, languages, other_exps, resumeToogle} = this.props
+    if (skills.length > 0 || languages.length > 0) {
+      let languagesLen = languages.length
+      let skillsLen = skills.length
+      let languagesArr = []
+      let skillsArr = []
+      if ((languagesLen + skillsLen) > 5 ) {
+        if (languagesLen > 5) {
+          languagesArr = languages.slice(0,5)
+          skillsArr = []
+        } else {
+          languagesArr = languages
+          let remainingLen = 5 - languagesLen
+          skillsArr = skills.slice(0,remainingLen)
+        }
+      } else {
+        languagesArr = languages
+        skillsArr = skills
+      }
+      this.setState({
+        languagesArr,
+        skillsArr,
+      })
+    }
+    if (skills.length > 0 || languages.length > 0) {
+      if (other_exps.length > 0) {
+        // const {toogleSet= false} = this.props.resume
+        this.setState({
+          showToogleModal: true,
+          toogle: resumeToogle.toogleSet,
+        })
+        // const skillsPros = this.props.skills
+        // const languagesPros = this.props.skills
+        // const other_expsPros = this.props.skills
+      }
+    }
   }
   handleFaceChange = ev => {
     this.bitmapMin.load(ev.target.files[0], (base64, blob) => {
@@ -169,8 +214,14 @@ class Resume extends PureComponent {
     this.props.history.push(item)
   }
   handleToogle = () => {
+   
+    const toogle = !this.state.toogle
     this.setState({
-      toogle: !this.state.toogle,
+      toogle,
+    })
+      this.props.dispatch({
+      type: 'RESUMETOOGLE',
+      payload: toogle,
     })
   }
   gotoPreview = () => {
@@ -194,26 +245,9 @@ class Resume extends PureComponent {
     }
   }
   componentWillReceiveProps(next) {
-    const {skills, languages, other_exps} = next
+    // const {skills, languages, other_exps} = next
+    // console.log(next)
     
-    // if (skills.length === 0 || languages.length === 0) {
-    //   if (other_exps.length === 0) {
-    //     this.setState({
-    //       toogle: true,
-    //     })
-    //   }
-    // }
-    if (skills.length > 0 || languages.length > 0) {
-      if (other_exps.length > 0) {
-        this.setState({
-          showToogleModal: true,
-          toogle: false,
-        })
-        // const skillsPros = this.props.skills
-        // const languagesPros = this.props.skills
-        // const other_expsPros = this.props.skills
-      }
-    }
   }
   render() {
     const {
@@ -224,15 +258,13 @@ class Resume extends PureComponent {
       DesiredJob,
       educationals,
       work_exps,
-      languages,
-      skills,
+      // languages,
+      // skills,
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage, toInfo, search, showToogleModal } = this.state
-    // console.log(
-    //   showToogleModal
-    // )
+    const { toogle, percentage, toInfo, search, showToogleModal, languagesArr, skillsArr } = this.state
+    // console.log(toogle)
     // console.log(
     //   toogle || (languages.length === 0 && skills.length === 0)
     // )
@@ -521,7 +553,7 @@ class Resume extends PureComponent {
                     }
                   />
                   <Card.Body className={style['card-language']}>
-                    {languages.map((item, index) => (
+                    {languagesArr.map((item, index) => (
                       <div
                         key={index}
                         className={style['card-language-content']}
@@ -542,7 +574,7 @@ class Resume extends PureComponent {
                         />
                       </div>
                     ))}
-                    {skills.map((item, index) => (
+                    {skillsArr.map((item, index) => (
                       <div
                         key={index}
                         className={style['card-language-content']}

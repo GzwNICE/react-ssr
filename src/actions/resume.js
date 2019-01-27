@@ -5,6 +5,7 @@ export const $ = constants('resume', [
   'get_all_info', // 获取用户信息
   'edit', // 编辑用户信息
   'avatar',
+  'resumetoogle', // resume底部显示隐藏记录
 ])
 
 export const getAllInfo = transport({

@@ -55,6 +55,7 @@ const initState = {
   },
   searchState: false,
   areaCode: [],  // searchPage页city code
+  toogleSet: false,
 }
 
 export default (state = initState, action) => {
