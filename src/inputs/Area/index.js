@@ -204,6 +204,7 @@ class ComplexSelView extends ComplexFormField {
       hotData,
       selectedHight,
     } = this.state
+    console.log(options)
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
         if (
@@ -246,7 +247,9 @@ class ComplexSelView extends ComplexFormField {
               热门
               {clickCode === 'hot' ? <i /> : null}
             </li>
-            {options.map((item, index) => (
+            {options
+              .filter(item => item.code !== '380000')
+              .map((item, index) => (
               <li
                 key={index}
                 onClick={this.handleChangeSubChil.bind(this, item)}

@@ -158,7 +158,7 @@ class MobileBind extends PureComponent {
         mobileVal = this.props.match.params.mobile
       }
       if (phoneCounty === '0086') {
-        if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(mobileVal)) {
+        if (!/^[1][3456789][0-9]{9}$/.test(mobileVal)) {
           Toast.fail('请输入正确的手机号', 2)
           return
         }

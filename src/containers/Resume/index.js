@@ -52,7 +52,7 @@ const progressStyle = {
 @withRouter
 class Resume extends PureComponent {
   state = {
-    toogle: false, // 默认收起
+    toogle: true,
     percentage: '',
     toInfo: '', // 跳转到基本信息
     search: '', // history search
@@ -196,13 +196,13 @@ class Resume extends PureComponent {
   componentWillReceiveProps(next) {
     const {skills, languages, other_exps} = next
     
-    if (skills.length === 0 || languages.length === 0) {
-      if (other_exps.length === 0) {
-        this.setState({
-          toogle: true,
-        })
-      }
-    }
+    // if (skills.length === 0 || languages.length === 0) {
+    //   if (other_exps.length === 0) {
+    //     this.setState({
+    //       toogle: true,
+    //     })
+    //   }
+    // }
     if (skills.length > 0 || languages.length > 0) {
       if (other_exps.length > 0) {
         this.setState({
@@ -478,8 +478,6 @@ class Resume extends PureComponent {
                       />
                       <div className={style.oversea}>
                       <div className={style.ellipsis}>{item.school_cn}</div>
-                        
-                      
                         {item.is_overseas === '1' ? <img src={overSeaIcon} /> : null}
                       </div>
 

@@ -62,11 +62,9 @@ class ResumeInfo extends PureComponent {
       inputChangeVal: '', // 添加技能输入框内容
       operation: false, // 页面只有有操作就为true,保存过为false
       goBackModalVisible: false, // 返回按钮点击时出现的弹框
-      iconup: ['0'], // 语言中icon向上的
     }
   }
   componentDidMount() {
-  
     this.init()
   }
   // 所有子组件修改根组件都可以调用这个方法
@@ -95,7 +93,7 @@ class ResumeInfo extends PureComponent {
         // 保证技能水平的名称重复的只显示一个
         let arrSkill = []
         let keyArr = []
-        skills.map(item => {
+        skills.forEach(item => {
           if (item.ability && item.skill_cn) {
             keyArr.push(item.skill_cn)
             let obj = {
@@ -107,9 +105,9 @@ class ResumeInfo extends PureComponent {
         })
         keyArr = [...new Set(keyArr)]
         let arrSkill2 = []
-        keyArr.map(item1 => {
+        keyArr.forEach(item1 => {
           let obj = {}
-          arrSkill.map(item2 => {
+          arrSkill.forEach(item2 => {
             if (item1 === item2.key) {
               obj = {
                 value: item2.value,
@@ -122,7 +120,7 @@ class ResumeInfo extends PureComponent {
 
         // 技能遍历数据
         let skillArr = []
-        arrSkill2.map(item => {
+        arrSkill2.forEach(item => {
           let obj = {
             title: item.key,
             key: item.key,
@@ -150,14 +148,9 @@ class ResumeInfo extends PureComponent {
       operation: true,
     })
   }
-  accordionChange = (key) => {
-    console.log(key);
-    this.setState({
-      iconup: key,
-    })
-  }
+
   language = () => {
-    const { language, iconup } = this.state
+    const { language } = this.state
     const { opts_language } = this.props
     const data = [...ability]
     const arr = [
@@ -170,7 +163,7 @@ class ResumeInfo extends PureComponent {
     ]
     opts_language
       .filter(item => item.code !== 21)
-      .map(item => {
+      .forEach(item => {
         let obj = {
           key: String(item.code),
           title: item.value,
@@ -179,28 +172,26 @@ class ResumeInfo extends PureComponent {
       })
     const content = arr.map((item, index) => {
       let showImg = false
-      language.map(itemShow => {
+      language.forEach(itemShow => {
         if (itemShow.key === item.key) {
           showImg = true
         }
       })
-      // todo console.log(iconup)  这边自定义header为函数有问题
       // {this.props.index === '0' ? <Icon type="down" /> : null}
 
       const header = (
         <div className={style.title}>
           {showImg ? <img src={tickImg} /> : null}
           <span>{item.title}</span>
-          
         </div>
       )
- 
+
       return (
         <Accordion.Panel header={header} key={index}>
           <Flex className={style.option}>
             {data.map(i => {
               let checked = false
-              language.map(item1 => {
+              language.forEach(item1 => {
                 if (item1.value === i.value && item1.key === item.key) {
                   checked = true
                 }
@@ -223,7 +214,11 @@ class ResumeInfo extends PureComponent {
       )
     })
 
-    return <Accordion defaultActiveKey="0" onChange={this.accordionChange}>{content}</Accordion>
+    return (
+      <Accordion defaultActiveKey="0">
+        {content}
+      </Accordion>
+    )
   }
 
   onChange = (oldVal, value, key) => {
@@ -233,7 +228,7 @@ class ResumeInfo extends PureComponent {
       value,
       key,
     }
-    arrLanguage.map((item, index) => {
+    arrLanguage.forEach((item, index) => {
       if (item.key === key) {
         if (item.value === value) {
           arrLanguage.splice(index, 1)
@@ -263,12 +258,12 @@ class ResumeInfo extends PureComponent {
     const { skillArr, skill } = this.state
     let arr = [...skillArr]
     let arr2 = [...skill]
-    arr.map((i, index) => {
+    arr.forEach((i, index) => {
       if (i.key === item.key) {
         arr.splice(index, 1)
       }
     })
-    arr2.map((i, index) => {
+    arr2.forEach((i, index) => {
       if (i.key === item.key) {
         arr2.splice(index, 1)
       }
@@ -312,7 +307,7 @@ class ResumeInfo extends PureComponent {
           <Flex className={style.option}>
             {data.map(i => {
               let checked = false
-              skill.map(item1 => {
+              skill.forEach(item1 => {
                 if (item1.value === i.value && item1.key === item.key) {
                   checked = true
                 }
@@ -347,14 +342,14 @@ class ResumeInfo extends PureComponent {
     // language.map  value: "2", key: "1      language: "15", ability:
     let arr = []
     let arr2 = []
-    language.map(item => {
+    language.forEach(item => {
       let obj = {
         language: item.key,
         ability: item.value,
       }
       arr.push(obj)
     })
-    skill.map(item => {
+    skill.forEach(item => {
       let obj = {
         skill_cn: item.key,
         ability: item.value,
