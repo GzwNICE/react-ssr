@@ -108,7 +108,7 @@ class ResumeExperienceEdit extends PureComponent {
         begin_month: moment(values.begin).format('M'),
         end_year,
         end_month,
-        salary_type: values.salary_type ? 2 : 1,
+        salary_is_show: values.salary_type ? 2 : 1,
         job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       }
@@ -163,8 +163,9 @@ class ResumeExperienceEdit extends PureComponent {
       })[0] || {}
     const { deletModal, goBackModalVisible } = this.state
     let end_time = null
+    // todo 这边字符串0 initialValue 没有传过去
     if (item.end_year === '0' || item.end_year === 0) {
-      end_time = '0'
+      end_time = 0
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
