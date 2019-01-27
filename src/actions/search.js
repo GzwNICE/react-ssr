@@ -14,6 +14,8 @@ export const SEAND_PAGE_GOBACK = 'SEAND_PAGE_GOBACK' // 返回删除数据
 export const SEARCH_SALARYSHOW = 'SEARCH_SALARYSHOW' // 薪资下拉框显示隐藏
 export const SEARCH_SALARYSTRING = 'SEARCH_SALARYSTRING' // 薪资显示的string
 export const SEARCH_SALARYRANGE = 'SEARCH_SALARYRANGE' // 薪资range
+export const SEARCH_EMPTY_ALL = 'SEARCH_EMPTY_ALL' // 所有内容恢复为初始值
+export const SEARCH_AREA_SINGLE = 'SEARCH_AREA_SINGLE' // searchPage页的city code
 
 const URLHOT = ':ve.mobile.interface/job/hotword'
 const URLTIP = ':ve.mobile.interface/job/searchtips'

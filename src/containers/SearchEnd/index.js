@@ -118,15 +118,19 @@ class SearchEnd extends PureComponent {
       })
     }
     Toast.loading('Loading...');
-    this.props.dispatch(getSearchListInit(allQuery)).then((res) => {
-      Toast.hide()
-      this.setState({
-        initLoading: false,
+    console.log(this.props.searchLIst)
+    if (this.props.searchLIst.length < 1) {
+      this.props.dispatch(getSearchListInit(allQuery)).then((res) => {
+        Toast.hide()
+        this.setState({
+          initLoading: false,
+        })
+        if(res.data.count === 0){
+          window.zhuge.track('搜索无结果', { [`${tiggerKeyWord}`]: allQuery.keyword})
+        }
       })
-      if(res.data.count === 0){
-        window.zhuge.track('搜索无结果', { [`${tiggerKeyWord}`]: allQuery.keyword})
-      }
-    })
+    }
+   
 
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
@@ -452,8 +456,9 @@ class SearchEnd extends PureComponent {
         })
       }
     }
-
-    window._hmt && window._hmt.push(['_trackPageview', window.location.href])
+    if (window && window._hmt) {
+      window._hmt && window._hmt.push(['_trackPageview', window.location.href])
+    }
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
@@ -465,6 +470,9 @@ class SearchEnd extends PureComponent {
   componentWillUnmount() {
     this.getQuery.isUsed = 0
     this.props.dispatch(saveScrollTop(this.scrollTop))
+    this.props.dispatch({
+      type: 'SEARCH_EMPTY_ALL',
+    })
     clearTimeout(this.timer)
   }
 

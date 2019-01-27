@@ -21,6 +21,8 @@ const tiggerSearchKeyWord = "搜索词"
   return {
     hot: state.search.hot,
     tips: state.search.tips,
+    supers: state.supers,
+    areaCode: state.search.areaCode,
   }
 })
 class SearchPage extends PureComponent {
@@ -67,11 +69,18 @@ class SearchPage extends PureComponent {
     const newHis = searchHistory.slice(0, 5)
     localStorage.setItem('m:searchHis', JSON.stringify(F.ArrayDelRepetition(newHis)))
     const state = this.props.location.state || {}
+    const { supers, areaCode } = this.props // userStatus
+    let area = supers.location.address.code[0]
+    if (areaCode.length > 0) {
+      area = areaCode[0]
+    }
+    
     if(state.hasOwnProperty('form') && state.form === 'tab:job') { // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/job/?keyword=${item}`, {keyword:item})
+   
+      this.props.history.push(`/job/?keyword=${item}&keywordParams=${item}&areaParms=${area}`, {keyword:item})
     } else {
-      this.props.history.push(`/search/${item}?keyword=${item}`, {keyword:item})
+      this.props.history.push(`/search/${item}?keyword=${item}&keywordParams=${item}&areaParms=${area}`, {keyword:item})
     }
   }
 

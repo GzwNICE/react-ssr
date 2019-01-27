@@ -71,7 +71,13 @@ class MySearchBar extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
       if (values.areas && nextProps.userStatus.code !== values.areas) {
+        console.log(values.areas)
+        // console.log(this.props.supers.location.address.code)
         this.props.onChangeCity && this.props.onChangeCity(values)
+        this.props.dispatch({
+          type: 'SEARCH_AREA_SINGLE',
+          payload: values.areas,
+        })
       }
     })
   }

@@ -86,7 +86,7 @@ class Resume extends PureComponent {
               text: '登录',
               onPress: () =>
                 this.props.history.replace(
-                  '/login?redirect=' + this.props.history.location.pathname
+                  '/register?redirect=' + this.props.history.location.pathname
                 ),
             },
           ])
