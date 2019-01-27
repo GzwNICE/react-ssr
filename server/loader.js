@@ -24,6 +24,13 @@ import pathToRegexp from 'path-to-regexp'
 import {
   getSearchListInit,
 } from '../src/actions/search'
+
+
+import * as option from '../src/actions/option'
+import * as supersLocation from '../src/actions/supers/location'
+
+
+
 export default (req, res, next) => {
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
@@ -122,7 +129,6 @@ export default (req, res, next) => {
             console.log('error: ' + error)
           })
       }
-
 
       const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
       const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
@@ -225,10 +231,51 @@ export default (req, res, next) => {
         })
       }
 
-
       if(render){
         serverRender()
       }
+
+
+
+
+
+
+
+
+
+      // const urlExcel = () => {
+        
+      // }
+
+
+
+      // let cityCode = []
+      // function _optIndex(sublist, city) {
+      //   (sublist || []).forEach(item => {
+      //     if (new RegExp(item.value).test(city)) {
+      //       cityCode.push(item.code)
+      //     }
+      //     _optIndex(item.sublist, city)
+      //   })
+      // }
+      // store.dispatch(option.load()).then(option => {
+      //   supersLocation.getCoords().then(payload => {
+      //     _optIndex(option.data.areas, payload.address.city)
+      //     store.dispatch({
+      //       type: supersLocation.$.location_load,
+      //       payload: {
+      //         ...payload,
+      //         address: {
+      //           ...payload.address,
+      //           code: cityCode,
+      //         },
+      //       },
+      //     })
+      //     urlExcel()
+      //   })
+      // })
+
+
       // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
       //   store.dispatch(getPostInit()).then(() => {
       //     store.dispatch(getBanner()).then(() => {
