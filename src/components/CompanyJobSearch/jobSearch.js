@@ -25,6 +25,9 @@ class ComplexSelView extends ComplexFormField {
     if (value.length > 0) {
       this.props.onChange(value)
       this.changeVisible(false, false)
+      this.setState({
+        show: false,
+      })
     } else {
       Toast.info('请输入内容', 2)
     }
@@ -49,6 +52,13 @@ class ComplexSelView extends ComplexFormField {
       show: false,
       value: dataList[index],
     })
+  }
+  componentWillReceiveProps(next) {
+    if (this.props.value && next.value === this.props.value) {
+      this.setState({
+        value: this.props.value,
+      })
+    }
   }
   mainView() {
     const { dataList = [] } = this.props

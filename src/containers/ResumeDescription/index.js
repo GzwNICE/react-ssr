@@ -74,7 +74,7 @@ class ResumeDescription extends PureComponent {
 
         <Flex.Item className={style.wrap}>
           <List>
-            <div onselectstart="return false;">
+            <div>
               <TextareaItem
                 {...getFieldProps('content_cn', {
                   initialValue: content_cn || '',

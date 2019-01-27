@@ -1,6 +1,6 @@
 import React from 'react'
 import ComplexFormField from '../Complex/ComplexFormField'
-import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
+import { NavBar, Toast, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { get_school_tips as getData } from "../../actions/educationals"
@@ -25,6 +25,9 @@ class ComplexSelView extends ComplexFormField {
     if (value.length > 0) {
       this.props.onChange(value)
       this.changeVisible(false, true)
+      this.setState({
+        show: false,
+      })
     } else {
       Toast.info('请输入内容', 2)
     }
@@ -49,6 +52,13 @@ class ComplexSelView extends ComplexFormField {
       show: false,
       value: dataList[index],
     })
+  }
+  componentWillReceiveProps(next) {
+    if (this.props.value && next.value === this.props.value) {
+      this.setState({
+        value: this.props.value,
+      })
+    }
   }
   mainView() {
     const { dataList = [] } = this.props

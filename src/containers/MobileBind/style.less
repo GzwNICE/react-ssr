@@ -1,5 +1,11 @@
 .root {
   height: 100%;
+  :global {
+    .am-list-line::after {
+      opacity: 0;
+      display: none;
+    }
+  }
 }
 
 .wrap {
@@ -63,4 +69,7 @@
 }
 .btn {
   padding-top: 40px;
+}
+.tip {
+  padding-right: 100px;
 }

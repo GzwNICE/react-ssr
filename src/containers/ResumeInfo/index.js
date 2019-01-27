@@ -261,6 +261,13 @@ class ResumeInfo extends PureComponent {
           <InputItem
             {...getFieldProps('true_name_cn', {
               initialValue: resume.true_name_cn,
+              normalize: (v, prev) => {
+                if (v && /\s+/g.test(v)) {
+                  let str = v.replace(/\s+/g,"")
+                  return str;
+                }
+                return v;
+              },
               // rules: [
               //   {
               //     pattern: '[^a-zA-Z0-9\u4E00-\u9FA5_]',

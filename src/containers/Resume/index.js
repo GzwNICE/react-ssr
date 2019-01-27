@@ -195,7 +195,7 @@ class Resume extends PureComponent {
   }
   componentWillReceiveProps(next) {
     const {skills, languages, other_exps} = next
-
+    
     if (skills.length === 0 || languages.length === 0) {
       if (other_exps.length === 0) {
         this.setState({
@@ -209,6 +209,9 @@ class Resume extends PureComponent {
           showToogleModal: true,
           toogle: false,
         })
+        // const skillsPros = this.props.skills
+        // const languagesPros = this.props.skills
+        // const other_expsPros = this.props.skills
       }
     }
   }
@@ -227,9 +230,9 @@ class Resume extends PureComponent {
       DesiredCompanyTypes = [],
     } = this.props
     const { toogle, percentage, toInfo, search, showToogleModal } = this.state
-    console.log(
-      showToogleModal
-    )
+    // console.log(
+    //   showToogleModal
+    // )
     // console.log(
     //   toogle || (languages.length === 0 && skills.length === 0)
     // )
@@ -492,7 +495,7 @@ class Resume extends PureComponent {
                       <p>
                         {option.opts_education_index[item.degree] || '不限'} |{' '}
                         {item.major_cn ||
-                          option.opts_edu_major[item.major_id].value ||
+                          
                           '不限'}
                       </p>
                       <p>{`${item.begin_year}.${item.begin_month}-${

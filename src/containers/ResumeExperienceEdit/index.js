@@ -108,7 +108,7 @@ class ResumeExperienceEdit extends PureComponent {
         begin_month: moment(values.begin).format('M'),
         end_year,
         end_month,
-        salary_is_show: values.salary_type ? 2 : 1,
+        salary_is_show: values.salary_is_show ? '1' : '0',
         job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       }
@@ -169,7 +169,7 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
-    console.log(end_time)
+    // console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -250,8 +250,8 @@ class ResumeExperienceEdit extends PureComponent {
           <List.Item className={style.checkbox}>
             <label>
               <Checkbox
-                {...getFieldProps('salary_type', {
-                  initialValue: item.salary_type === '2',
+                {...getFieldProps('salary_is_show', {
+                  initialValue: item.salary_is_show === '1',
                   valuePropName: 'checked',
                 })}
               />
