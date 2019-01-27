@@ -65,7 +65,6 @@ class TextareaField extends ComplexFormField {
     const { getWorkExample } = this.props
     // const arr = getWorkExample.content_cn.split('。')
     // console.log(arr)
-    // todo 这边分行有问题
     return (
       <div className={style.wraper2}>
         <div className={style.moadl}>
