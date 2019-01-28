@@ -47,6 +47,7 @@ class Search extends Component {
           onSubmit={this.props.Search}
           onCancel={this.props.Cancel}
           onChange={this.props.Change}
+          onClear={this.props.Clear}
         />
         <Link
           rel="stylesheet"
