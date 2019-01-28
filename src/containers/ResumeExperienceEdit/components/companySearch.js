@@ -3,7 +3,46 @@ import ComplexFormField from '../../../components/Complex/ComplexFormField'
 import { NavBar, Toast, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import { getCompanyTips } from "../../../actions/work_exps";
+import { getCompanyTips } from '../../../actions/work_exps'
+
+//匹配整个关键词 不拆分
+function highlight(text, words) {
+  // var i,
+  //   len = words.length,
+  //   re
+  //匹配每一个特殊字符 ，进行转义
+  var specialStr = [
+    '*',
+    '.',
+    '?',
+    '+',
+    '$',
+    '^',
+    '[',
+    ']',
+    '{',
+    '}',
+    '|',
+    '\\',
+    '(',
+    ')',
+    '/',
+    '%',
+  ]
+  specialStr.forEach(item => {
+    if (words.indexOf(item) !== -1) {
+      words = words.replace(new RegExp('\\' + item, 'g'), '\\' + item)
+    }
+  })
+  //匹配整个关键词
+  let re = new RegExp(words, 'g')
+
+  if (re.test(text)) {
+    // todo 这边提取为单独的函数是，这边会有问题
+    text = text.replace(re, `<span>${words}</span>`)
+  }
+  return text
+}
 
 @connect(state => {
   return {
@@ -32,21 +71,20 @@ class ComplexSelView extends ComplexFormField {
       Toast.info('请输入内容', 2)
     }
   }
-  onChange = (value) => {
-    let val = value.replace(/\?/g,'')
+  onChange = value => {
+    // let val = value.replace(/\?/g,'')
     // let val = value
     const parmas = {
-      keyword: val,
+      keyword: value,
     }
     this.props.dispatch(getCompanyTips(parmas)).then(() => {
       this.setState({
-        value: val,
+        value: value,
         show: true,
       })
     })
-
   }
-  handleClick = (index) => {
+  handleClick = index => {
     const { dataList } = this.props
     this.props.onChange(dataList[index])
     this.changeVisible(false, true)
@@ -66,9 +104,10 @@ class ComplexSelView extends ComplexFormField {
     const defaultValue = this.props.value
     const { value, show } = this.state
     let arr = []
-    dataList.map((item,index) => {
-        let re =new RegExp(value,"g"); //定义正则
-        item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
+    dataList.map((item, index) => {
+      item = highlight(item, value)
+      // let re = new RegExp(value, 'g') //定义正则
+      // item = item.replace(re, `<span>${value}</span>`) //进行替换，并定义高亮的样式
       arr.push(item)
     })
     return (
@@ -78,29 +117,29 @@ class ComplexSelView extends ComplexFormField {
           className={style.nav}
           icon={<Icon type="left" />}
           onLeftClick={() => this.changeVisible()}
-          rightContent={<span onClick={() => this.save()}>保存</span>}>
+          rightContent={<span onClick={() => this.save()}>保存</span>}
+        >
           所在公司
         </NavBar>
         <div className={style.search}>
           <InputItem
             clear
             defaultValue={defaultValue}
-            value={value}
+            // value={value}
             placeholder="请输入公司名称"
             onChange={this.onChange}
           />
         </div>
-        <ul className={`${style.list} ${show ? style.show : style.hide}`} >
-          {
-            arr.map((item, index) => {
-              return (
-                <li
-                  key={index}
-                  onClick={this.handleClick.bind(this, index)}
-                  dangerouslySetInnerHTML={{__html: item}} />
-              )
-            })
-          }
+        <ul className={`${style.list} ${show ? style.show : style.hide}`}>
+          {arr.map((item, index) => {
+            return (
+              <li
+                key={index}
+                onClick={this.handleClick.bind(this, index)}
+                dangerouslySetInnerHTML={{ __html: item }}
+              />
+            )
+          })}
         </ul>
       </div>
     )

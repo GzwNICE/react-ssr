@@ -18,12 +18,14 @@ import {
   positionApply,
 } from '../../actions/position'
 import { getUserStatus } from '../../actions/userStatus'
+import { withRouter } from 'react-router-dom'
 const triggerFrom = '触发来源'
 const triggerPost = '岗位'
 
 @connect(state => ({
   position: state.position,
 }))
+@withRouter
 class PositionBar extends PureComponent {
   state = {
     Success: false, //投递成功弹窗
@@ -143,7 +145,7 @@ class PositionBar extends PureComponent {
   // 投递简历
   deliver() {
     const jobId = this.props.position.job_id
-    const { from } = queryString.parse(window.location.search)
+    const { from } = queryString.parse(this.props.history.location.search)
     const success = this.showModal('Success')
     this.props
       .dispatch(

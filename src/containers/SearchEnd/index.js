@@ -11,6 +11,7 @@ import queryString from 'query-string'
 import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
 import FilterSearch from '../../components/FilterSearch'
+import { withRouter } from 'react-router-dom'
 import {
   getSearchListInit,
   getSearchListadd,
@@ -47,6 +48,7 @@ const tiggerKeyWord = '搜索词'
     salaryString: state.search.salaryString,
   }
 })
+@withRouter
 class SearchEnd extends PureComponent {
   constructor(props) {
     super(props)
@@ -88,7 +90,7 @@ class SearchEnd extends PureComponent {
       education,
       room_board,
       work_mode,
-    } = queryString.parse(window.location.search)
+    } = queryString.parse(this.props.history.location.search)
     this.getQuery = {
       isUsed: 1,
       more: {},
@@ -109,7 +111,7 @@ class SearchEnd extends PureComponent {
     this.scrollTop = this.props.srearchData.scrollTop
 
     const data = this.props.location.state || {}
-    const { keyword } = queryString.parse(window.location.search)
+    const { keyword } = queryString.parse(this.props.history.location.search)
     if (keyword) this.getQuery.keyword = keyword
     const allQuery = this.handleSearchQuery()
     if (data.keyword || keyword) {
@@ -118,7 +120,6 @@ class SearchEnd extends PureComponent {
       })
     }
     Toast.loading('Loading...');
-    console.log(this.props.searchLIst)
     if (this.props.searchLIst.length < 1) {
       this.props.dispatch(getSearchListInit(allQuery)).then((res) => {
         Toast.hide()
@@ -154,7 +155,7 @@ class SearchEnd extends PureComponent {
     })
   }
   goBack = () => {
-    const { redirect } = queryString.parse(window.location.search)
+    const { redirect } = queryString.parse(this.props.history.location.search)
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -166,7 +167,7 @@ class SearchEnd extends PureComponent {
   }
 
   goSerch = () => {
-    const { redirect, sss } = queryString.parse(window.location.search)
+    const { redirect, sss } = queryString.parse(this.props.history.location.search)
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -308,7 +309,7 @@ class SearchEnd extends PureComponent {
       this.props.query && this.props.query.salary
         ? this.props.query.salary[1]
         : 100000
-    const { keyword } = queryString.parse(window.location.search)
+    const { keyword } = queryString.parse(this.props.history.location.search)
     const key = data.keyword || keyword || ''
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
@@ -394,20 +395,23 @@ class SearchEnd extends PureComponent {
    
   }
   selectProjectRender = query => {
+   
     const areas_index = (option && option.areas_index) ?  option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
-    const more = query.more ? query.more : {}
-    let company_industry
-    if (more.company_industry) {
-      company_industry =
-        option.opts_company_industry_all_index[more.company_industry]
-    }
-    let symbol = areaVal && company_industry ? '、' : null
+    // const more = query.more ? query.more : {}
+    // let company_industry
+    // if (more.company_industry) {
+    //   company_industry =
+    //     option.opts_company_industry_all_index[more.company_industry]
+    // }
+
+    const { keyword } = queryString.parse(this.props.history.location.search)
+
+    let symbol = areaVal && keyword ? '、' : null
+
     return (
       <div className={style.selectproject}>
-        已选项： {areaVal}
-        {symbol}
-        {company_industry}
+        已选项： {areaVal}{symbol}{keyword}
       </div>
     )
   }
@@ -487,7 +491,7 @@ class SearchEnd extends PureComponent {
     if (query.area.length === 0) {
       query.area = area
     }
-
+ 
     delete query.keyword
     delete query.isUsed
 

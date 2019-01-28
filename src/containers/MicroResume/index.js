@@ -74,24 +74,24 @@ class MicroResume extends PureComponent {
 
   componentDidMount() {
     window.zhuge.track('微简历-基本信息页面打开')
-    setTimeout(() => {
-      if (!auth.user_id && !Cookies('ticket')) {
-        this.goLogin()
-      } else {
-        this.props
-          .dispatch(
-            getAllInfo({
-              // version: '5.2.1',
-              appchannel: 'web',
-            })
-          )
-          .then(data => {
-            if (this.props.resume.true_name_cn) {
-              this.props.history.replace('/resume')
-            }
-          })
-      }
-    }, 400)
+    // setTimeout(() => {
+    //   if (!auth.user_id && !Cookies('ticket')) {
+    //     this.goLogin()
+    //   } else {
+    //     this.props
+    //       .dispatch(
+    //         getAllInfo({
+    //           // version: '5.2.1',
+    //           appchannel: 'web',
+    //         })
+    //       )
+    //       .then(data => {
+    //         if (this.props.resume.true_name_cn) {
+    //           this.props.history.replace('/resume')
+    //         }
+    //       })
+    //   }
+    // }, 400)
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
@@ -342,7 +342,7 @@ class MicroResume extends PureComponent {
             姓名
           </InputItem>
 
-          <BorderBottomLine />
+          <BorderBottomLine/>
           <Gender
             {...getFieldProps('gender', {
               initialValue: !gender ? 1 : gender,
