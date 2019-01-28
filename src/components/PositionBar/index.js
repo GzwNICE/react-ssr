@@ -88,69 +88,63 @@ class PositionBar extends PureComponent {
 
   toEmploy = () => {
     const isApplied = this.props.position.is_applied
+    const resume_complete = this.props.position.resume_complete
+    const true_name = this.props.position.true_name
+    const is_login = sessionStorage.getItem('is_login')
+      ? sessionStorage.getItem('is_login')
+      : ''
     const toPerfect = this.showModal('toPerfect')
     const mostPerfect = this.showModal('mostPerfect')
     if (!isApplied) {
-      this.props
-        .dispatch(
-          getUserStatus({
-            appchannel: 'web',
-          })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin('应聘')
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '投递简历',
-              })
-            }
-          } else if (data.data.resume_complete < 0.01) {
-            this.setState({
-              perfectContent: 0, //没有简历
-            })
-            toPerfect()
-            return
-          } else if (data.data.true_name === '') {
-            this.setState({
-              perfectContent: 1, //简历没有姓名
-            })
-            toPerfect()
-            return
-          } else if (data.data.resume_complete < 0.4) {
-            this.setState({
-              perfectContent: 2, //简历完整度<40
-            })
-            toPerfect()
-            return
-          } else if (
-            data.data.resume_complete > 0.4 &&
-            data.data.resume_complete < 0.8 // 40 <简历完整度 < 80
-          ) {
-            mostPerfect()
-            this.setState({
-              percentage: `${data.data.resume_complete * 100}%`,
-            })
-            return
-          } else {
-            this.deliver()
-          }
+      if (is_login === 0) {
+        this.goLogin('应聘')
+        window.zhuge.track('注册页面打开', {
+          [`${triggerFrom}`]: '投递简历',
         })
+      } else if (resume_complete < 0.01) {
+        this.setState({
+          perfectContent: 0, //没有简历
+        })
+        toPerfect()
+        return
+      } else if (true_name === '') {
+        this.setState({
+          perfectContent: 1, //简历没有姓名
+        })
+        toPerfect()
+        return
+      } else if (resume_complete < 0.4) {
+        this.setState({
+          perfectContent: 2, //简历完整度<40
+        })
+        toPerfect()
+        return
+      } else if (
+        resume_complete > 0.4 &&
+        resume_complete < 0.8 // 40 <简历完整度 < 80
+      ) {
+        mostPerfect()
+        this.setState({
+          percentage: `${resume_complete * 100}%`,
+        })
+        return
+      } else {
+        this.deliver()
+      }
     }
   }
 
   // 投递简历
   deliver() {
     const jobId = this.props.position.job_id
-    const { from } = queryString.parse(window.location.search)
+    const from = queryString.parse(this.props.history.location.search)
     const success = this.showModal('Success')
     this.props
       .dispatch(
         positionApply({
           job_id: jobId,
           client_id: 4,
-          from: from,
+          from: from.redirect,
         })
       )
       .then(data => {
@@ -158,8 +152,8 @@ class PositionBar extends PureComponent {
           const msg = data.errMsg
           if (msg) {
             return Toast.info(msg, 2)
-          } 
-        }else {
+          }
+        } else {
           success()
         }
       })

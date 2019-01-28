@@ -86,7 +86,7 @@ class SearchUser extends Component {
               onFocus={this.props.searchFocus}
             />
           ) : (
-            <div className={style.companyTitle}></div>
+            <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
             <Link rel="stylesheet" to={`/home`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
