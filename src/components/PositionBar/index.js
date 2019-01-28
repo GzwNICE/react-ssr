@@ -91,7 +91,7 @@ class PositionBar extends PureComponent {
   toEmploy = () => {
     const isApplied = this.props.position.is_applied
     const resume_complete = this.props.position.resume_complete
-    const true_name = this.props.position.true_name
+    const true_name = this.props.position.true_name_cn
     const is_login = sessionStorage.getItem('is_login')
       ? sessionStorage.getItem('is_login')
       : ''
