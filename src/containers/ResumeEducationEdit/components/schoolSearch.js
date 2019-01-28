@@ -106,8 +106,9 @@ class ComplexSelView extends ComplexFormField {
     const { value, show } = this.state
     let arr = []
     dataList.map((item,index) => {
-      item = highlight(item, value)   
-      arr.push(item)
+      let values = item.split(value);
+      let str = values.join('<span>' + value + '</span>')        
+      arr.push(str)
     })
 
     return (
