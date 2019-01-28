@@ -44,6 +44,7 @@ const tiggerBrand = '品牌'
   searchPager: state.company.searchPager,
   query: state.search.query,
   searchState: state.search.searchState,
+  searchKeyword: state.search.searchKeyword,
   option: state.option,
   company: state.company,
 }))
@@ -124,6 +125,7 @@ export default class CompanyArea extends Component {
   }
 
   onSubmit = value => {
+    this.props.dispatch(blocSearchClear())
     if (value === '') {
       Toast.info('请输入搜索职位/品牌', 2)
       return
@@ -135,6 +137,7 @@ export default class CompanyArea extends Component {
       this.props.dispatch(
         saveSearch({
           searchState: true,
+          searchKeyword: value,
         })
       )
       this.props.dispatch(
@@ -163,6 +166,7 @@ export default class CompanyArea extends Component {
         searchState: false,
       })
     )
+    this.props.dispatch(blocSearchClear())
   }
 
   onChange = value => {
@@ -218,7 +222,8 @@ export default class CompanyArea extends Component {
     if (
       nextProps.query.area !== this.props.query.area ||
       nextProps.query.brand !== this.props.query.brand ||
-      nextProps.searchState !== this.props.searchState
+      nextProps.searchState !== this.props.searchState  || 
+      nextProps.searchKeyword !== this.props.searchKeyword
     ) {
       if (nextProps.searchState) {
         this.props.dispatch(

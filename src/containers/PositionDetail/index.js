@@ -75,7 +75,7 @@ class PositionDetail extends PureComponent {
 
   goCompany = c_userid => {
     window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '职位详情页' })
-    this.props.history.push(`/${c_userid}`)
+    this.props.history.push(`/${c_userid}?redirect=${this.props.history.location.pathname}`)
   }
 
   shareWeixin = data => {
