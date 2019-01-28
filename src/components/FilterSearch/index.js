@@ -10,7 +10,7 @@ import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'
 import angleDownGray from '../../static/Rectangle@3x.png'
 import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 
 // todo 薪资，点击地址和筛选时需要隐藏
 @createForm({

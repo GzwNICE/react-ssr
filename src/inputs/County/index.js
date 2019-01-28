@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import {
   NavBar,
-  Toast,
-  Accordion,
-  List,
   Icon,
-  InputItem,
   Modal,
 } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import checkeIcon from '../../static/circleSelected.png'
+import Rectangle from '../../static/back.png'
 
 @connect(state => {
   return {
@@ -56,7 +53,7 @@ class County extends Component {
           <NavBar
             mode="light"
             className={style.nav}
-            icon={<Icon type="left" />}
+            icon={<img src={Rectangle} alt="返回" />}
             onLeftClick={() => this.goback()}
           />
           <div className={style.title}>请选择国家或地区</div>

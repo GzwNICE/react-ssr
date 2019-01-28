@@ -4,7 +4,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less'
-import angleDown from '../../static/right2@3x.png'
+import angleDown from '../../static/back.png'
 import search from '../../static/serach2@3x.png'
 import { Link } from 'react-router-dom'
 import Userdefault from '../../static/portrait@3x.png'
