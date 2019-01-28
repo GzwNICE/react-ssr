@@ -158,8 +158,6 @@ class MicroResume extends PureComponent {
       if (String(values.end_time) !== '0') {
         let start = values.begin_time.valueOf()
         let end = values.end_time.valueOf()
-        console.log(moment(values.begin_time).format('YYYY-M'))
-        console.log(moment(values.end_time).format('YYYY-M'))
 
         if (moment(values.begin_time).format('YYYY-M') !==
           moment(values.end_time).format('YYYY-M') && start > end) {
@@ -299,9 +297,6 @@ class MicroResume extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(next) {
-    console.log(next)
-  }
   jobRender = () => {
     const { form, microresumeParams } = this.props
     const { getFieldProps } = form
@@ -323,17 +318,6 @@ class MicroResume extends PureComponent {
   
     return (
       <div className={style.job}>
-      <Helmet>
-          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
-          <meta
-            name="description"
-            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
-          />
-          <meta
-            name="keywords"
-            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
-          />
-        </Helmet>
         <div className={style.underlineleft} />
         <div className={style.jobtontent}>
           <InputItem
@@ -517,6 +501,17 @@ class MicroResume extends PureComponent {
     const { initialPage, goBackModalVisible } = this.state
     return (
       <div className={style.container}>
+      <Helmet>
+      <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+      <meta
+        name="description"
+        content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+      />
+      <meta
+        name="keywords"
+        content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+      />
+    </Helmet>
         <NavBar
           mode="light"
           className={style.nav}

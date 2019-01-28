@@ -95,6 +95,12 @@ class ComplexSelView extends ComplexFormField {
       })
     }
   }
+  leftClick = () => {
+    this.changeVisible()
+    this.setState({
+      show: false,
+    })
+  }
   mainView() {
     const { dataList = [] } = this.props
     const defaultValue = this.props.value
@@ -110,7 +116,7 @@ class ComplexSelView extends ComplexFormField {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.changeVisible()}
+          onLeftClick={this.leftClick}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
           所任职位
         </NavBar>
