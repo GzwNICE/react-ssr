@@ -197,28 +197,32 @@ class SearchEnd extends PureComponent {
       this.props.history.push(redirect)
     }
     this.scrollTop = 0
-    this.props.history.replace('/search')
+    // this.props.history.replace('/search')
+    this.props.history.goBack()
   }
 
   goSerch = () => {
-    const { redirect, sss } = queryString.parse(
-      this.props.history.location.search
-    )
-    this.props.dispatch(deleteList())
+    this.props.history.push(`/search`)
+    // const { redirect, sss } = queryString.parse(
+    //   this.props.history.location.search
+    // )
+    // this.props.dispatch(deleteList())
+    // console.log(redirect)
+    // console.log(sss)
 
-    if (redirect) {
-      this.props.history.push(redirect)
-    }
-    if (
-      this.props.history.length === 2 ||
-      this.props.history.length === 1 ||
-      sss
-    ) {
-      this.props.history.push(`/search?sss=${sss}`)
-    } else {
-      this.scrollTop = 0
-      this.props.history.go(-1)
-    }
+    // if (redirect) {
+    //   this.props.history.push(redirect)
+    // }
+    // if (
+    //   this.props.history.length === 2 ||
+    //   this.props.history.length === 1 ||
+    //   sss
+    // ) {
+    //   this.props.history.push(`/search?sss=${sss}`)
+    // } else {
+    //   this.scrollTop = 0
+    //   this.props.history.go(-1)
+    // }
   }
 
   goPosition = () => {

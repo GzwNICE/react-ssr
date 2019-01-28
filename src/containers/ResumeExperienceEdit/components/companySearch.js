@@ -111,10 +111,12 @@ class ComplexSelView extends ComplexFormField {
     const { value, show } = this.state
     let arr = []
     dataList.map((item, index) => {
-      item = highlight(item, value)
+      // item = highlight(item, value)
       // let re = new RegExp(value, 'g') //定义正则
       // item = item.replace(re, `<span>${value}</span>`) //进行替换，并定义高亮的样式
-      arr.push(item)
+      let values = item.split(value);
+      let str = values.join('<span>' + value + '</span>')        
+      arr.push(str)
     })
     return (
       <div className={style.root}>
