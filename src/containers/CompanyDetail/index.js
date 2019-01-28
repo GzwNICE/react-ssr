@@ -2,7 +2,6 @@
  * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
-import style from './style.less'
 import { Tabs, Badge, Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -11,6 +10,7 @@ import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
 import CompanyDuce from './CompanyDuce'
+import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
 import missing from '../../static/missing.png'
@@ -21,6 +21,7 @@ import {
 } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
+import style from './style.less'
 const triggerFrom = '触发来源'
 
 
@@ -214,6 +215,17 @@ class CompanyDetail extends PureComponent {
     ]
     return (
       <div className={style.CompanyDetailWrap}>
+        <Helmet>
+          <title>{`${this.props.company.company_name}招聘信息，招工求职信息_最佳东方`}</title>
+          <meta
+            name="description"
+            content={`最佳东方提供全面${this.props.company.company_name}招聘职位信息,${this.props.company.company_name}招工求职信息,帮助您成功入职${this.props.company.company_name},与众多${this.props.company.company_name}精英们一起开启一段崭新的职业生涯。`}
+          />
+          <meta
+            name="keywords"
+            content={`${this.props.company.company_name}招聘信息,${this.props.company.company_name}求职信息,${this.props.company.company_name}招工信息`}
+          />
+        </Helmet>
         <SearchUser
           searchShow={searchShow}
           goBack={this.whereWillIGo}
