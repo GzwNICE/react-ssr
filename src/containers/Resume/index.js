@@ -322,7 +322,7 @@ class Resume extends PureComponent {
                     : '暂无'}
                 </p>
                 <p className={style.subTitle}>
-                  简历完善度:<span>{percentage ? percentage : '暂无'}</span>
+                  简历完整度:<span>{percentage ? percentage : '暂无'}</span>
                 </p>
                 <Flex>
                   <Flex.Item

@@ -94,8 +94,8 @@ class TextareaField extends ComplexFormField {
     return (
       <List>
         <TextareaItem
-          autoHeight
-          rows={5}
+          // autoHeight
+          rows={12}
           value={this.state.value}
           placeholder={this.props.placeholder}
           maxLength={this.props.maxLength}
