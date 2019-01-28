@@ -41,6 +41,8 @@ spec:
           value: git@gitee.com:veryeast/ve_m_ssr.git
         - name: GIT_BRANCH
           value: product
+        - name: NODE_ENV
+          value: production
 
         imagePullPolicy: Always
         ports:
