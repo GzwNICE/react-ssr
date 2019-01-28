@@ -82,6 +82,9 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+    // let str = 'search/会计?keyword=会计&areaParms=050100'
+    // let arr = str.split('&')
+    // console.log(arr)
     const {
       // keyword,
       position,

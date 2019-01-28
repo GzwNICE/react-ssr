@@ -24,14 +24,12 @@ import pathToRegexp from 'path-to-regexp'
 import {
   getSearchListInit,
 } from '../src/actions/search'
-
-
-import * as option from '../src/actions/option'
-import * as supersLocation from '../src/actions/supers/location'
-
-
+// import * as option from '../src/actions/option'
+// import * as supersLocation from '../src/actions/supers/location'
 
 export default (req, res, next) => {
+  console.log(444444444444444444444 )
+  console.log(req.url)
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
@@ -197,9 +195,8 @@ export default (req, res, next) => {
           })
         })
       }
-      console.log(444444444444444444444)
-      console.log(req.url)
-      if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keywordParams') !== -1 && req.url.indexOf('areaParms') !== -1) {
+    
+      if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
         let arr = req.url.split('&')
         console.log(arr)
         let params = {
@@ -219,16 +216,17 @@ export default (req, res, next) => {
         }
         arr.forEach(item => {
           let arr2 = item.split('=')
-          if (arr2[0] === 'keywordParams') {
+          if (arr2[0].indexOf('keyword')) {
             params.keyword = arr2[1]
           }
-          if (arr2[0] === 'areaParms') {
+          if (arr2[0].indexOf('areaParms')) {
             params.city = arr2[1]
           }
         })
-        store.dispatch(getSearchListInit(params)).then(() => {
-          serverRender()
-        })
+        serverRender()
+        // store.dispatch(getSearchListInit(params)).then(() => {
+        //   serverRender()
+        // })
       }
 
       if(render){
