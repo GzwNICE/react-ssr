@@ -44,7 +44,7 @@ spec:
         - name: NODE_ENV
           value: production
 
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         #resources:
