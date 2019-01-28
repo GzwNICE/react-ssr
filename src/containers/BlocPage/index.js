@@ -163,6 +163,7 @@ export default class CompanyArea extends Component {
         searchState: false,
       })
     )
+    this.props.dispatch(blocSearchClear())
   }
 
   onChange = value => {
