@@ -78,6 +78,7 @@ class SearchEnd extends PureComponent {
       showSelectP: true, // 显示已选项
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
+      queryMore: {}, // 跳转过来展示的行业 酒店、餐饮、休闲娱乐、康养、房地产
     }
   }
   componentDidMount() {
@@ -133,7 +134,7 @@ class SearchEnd extends PureComponent {
         }
       })
     }
-
+    console.log(keyword)
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
     /*
@@ -236,7 +237,7 @@ class SearchEnd extends PureComponent {
         val += positions_index[item] + ';'
         return null
       })
-      console.log(value.position)
+      // console.log(value.position)
       window.zhuge.track('搜索无结果', { [`${triggerPost}`]: val })
     }
     if (value.area) {
