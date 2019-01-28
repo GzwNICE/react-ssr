@@ -14,6 +14,7 @@ import { saveQuery, saveSearch } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
+import { Helmet } from 'react-helmet'
 import style from './style.less'
 const tiggerKeyWord = '搜索词'
 const tiggerCity = '地区'
@@ -204,6 +205,7 @@ export default class CompanyArea extends Component {
         ? sessionStorage.getItem('is_login')
         : '',
     })
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -255,8 +257,21 @@ export default class CompanyArea extends Component {
   }
   render() {
     const { show, showRegWrap, is_login } = this.state
+    const category = this.props.list 
+    const categoryName = category.length > 0 ? category[0].category_name : ''
     return (
       <div className={style.CompanyArea}>
+        <Helmet>
+          <title>{`${categoryName}招聘信息,招工求职信息_最佳东方`}</title>
+          <meta
+            name="description"
+            content={`最佳东方提供全面${categoryName}招聘职位信息,${categoryName}招工求职信息,帮助您成功入职${categoryName},与众多${categoryName}精英们一起开启一段崭新的职业生涯。`}
+          />
+          <meta
+            name="keywords"
+            content={`${categoryName}招聘信息,${categoryName}求职信息,${categoryName}招工信息`}
+          />
+        </Helmet>
         <div className={style.selHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <Search

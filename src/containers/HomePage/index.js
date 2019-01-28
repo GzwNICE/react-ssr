@@ -6,17 +6,10 @@ import style from './style.less'
 import Carousels from '../../components/Carousels'
 import MySearchBar from '../../components/SearchBar'
 import FamousCompany from './FamousCompany'
-// import Cookies from 'js-cookie'
 import HotTrade from './HotTrade'
-// import { WhiteSpace } from 'antd-mobile'
 import { Helmet } from 'react-helmet'
-// import JobCard from '../../components/JobCard'
 import * as Ad from '../../components/Ad'
 import {
-  // getPostInit,
-  // changeCity,
-  // refReshPost,
-  // addPost,
   saveScrollTop,
 } from '../../actions/home'
 import { saveCityCode } from '../../actions/userStatus'

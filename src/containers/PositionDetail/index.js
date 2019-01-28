@@ -12,6 +12,7 @@ import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
 import site from '../../static/area@3x.png'
 import dim from '../../static/dim.png'
+import { Helmet } from 'react-helmet'
 import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
@@ -222,6 +223,17 @@ class PositionDetail extends PureComponent {
     const hotData = this.props.position.hotData || {}
     return (
       <div className={style.PositionDetailWrap}>
+        <Helmet>
+          <title>{`招聘${job_name}_${company.company_name}-最佳东方`}</title>
+          <meta
+            name="description"
+            content={`${company.company_name},${job_name}`}
+          />
+          <meta
+            name="keywords"
+            content={`${company.company_name}${job_name}相关的招聘职位信息，帮助求职者早日找到测试职位相关工作`}
+          />
+        </Helmet>
         <SearchUser
           title="职位详情"
           searchShow={searchShow}
