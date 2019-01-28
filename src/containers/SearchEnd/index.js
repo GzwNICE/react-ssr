@@ -78,7 +78,7 @@ class SearchEnd extends PureComponent {
       showSelectP: true, // 显示已选项
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
-      queryMore: {}, // 跳转过来展示的行业 酒店、餐饮、休闲娱乐、康养、房地产
+      queryMore: {}, // 跳转过来展示的行业 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）
     }
   }
   componentDidMount() {
@@ -134,7 +134,8 @@ class SearchEnd extends PureComponent {
         }
       })
     }
-    console.log(keyword)
+    
+    this.setQueryMore(keyword)
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
     /*
@@ -155,6 +156,36 @@ class SearchEnd extends PureComponent {
         ? sessionStorage.getItem('is_login')
         : '',
     })
+  }
+  // 从首页点击 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）这几个时在筛选上有选项
+  setQueryMore = keyword => {
+    let select = ''
+    switch (keyword) {
+      case '酒店':
+        select = 1
+        break
+      case '餐饮':
+        select = 3
+        break
+      case '休闲娱乐':
+        select = 4
+        break
+      case '康养':
+        select = 8
+        break
+      case '房地产':
+        select = 11
+        break
+      default:
+    }
+    if (select) {
+      const obj = {
+      company_industry: select,
+      }
+      this.setState({
+        queryMore: obj,
+      })
+    }
   }
   goBack = () => {
     const { redirect } = queryString.parse(this.props.history.location.search)
@@ -422,14 +453,23 @@ class SearchEnd extends PureComponent {
     // }
 
     const { keyword } = queryString.parse(this.props.history.location.search)
-
-    let symbol = areaVal && keyword ? '、' : null
+    const arr = ['酒店', '餐饮', '休闲娱乐', '康养', '房地产']
+    let showKeyword = ''
+    arr.forEach(item => {
+      if (item === keyword) {
+        showKeyword = keyword
+      }
+    })
+    if (showKeyword === '康养') {
+      showKeyword = '养老'
+    }
+    let symbol = areaVal && showKeyword ? '、' : null
 
     return (
       <div className={style.selectproject}>
         已选项： {areaVal}
         {symbol}
-        {keyword}
+        {showKeyword}
       </div>
     )
   }
@@ -501,6 +541,7 @@ class SearchEnd extends PureComponent {
   }
 
   render() {
+    const {queryMore} = this.state
     let query = this.props.query
     const area =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
@@ -509,7 +550,7 @@ class SearchEnd extends PureComponent {
     if (query.area.length === 0) {
       query.area = area
     }
-
+    query.more = {...query.more, ...queryMore}
     delete query.keyword
     delete query.isUsed
 

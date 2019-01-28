@@ -18,7 +18,7 @@ class More extends ComplexSelView {
   }
 
   selectValue = (label, code) => {
-    // console.log(typeof label, typeof code)
+    console.log(label, code)
     const prevValue = this.state ? this.state.value : {}
     const value = {
       ...prevValue,
