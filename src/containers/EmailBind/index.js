@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import F from '../../helper/tool'
 import { email_verify_code, email_verify } from '../../actions/bind'
 import style from './style.less'
+import BorderBottomLine from '../../components/BorderBottomLine/index'
 
 @connect(state => {
   return {
@@ -237,20 +238,23 @@ class EmailBind extends PureComponent {
                   clear
                   placeholder={emailPlacehold}
                 />
-                <InputItem
-                  {...getFieldProps('code', {
-                    initialValue: '',
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入短信验证码',
-                      },
-                    ],
-                  })}
-                  clear
-                  className={style.authCode}
-                  placeholder="请输入验证码"
-                />
+                <BorderBottomLine />
+                <div className={style.tip}>
+                  <InputItem
+                    {...getFieldProps('code', {
+                      initialValue: '',
+                      rules: [
+                        {
+                          required: true,
+                          message: '请输入短信验证码',
+                        },
+                      ],
+                    })}
+                    clear
+                    className={style.authCode}
+                    placeholder="请输入验证码"
+                  />
+                </div>
 
                 <Button
                   onClick={this.getCode}
@@ -262,6 +266,7 @@ class EmailBind extends PureComponent {
                 >
                   {tipFont}
                 </Button>
+                <BorderBottomLine />
               </div>
               <p className={style.footer}>
                 注：请登录邮箱查看验证码，并填写到输入框

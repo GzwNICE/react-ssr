@@ -23,7 +23,7 @@ const CustomChildren1 = ({ extra, onClick, children }) => {
       className = {style.joinTimeTadding}
     >
       {children}
-      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+      <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
     </div>
   )
 }
@@ -35,7 +35,7 @@ const CustomChildren2 = ({ extra, onClick, children }) => {
       className = {style.timeContent}
     >
       {children}
-      <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+      <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
     </div>
   )
 }

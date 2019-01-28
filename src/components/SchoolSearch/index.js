@@ -1,10 +1,43 @@
 import React from 'react'
 import ComplexFormField from '../Complex/ComplexFormField'
-import { NavBar, Toast, Accordion, List, Icon, InputItem } from 'antd-mobile'
+import { NavBar, Toast, Icon, InputItem } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { get_school_tips as getData } from "../../actions/educationals"
+//匹配整个关键词 不拆分
+function highlight(text, words) {
+  //匹配每一个特殊字符 ，进行转义
+  var specialStr = [
+    '*',
+    '.',
+    '?',
+    '+',
+    '$',
+    '^',
+    '[',
+    ']',
+    '{',
+    '}',
+    '|',
+    '\\',
+    '(',
+    ')',
+    '/',
+    '%',
+  ]
+  specialStr.forEach(item => {
+    if (words.indexOf(item) !== -1) {
+      words = words.replace(new RegExp('\\' + item, 'g'), '\\' + item)
+    }
+  })
+  //匹配整个关键词
+  let re = new RegExp(words, 'g')
 
+  if (re.test(text)) {
+    text = text.replace(re, `<span>${words}</span>`)
+  }
+  return text
+}
 @connect(state => {
   return {
     dataList: state.educationals.school,
@@ -25,17 +58,22 @@ class ComplexSelView extends ComplexFormField {
     if (value.length > 0) {
       this.props.onChange(value)
       this.changeVisible(false, true)
+      this.setState({
+        show: false,
+      })
     } else {
       Toast.info('请输入内容', 2)
     }
   }
   onChange = (value) => {
+    // let val = value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5_]/g,'')
+    // let val = value.replace(/\?/g,'')
     const parmas = {
       keyword: value,
     }
     this.props.dispatch(getData(parmas)).then(() => {
       this.setState({
-        value,
+        value: value,
         show: true,
       })
     })
@@ -50,14 +88,20 @@ class ComplexSelView extends ComplexFormField {
       value: dataList[index],
     })
   }
+  componentWillReceiveProps(next) {
+    if (this.props.value && next.value === this.props.value) {
+      this.setState({
+        value: this.props.value,
+      })
+    }
+  }
   mainView() {
     const { dataList = [] } = this.props
     const defaultValue = this.props.value
     const { value, show } = this.state
     let arr = []
     dataList.map((item,index) => {
-      let re =new RegExp(value,"g"); //定义正则
-      item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
+      item = highlight(item, value)   
       arr.push(item)
     })
 
@@ -75,6 +119,7 @@ class ComplexSelView extends ComplexFormField {
           <InputItem
             clear
             defaultValue={defaultValue}
+            // value={value}
             placeholder="请输入学校名称"
             onChange={this.onChange}
           />

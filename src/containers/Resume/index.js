@@ -14,10 +14,11 @@ import addIcon from '../../static/add@3x.png'
 import circleIcon from '../../static/circle.png'
 import upIcon from '../../static/packUp@3x.png'
 import downIcon from '../../static/packDown@3x.png'
-// import downIcon from '../../static/packDown@3x.png'
+import overSeaIcon from '../../static/icon_studay.png'
 import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
+import { $ } from '../../actions/resume'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -47,14 +48,19 @@ const progressStyle = {
     DesiredCompanyTypes: state.DesiredCompanyTypes.list,
     minutesThree: true, // 3分钟内只能刷一次
     userStatus: state.userStatus,
+    resumeToogle: state.resumeNew,
   }
 })
 @withRouter
 class Resume extends PureComponent {
   state = {
-    toogle: false, // 默认收起
+    toogle: true,
     percentage: '',
     toInfo: '', // 跳转到基本信息
+    search: '', // history search
+    showToogleModal: false, // 底部toogle是否展示
+    languagesArr: [],
+    skillsArr: [],
   }
 
   componentDidMount() {
@@ -67,6 +73,7 @@ class Resume extends PureComponent {
     })
     this.setState({
       toInfo: '/resume/info' + this.props.history.location.search,
+      search: this.props.history.location.search,
     })
     this.props
       .dispatch(
@@ -77,17 +84,21 @@ class Resume extends PureComponent {
       )
       .then(data => {
         if (data.errMsg === '未登陆') {
-          return Modal.alert('', '请先登录', [
-            { text: '稍后', style: 'default' },
-            {
-              text: '登录',
-              onPress: () =>
-                this.props.history.replace(
-                  '/login?redirect=' + this.props.history.location.pathname
-                ),
-            },
-          ])
+          this.props.history.replace(
+            '/register?redirect=' + this.props.history.location.pathname
+          )
+          // return Modal.alert('', '请先登录', [
+          //   { text: '稍后', style: 'default' },
+          //   {
+          //     text: '登录',
+          //     onPress: () =>
+          //       this.props.history.replace(
+          //         '/register?redirect=' + this.props.history.location.pathname
+          //       ),
+          //   },
+          // ])
         }
+        this.languageKillArr()
         // 根据姓名判断
         // const {resume}  = this.props
         // if (!resume.true_name_cn) {
@@ -116,6 +127,46 @@ class Resume extends PureComponent {
           }
         }
       })
+  }
+  languageKillArr = () => {
+    // console.log(this.props.resumeToogle)
+
+    const {skills, languages, other_exps, resumeToogle} = this.props
+    if (skills.length > 0 || languages.length > 0) {
+      let languagesLen = languages.length
+      let skillsLen = skills.length
+      let languagesArr = []
+      let skillsArr = []
+      if ((languagesLen + skillsLen) > 5 ) {
+        if (languagesLen > 5) {
+          languagesArr = languages.slice(0,5)
+          skillsArr = []
+        } else {
+          languagesArr = languages
+          let remainingLen = 5 - languagesLen
+          skillsArr = skills.slice(0,remainingLen)
+        }
+      } else {
+        languagesArr = languages
+        skillsArr = skills
+      }
+      this.setState({
+        languagesArr,
+        skillsArr,
+      })
+    }
+    if (skills.length > 0 || languages.length > 0) {
+      if (other_exps.length > 0) {
+        // const {toogleSet= false} = this.props.resume
+        this.setState({
+          showToogleModal: true,
+          toogle: resumeToogle.toogleSet,
+        })
+        // const skillsPros = this.props.skills
+        // const languagesPros = this.props.skills
+        // const other_expsPros = this.props.skills
+      }
+    }
   }
   handleFaceChange = ev => {
     this.bitmapMin.load(ev.target.files[0], (base64, blob) => {
@@ -166,8 +217,14 @@ class Resume extends PureComponent {
     this.props.history.push(item)
   }
   handleToogle = () => {
+   
+    const toogle = !this.state.toogle
     this.setState({
-      toogle: !this.state.toogle,
+      toogle,
+    })
+      this.props.dispatch({
+      type: 'RESUMETOOGLE',
+      payload: toogle,
     })
   }
   gotoPreview = () => {
@@ -190,6 +247,11 @@ class Resume extends PureComponent {
       this.props.history.push('/home')
     }
   }
+  componentWillReceiveProps(next) {
+    // const {skills, languages, other_exps} = next
+    // console.log(next)
+    
+  }
   render() {
     const {
       option,
@@ -199,14 +261,15 @@ class Resume extends PureComponent {
       DesiredJob,
       educationals,
       work_exps,
-      languages,
-      skills,
+      // languages,
+      // skills,
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage, toInfo } = this.state
+    const { toogle, percentage, toInfo, search, showToogleModal, languagesArr, skillsArr } = this.state
+    // console.log(toogle)
     // console.log(
-    //   DesiredJob.desired_salary
+    //   toogle || (languages.length === 0 && skills.length === 0)
     // )
     let desiredSalary = '暂无'
     if (DesiredJob.desired_salary && DesiredJob.desired_salary !== '0') {
@@ -403,9 +466,7 @@ class Resume extends PureComponent {
                         src={editIcon}
                         onClick={this.handleGoto.bind(
                           this,
-                          `/resume/experience/${item.id}${
-                            this.props.history.location.search
-                          }`
+                          `/resume/experience/${item.id}${search}`
                         )}
                         className={style['card-job-wraper-editor']}
                       />
@@ -422,7 +483,7 @@ class Resume extends PureComponent {
                           value={`${item.job_responsibilities_cn || ''}`}
                           editable={false}
                         />
-                      ) : <p>暂未填写岗位</p>}
+                      ) : <p>暂未填写岗位职责</p>}
 
                       {work_exps.length - 1 !== key ? (
                         <div className={style['card-education-wraper-line']} />
@@ -431,7 +492,7 @@ class Resume extends PureComponent {
                   ))}
                   <div className={style['card-education-footer']}>
                     <img src={addIcon} />
-                    <Link to="/resume/experience/add">添加工作经验</Link>
+                    <Link to={`/resume/experience/add${search}`}>添加工作经验</Link>
                   </div>
                 </Card.Body>
               </Card>
@@ -450,23 +511,24 @@ class Resume extends PureComponent {
                         src={circleIcon}
                         className={style['card-education-wraper-circle']}
                       />
-                      <div className={style.ellipsis}>
-                        {item.school_cn}
-                        {item.is_overseas === '1' ? ` | 海外教育经历` : null}
+                      <div className={style.oversea}>
+                      <div className={style.ellipsis}>{item.school_cn}</div>
+                        {item.is_overseas === '1' ? <img src={overSeaIcon} /> : null}
                       </div>
 
                       <img
                         src={editIcon}
                         onClick={this.handleGoto.bind(
                           this,
-                          `/resume/education/${item.id}`
+                          `/resume/education/${item.id}${search}`
                         )}
+                      
                         className={style['card-education-wraper-editor']}
                       />
                       <p>
                         {option.opts_education_index[item.degree] || '不限'} |{' '}
                         {item.major_cn ||
-                          option.opts_edu_major[item.major_id].value ||
+                          
                           '不限'}
                       </p>
                       <p>{`${item.begin_year}.${item.begin_month}-${
@@ -479,7 +541,7 @@ class Resume extends PureComponent {
                   ))}
                   <div className={style['card-education-footer']}>
                     <img src={addIcon} />
-                    <Link to="/resume/education/add">添加教育经历</Link>
+                    <Link to={`/resume/education/add${search}`}>添加教育经历</Link>
                   </div>
                 </Card.Body>
               </Card>
@@ -494,7 +556,7 @@ class Resume extends PureComponent {
                     }
                   />
                   <Card.Body className={style['card-language']}>
-                    {languages.map((item, index) => (
+                    {languagesArr.map((item, index) => (
                       <div
                         key={index}
                         className={style['card-language-content']}
@@ -515,7 +577,7 @@ class Resume extends PureComponent {
                         />
                       </div>
                     ))}
-                    {skills.map((item, index) => (
+                    {skillsArr.map((item, index) => (
                       <div
                         key={index}
                         className={style['card-language-content']}
@@ -570,14 +632,31 @@ class Resume extends PureComponent {
                   </Card.Body>
                 </Card>
               ) : null}
-
-              <div className={style.toogle} onClick={this.handleToogle}>
-                <div>
-                  <img src={toogle ? upIcon : downIcon} />
-                  收起更多模块
+              {
+                showToogleModal ?
+                (
+                  toogle ? 
+                   (
+                    <div className={style.toogle} onClick={this.handleToogle}>
+                    <div>
+                      <img src={upIcon} />
+                      收起更多模块
+                    </div>
+                    <p>更多简历信息请前往最佳东方官网编辑</p>
+                  </div>
+                  ) :  (<div className={style.toogle} onClick={this.handleToogle}>
+                  <div>
+                    <img src={downIcon} />
+                    展开更多模块
+                  </div>
+                  <p>包括语言/技能，自我描述</p>
                 </div>
-                <p>更多简历信息请前往最佳东方官网编辑</p>
-              </div>
+                ) 
+                  
+                ) : null
+              }
+          
+              
             </div>
           </div>
           <div />

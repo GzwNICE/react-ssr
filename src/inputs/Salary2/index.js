@@ -12,7 +12,7 @@ const Handle = Slider.Handle
 
 @connect(state => {
   return {
-    options: state.option.opts_salary.salary_scope_index,
+    options: state.option.opts_salary ? state.option.opts_salary.salary_scope_index : {},
     salaryShow: state.search.salaryShow,
     searchEndSalary: state.search.searchEndSalary,
   }

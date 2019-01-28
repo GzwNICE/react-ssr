@@ -21,6 +21,15 @@ import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
 import { blocList, blocCategory} from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
+import {
+  getSearchListInit,
+} from '../src/actions/search'
+
+
+import * as option from '../src/actions/option'
+import * as supersLocation from '../src/actions/supers/location'
+
+
 
 export default (req, res, next) => {
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
@@ -121,7 +130,6 @@ export default (req, res, next) => {
           })
       }
 
-
       const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
       const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
       const companyUrl = pathToRegexp('/:company_id(\\d+)\\?(.*)')
@@ -189,9 +197,85 @@ export default (req, res, next) => {
           })
         })
       }
+      console.log(444444444444444444444)
+      console.log(req.url)
+      if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keywordParams') !== -1 && req.url.indexOf('areaParms') !== -1) {
+        let arr = req.url.split('&')
+        console.log(arr)
+        let params = {
+          keyword: '',
+          area: '',
+          company_industry: '0',
+          education: '0',
+          room_board: '0',
+          salary: '0',
+          salary_min: '0',
+          salary_max: '100000',
+          scope: '4',
+          update_time: '-1',
+          work_mode: '0',
+          page: '1',
+          size: '20',
+        }
+        arr.forEach(item => {
+          let arr2 = item.split('=')
+          if (arr2[0] === 'keywordParams') {
+            params.keyword = arr2[1]
+          }
+          if (arr2[0] === 'areaParms') {
+            params.city = arr2[1]
+          }
+        })
+        store.dispatch(getSearchListInit(params)).then(() => {
+          serverRender()
+        })
+      }
+
       if(render){
         serverRender()
       }
+
+
+
+
+
+
+
+
+
+      // const urlExcel = () => {
+        
+      // }
+
+
+
+      // let cityCode = []
+      // function _optIndex(sublist, city) {
+      //   (sublist || []).forEach(item => {
+      //     if (new RegExp(item.value).test(city)) {
+      //       cityCode.push(item.code)
+      //     }
+      //     _optIndex(item.sublist, city)
+      //   })
+      // }
+      // store.dispatch(option.load()).then(option => {
+      //   supersLocation.getCoords().then(payload => {
+      //     _optIndex(option.data.areas, payload.address.city)
+      //     store.dispatch({
+      //       type: supersLocation.$.location_load,
+      //       payload: {
+      //         ...payload,
+      //         address: {
+      //           ...payload.address,
+      //           code: cityCode,
+      //         },
+      //       },
+      //     })
+      //     urlExcel()
+      //   })
+      // })
+
+
       // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
       //   store.dispatch(getPostInit()).then(() => {
       //     store.dispatch(getBanner()).then(() => {

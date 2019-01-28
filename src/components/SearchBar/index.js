@@ -52,7 +52,6 @@ class MySearchBar extends PureComponent {
     window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '首页个人中心icon' })
   }
 
-
   componentDidMount() {
     if (this.props.autoFocus) {
       this.autoFocusInst.focus()
@@ -71,7 +70,12 @@ class MySearchBar extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
       if (values.areas && nextProps.userStatus.code !== values.areas) {
+        // console.log(values.areas)
         this.props.onChangeCity && this.props.onChangeCity(values)
+        this.props.dispatch({
+          type: 'SEARCH_AREA_SINGLE',
+          payload: values.areas,
+        })
       }
     })
   }

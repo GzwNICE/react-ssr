@@ -4,6 +4,21 @@
   background-color: #ffffff;
   font-family: PingFangSC-Regular;
   :global {
+    .am-list-item .am-list-line .am-list-arrow {
+      background-image: url('../../static/right2@3x.png');
+    }
+    .am-list-extra {
+      font-size: 15px !important;
+      color: #9B9B9B !important;
+    }
+    .am-list-item .am-input-control input::-webkit-input-placeholder {
+      font-size: 15px !important;
+      color: #9B9B9B !important;
+    }
+    .am-list-item .am-input-control input::-moz-placeholder {
+      font-size: 15px !important;
+      color: #9B9B9B !important;
+    }
     .am-tabs-default-bar-content {
       > div:first-of-type {
         justify-content: flex-end;
@@ -163,7 +178,6 @@
 }
 
 .rightIcon {
-  
     width: 15px;
     height: 15px;
     margin-left: 8px;
@@ -173,7 +187,20 @@
     background-position: 50% 50%;
     visibility: visible;
     float: right;
-    margin-top: 16px;
+    margin-top: 17px;
+}
+.rightIcon2 {
+  // width: 15px;
+  // height: 15px;
+  margin-left: 8px;
+  font-size: 24px;
+  // background-image: url('../../static/right2@3x.png');
+  // background-size: contain;
+  // background-repeat: no-repeat;
+  // background-position: 50% 50%;
+  // visibility: visible;
+  // float: right;
+  // margin-top: 16px;
 }
 .timeContent {
   background-color: #ffffff;
@@ -187,6 +214,16 @@
   line-height: 50px;
   color: #4A4A4A;
   padding: 0 5px 0 0;
+}
+.nearest {
+  display: flex;
+  >div:first-child {
+    flex: 3;
+    // padding-left: 15px;
+  }
+  >div:last-child {
+    flex: 1;
+  }
 }
 // .tabs {
 //   font-size: 20px;

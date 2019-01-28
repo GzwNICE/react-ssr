@@ -246,7 +246,9 @@ class ComplexSelView extends ComplexFormField {
               热门
               {clickCode === 'hot' ? <i /> : null}
             </li>
-            {options.map((item, index) => (
+            {options
+              .filter(item => item.code !== '380000')
+              .map((item, index) => (
               <li
                 key={index}
                 onClick={this.handleChangeSubChil.bind(this, item)}

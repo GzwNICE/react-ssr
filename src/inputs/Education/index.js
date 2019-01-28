@@ -68,7 +68,7 @@ class Education extends PureComponent {
         <div onClick={onClick} className={style.timeContent}>
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
-          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+          <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
         </div>
       )
     }

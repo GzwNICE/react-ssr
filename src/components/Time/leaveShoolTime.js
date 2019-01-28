@@ -72,17 +72,11 @@ class JobTime extends PureComponent {
       return (
         <div
           onClick={onClick}
-          style={{
-            backgroundColor: '#fff',
-            height: '50px',
-            lineHeight: '50px',
-            padding: '0 20px',
-            color: '#4A4A4A',
-          }}
+          className={style.content}  
         >
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
-          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+          <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
         </div>
       )
     }

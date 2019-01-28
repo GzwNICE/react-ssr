@@ -14,6 +14,8 @@ import {
   SEARCH_SALARYSHOW,
   SEARCH_SALARYSTRING,
   SEARCH_SALARYRANGE,
+  SEARCH_EMPTY_ALL,
+  SEARCH_AREA_SINGLE,
 } from '../actions/search'
 
 import {
@@ -52,10 +54,49 @@ const initState = {
     rangeTitle: '薪资',
   },
   searchState: false,
+  areaCode: [],  // searchPage页city code
+  toogleSet: false,
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case SEARCH_AREA_SINGLE:
+    return {
+      ...state,
+      areaCode: action.payload,
+    }
+    case SEARCH_EMPTY_ALL:
+    return {
+      ...state,
+      hot: [],
+      tips: {},
+      scrollTop: 0,
+      refreshing: false,
+      isLoading: false,
+      list: [],
+      query: {
+        ...state.query,
+        // area:[],
+        more: {},
+        brand: [],
+        keywords: '',
+      },
+      pager: {
+        cur:1,
+        count: '',
+        allPage: '',
+        size: 20,
+      },
+      company: {},
+      salaryShow: false, // 薪资下拉框显示隐藏
+      salaryString: '',
+      searchEndSalary: {
+        defaultRange: [0, 20],
+        rangeString: '不限',
+        rangeTitle: '薪资',
+      },
+      searchState: false,
+    }
     case SEARCH_SALARYRANGE:
     return {
       ...state,

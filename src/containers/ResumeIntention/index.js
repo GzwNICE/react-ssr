@@ -126,6 +126,7 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
+    // console.log(DesiredPositions && DesiredPositions.length > 0 ? DesiredPositions : [])
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar

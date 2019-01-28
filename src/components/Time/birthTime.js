@@ -5,8 +5,12 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
-const maxDate = moment().year(nowYear - 16).month(11)._d
-const minDate = moment().year(nowYear - 80).month(0)._d
+const maxDate = moment()
+  .year(nowYear - 16)
+  .month(11)._d
+const minDate = moment()
+  .year(nowYear - 80)
+  .month(0)._d
 
 @connect(state => {
   return {}
@@ -30,7 +34,7 @@ class JobTime extends PureComponent {
     const { value } = next
     this.initVal(value)
   }
-  initVal = (value) => {
+  initVal = value => {
     if (
       value !== undefined &&
       value &&
@@ -38,7 +42,9 @@ class JobTime extends PureComponent {
       value.indexOf('-') !== -1
     ) {
       let arr = value.split('-')
-      let dt = moment().year(arr[0]).month(arr[1] - 1)._d
+      let dt = moment()
+        .year(arr[0])
+        .month(arr[1] - 1)._d
       this.setState({
         timeChange: true,
       })
@@ -72,19 +78,10 @@ class JobTime extends PureComponent {
     const CustomChildren = ({ extra, onClick, children }) => {
       extra = timeChange ? extra : '请选择'
       return (
-        <div
-          onClick={onClick}
-          style={{
-            backgroundColor: '#fff',
-            height: '50px',
-            lineHeight: '50px',
-            padding: '0 20px',
-            color: '#4A4A4A',
-          }}
-        >
+        <div onClick={onClick} className={style.content}>
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
-          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+          <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
         </div>
       )
     }

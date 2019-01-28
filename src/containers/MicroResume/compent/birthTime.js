@@ -27,6 +27,37 @@ class JobTime extends PureComponent {
     this.setState({
       timeChange: false,
     })
+    const { value } = this.props
+    this.initVal(value)
+  }
+  componentWillReceiveProps(next) {
+    const { value } = next
+    console.log(value)
+    this.initVal(value)
+  }
+  initVal = value => {
+    if (
+      value !== undefined &&
+      value &&
+      typeof value === 'string' &&
+      value.indexOf('-') !== -1
+    ) {
+      let arr = value.split('-')
+      let dt = moment()
+        .year(arr[0])
+        .month(arr[1] - 1)._d
+      this.setState({
+        timeChange: true,
+      })
+      this.setState({
+        value: dt,
+      })
+      const onChange = this.props.onChange
+
+      if (onChange) {
+        onChange(dt)
+      }
+    }
   }
   onChange = value => {
     this.setState({
@@ -41,17 +72,19 @@ class JobTime extends PureComponent {
       timeChange: true,
     })
   }
+  // <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
 
   render() {
     const { value, timeChange } = this.state
-    const { title = '' } = this.props
+    const { title } = this.props
     const CustomChildren = ({ extra, onClick, children }) => {
       extra = timeChange ? extra : '请选择'
       return (
         <div onClick={onClick} className={style.timeContent}>
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
-          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+          <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
+
         </div>
       )
     }

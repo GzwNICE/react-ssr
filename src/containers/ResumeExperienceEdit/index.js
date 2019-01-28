@@ -63,7 +63,7 @@ class ResumeExperienceEdit extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
+      // console.log(values)
 
       if (!values.company_name_cn) {
         return Toast.info('请填写企业名称', 2)
@@ -93,7 +93,7 @@ class ResumeExperienceEdit extends PureComponent {
       }
 
       if (!values.salary) {
-        return Toast.info('请填写税前薪资', 2)
+        return Toast.info('请填写税前月薪', 2)
       }
 
       // window.zhuge.track('我的简历', { '模块': '工作经历' })
@@ -108,11 +108,11 @@ class ResumeExperienceEdit extends PureComponent {
         begin_month: moment(values.begin).format('M'),
         end_year,
         end_month,
-        salary_type: values.salary_type ? 2 : 1,
+        salary_is_show: values.salary_is_show ? '1' : '0',
         job_responsibilities_cn: values.job_responsibilities_cn || '',
         // job_performance_cn: values.job_performance_cn || '',
       }
-      console.log(parmas)
+      // console.log(parmas)
       this.props.dispatch(workExpsEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)
@@ -163,12 +163,13 @@ class ResumeExperienceEdit extends PureComponent {
       })[0] || {}
     const { deletModal, goBackModalVisible } = this.state
     let end_time = null
+    // todo 这边字符串0 initialValue 没有传过去
     if (item.end_year === '0' || item.end_year === 0) {
-      end_time = '0'
+      end_time = 0
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
-
+    // console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <NavBar
@@ -249,8 +250,8 @@ class ResumeExperienceEdit extends PureComponent {
           <List.Item className={style.checkbox}>
             <label>
               <Checkbox
-                {...getFieldProps('salary_type', {
-                  initialValue: item.salary_type === '2',
+                {...getFieldProps('salary_is_show', {
+                  initialValue: item.salary_is_show === '1',
                   valuePropName: 'checked',
                 })}
               />

@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import { DatePicker } from 'antd-mobile'
-import style from './style.less'
+import style from '../style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
 const nowYear = moment().weekYear()
 const maxDate = new Date()
-const minDate = moment().year(nowYear - 80).month(0)._d
+const minDate = moment()
+  .year(nowYear - 80)
+  .month(0)._d
 
 @connect(state => {
   return {}
@@ -30,7 +32,7 @@ class JobTime extends PureComponent {
     const { value } = next
     this.initVal(value)
   }
-  initVal = (value) => {
+  initVal = value => {
     if (
       value !== undefined &&
       value &&
@@ -38,12 +40,17 @@ class JobTime extends PureComponent {
       value.indexOf('-') !== -1
     ) {
       let arr = value.split('-')
-      let dt = moment().year(arr[0]).month(arr[1] - 1)._d
+      let dt = moment()
+        .year(arr[0])
+        .month(arr[1] - 1)._d
       this.setState({
-        value: dt,
         timeChange: true,
       })
+      this.setState({
+        value: dt,
+      })
       const onChange = this.props.onChange
+
       if (onChange) {
         onChange(dt)
       }
@@ -71,15 +78,13 @@ class JobTime extends PureComponent {
       return (
         <div
           onClick={onClick}
-          className={style.content}  
+          className = {style.joinTimeTadding}
         >
           {children}
-          <div className={style.rightIcon} aria-hidden="true" />
           <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
         </div>
       )
     }
-
     return (
       <DatePicker
         mode="month"
