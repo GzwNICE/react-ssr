@@ -9,7 +9,7 @@ import personal from '../../../static/personal.png'
 import Userdefault from '../../../static/portrait@3x.png'
 import PropTypes from 'prop-types'
 import style from '../style.less'
-import { loggingStatus } from '../../../actions/userStatus'
+// import { loggingStatus } from '../../../actions/userStatus'
 const triggerFrom = '触发来源'
 
 @connect(state => ({
