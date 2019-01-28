@@ -75,7 +75,7 @@ class JobTime extends PureComponent {
         >
           {children}
           <div className={style.rightIcon} aria-hidden="true" />
-          <span style={{ float: 'right', color: '#9B9B9B', fontSize: '15px' }}>{extra}</span>
+          <span className={style.extra}>{extra}</span>
         </div>
       )
     }

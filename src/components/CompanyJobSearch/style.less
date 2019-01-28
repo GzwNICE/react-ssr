@@ -10,6 +10,7 @@
     .am-list-item.am-input-item {
       padding-left: 0!important;
     }
+   
     //.am-list-line {
     //  padding-left: 15px!important;
 
@@ -22,14 +23,27 @@
   }
 }
 .search {
-  height: 60px;
-  line-height: 60px;
-  border-top: 1PX solid rgba(200,199,204,0.50);
+  height: 50px;
+  line-height: 50px;
+  // border-top: 1PX solid rgba(200,199,204,0.50);
   border-bottom: 1PX solid rgba(200,199,204,0.50);
   padding-left: 15px;
+  :global {
+    .am-input-clear {
+      width: 12px;
+      height: 12px;
+      padding: 5px;
+      background-image: url('../../static/close@3x.png');
+      background-size: 100% 100%;
+      background-color: #ffffff;
+    }
+  }
+
 }
 .nav {
   margin-bottom: 10px;
+  border-bottom: 1Px solid rgba(200,199,204,0.50);
+  height: 50px;
   :global {
     .am-icon {
       color: #555555;

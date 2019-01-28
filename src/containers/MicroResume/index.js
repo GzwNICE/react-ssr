@@ -18,7 +18,7 @@ import GraduateTime from './compent/graduateTime'
 import JoinJobTime from './compent/joinJobTime'
 import BeginTime from './compent/beginTime'
 import EndTime from './compent/endTime'
-
+import { Helmet } from 'react-helmet'
 import School from '../../components/SchoolSearch'
 import GobackModal from '../../components/GoBackModal/index1'
 import BorderBottomLine from '../../components/BorderBottomLine'
@@ -323,6 +323,17 @@ class MicroResume extends PureComponent {
   
     return (
       <div className={style.job}>
+      <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <div className={style.underlineleft} />
         <div className={style.jobtontent}>
           <InputItem
@@ -377,6 +388,7 @@ class MicroResume extends PureComponent {
             <List.Item arrow="horizontal">最近所在公司</List.Item>
           </Company>
           <BorderBottomLine />
+          
           <Job
             {...getFieldProps('position_cn', {
               initialValue: !position_cn ? null : position_cn,
@@ -385,7 +397,9 @@ class MicroResume extends PureComponent {
           >
             <List.Item arrow="horizontal">最近所任职位</List.Item>
           </Job>
+
           <BorderBottomLine />
+          
           <div className={style.nearest}>
             <div>
               <BeginTime
@@ -494,7 +508,7 @@ class MicroResume extends PureComponent {
       </div>
     )
   }
-  componentWillReceiveProps() {
+  componentWillReceiveProps(next) {
     this.setState({
       changeVal: false,
     })

@@ -6,12 +6,13 @@ import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
 import { Link } from 'react-router-dom'
-import { ListView,Toast } from 'antd-mobile'
+import { ListView, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
 import FilterSearch from '../../components/FilterSearch'
 import { withRouter } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import {
   getSearchListInit,
   getSearchListadd,
@@ -95,7 +96,7 @@ class SearchEnd extends PureComponent {
       isUsed: 1,
       more: {},
     }
-    
+
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -105,7 +106,6 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
-
 
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
@@ -119,19 +119,20 @@ class SearchEnd extends PureComponent {
         defaultValue: data.keyword || keyword,
       })
     }
-    Toast.loading('Loading...');
+    Toast.loading('Loading...')
     if (this.props.searchLIst.length < 1) {
-      this.props.dispatch(getSearchListInit(allQuery)).then((res) => {
+      this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
         this.setState({
           initLoading: false,
         })
-        if(res.data.count === 0){
-          window.zhuge.track('搜索无结果', { [`${tiggerKeyWord}`]: allQuery.keyword})
+        if (res.data.count === 0) {
+          window.zhuge.track('搜索无结果', {
+            [`${tiggerKeyWord}`]: allQuery.keyword,
+          })
         }
       })
     }
-   
 
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
@@ -167,7 +168,9 @@ class SearchEnd extends PureComponent {
   }
 
   goSerch = () => {
-    const { redirect, sss } = queryString.parse(this.props.history.location.search)
+    const { redirect, sss } = queryString.parse(
+      this.props.history.location.search
+    )
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -186,7 +189,9 @@ class SearchEnd extends PureComponent {
   }
 
   goPosition = () => {
-    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '搜索职位列表页' })
+    window.zhuge.track('职位详情页打开', {
+      [`${triggerFrom}`]: '搜索职位列表页',
+    })
   }
 
   onEndReached = () => {
@@ -224,55 +229,67 @@ class SearchEnd extends PureComponent {
   filterSearch = (value = {}) => {
     //zhuge统计
     let val = ''
-    if (value.position) {// 记录职位
+    if (value.position) {
+      // 记录职位
       const positions_index = option.positions_index || {}
       value.position.map(item => {
         val += positions_index[item] + ';'
         return null
       })
-      console.log(value.position);
+      console.log(value.position)
       window.zhuge.track('搜索无结果', { [`${triggerPost}`]: val })
     }
-    if (value.area) {// 城市选择
+    if (value.area) {
+      // 城市选择
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
       window.zhuge.track('城市筛选', { [`${tiggerCity}`]: val })
     }
-    if (value.salary) {// 薪资
-      window.zhuge.track('薪资筛选', { [`${tiggerSalary}`]: `${value.salary[0]}-${value.salary[1]}` })
+    if (value.salary) {
+      // 薪资
+      window.zhuge.track('薪资筛选', {
+        [`${tiggerSalary}`]: `${value.salary[0]}-${value.salary[1]}`,
+      })
     }
-    if (value.more) { // 筛选
+    if (value.more) {
+      // 筛选
       // 行业类别
       const industry_index =
-        (option.opts_company_industry_all && option.opts_company_industry_all_index) || {}
+        (option.opts_company_industry_all &&
+          option.opts_company_industry_all_index) ||
+        {}
       const industry = industry_index[value.more.company_industry] || ''
       // 发布日期
-      const update_time_index = (option.opts_update_time && option.opts_update_time_index) || {}
+      const update_time_index =
+        (option.opts_update_time && option.opts_update_time_index) || {}
       const update_time = update_time_index[value.more.update_time] || ''
-      // 学历要求 
-      const degree_level = (option.opts_search_degree && option.opts_education_index) || {}
+      // 学历要求
+      const degree_level =
+        (option.opts_search_degree && option.opts_education_index) || {}
       const degree = degree_level[value.more.education] || ''
-      // 食宿情况  
-      const room_board = (option.opts_room_board && option.opts_room_board_index) || {}
+      // 食宿情况
+      const room_board =
+        (option.opts_room_board && option.opts_room_board_index) || {}
       const board = room_board[value.more.room_board] || ''
       // 企业性质
-      const work_mode_index = (option.opts_search_work_mode && option.opts_work_mode_index) || {}
+      const work_mode_index =
+        (option.opts_search_work_mode && option.opts_work_mode_index) || {}
       const work_mode = work_mode_index[value.more.work_mode] || ''
-      
-      if(industry){
-        window.zhuge.track('更多筛选', { [`${tiggerIndustry}`]:  industry})
+
+      if (industry) {
+        window.zhuge.track('更多筛选', { [`${tiggerIndustry}`]: industry })
       }
-      if(update_time){
-        window.zhuge.track('更多筛选', { [`${tiggerUpdateTime}`]: update_time})
+      if (update_time) {
+        window.zhuge.track('更多筛选', { [`${tiggerUpdateTime}`]: update_time })
       }
-      if(degree){
-        window.zhuge.track('更多筛选', { [`${tiggerDegree}`]: degree})
+      if (degree) {
+        window.zhuge.track('更多筛选', { [`${tiggerDegree}`]: degree })
       }
-      if(board){
-        window.zhuge.track('更多筛选', { [`${tiggerBoard}`]: board})
+      if (board) {
+        window.zhuge.track('更多筛选', { [`${tiggerBoard}`]: board })
       }
-      if(work_mode){
-        window.zhuge.track('更多筛选', { [`${tiggerWorkMode}`]: work_mode})
+      if (work_mode) {
+        window.zhuge.track('更多筛选', { [`${tiggerWorkMode}`]: work_mode })
       }
     }
 
@@ -350,24 +367,24 @@ class SearchEnd extends PureComponent {
   }
   noVacancies = query => {
     // 记录地区
-    const areas_index = (option && option.areas_index) ?  option.areas_index : {}
+    const areas_index = option && option.areas_index ? option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     const more = query.more ? query.more : {}
     let company_industry
     if (more.company_industry) {
-      company_industry =`-${option.opts_company_industry_all_index[more.company_industry]}`   
+      company_industry = `-${
+        option.opts_company_industry_all_index[more.company_industry]
+      }`
     }
     const defaultValue = this.state.defaultValue
       ? `-${this.state.defaultValue}`
       : null
-    let salary = this.props.salaryString
-      ? `-${this.props.salaryString}`
-      : null
+    let salary = this.props.salaryString ? `-${this.props.salaryString}` : null
 
     if (salary && salary.indexOf('不限') !== -1) {
       salary = null
     }
- 
+
     let ellipsis
     for (let key in more) {
       if (key !== 'company_industry') {
@@ -392,11 +409,9 @@ class SearchEnd extends PureComponent {
         </div>
       )
     }
-   
   }
   selectProjectRender = query => {
-   
-    const areas_index = (option && option.areas_index) ?  option.areas_index : {}
+    const areas_index = option && option.areas_index ? option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     // const more = query.more ? query.more : {}
     // let company_industry
@@ -411,13 +426,15 @@ class SearchEnd extends PureComponent {
 
     return (
       <div className={style.selectproject}>
-        已选项： {areaVal}{symbol}{keyword}
+        已选项： {areaVal}
+        {symbol}
+        {keyword}
       </div>
     )
   }
 
-   /* 下载或者打开app */
-   downLoadAd = () => {
+  /* 下载或者打开app */
+  downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
     window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
@@ -491,7 +508,7 @@ class SearchEnd extends PureComponent {
     if (query.area.length === 0) {
       query.area = area
     }
- 
+
     delete query.keyword
     delete query.isUsed
 
@@ -516,6 +533,17 @@ class SearchEnd extends PureComponent {
 
     return (
       <div className={style.SearchEndWrap} style={styleObj}>
+        <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
 
