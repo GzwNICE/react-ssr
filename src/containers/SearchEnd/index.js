@@ -158,6 +158,7 @@ class SearchEnd extends PureComponent {
   }
   goBack = () => {
     const { redirect } = queryString.parse(this.props.history.location.search)
+    console.log(redirect)
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -516,7 +517,7 @@ class SearchEnd extends PureComponent {
     const Row = d => {
       return (
         <div className={style.listItem}>
-          <Link to={`/${d.company_id}/${d.job_id}`} onClick={this.goPosition}>
+          <Link to={`/${d.company_id}/${d.job_id}?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`} onClick={this.goPosition}>
             <JobCard data={d} />
           </Link>
         </div>
@@ -531,7 +532,6 @@ class SearchEnd extends PureComponent {
         paddingBottom: 0,
       }
     }
-
     return (
       <div className={style.SearchEndWrap} style={styleObj}>
         <Helmet>
