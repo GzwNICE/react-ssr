@@ -165,6 +165,17 @@ export default class CompanyArea extends Component {
     this.props.dispatch(
       saveSearch({
         searchState: false,
+        searchKeyword: '',
+      })
+    )
+    this.props.dispatch(blocSearchClear())
+  }
+
+  onClear  = () => {
+    this.props.dispatch(
+      saveSearch({
+        searchState: false,
+        searchKeyword: '',
       })
     )
     this.props.dispatch(blocSearchClear())
@@ -224,8 +235,8 @@ export default class CompanyArea extends Component {
     if (
       nextProps.query.area !== this.props.query.area ||
       nextProps.query.brand !== this.props.query.brand ||
-      nextProps.searchState !== this.props.searchState  || 
-      nextProps.searchKeyword !== this.props.searchKeyword
+      nextProps.searchKeyword !== this.props.searchKeyword ||
+      nextProps.searchState !== this.props.searchState
     ) {
       if (nextProps.searchState) {
         this.props.dispatch(
@@ -280,6 +291,7 @@ export default class CompanyArea extends Component {
             Search={this.onSubmit}
             Cancel={this.onCancel}
             Change={this.onChange}
+            Clear={this.onClear}
             visable={this.state.isVisable}
           />
           <FilterList
