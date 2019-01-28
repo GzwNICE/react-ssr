@@ -70,20 +70,21 @@ class TextareaField extends ComplexFormField {
   }
   modelRender = () => {
     const { getWorkExample } = this.props
+    console.log(getWorkExample)
     // const arr = getWorkExample.content_cn.split('。')
-    // console.log(arr)
+    // console.log(arr) autoHeight
     return (
       <div className={style.wraper2}>
         <div className={style.moadl}>
           <div className={style.title}>
-            <span>{getWorkExample.title_cn}</span>
+            <span>{getWorkExample ? getWorkExample.title_cn :''}</span>
             <span onClick={this.handleExchange}>换一个</span>
           </div>
           <div className={style.content}>
             <TextareaItem
-              autoHeight
-              value={`${getWorkExample.content_cn || ''}`}
-              rows={1}
+              
+              value={`${getWorkExample ? getWorkExample.content_cn : ''}`}
+              rows={5}
               editable={false}
             />
             {/*{*/}
