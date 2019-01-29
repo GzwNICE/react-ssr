@@ -35,7 +35,8 @@ class HotTrade extends Component {
   goHotPost = (key)=>{
     window.zhuge.track('热门职位_8个职位', { [`${tiggerPost}`]: key })
   }
-
+  
+  // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
     if(key === "礼宾/前台"){
       return `/search/礼宾前台?keyword=${key}`

@@ -14,6 +14,7 @@ import { saveQuery, saveSearch } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
+import { Helmet } from 'react-helmet'
 import style from './style.less'
 const tiggerKeyWord = '搜索词'
 const tiggerCity = '地区'
@@ -44,6 +45,7 @@ const tiggerBrand = '品牌'
   searchPager: state.company.searchPager,
   query: state.search.query,
   searchState: state.search.searchState,
+  searchKeyword: state.search.searchKeyword,
   option: state.option,
   company: state.company,
 }))
@@ -124,6 +126,7 @@ export default class CompanyArea extends Component {
   }
 
   onSubmit = value => {
+    this.props.dispatch(blocSearchClear())
     if (value === '') {
       Toast.info('请输入搜索职位/品牌', 2)
       return
@@ -135,6 +138,7 @@ export default class CompanyArea extends Component {
       this.props.dispatch(
         saveSearch({
           searchState: true,
+          searchKeyword: value,
         })
       )
       this.props.dispatch(
@@ -161,8 +165,20 @@ export default class CompanyArea extends Component {
     this.props.dispatch(
       saveSearch({
         searchState: false,
+        searchKeyword: '',
       })
     )
+    this.props.dispatch(blocSearchClear())
+  }
+
+  onClear  = () => {
+    this.props.dispatch(
+      saveSearch({
+        searchState: false,
+        searchKeyword: '',
+      })
+    )
+    this.props.dispatch(blocSearchClear())
   }
 
   onChange = value => {
@@ -200,6 +216,7 @@ export default class CompanyArea extends Component {
         ? sessionStorage.getItem('is_login')
         : '',
     })
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -218,6 +235,7 @@ export default class CompanyArea extends Component {
     if (
       nextProps.query.area !== this.props.query.area ||
       nextProps.query.brand !== this.props.query.brand ||
+      nextProps.searchKeyword !== this.props.searchKeyword ||
       nextProps.searchState !== this.props.searchState
     ) {
       if (nextProps.searchState) {
@@ -250,8 +268,21 @@ export default class CompanyArea extends Component {
   }
   render() {
     const { show, showRegWrap, is_login } = this.state
+    const category = this.props.list 
+    const categoryName = category.length > 0 ? category[0].category_name : ''
     return (
       <div className={style.CompanyArea}>
+        <Helmet>
+          <title>{`${categoryName}招聘信息,招工求职信息_最佳东方`}</title>
+          <meta
+            name="description"
+            content={`最佳东方提供全面${categoryName}招聘职位信息,${categoryName}招工求职信息,帮助您成功入职${categoryName},与众多${categoryName}精英们一起开启一段崭新的职业生涯。`}
+          />
+          <meta
+            name="keywords"
+            content={`${categoryName}招聘信息,${categoryName}求职信息,${categoryName}招工信息`}
+          />
+        </Helmet>
         <div className={style.selHead}>
           <Ad.AdTop show={show} downLoadAd={this.downLoadAd} />
           <Search
@@ -260,6 +291,7 @@ export default class CompanyArea extends Component {
             Search={this.onSubmit}
             Cancel={this.onCancel}
             Change={this.onChange}
+            Clear={this.onClear}
             visable={this.state.isVisable}
           />
           <FilterList

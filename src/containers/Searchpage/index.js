@@ -275,7 +275,7 @@ class SearchPage extends PureComponent {
           showCity="true"
           defaultValue="" // 输入框的默认值
           placeholder="请输入职位/公司名"
-          SearchUser="true"
+          SearchUser={false}
         />
         {this.ShowSearchEnd()}
       </div>
