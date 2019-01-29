@@ -37,15 +37,10 @@ class DeliveryInvite extends PureComponent {
     )
   }
 
-  /*查看信件*/
-  // goLetter = message_id => {
-  //   this.props.history.push(`/person/letter/${message_id}`)
-  // }
-
    /*职位详情页*/
   goPostionDetailpage = (job_id, company_id) => {
     window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '投递进展' })
-    this.props.history.push(`/${company_id}/${job_id}`)
+    this.props.history.push(`/${company_id}/${job_id}?redirect=${this.props.history.location.pathname}`)
   }
 
   onScroll = () => {

@@ -103,7 +103,7 @@ class SearchUser extends Component {
             >
               <img
                 src={is_login ? (photo ? photo : Userdefault) : personal}
-                alt="img"
+                alt=""
                 className={style.personal}
               />
             </Link>

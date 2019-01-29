@@ -592,7 +592,6 @@ class SearchEnd extends PureComponent {
         </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
-
           <SearchEndBar
             goBack={this.goBack}
             goSerch={this.goSerch}
