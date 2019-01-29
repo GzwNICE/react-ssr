@@ -255,17 +255,15 @@ class EmailBind extends PureComponent {
                     placeholder="请输入验证码"
                   />
                 </div>
-
-                <Button
+                <div
                   onClick={this.getCode}
-                  disabled={!disableCode}
-                  className={style.emailCode}
-                  type="ghost"
-                  size="small"
-                  inline
+                  className={`${style.massage} ${
+                    this.state.disableCode ? null : style.disabledCode
+                  }`}
                 >
-                  {tipFont}
-                </Button>
+                  {this.state.tipFont}
+                </div>
+
                 <BorderBottomLine />
               </div>
               <p className={style.footer}>
@@ -286,3 +284,14 @@ class EmailBind extends PureComponent {
 }
 
 export default EmailBind
+
+// <Button
+//                   onClick={this.getCode}
+//                   disabled={!disableCode}
+//                   className={style.emailCode}
+//                   type="ghost"
+//                   size="small"
+//                   inline
+//                 >
+//                   {tipFont}
+//                 </Button>
