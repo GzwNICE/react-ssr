@@ -50,7 +50,7 @@ class SearchHistory extends PureComponent {
           <ul>
             {this.state.searchHis.length ? (
               this.state.searchHis.map((d, i) => {
-                return d !== '' ? (
+                return !/^\s+$/.test(`${d}`) ? (
                   <li key={i} onClick={() => this.props.callback(d)}>
                     {d}
                   </li>
