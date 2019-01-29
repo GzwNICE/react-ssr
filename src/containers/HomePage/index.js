@@ -119,7 +119,7 @@ class HomePage extends PureComponent {
     } else {
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
     }
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
   /* 记录滚动条的位置 */

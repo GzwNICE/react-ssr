@@ -69,7 +69,7 @@ export default class CompanyArea extends Component {
   downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
   // 关闭底部引导注册弹框

@@ -50,11 +50,11 @@ class SearchHistory extends PureComponent {
           <ul>
             {this.state.searchHis.length ? (
               this.state.searchHis.map((d, i) => {
-                return (
+                return d !== '' ? (
                   <li key={i} onClick={() => this.props.callback(d)}>
                     {d}
                   </li>
-                )
+                ) : null
               })
             ) : (
               <p className={style.noData}>近期暂无搜索记录</p>
