@@ -157,7 +157,7 @@ class HomePage extends PureComponent {
     // }
 
     this.setState({
-      show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
+      // show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
       is_login: sessionStorage.getItem('is_login')
         ? sessionStorage.getItem('is_login')
         : '',
@@ -220,13 +220,12 @@ class HomePage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-        {!show && (
-          <Ad.AdWindow
-            show={show}
-            onCloseAd={this.onCloseAd}
-            downLoadAd={() => this.downLoadAd(1)}
-          />
-        )}
+        
+        <Ad.AdWindow
+          show={show}
+          onCloseAd={this.onCloseAd}
+          downLoadAd={() => this.downLoadAd(1)}
+        />
         <div className={style.homehead}>
           <div className={style.searchBar}>
             <Ad.AdTop downLoadAd={() => this.downLoadAd(2)} />

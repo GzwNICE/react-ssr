@@ -47,7 +47,6 @@
       border: none;
       width: 0 !important;
       height: 0 !important;
-      // background-color: none;
     }
     .rc-slider-rail {
       border-radius: 0 !important;
@@ -64,7 +63,6 @@
     top: -36px;
     left: -10px;
     border-radius: 2px;
-    // background-color: #ff4f00;
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -111,5 +109,11 @@
   img{
     width: 12px;
     transform: rotate(90deg);
+    vertical-align: inherit;
+    transition: transform 0.3s;
   }
+}
+.rotate {
+  transform: rotate(270deg) !important;
+  transition: transform 0.3s;
 }
