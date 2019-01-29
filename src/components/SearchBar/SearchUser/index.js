@@ -9,7 +9,7 @@ import personal from '../../../static/personal.png'
 import Userdefault from '../../../static/portrait@3x.png'
 import PropTypes from 'prop-types'
 import style from '../style.less'
-import { loggingStatus } from '../../../actions/userStatus'
+// import { loggingStatus } from '../../../actions/userStatus'
 const triggerFrom = '触发来源'
 
 @connect(state => ({
@@ -86,7 +86,7 @@ class SearchUser extends Component {
               onFocus={this.props.searchFocus}
             />
           ) : (
-            <div className={style.companyTitle}></div>
+            <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
             <Link rel="stylesheet" to={`/home`} onClick={()=>this.goHome(this.props.zhugeFrom)}>

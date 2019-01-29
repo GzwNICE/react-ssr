@@ -316,13 +316,14 @@ class Register extends PureComponent {
               </div>
             </div>
           </div>
+          <div className={style.agreement}>
+            注册代表你已同意
+            <Link rel="stylesheet" to={`/agreement`}>
+              《最佳东方用户协议》
+            </Link>
+          </div>
         </div>
-        <div className={style.agreement}>
-          注册代表你已同意
-          <Link rel="stylesheet" to={`/agreement`}>
-            《最佳东方用户协议》
-          </Link>
-        </div>
+        
         <Alert
           title="验证码上限提醒"
           height={120}

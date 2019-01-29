@@ -9,6 +9,9 @@ import Salary from '../../inputs/Salary2'
 import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'
 import angleDownGray from '../../static/Rectangle@3x.png'
+import { withRouter } from 'react-router-dom'
+// import queryString from 'query-string'
+
 // todo 薪资，点击地址和筛选时需要隐藏
 @createForm({
   onValuesChange(props, values) {
@@ -17,12 +20,23 @@ import angleDownGray from '../../static/Rectangle@3x.png'
     }
   },
 })
+@withRouter
 class FilterSearch extends (PureComponent || Component) {
-
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     queryMore: {},
+  //   }
+  // }
+  // componentDidMount() {
+  //   console.log(11111111111111)
+  //   const {keyword} = queryString.parse(this.props.history.location.search)
+  //   console.log(keyword)
+  // }
   format(value) {
     return value.length ? `(${value.length})` : null
   }
-
+ 
   formatArea(value) {
     return value.length ? value.optIndex[value[0]] : '城市'
   }
@@ -35,15 +49,19 @@ class FilterSearch extends (PureComponent || Component) {
     if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
       // this.props.form.setFieldsValue(nextProps.query)
     }
+    // const {keyword} = queryString.parse(this.props.history.location.search)
+    // console.log(this.props.history.location.search)
   }
 
-  componentDidMount() {
-    // this.props.form.setFieldsValue(this.props.query)
-  }
 
   render() {
     const { form, query } = this.props
     const { getFieldProps } = form
+    // console.log(query)
+    // const obj = {
+    //   company_industry: 1,
+    // }
+    // const more = {...query.more, ...obj}
     return (
       <div className={style.FilterSearchWrap}>
 

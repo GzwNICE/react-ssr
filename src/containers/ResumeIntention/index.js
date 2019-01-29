@@ -14,6 +14,7 @@ import Salary from '../../inputs/Salary'
 import JobStatus from '../../inputs/JobStatus'
 import GobackModal from '../../components/GoBackModal/index4'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
+import { Helmet } from 'react-helmet'
 
 // import style2 from './style.less'
 
@@ -94,7 +95,7 @@ class ResumeIntention extends PureComponent {
         PersonDesiredLocation: JSON.stringify(values.desired_locations),
         PersonDesiredJob: JSON.stringify({
           desired_salary: values.desired_salary[0],
-          desired_salary_is_show: values.desired_salary_is_show ? "2" : "1", // 1显示（不打钩）       2不显示（打钩）
+          desired_salary_is_show: values.desired_salary_is_show ? '2' : '1', // 1显示（不打钩）       2不显示（打钩）
           work_mode: `${values.work_mode}`,
         }),
         job_status: `${values.job_status}`,
@@ -129,6 +130,17 @@ class ResumeIntention extends PureComponent {
     // console.log(DesiredPositions && DesiredPositions.length > 0 ? DesiredPositions : [])
     return (
       <Flex direction="column" align="stretch" className={style.root}>
+        <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <NavBar
           mode="light"
           className={style.nav}
@@ -152,7 +164,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向职位</List.Item>
           </Post>
-          <BorderBottomLine/>
+          <BorderBottomLine />
           <Industry
             {...getFieldProps('company_industry', {
               initialValue: DesiredCompanyTypes.length
@@ -165,7 +177,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向行业</List.Item>
           </Industry>
-          <BorderBottomLine/>
+          <BorderBottomLine />
 
           <Area
             {...getFieldProps('desired_locations', {
@@ -176,7 +188,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">意向城市</List.Item>
           </Area>
-          <BorderBottomLine/>
+          <BorderBottomLine />
 
           <div className={style.noboderline}>
             <Salary
@@ -194,14 +206,15 @@ class ResumeIntention extends PureComponent {
             <label>
               <Checkbox
                 {...getFieldProps('desired_salary_is_show', {
-                  initialValue: DesiredJob.desired_salary_is_show === '2' ? true : false,
+                  initialValue:
+                    DesiredJob.desired_salary_is_show === '2' ? true : false,
                   valuePropName: 'checked',
                 })}
               />
               <span>企业查看时显示为面议</span>
             </label>
           </List.Item>
-          <BorderBottomLine/>
+          <BorderBottomLine />
 
           <WorkMode
             {...getFieldProps('work_mode', {
@@ -212,7 +225,7 @@ class ResumeIntention extends PureComponent {
           >
             <List.Item arrow="horizontal">工作类型</List.Item>
           </WorkMode>
-          <BorderBottomLine/>
+          <BorderBottomLine />
 
           <JobStatus
             {...getFieldProps('job_status', {

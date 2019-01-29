@@ -18,6 +18,7 @@ class More extends ComplexSelView {
   }
 
   selectValue = (label, code) => {
+    console.log(label, code)
     const prevValue = this.state ? this.state.value : {}
     const value = {
       ...prevValue,
@@ -56,6 +57,7 @@ class More extends ComplexSelView {
   }
 
   allView(sublist) {
+    // console.log(this.props)
     return (
       <div>
         <div className={style2.title}>行业类别</div>

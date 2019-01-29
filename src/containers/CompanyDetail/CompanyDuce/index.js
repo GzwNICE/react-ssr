@@ -111,6 +111,16 @@ export default class CompanyDuce extends Component {
           <div className={style.contactInfocent}>
             <p>联系方式</p>
             <div>联系人：{company.contact_name}</div>
+            {company.contact_tel ? (
+              <div>
+                电　话：
+                {this.props.is_login ? (
+                  <span>{company.contact_tel}</span>
+                ) : (
+                  <span onClick={this.goLogin}>登陆后查看</span>
+                )}
+              </div>
+            ) : null}
             {company.contact_phone ? (
               <div>
                 手　机：

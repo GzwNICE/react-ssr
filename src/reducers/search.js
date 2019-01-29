@@ -54,6 +54,7 @@ const initState = {
     rangeTitle: '薪资',
   },
   searchState: false,
+  searchKeyword: '',
   areaCode: [],  // searchPage页city code
   toogleSet: false,
 }

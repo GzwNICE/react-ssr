@@ -5,6 +5,40 @@ import style from './style.less'
 import { connect } from 'react-redux'
 import { getCompanyTips } from "../../actions/work_exps";
 
+//匹配整个关键词 不拆分
+function highlight(text, words) {
+  //匹配每一个特殊字符 ，进行转义
+  var specialStr = [
+    '*',
+    '.',
+    '?',
+    '+',
+    '$',
+    '^',
+    '[',
+    ']',
+    '{',
+    '}',
+    '|',
+    '\\',
+    '(',
+    ')',
+    '/',
+    '%',
+  ]
+  specialStr.forEach(item => {
+    if (words.indexOf(item) !== -1) {
+      words = words.replace(new RegExp('\\' + item, 'g'), '\\' + item)
+    }
+  })
+  //匹配整个关键词
+  let re = new RegExp(words, 'g')
+
+  if (re.test(text)) {
+    text = text.replace(re, `<span>${words}</span>`)
+  }
+  return text
+}
 @connect(state => {
   return {
     dataList: state.work_exps.companyTipsList,
@@ -34,13 +68,13 @@ class ComplexSelView extends ComplexFormField {
   }
   onChange = (value) => {
     // let val = value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5_]/g,'')
-    let val = value.replace(/\?/g,'')
+    // let val = value.replace(/\?/g,'')
     const parmas = {
-      keyword: val,
+      keyword: value,
     }
     this.props.dispatch(getCompanyTips(parmas)).then(() => {
       this.setState({
-        value: val,
+        value: value,
         show: true,
       })
     })
@@ -62,15 +96,24 @@ class ComplexSelView extends ComplexFormField {
       })
     }
   }
+  leftClick = () => {
+    this.changeVisible()
+    this.setState({
+      show: false,
+    })
+  }
   mainView() {
     const { dataList = [] } = this.props
     const defaultValue = this.props.value
     const { value, show } = this.state
     let arr = []
+
     dataList.map((item,index) => {
-      let re =new RegExp(value,"g"); //定义正则
-      item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
-      arr.push(item)
+      let values = item.split(value);
+      let str = values.join('<span>' + value + '</span>')
+      // let re =new RegExp(value,"g"); //定义正则
+      // item = item.replace(re, `<span>${value}</span>`); //进行替换，并定义高亮的样式
+      arr.push(str)
     })
     return (
       <div className={style.root}>
@@ -78,7 +121,7 @@ class ComplexSelView extends ComplexFormField {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.changeVisible()}
+          onLeftClick={this.leftClick}
           rightContent={<span onClick={() => this.save()}>保存</span>}>
           所在公司
         </NavBar>
@@ -86,7 +129,7 @@ class ComplexSelView extends ComplexFormField {
           <InputItem
             clear
             defaultValue={defaultValue}
-            value={value}
+            // value={value}
             placeholder="请输入公司名称"
             onChange={this.onChange}
           />

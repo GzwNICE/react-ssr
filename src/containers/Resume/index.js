@@ -19,6 +19,7 @@ import { Toast } from 'antd-mobile/lib/index'
 import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
 import { $ } from '../../actions/resume'
+import { Helmet } from 'react-helmet'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -281,6 +282,17 @@ class Resume extends PureComponent {
     }
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
+      <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <div className={style.header}>
           <Icon
             type="left"
@@ -310,7 +322,7 @@ class Resume extends PureComponent {
                     : '暂无'}
                 </p>
                 <p className={style.subTitle}>
-                  简历完善度:<span>{percentage ? percentage : '暂无'}</span>
+                  简历完整度:<span>{percentage ? percentage : '暂无'}</span>
                 </p>
                 <Flex>
                   <Flex.Item

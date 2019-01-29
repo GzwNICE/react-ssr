@@ -17,20 +17,23 @@ import {
   positionUnColiect,
   positionApply,
 } from '../../actions/position'
-import { getUserStatus } from '../../actions/userStatus'
+// import { getUserStatus } from '../../actions/userStatus'
+import { withRouter } from 'react-router-dom'
 const triggerFrom = '触发来源'
 const triggerPost = '岗位'
 
 @connect(state => ({
   position: state.position,
 }))
+@withRouter
 class PositionBar extends PureComponent {
   state = {
     Success: false, //投递成功弹窗
     toPerfect: false, //简历<40%
     mostPerfect: false, //40%< 简历 <80%
     percentage: '0%', //简历完善度
-    perfectContent: 0, //简历不完善弹框内容
+    perfectTitle: 1, 
+    perfectContent: '', //简历不完善弹框内容
   }
 
   collect = () => {
@@ -88,78 +91,82 @@ class PositionBar extends PureComponent {
 
   toEmploy = () => {
     const isApplied = this.props.position.is_applied
+    const resume_complete = this.props.position.resume_complete
+    const true_name = this.props.position.true_name_cn
+    const mobile = this.props.position.mobile
+    const is_login = sessionStorage.getItem('is_login')
+      ? sessionStorage.getItem('is_login')
+      : ''
     const toPerfect = this.showModal('toPerfect')
     const mostPerfect = this.showModal('mostPerfect')
     if (!isApplied) {
-      this.props
-        .dispatch(
-          getUserStatus({
-            appchannel: 'web',
-          })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin('应聘')
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '投递简历',
-              })
-            }
-          } else if (data.data.resume_complete < 0.01) {
-            this.setState({
-              perfectContent: 0, //没有简历
-            })
-            toPerfect()
-            return
-          } else if (data.data.true_name === '') {
-            this.setState({
-              perfectContent: 1, //简历没有姓名
-            })
-            toPerfect()
-            return
-          } else if (data.data.resume_complete < 0.4) {
-            this.setState({
-              perfectContent: 2, //简历完整度<40
-            })
-            toPerfect()
-            return
-          } else if (
-            data.data.resume_complete > 0.4 &&
-            data.data.resume_complete < 0.8 // 40 <简历完整度 < 80
-          ) {
-            mostPerfect()
-            this.setState({
-              percentage: `${data.data.resume_complete * 100}%`,
-            })
-            return
-          } else {
-            this.deliver()
-          }
+      if (is_login === 0) {
+        this.goLogin('应聘')
+        window.zhuge.track('注册页面打开', {
+          [`${triggerFrom}`]: '投递简历',
         })
+      } else if (resume_complete < 0.01) {
+        this.setState({
+          perfectTitle: 0,
+          perfectContent: '投递前必须先创建一份简历',  //没有简历
+        })
+        toPerfect()
+        return
+      } else if (true_name === '') {
+        this.setState({
+          perfectContent: '你的简历没有姓名，无法投递', //简历没有姓名
+        })
+        toPerfect()
+        return
+      } else if (mobile === 0) {
+        this.setState({
+          perfectContent: '你的简历没有联系方式，无法投递', //简历没有手机号
+        })
+        toPerfect()
+        return
+      } else if (resume_complete < 0.4) {
+        this.setState({
+          perfectContent: '你的简历完整度<40%，通过率极低', //简历完整度<40
+        })
+        toPerfect()
+        return
+      } else if (
+        resume_complete > 0.4 &&
+        resume_complete < 0.8 // 40 <简历完整度 < 80
+      ) {
+        mostPerfect()
+        this.setState({
+          percentage: `${resume_complete * 100}%`,
+        })
+        return
+      } else {
+        this.deliver()
+      }
     }
   }
 
   // 投递简历
   deliver() {
     const jobId = this.props.position.job_id
-    const { from } = queryString.parse(window.location.search)
+    const from = queryString.parse(this.props.history.location.search)
     const success = this.showModal('Success')
     this.props
       .dispatch(
         positionApply({
           job_id: jobId,
           client_id: 4,
-          from: from,
+          from: from.redirect,
         })
       )
       .then(data => {
         if (data.status === 0) {
           const msg = data.errMsg
-          if (msg) {
+          if (msg === '未登陆') {
+            this.goLogin('收藏')
+          }else {
             return Toast.info(msg, 2)
-          } 
-        }else {
+          }
+        } else {
           success()
         }
       })
@@ -198,7 +205,7 @@ class PositionBar extends PureComponent {
   render() {
     const data = this.props.position
     const valid = this.props.valid
-    const { percentage, perfectContent } = this.state
+    const { percentage, perfectContent, perfectTitle } = this.state
     return (
       <div className={style.PositionBarWrap}>
         <div className={style.leftBtns}>
@@ -259,20 +266,14 @@ class PositionBar extends PureComponent {
         />
         {/* 简历信息不完善 */}
         <Alert
-          title={perfectContent === 0 ? `你还没有简历` : `简历信息不完善`}
+          title={perfectTitle === 0 ? `你还没有简历` : `简历信息不完善`}
           closable={1}
           visible={this.state.toPerfect}
           onClose={this.onClose('toPerfect')}
-          message={
-            perfectContent === 0
-              ? `投递前必须先创建一份简历`
-              : perfectContent === 1
-              ? `你的简历没有姓名，无法投递`
-              : `你的简历完整度<40%，通过率极低`
-          }
+          message={perfectContent}
           actions={[
             {
-              text: perfectContent === 0 ? `去创建` : `去完善`,
+              text: perfectTitle === 0 ? `去创建` : `去完善`,
               onPress: () => {
                 this.props.history.push(
                   `/resume?redirect=${this.props.history.location.pathname}`

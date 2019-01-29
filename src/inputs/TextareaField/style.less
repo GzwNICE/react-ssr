@@ -6,7 +6,8 @@
   background-color: #f5f5f9;
   :global {
     .am-list .am-list-item.am-textarea-item {
-      min-height: 282px;
+      height: 250px;
+      overflow: hidden;
     }
   }
 
@@ -98,8 +99,14 @@
         padding: 0 10px;
         line-height: 22px;
         text-align: left;
-        height: 180px;
+        height: 120px;
         overflow-y: auto;
+        // :global {
+        //   .am-list .am-list-item.am-textarea-item {
+            
+        //   }
+        // }
+        
       }
     }
   }
@@ -114,7 +121,10 @@
     }
     .am-textarea-item {
       padding: 0 !important;
+      height: 120px !important;
+            overflow: hidden;
     }
+   
   }
   
 }

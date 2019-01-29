@@ -81,7 +81,7 @@ class JobTime extends PureComponent {
           className = {style.joinTimeTadding}
         >
           {children}
-          <span style={{ float: 'right', color: '#888' }}>{extra}</span>
+          <span className={style.extra}>{extra}</span>
         </div>
       )
     }

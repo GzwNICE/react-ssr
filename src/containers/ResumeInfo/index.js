@@ -14,6 +14,7 @@ import BirthTime from '../../components/Time/birthTime'
 import JoinJobTime from '../../components/Time/joinJobTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
 import Cookies from 'js-cookie'
+import { Helmet } from 'react-helmet'
 
 @connect(state => {
   return {
@@ -53,8 +54,8 @@ class ResumeInfo extends PureComponent {
   setSst = obj => {
     this.setState(obj)
   }
-  handleNameChange = (val) => {
-   console.log(val)
+  handleNameChange = val => {
+    console.log(val)
   }
   changeValue() {
     this.props.form.validateFields((err, values) => {
@@ -86,8 +87,11 @@ class ResumeInfo extends PureComponent {
         let start = values.birthday.valueOf()
         let end = values.work_date.valueOf()
 
-        if (moment(values.birthday).format('YYYY-M') !==
-          moment(values.work_date).format('YYYY-M') && start > end) {
+        if (
+          moment(values.birthday).format('YYYY-M') !==
+            moment(values.work_date).format('YYYY-M') &&
+          start > end
+        ) {
           return Toast.info('参加工作时间不能小于出生年月', 2)
         }
       }
@@ -213,7 +217,7 @@ class ResumeInfo extends PureComponent {
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
     // console.log(resume.work_date)
-  
+
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>
@@ -246,6 +250,17 @@ class ResumeInfo extends PureComponent {
     )
     return (
       <Flex direction="column" align="stretch" className={style.root}>
+        <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <NavBar
           mode="light"
           className={style.nav}
@@ -263,15 +278,15 @@ class ResumeInfo extends PureComponent {
               initialValue: resume.true_name_cn,
               normalize: (v, prev) => {
                 if (v && /\s+/g.test(v)) {
-                  let str = v.replace(/\s+/g,"")
-                  return str;
+                  let str = v.replace(/\s+/g, '')
+                  return str
                 }
-                return v;
+                return v
               },
               // rules: [
               //   {
               //     pattern: '[^a-zA-Z0-9\u4E00-\u9FA5_]',
-                
+
               //   },
               // ],
             })}
@@ -286,7 +301,9 @@ class ResumeInfo extends PureComponent {
           <Gender
             {...getFieldProps('gender', {
               initialValue:
-                resume.gender && resume.gender !== undefined && resume.gender !== '0'
+                resume.gender &&
+                resume.gender !== undefined &&
+                resume.gender !== '0'
                   ? resume.gender
                   : 1,
             })}

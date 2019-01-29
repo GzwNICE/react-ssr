@@ -35,6 +35,20 @@ class HotTrade extends Component {
   goHotPost = (key)=>{
     window.zhuge.track('热门职位_8个职位', { [`${tiggerPost}`]: key })
   }
+  
+  // ?redirect=${this.props.history.location.pathname}
+  searchUrl =(key)=>{
+    if(key === "礼宾/前台"){
+      return `/search/礼宾前台?keyword=${key}`
+    }
+    if(key === '美容/SPA'){
+      return `/search/美容SPA?keyword=${key}`
+    }
+    if(key === '健身中心'){
+      return `/search/${key}?keyword=健身`
+    }
+    return `/search/${key}?keyword=${key}`
+  }
 
   componentDidMount() {
     const tradeDtata = this.props.tradeDtata
@@ -114,7 +128,7 @@ class HotTrade extends Component {
                       return (
                         <Link
                           rel="stylesheet"
-                          to={`/search/${item}?keyword=${item}`}
+                          to={this.searchUrl(item)}
                           key={index}
                           onClick={()=>this.goSearchPost(item)}
                         >

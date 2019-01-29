@@ -17,6 +17,7 @@ import EnterShoolTime from '../../components/Time/enterShoolTime'
 import LeaveShoolTime from '../../components/Time/leaveShoolTime'
 import BorderBottomLine from '../../components/BorderBottomLine/index2'
 import GobackModal from '../../components/GoBackModal/index3'
+import { Helmet } from 'react-helmet'
 
 @connect(state => {
   return {
@@ -129,9 +130,20 @@ class ResumeEducationEdit extends PureComponent {
     const item = educationals.filter(item => {
       return item.id === match.params.id
     })[0] || {}
-    console.log(item)
+    // console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
+      <Helmet>
+          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
+          <meta
+            name="description"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+          />
+          <meta
+            name="keywords"
+            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+          />
+        </Helmet>
         <NavBar
           mode="light"
           className={style.nav}

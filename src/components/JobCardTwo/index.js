@@ -4,7 +4,7 @@
  */
 import React from 'react'
 import style from './style.less'
-import chat from '../../static/chat@3x.png'
+// import chat from '../../static/chat@3x.png'
 import end from '../../static/icon_deliver_stop.png'
 
 
@@ -37,14 +37,15 @@ const  showType = (type, clickable, remindCallback, job_id, company_id) => {
   }
 }
 const JobCardTwo = (props) => {
-  const {chartCallback,
+  const {
+    // chartCallback,
     remindCallback,
     company_name,
     job_name,
     hot,
     salary,
     time,
-    is_allow_contact,
+    // is_allow_contact,
     job_id,
     is_stop,
     type,

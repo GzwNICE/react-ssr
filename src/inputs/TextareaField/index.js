@@ -25,6 +25,13 @@ class TextareaField extends ComplexFormField {
         appchannel: 'web',
       })
     )
+    console.log(this.props.value)
+  }
+  leftClick = () => {
+    this.setState({
+      value: this.props.value,
+    })
+    this.changeVisible()
   }
   handleValueChange = value => {
     const len = value.length
@@ -63,20 +70,21 @@ class TextareaField extends ComplexFormField {
   }
   modelRender = () => {
     const { getWorkExample } = this.props
+    console.log(getWorkExample)
     // const arr = getWorkExample.content_cn.split('。')
-    // console.log(arr)
+    // console.log(arr) autoHeight
     return (
       <div className={style.wraper2}>
         <div className={style.moadl}>
           <div className={style.title}>
-            <span>{getWorkExample.title_cn}</span>
+            <span>{getWorkExample ? getWorkExample.title_cn :''}</span>
             <span onClick={this.handleExchange}>换一个</span>
           </div>
           <div className={style.content}>
             <TextareaItem
-              autoHeight
-              value={`${getWorkExample.content_cn || ''}`}
-              rows={1}
+              
+              value={`${getWorkExample ? getWorkExample.content_cn : ''}`}
+              rows={5}
               editable={false}
             />
             {/*{*/}
@@ -89,13 +97,13 @@ class TextareaField extends ComplexFormField {
     )
   }
   allView() {
-    // console.log(this.props)
+    // console.log(this.state.value)
     const { hide, count } = this.state
     return (
       <List>
         <TextareaItem
-          autoHeight
-          rows={5}
+          // autoHeight
+          rows={11}
           value={this.state.value}
           placeholder={this.props.placeholder}
           maxLength={this.props.maxLength}
@@ -132,7 +140,7 @@ class TextareaField extends ComplexFormField {
           mode="light"
           className={style.nav}
           icon={<Icon type="left" />}
-          onLeftClick={() => this.changeVisible()}
+          onLeftClick={this.leftClick}
           rightContent={<span onClick={() => this.changeValue()}>保存</span>}
         >
           {this.props.title || this.props.children.props.children}
