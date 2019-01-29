@@ -66,6 +66,7 @@ export default (req, res, next) => {
         return false;
       }
       const serverRender = () => {
+        console.log(store)
         frontloadServerRender(() =>
           renderToString(
             <Provider store={store}>
@@ -178,9 +179,10 @@ export default (req, res, next) => {
       if (homePage.exec(req.url)) { // 首页
         render = false
         store.dispatch(getPostInit()).then(() => {
-          store.dispatch(getBanner()).then(() => {
+          store.dispatch(getBanner()).then((data) => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
+                console.log('homepagehomepagehomepagehomepage')
                 serverRender()
               })
             })
@@ -195,11 +197,13 @@ export default (req, res, next) => {
           })
         })
       }
-    
+      
       if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
         render = false
-        let arr = req.url.split('&')
-        console.log(arr)
+        let url = decodeURI(req.url)
+        let arr = url.split('&')
+        console.log(888888888888888888)
+        
         let params = {
           keyword: '',
           area: '',
@@ -217,14 +221,18 @@ export default (req, res, next) => {
         }
         arr.forEach(item => {
           let arr2 = item.split('=')
-          if (arr2[0].indexOf('keyword')) {
+          if (arr2[0].indexOf('keyword') !== -1) {
             params.keyword = arr2[1]
           }
-          if (arr2[0].indexOf('areaParms')) {
-            params.city = arr2[1]
+          if (arr2[0].indexOf('areaParms') !== -1) {
+            params.area = arr2[1]
           }
         })
+        console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
+          // console.log('2222222222221111111')
+
+          // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
           serverRender()
         })
       }

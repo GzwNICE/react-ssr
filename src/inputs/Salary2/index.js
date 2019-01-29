@@ -6,7 +6,7 @@ import angleDownGray from '../../static/Rectangle@3x.png'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import Tooltip from 'rc-tooltip'
-
+import BorderBottomLine from '../../components/BorderBottomLine'
 const Range = Slider.Range
 const Handle = Slider.Handle
 
@@ -152,6 +152,7 @@ class Salary extends PureComponent {
     return (
       <div>
         <div className={style.content}>
+        <BorderBottomLine/>
           <div className={style.title}>
             月薪范围<span>({rangeString})</span>
           </div>
@@ -169,7 +170,8 @@ class Salary extends PureComponent {
         <div className={style.btn} onClick={this.handleSave}>
           保存
         </div>
-      </div>
+        <div className={style.mask}></div>
+        </div>
     )
   }
   render() {
