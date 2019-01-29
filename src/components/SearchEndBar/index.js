@@ -53,15 +53,8 @@ class SearchEndBar extends PureComponent {
           className={`${style.right} ${style.leftConnent}`}
         >
           <div className={style.conleft}>
-            <div className={style.img}>
-              <img src={search} alt="放大镜" />
-            </div>
+            <img src={search} alt="放大镜" />
             <div className={style.keyWord}>{keyword}</div>
-          </div>
-          <div className={style.conright}>
-            {/*<div>*/}
-            {/*{number}个职位*/}
-            {/*</div>*/}
           </div>
         </div>
         <Link

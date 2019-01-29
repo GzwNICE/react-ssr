@@ -146,6 +146,7 @@ class Salary extends PureComponent {
     this.setState({
       defaultRange: this.props.searchEndSalary.defaultRange,
     })
+
   }
   contentRender = () => {
     const { rangeString, defaultRange } = this.state
@@ -182,10 +183,9 @@ class Salary extends PureComponent {
         <div onClick={this.headerClick}>
           <span>{rangeTitle}</span>
           <div className={style.jiantou}>
-            <img src={angleDownGray} alt="" />
+            <img src={angleDownGray} className={salaryShow ? style.rotate :null} alt="" />
           </div>
         </div>
-        
         {salaryShow ? this.contentRender() : null}
       </div>
     )

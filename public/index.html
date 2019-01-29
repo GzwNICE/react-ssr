@@ -25,61 +25,6 @@
     <meta name="keywords" content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会" />
 
     <meta name="msapplication-tap-highlight" content="no">
-    <script>
-      // (function (baseFontSize, fontscale) {
-      //   var _baseFontSize = baseFontSize || 100;
-      //   var _fontscale = fontscale || 1;
-      //   var win = window;
-      //   var doc = win.document;
-      //   var ua = navigator.userAgent;
-      //   var matches = ua.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i);
-      //   var UCversion = ua.match(/U3\/((\d+|\.){5,})/i);
-      //   var isUCHd = UCversion && parseInt(UCversion[1].split('.').join(''), 10) >= 80;
-      //   var isIos = navigator.appVersion.match(/(iphone|ipad|ipod)/gi);
-      //   var dpr = win.devicePixelRatio || 1;
-      //   if (!isIos && !(matches && matches[1] > 534) && !isUCHd) {
-      //     // 如果非iOS, 非Android4.3以上, 非UC内核, 就不执行高清, dpr设为1;
-      //     dpr = 1;
-      //   }
-      //   var scale = 1 / dpr;
-      
-      //   var metaEl = doc.querySelector('meta[Name="viewport"]');
-      //   if (!metaEl) {
-      //     metaEl = doc.createElement('meta');
-      //     metaEl.setAttribute('name', 'viewport');
-      //     doc.head.appendChild(metaEl);
-      //   }
-      //   metaEl.setAttribute('content',
-      //     'width=device-width,user-scalable=no,initial-scale=' +
-      //     scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
-      //   doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
-      // })();
-      addEventListener('resize', setRemUnit);
-      addEventListener('pageshow', function (e) {
-        e.persisted && setRemUnit();
-      });
-      setRemUnit();
-
-      function setRemUnit() {
-        var docEle = document.documentElement;
-        var rootValue = docEle.clientWidth / 3.75;
-        docEle.style.fontSize = rootValue + 'px';
-      }
-    </script>
-    <script type="text/javascript">
-      window.zhuge = window.zhuge || [];window.zhuge.methods = "_init debug identify track trackLink trackForm page".split(" ");
-      window.zhuge.factory = function(b) {return function() {var a = Array.prototype.slice.call(arguments);a.unshift(b);
-        window.zhuge.push(a);return window.zhuge;}};for (var i = 0; i < window.zhuge.methods.length; i++) {
-        var key = window.zhuge.methods[i];window.zhuge[key] = window.zhuge.factory(key);}window.zhuge.load = function(b, x) {
-        if (!document.getElementById("zhuge-js")) {var a = document.createElement("script");var verDate = new Date();
-          var verStr = verDate.getFullYear().toString()+ verDate.getMonth().toString() + verDate.getDate().toString();
-          a.type = "text/javascript";a.id = "zhuge-js";a.async = !0;a.src = (location.protocol == 'http:' ? "http://sdk.zhugeio.com/zhuge.min.js?v=" : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr;
-          a.onerror = function(){window.zhuge.identify = window.zhuge.track = function(ename, props, callback){if(callback && Object.prototype.toString.call(callback) === '[object Function]')callback();};};
-          var c = document.getElementsByTagName("script")[0];c.parentNode.insertBefore(a, c);window.zhuge._init(b, x)}};
-      window.zhuge.load('fc27aedcde6a4de3b4f681ad5f08ab42',{
-        visualizer: true
-      });
-    </script>
 
     <!-- <link rel="stylesheet" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"> -->
     <!-- <link rel="stylesheet" href="//cdn.bootcss.com/antd-mobile/2.0.0-beta.3/antd-mobile.min.css"> -->
@@ -122,6 +67,61 @@
 
     <script src="https://api.map.baidu.com/api?v=2.0&ak=a4izOFN6pDpKi5ni1chTavgsv8rN6aMa&s=1"></script>
   </body>
+  <script>
+    // (function (baseFontSize, fontscale) {
+    //   var _baseFontSize = baseFontSize || 100;
+    //   var _fontscale = fontscale || 1;
+    //   var win = window;
+    //   var doc = win.document;
+    //   var ua = navigator.userAgent;
+    //   var matches = ua.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i);
+    //   var UCversion = ua.match(/U3\/((\d+|\.){5,})/i);
+    //   var isUCHd = UCversion && parseInt(UCversion[1].split('.').join(''), 10) >= 80;
+    //   var isIos = navigator.appVersion.match(/(iphone|ipad|ipod)/gi);
+    //   var dpr = win.devicePixelRatio || 1;
+    //   if (!isIos && !(matches && matches[1] > 534) && !isUCHd) {
+    //     // 如果非iOS, 非Android4.3以上, 非UC内核, 就不执行高清, dpr设为1;
+    //     dpr = 1;
+    //   }
+    //   var scale = 1 / dpr;
+    
+    //   var metaEl = doc.querySelector('meta[Name="viewport"]');
+    //   if (!metaEl) {
+    //     metaEl = doc.createElement('meta');
+    //     metaEl.setAttribute('name', 'viewport');
+    //     doc.head.appendChild(metaEl);
+    //   }
+    //   metaEl.setAttribute('content',
+    //     'width=device-width,user-scalable=no,initial-scale=' +
+    //     scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
+    //   doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
+    // })();
+    addEventListener('resize', setRemUnit);
+    addEventListener('pageshow', function (e) {
+      e.persisted && setRemUnit();
+    });
+    setRemUnit();
+
+    function setRemUnit() {
+      var docEle = document.documentElement;
+      var rootValue = docEle.clientWidth / 3.75;
+      docEle.style.fontSize = rootValue + 'px';
+    }
+  </script>
+  <script type="text/javascript">
+    window.zhuge = window.zhuge || [];window.zhuge.methods = "_init debug identify track trackLink trackForm page".split(" ");
+    window.zhuge.factory = function(b) {return function() {var a = Array.prototype.slice.call(arguments);a.unshift(b);
+      window.zhuge.push(a);return window.zhuge;}};for (var i = 0; i < window.zhuge.methods.length; i++) {
+      var key = window.zhuge.methods[i];window.zhuge[key] = window.zhuge.factory(key);}window.zhuge.load = function(b, x) {
+      if (!document.getElementById("zhuge-js")) {var a = document.createElement("script");var verDate = new Date();
+        var verStr = verDate.getFullYear().toString()+ verDate.getMonth().toString() + verDate.getDate().toString();
+        a.type = "text/javascript";a.id = "zhuge-js";a.async = !0;a.src = (location.protocol == 'http:' ? "http://sdk.zhugeio.com/zhuge.min.js?v=" : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr;
+        a.onerror = function(){window.zhuge.identify = window.zhuge.track = function(ename, props, callback){if(callback && Object.prototype.toString.call(callback) === '[object Function]')callback();};};
+        var c = document.getElementsByTagName("script")[0];c.parentNode.insertBefore(a, c);window.zhuge._init(b, x)}};
+    window.zhuge.load('fc27aedcde6a4de3b4f681ad5f08ab42',{
+      visualizer: true
+    });
+  </script>
   <script>
     var as = document.getElementsByTagName('a');
     var current = as.length - 1;

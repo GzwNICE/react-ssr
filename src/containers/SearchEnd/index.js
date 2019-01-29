@@ -483,7 +483,7 @@ class SearchEnd extends PureComponent {
   downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   componentWillReceiveProps(nextProps) {
