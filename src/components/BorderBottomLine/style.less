@@ -1,11 +1,17 @@
 .line {
   height: 1Px;
   background-color: #dddddd;
-  opacity: 0.5;
+  filter:alpha(opacity=50); /* IE */
+-moz-opacity:0.5; /* 老版Mozilla */
+-khtml-opacity:0.5; /* 老版Safari */
+opacity: 0.5; /* 支持opacity的浏览器*/
 }
 .line2 {
   margin: 0 20px;
   height: 1Px;
   background-color: #dddddd;
-  opacity: 0.5;
+  filter:alpha(opacity=50); /* IE */
+-moz-opacity:0.5; /* 老版Mozilla */
+-khtml-opacity:0.5; /* 老版Safari */
+opacity: 0.5; /* 支持opacity的浏览器*/
 }

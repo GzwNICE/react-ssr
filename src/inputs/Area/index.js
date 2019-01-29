@@ -4,6 +4,7 @@ import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { Toast } from 'antd-mobile/lib/index'
+import guanbiIcon from '../../static/guanbi@2x.png'
 const triggerCity = "城市"
 
 @connect(state => {
@@ -166,6 +167,7 @@ class ComplexSelView extends ComplexFormField {
       })
     }
   }
+  // <img src={guanbiIcon} onClick={() => (this.props.onSelect || this.selectValue)(code)}/>
 
   optView() {
     const selected = this.getValue() || []

@@ -82,9 +82,6 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    // let str = 'search/会计?keyword=会计&areaParms=050100'
-    // let arr = str.split('&')
-    // console.log(arr)
     const {
       // keyword,
       position,
@@ -486,7 +483,7 @@ class SearchEnd extends PureComponent {
   downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -586,7 +583,7 @@ class SearchEnd extends PureComponent {
           <title>最佳东方 - 旅游服务业专业的招聘平台</title>
           <meta
             name="description"
-            content="11最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
           />
           <meta
             name="keywords"

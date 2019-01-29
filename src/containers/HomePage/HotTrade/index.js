@@ -75,9 +75,9 @@ class HotTrade extends Component {
       this.props.dispatch(
         hotTrade({
           location:
-            this.props.userStatus.code && this.props.userStatus.code[0]
-              ? this.props.userStatus.code
-              : this.props.supers.location.address.code,
+          nextProps.userStatus.code && nextProps.userStatus.code[0]
+              ? nextProps.userStatus.code
+              : nextProps.supers.location.address.code,
         })
       )
     }

@@ -155,7 +155,7 @@ class CompanyDetail extends PureComponent {
 
   /* 下载或者打开app */
   downLoadAd = () => {
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   componentDidMount() {

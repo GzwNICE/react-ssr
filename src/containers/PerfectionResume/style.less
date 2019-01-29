@@ -4,6 +4,14 @@
   background-color: #ffffff;
   font-family: PingFangSC-Regular;
   :global {
+    .am-list-item:not(:last-child) .am-list-line {
+      border: none !important;
+    }
+    .am-list-line::after {
+      opacity: 0;
+      display: none;
+      height: 0;
+    }
     #m-tabs-0-0 {
       justify-content: flex-end;
       padding-right: 30px;
@@ -61,7 +69,7 @@
 }
 .nav {
   margin-bottom: 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 0.5Px solid #f0f0f0;
   :global {
     .am-icon {
       color: #555555;
