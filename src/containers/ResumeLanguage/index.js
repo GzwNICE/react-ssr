@@ -22,6 +22,7 @@ import { lanSkills } from '../../actions/languages'
 import { setLanSkills } from '../../actions/languages'
 import GobackModal from '../../components/GoBackModal/index3'
 import { Helmet } from 'react-helmet'
+import BorderBottomLine from '../../components/BorderBottomLine'
 
 const CheckboxItem = Checkbox.CheckboxItem
 const tabs = [{ title: '语言能力' }, { title: '技能水平' }]
@@ -457,11 +458,26 @@ class ResumeInfo extends PureComponent {
             console.log('onTabClick', index, tab)
           }}
         >
-          <div className={style.wraper}>{this.language()}</div>
+          <div className={style.wraper}>
+            <div className={style.underline}>
+              <div className={style.underlineleft} />
+              <BorderBottomLine />
+            </div>
+            {this.language()}
+          </div>
           <div className={style.wraperSkill}>
+            <div className={style.underline2}>
+              <div className={style.underlineright} />
+
+              <BorderBottomLine />
+            </div>
+
             {this.skills()}
             <div className={style.addSkill} onClick={this.handleShowInputModal}>
+              <div>
               添加技能
+              </div>
+              
             </div>
           </div>
         </Tabs>

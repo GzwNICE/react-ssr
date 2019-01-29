@@ -21,7 +21,7 @@ class IdType extends PureComponent {
         <Flex direction="row-reverse">
           <Checkbox
             key={2}
-            className={style.radio}
+            className={style.radio1}
             checked={2 === parseInt(val, 10)}
             onChange={e => this.props.onChange(2)}
           >
@@ -29,7 +29,7 @@ class IdType extends PureComponent {
           </Checkbox>
           <Checkbox
             key={1}
-            className={style.radio}
+            className={style.radio2}
             checked={1 === parseInt(val, 10)}
             onChange={e => this.props.onChange(1)}
           >
