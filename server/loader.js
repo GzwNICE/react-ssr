@@ -189,7 +189,7 @@ export default (req, res, next) => {
       }
       if (blocPage.exec(req.url)) { // 名企专区列表
         render = false
-        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then(() => {
+        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then((data) => {
           store.dispatch(blocCategory({c_userid: blocPage.exec(req.url)[1]})).then(() => {
             serverRender()
           })
@@ -223,10 +223,10 @@ export default (req, res, next) => {
             params.city = arr2[1]
           }
         })
-        serverRender()
-        // store.dispatch(getSearchListInit(params)).then(() => {
-        //   serverRender()
-        // })
+        // serverRender()
+        store.dispatch(getSearchListInit(params)).then(() => {
+          serverRender()
+        })
       }
 
       if(render){

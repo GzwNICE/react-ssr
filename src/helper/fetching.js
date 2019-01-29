@@ -63,7 +63,7 @@ export default (options) => {
 /**
  * 代理服务
  */
-export const baseUrl = '//m.veryeast.cn/s'
+export const baseUrl = 'https://m.veryeast.cn/s'
 
 /**
  * 数据请求
@@ -71,7 +71,10 @@ export const baseUrl = '//m.veryeast.cn/s'
  * @param {object} params
  */
 export function pipeline(uri, params, opt = {}) {
+
   const sUrl = toRealUrl(uri)
+  console.log('333333')
+  console.log(sUrl)
   // loading 加载
   // Toast.loading('Loading...');
   return axios({
@@ -81,6 +84,8 @@ export function pipeline(uri, params, opt = {}) {
     data: parseBody(params),
     ...opt,
   }).then(res => {
+    console.log(sUrl)
+    console.log(res)
     // loading停止
     // Toast.hide()
     if (res.status >= 400) throw res
@@ -94,9 +99,6 @@ export function pipeline(uri, params, opt = {}) {
  */
 export function toRealUrl(uri) {
   // h5-new的是新接口，旧接口加上/client
-  // console.log(uri)
-
-
   let url
   if (/^:/.test(uri)) {
     url = /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
