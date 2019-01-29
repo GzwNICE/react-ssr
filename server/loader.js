@@ -197,6 +197,7 @@ export default (req, res, next) => {
       }
     
       if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
+        render = false
         let arr = req.url.split('&')
         console.log(arr)
         let params = {
@@ -223,10 +224,9 @@ export default (req, res, next) => {
             params.city = arr2[1]
           }
         })
-        serverRender()
-        // store.dispatch(getSearchListInit(params)).then(() => {
-        //   serverRender()
-        // })
+        store.dispatch(getSearchListInit(params)).then(() => {
+          serverRender()
+        })
       }
 
       if(render){
