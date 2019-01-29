@@ -123,24 +123,15 @@ class HomePage extends PureComponent {
   }
 
   /* 记录滚动条的位置 */
-  // onScroll = e => {
-  //   // let top = document.body.scrollTop || document.documentElement.scrollTop
-  //   // this.scrollTop = top
-  //   let scroll = e.scrollY
-  //   if (scroll > 360) {
-  //     this.setState({
-  //       showAd: true,
-  //     })
-  //   } else {
-  //     this.setState({
-  //       showAd: false,
-  //     })
-  //   }
-  // }
+  onScroll = () => {
+    let top = this.refs['homecentent'].scrollTop
+    this.scrollTop = top
+  }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
-    // this.scrollTop = this.props.homeDate.scrollTop
+    this.scrollTop = this.props.homeDate.scrollTop
+    this.refs['homecentent'].scrollTo(0, this.scrollTop)
     // const { userStatus, supers } = this.props
     // const location =
     //   userStatus.code && userStatus.code[0]
@@ -157,7 +148,7 @@ class HomePage extends PureComponent {
     // }
 
     this.setState({
-      // show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
+      show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
       is_login: sessionStorage.getItem('is_login')
         ? sessionStorage.getItem('is_login')
         : '',
@@ -175,7 +166,7 @@ class HomePage extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+            this.refs['homecentent'].scrollTo(0,scrollTop)
           }
         }
       )
@@ -197,6 +188,8 @@ class HomePage extends PureComponent {
     //       document.body.scrollTop = document.documentElement.scrollTop = 0
     //     })
     // }
+
+
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
 
@@ -240,7 +233,7 @@ class HomePage extends PureComponent {
           </div>
         </div>
 
-        <div className={style.homecentent}>
+        <div className={style.homecentent} onScroll={this.onScroll} ref="homecentent">
           <Carousels {...this.props} />
           <FamousCompany />
           <HotTrade />
