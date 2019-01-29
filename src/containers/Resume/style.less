@@ -162,6 +162,12 @@
     }
   }
   &-job {
+    > div {
+      margin-bottom: 25px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
     &-wraper {
       padding: 0 15px 0 23px;
       position: relative;
@@ -188,12 +194,17 @@
         right: -10px;
         padding: 10px;
       }
-      p {
-        line-height: 18px;
+      .jobtime {
+        font-size: 13px;
+        color: #777777;
+        padding-bottom: 10px;
       }
-      p:last-child {
-        margin-top: 10px;
-      }
+      // p {
+      //   line-height: 18px;
+      // }
+      // p:last-child {
+      //   margin-top: 10px;
+      // }
     }
     &-footer {
       text-align: center;

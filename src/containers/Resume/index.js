@@ -470,7 +470,7 @@ class Resume extends PureComponent {
                         )}
                         className={style['card-job-wraper-editor']}
                       />
-                      <p>
+                      <p className={style.jobtime}>
                         {`${item.begin_year}.${item.begin_month}`}-
                         {item.end_year !== '0'
                           ? `${item.end_year}.${item.end_month}`

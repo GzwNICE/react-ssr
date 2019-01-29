@@ -299,6 +299,7 @@ class MobileBind extends PureComponent {
                 >
                   {tipFont}
                 </Button>
+                
                 <BorderBottomLine />
               </div>
               <div className={style.btn}>
@@ -315,3 +316,13 @@ class MobileBind extends PureComponent {
 }
 
 export default MobileBind
+
+// <div
+//                   onClick={this.getCode}
+          
+//                   className={`${style.massage} ${
+//                     this.state.disableCode ? null : style.disabledCode
+//                   }`}
+//                 >
+//                 {this.state.tipFont}
+//               </div>

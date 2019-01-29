@@ -36,22 +36,22 @@ class MicroResume extends PureComponent {
   }
 
   componentDidMount() {
-    // window.zhuge.track('微简历-完善信息页面打开')
-    // setTimeout(() => {
-    //   if (!auth.user_id && !Cookies('ticket')) {
-    //     this.goLogin()
-    //   }
-    //   let arr = Object.keys(this.props.microresumeParams)
-    //   if (arr.length === 0) {
-    //     Toast.info('请先填写简历', 2)
-    //     let search = this.props.history.location.search
-    //     let path = ''
-    //     if (search.indexOf('?redirect=') !== -1) {
-    //       path = search.split('?redirect=')[1]
-    //     }
-    //     this.props.history.push('/resume/micro?redirect=' + path)
-    //   }
-    // }, 400)
+    window.zhuge.track('微简历-完善信息页面打开')
+    setTimeout(() => {
+      if (!auth.user_id && !Cookies('ticket')) {
+        this.goLogin()
+      }
+      let arr = Object.keys(this.props.microresumeParams)
+      if (arr.length === 0) {
+        Toast.info('请先填写简历', 2)
+        let search = this.props.history.location.search
+        let path = ''
+        if (search.indexOf('?redirect=') !== -1) {
+          path = search.split('?redirect=')[1]
+        }
+        this.props.history.push('/resume/micro?redirect=' + path)
+      }
+    }, 400)
   }
 
   goLogin = () => {
