@@ -200,7 +200,7 @@ class PositionBar extends PureComponent {
     window.location.href =
       'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h508'
     }, 2000)
   }
 

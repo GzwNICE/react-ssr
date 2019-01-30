@@ -4,13 +4,9 @@
 import React,{PureComponent, Component} from 'react'
 import style from '../style.less'
 import { createForm } from 'rc-form'
-// import Post from '../../inputs/Post'
 import Area from '../../../inputs/Area'
 import Brand from '../../../inputs/Brand'
-// import Salary from '../../inputs/Salary'
 import SimpleItem from '../../../inputs/SimpleItem'
-// import More from '../../inputs/More'
-// import angleDownGray from '../../static/Rectangle@3x.png'
 import Down from '../../../static/angleDownGray@3x.png'
 import { connect } from 'react-redux'
 
@@ -53,8 +49,9 @@ class FilterList extends (PureComponent || Component) {
                   extra="城市"
                   {...getFieldProps('areas', {
                     // initialValue: supers.location.address.code,
-                    initialValue: ["999"],
+                    initialValue: [],
                   })} // 触发form，调用onChangeCity
+                  maxLength={1}
                 >
                   <SimpleItem arrow="horizontal" />
                 </Area>

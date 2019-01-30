@@ -18,6 +18,7 @@ import {
   companydetail,
   companyList,
   companydetailClear,
+  saveScrollTop,
 } from '../../actions/company' // emptyInfo
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
@@ -108,9 +109,10 @@ class CompanyDetail extends PureComponent {
     }
   }
 
-  onScroll = page => {
+  onScroll = () => {
+    let top = this.detailWrap.scrollTop
     this.setScroll = setTimeout(() => {
-      if (this.page.scrollTop > 0) {
+      if (top > 0) {
         this.setState({
           searchShow: true,
         })
@@ -120,6 +122,7 @@ class CompanyDetail extends PureComponent {
         })
       }
     }, 100)
+    this.scrollTop = top
   }
 
   whereWillIGo = () => {
@@ -159,8 +162,11 @@ class CompanyDetail extends PureComponent {
   }
 
   componentDidMount() {
+    /* 初始化this.scrollTop */
+    this.scrollTop = this.props.company.scrollTop
+    this.detailWrap.scrollTo(0, this.scrollTop)
+    
     const id = this.props.match.params.company_id
-    this.page = document.getElementById('page')
     const { from } = queryString.parse(window.location.search)
     const label = this.props.company.label
     if (label.length === 0) {
@@ -179,12 +185,6 @@ class CompanyDetail extends PureComponent {
             appchannel: 'web',
           })
         )
-        .then(() => {
-          // 复原页面位置
-          const pathname = this.props.location.pathname
-          const pageScroll = this.props.pageScroll[pathname] || {}
-          this.page.scrollTop = pageScroll['page'] || 0
-        })
     }
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
@@ -195,10 +195,13 @@ class CompanyDetail extends PureComponent {
     })
   }
 
+
+
   componentWillUnmount() {
     this.props.handleSavePageScroll(this.key)
     clearTimeout(this.setScroll)
     this.props.dispatch(companydetailClear())
+    this.props.dispatch(saveScrollTop(this.scrollTop))
   }
 
   render() {
@@ -234,7 +237,7 @@ class CompanyDetail extends PureComponent {
           zhugeFrom={1}
         />
 
-        <div className={style.DetailWrap} onScroll={this.onScroll} id="page">
+        <div className={style.DetailWrap} onScroll={this.onScroll} ref={(el) => { this.detailWrap = el }}>
           <div className={style.DetailHead}>
             <div className={style.Detaillayout}>
               <div className={style.DetailNaLo}>

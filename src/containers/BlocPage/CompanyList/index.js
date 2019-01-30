@@ -3,22 +3,24 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { ListView } from 'antd-mobile'
-import { blocList, blocCategory, blocSearch } from '../../../actions/company'
+import { saveScrollTop,blocList, blocCategory, blocSearch } from '../../../actions/bloc'
 import JobList from '../../../components/JobList'
 import companyLogo from '../../../static/detailLogo.png'
 import missing from '../../../static/missing.png'
+import {  } from '../../../actions/home'
 import style from '../style.less'
 const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
-    list: state.company.list,
-    pagers: state.company.pager,
-    listPhoto: state.company.listPhoto,
-    brand: state.company.brand,
-    searchList: state.company.searchList,
-    searchPager: state.company.searchPager,
+    list: state.bloc.list,
+    pagers: state.bloc.pager,
+    listPhoto: state.bloc.listPhoto,
+    brand: state.bloc.brand,
+    searchList: state.bloc.searchList,
+    searchPager: state.bloc.searchPager,
     query: state.search.query,
+    blocDate: state.bloc,
   }
 })
 class CompanyList extends Component {
@@ -81,7 +83,7 @@ class CompanyList extends Component {
   }
 
   onScroll = () => {
-    let top = document.body.scrollTop || document.documentElement.scrollTop
+    const top = ReactDOM.findDOMNode(this.lv).scrollTop
     this.scrollTop = top
   }
 
@@ -98,6 +100,9 @@ class CompanyList extends Component {
   }
 
   componentDidMount() {
+     /* 初始化this.scrollTop */
+    this.scrollTop = this.props.blocDate.scrollTop
+    ReactDOM.findDOMNode(this.lv).scrollTo(0, this.scrollTop)
     const c_userid = this.props.match.params.c_userid
     const height =
       document.documentElement.clientHeight -
@@ -114,6 +119,7 @@ class CompanyList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const scrollTop = nextProps.blocDate.scrollTop
     if (nextProps.searchEnd) {
       if (this.props.searchList !== nextProps.searchList) {
         this.setState({
@@ -127,6 +133,7 @@ class CompanyList extends Component {
             isLoading: false,
           })
         }
+        ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
       }
     } else {
       if (
@@ -142,7 +149,12 @@ class CompanyList extends Component {
           })
         }
       }
+      ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
     }
+  }
+
+  componentWillUnmount(){
+    this.props.dispatch(saveScrollTop(this.scrollTop))
   }
 
   render() {

@@ -31,8 +31,8 @@ class SelectConcern extends PureComponent {
             initialPage={0}
             swipeable={false}
           >
-            <SelectCompany />
-            <SelectPost />
+            <SelectCompany location={this.props.history}/>
+            <SelectPost location={this.props.history} />
           </Tabs>
         </div>
       </div>

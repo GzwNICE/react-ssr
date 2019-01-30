@@ -23,9 +23,9 @@
     .am-list-item .am-list-line .am-list-arrow {
       background-image: url('../../static/right2@3x.png');
     }
-    .am-list-extra {
+    .am-list-item .am-list-line .am-list-extra {
       font-size: 15px !important;
-      color: #9B9B9B !important;
+      color: #9B9B9B;
     }
     .am-input-control>input {
       text-align: right;
@@ -175,4 +175,11 @@
   border: 1px solid #FF4F00;
   border-radius: 2px;
   margin: 30px 20px 0 20px;
+}
+.selectcolor {
+  :global {
+    .am-list-extra {
+      color: #4A4A4A !important;
+    }
+  }
 }

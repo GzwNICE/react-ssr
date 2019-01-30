@@ -63,7 +63,7 @@ class ResumeInfo extends PureComponent {
       console.log(values)
 
       function isNull(str) {
-        if (str == '') return true
+        if (str === '') return true
         var regu = '^[ ]+$'
         var re = new RegExp(regu)
         return re.test(str)
@@ -216,8 +216,8 @@ class ResumeInfo extends PureComponent {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
-    // console.log(resume.work_date)
-
+    const { current_location } = this.props.form.getFieldsValue()
+    // console.log(this.props.form.getFieldsValue())
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>
@@ -332,19 +332,37 @@ class ResumeInfo extends PureComponent {
                 : [],
             })}
           >
-            <List.Item arrow="horizontal">现居地</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                current_location && current_location.length > 0
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              现居地
+            </List.Item>
           </Area>
           <BorderBottomLine />
           <List.Item
             onClick={() => this.bindMobile(1)}
             extra={mobileStatus}
             arrow="horizontal"
+            className={`${
+              resume.hidden_mobile && resume.hidden_mobile.length > 0
+                ? style.selectcolor
+                : ''
+            }`}
           >
             手机号码
           </List.Item>
           <BorderBottomLine />
           <List.Item
-            className={style.email}
+            className={`${style.email} ${
+              resume.hidden_email && resume.hidden_email.length > 0
+                ? style.selectcolor
+                : ''
+            }`}
             onClick={() => this.bindEmail()}
             extra={emailStatus}
             arrow="horizontal"
