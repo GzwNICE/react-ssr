@@ -8,6 +8,8 @@ import {
   GET_BLOCDETAIL_SEARCH,
   GET_BLOCDETAIL_SEARCH_CLEAR,
   GET_BLOCDETAIL_LIST_CLEAR,
+  SEARCH_BLOC_END_SAVE,
+  SEARCH_SAVE_STATE,
 } from '../actions/bloc'
 
 const initState = {
@@ -19,6 +21,11 @@ const initState = {
   brand_index: [],
   searchList: [],
   searchPager: {},
+  query: {
+    area:[],
+    brand: [],
+    keywords: '',
+  },
 }
 
 export default (state = initState, action) => {
@@ -73,6 +80,20 @@ export default (state = initState, action) => {
       return {
         ...state,
         listPhoto: {},
+      }
+    case  SEARCH_BLOC_END_SAVE: // search_end 的条件保存
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          ...action.args,
+          keywords: action.args.keywords,
+        },
+      }
+    case SEARCH_SAVE_STATE:
+      return {
+        ...state,
+        ...action.args,
       }
     default:
       return state

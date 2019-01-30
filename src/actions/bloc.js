@@ -1,6 +1,8 @@
 import { singleApi } from '../helper/reduxFetch'
 export const BLOC_PAGE_UNMOUNT = 'BLOC_PAGE_UNMOUNT'
+export const SEARCH_BLOC_END_SAVE = 'SEARCH_BLOC_END_SAVE' // 保存搜索条件
 export const GET_BLOCDETAIL_LIST = 'GET_BLOCDETAIL_LIST' // 名企专区
+export const SEARCH_SAVE_STATE = 'SEARCH_SAVE_STATE' // 保存搜索条件
 export const GET_BLOCDETAIL_CATEGORY = 'GET_BLOCDETAIL_CATEGORY' // 名企专区品牌分类
 export const GET_BLOCDETAIL_SEARCH = 'GET_BLOCDETAIL_SEARCH' // 名企专区搜索
 export const GET_BLOCDETAIL_LIST_CLEAR = 'GET_BLOCDETAIL_LIST_CLEAR' // 名企专区清空数据
@@ -14,6 +16,20 @@ export const saveScrollTop = top => {
   return {
     type: BLOC_PAGE_UNMOUNT,
     scrollTop: top,
+  }
+}
+
+export const saveSearch = args => {
+  return {
+    args,
+    type: SEARCH_SAVE_STATE,
+  }
+}
+
+export const saveBlocQuery = args => {
+  return {
+    args,
+    type: SEARCH_BLOC_END_SAVE,
   }
 }
 
