@@ -1,4 +1,4 @@
-.radio {
+.radio1 {
   display: flex;
   align-items: center;
   margin-left: 12px;
@@ -11,3 +11,23 @@
     }
   }
 }
+.radio2 {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+  margin-left: 15px;
+  :global {
+    .am-checkbox {
+      margin-right: 4px;
+    }
+    .am-checkbox.am-checkbox-checked .am-checkbox-inner {
+      background-image: url("../../static/blueCircle@3x.png");
+    }
+  }
+}
+:global {
+  .am-checkbox-checked {
+    color: #4A4A4A;
+  }
+}
+

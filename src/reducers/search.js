@@ -233,6 +233,12 @@ export default (state = initState, action) => {
         ...state,
         list: [],
         scrollTop: 0,
+        query: {
+          area:[],
+          more: {},
+          brand: [],
+          keywords: '',
+        },
       }
     default:
       return state

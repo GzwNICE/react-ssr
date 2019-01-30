@@ -8,8 +8,18 @@
   top: 30px;
   left: -143px;
   height: 280px;
-  width: 375px;
+  width: 376px;
   background-color: #fff;
+  z-index: 4;
+}
+.mask {
+  position: absolute;
+  top: 30px;
+  left: -143px;
+  height: 700px;
+  width: 376px;
+  background-color: rgba(0,0,0,0.40);
+  z-index: 2;
 }
 .title {
   padding: 26px 0 0 25px;
@@ -37,7 +47,6 @@
       border: none;
       width: 0 !important;
       height: 0 !important;
-      // background-color: none;
     }
     .rc-slider-rail {
       border-radius: 0 !important;
@@ -54,7 +63,6 @@
     top: -36px;
     left: -10px;
     border-radius: 2px;
-    // background-color: #ff4f00;
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -82,7 +90,7 @@
   }
 }
 .btn {
-  width: 375px;
+  width: 376px;
   height: 40px;
   line-height: 40px;
   text-align: center;
@@ -91,6 +99,7 @@
   position: absolute;
   top: 270px;
   left: -143px;
+  z-index: 4;
 
 }
 .jiantou{
@@ -100,5 +109,11 @@
   img{
     width: 12px;
     transform: rotate(90deg);
+    vertical-align: inherit;
+    transition: transform 0.3s;
   }
+}
+.rotate {
+  transform: rotate(270deg) !important;
+  transition: transform 0.3s;
 }

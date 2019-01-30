@@ -14,7 +14,7 @@ import { microDone } from '../../actions/microresume'
 import Salary from '../../inputs/Salary'
 import store from 'store'
 import GobackModal from '../../components/GoBackModal/index2'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 
 const auth = store.get('m:auth') || {}
 @connect(state => {
@@ -177,6 +177,8 @@ class MicroResume extends PureComponent {
         <Post {...getFieldProps('person_desired_position', {})} maxLength={5}>
           <List.Item arrow="horizontal">期望职位</List.Item>
         </Post>
+        <BorderBottomLine />
+
         <Industry
           {...getFieldProps('person_desired_industry', {})}
           maxLength={5}
@@ -184,9 +186,13 @@ class MicroResume extends PureComponent {
         >
           <List.Item arrow="horizontal">期望行业</List.Item>
         </Industry>
+        <BorderBottomLine />
+
         <Area {...getFieldProps('person_desired_location', {})} maxLength={3}>
           <List.Item arrow="horizontal">期望城市</List.Item>
         </Area>
+        <BorderBottomLine />
+
         <Salary auto {...getFieldProps('desired_salary', {})}>
           <List.Item arrow="horizontal">期望月薪</List.Item>
         </Salary>

@@ -141,7 +141,7 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
     }, 2000)
   }
 
@@ -150,7 +150,7 @@ class PositionDetail extends PureComponent {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
     }, 2000)
   }
 

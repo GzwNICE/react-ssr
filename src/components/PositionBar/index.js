@@ -90,6 +90,7 @@ class PositionBar extends PureComponent {
   }
 
   toEmploy = () => {
+    window.zhuge.track('投递简历点击')
     const isApplied = this.props.position.is_applied
     const resume_complete = this.props.position.resume_complete
     const true_name = this.props.position.true_name_cn
@@ -168,6 +169,7 @@ class PositionBar extends PureComponent {
           }
         } else {
           success()
+          window.zhuge.track('投递简历成功')
         }
       })
   }
@@ -198,7 +200,7 @@ class PositionBar extends PureComponent {
     window.location.href =
       'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
     }, 2000)
   }
 

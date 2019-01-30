@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background-color: #F0F0F0;
+  background-color: #f8f8f8;
 }
 
 .wrap, .all {
@@ -68,10 +68,13 @@
 }
 
 .nav {
-  border-bottom: 1Px solid #F0F0F0;
+  border-bottom: 0.5Px solid #F0F0F0;
   :global {
     .am-icon {
       color: #555555;
+    }
+    .am-list-line {
+      font-size: 15px !important;
     }
     .am-navbar-title {
       font-size: 16px;
@@ -87,10 +90,6 @@
     }
   }
 }
-
-// .listItem {
-//   border-bottom: 1Px solid #F0F0F0;
-// }
 
 .brandSelect {
   height: 18px;
@@ -171,13 +170,14 @@
   :global {
     .am-list-content {
       color: #4A4A4A !important;
+      font-size: 15px !important;
     }
     .am-list-body::before,
     .am-list-body::after {
       display: none !important;
     }
     .am-list-item-active {
-      background-color: #F0F0F0 !important;
+      background-color: #f8f8f8 !important;
     }
   }
 }

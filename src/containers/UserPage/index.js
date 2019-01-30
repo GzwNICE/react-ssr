@@ -109,7 +109,7 @@ class UserPage extends PureComponent {
     })
     window.location.href = 'share2js://app?type=2'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
     }, 2000)
   }
 

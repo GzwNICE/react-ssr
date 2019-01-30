@@ -10,6 +10,7 @@ import {
   blocSearchClear,
   blocListClear,
 } from '../../actions/company'
+import { saveScrollTop } from '../../actions/home'
 import { saveQuery, saveSearch } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -48,6 +49,7 @@ const tiggerBrand = '品牌'
   searchKeyword: state.search.searchKeyword,
   option: state.option,
   company: state.company,
+  homeDate: state.home,
 }))
 export default class CompanyArea extends Component {
   state = {
@@ -67,7 +69,7 @@ export default class CompanyArea extends Component {
   downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
   // 关闭底部引导注册弹框
@@ -79,18 +81,21 @@ export default class CompanyArea extends Component {
 
   handleFilerSearch = (value = {}) => {
     const option = this.props.option
-    if (value.area) {// 城市选择
+    if (value.area) {
+      // 城市选择
       const areas_index = option.areas_index || {}
       const city = areas_index[value.area[0]]
       window.zhuge.track('名企城市筛选', { [`${tiggerCity}`]: city })
     }
 
-    if (value.brand) {// 薪资
+    if (value.brand) {
+      // 薪资
       const brand_index = this.props.company.brand || []
-      const brand = brand_index.filter(v=>v.code===value.brand[0])[0].value || ''
+      const brand =
+        brand_index.filter(v => v.code === value.brand[0])[0].value || ''
       window.zhuge.track('名企品牌筛选', { [`${tiggerBrand}`]: brand })
     }
-    
+
     this.props.dispatch(blocSearchClear())
     this.props.dispatch(
       saveQuery({
@@ -101,19 +106,9 @@ export default class CompanyArea extends Component {
     )
   }
   /* 记录滚动条的位置 */
-  onScroll = e => {
-    // let top = document.body.scrollTop || document.documentElement.scrollTop
-    // this.scrollTop = top
-    // let scroll = window.scrollY
-    // if (scroll > 360) {
-    //   this.setState({
-    //     showAd: true,
-    //   })
-    // } else {
-    //   this.setState({
-    //     showAd: false,
-    //   })
-    // }
+  onScroll = () => {
+    let top = this.refs['blocCentent'].scrollTop
+    this.scrollTop = top
   }
 
   whereWillIGo = () => {
@@ -171,7 +166,7 @@ export default class CompanyArea extends Component {
     this.props.dispatch(blocSearchClear())
   }
 
-  onClear  = () => {
+  onClear = () => {
     this.props.dispatch(
       saveSearch({
         searchState: false,
@@ -194,29 +189,34 @@ export default class CompanyArea extends Component {
   }
 
   componentDidMount() {
+    /* 初始化this.scrollTop */
+    this.scrollTop = this.props.homeDate.scrollTop
+    this.refs['blocCentent'].scrollTo(0, this.scrollTop)
+
     const c_userid = this.props.match.params.c_userid
     const { listPhoto } = this.props
     if (JSON.stringify(listPhoto) === '{}') {
-      Toast.loading('Loading...');
-      this.props.dispatch(
-        blocList({
-          c_userid: c_userid,
-          local: '',
-          c_id: '',
-        })    
-      ).then(res=>{
-        Toast.hide()
-        this.setState({
-          hasList: true,
+      Toast.loading('Loading...')
+      this.props
+        .dispatch(
+          blocList({
+            c_userid: c_userid,
+            local: '',
+            c_id: '',
+          })
+        )
+        .then(res => {
+          Toast.hide()
+          this.setState({
+            hasList: true,
+          })
         })
-      })
     }
     this.setState({
       is_login: sessionStorage.getItem('is_login')
         ? sessionStorage.getItem('is_login')
         : '',
     })
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -230,8 +230,9 @@ export default class CompanyArea extends Component {
     //   }
     // })
 
-    // 选择城市和品牌筛选数据 
+    // 选择城市和品牌筛选数据
     const c_userid = this.props.match.params.c_userid
+    const scrollTop = nextProps.homeDate.scrollTop
     if (
       nextProps.query.area !== this.props.query.area ||
       nextProps.query.brand !== this.props.query.brand ||
@@ -239,18 +240,24 @@ export default class CompanyArea extends Component {
       nextProps.searchState !== this.props.searchState
     ) {
       if (nextProps.searchState) {
-        this.props.dispatch(
-          blocSearch({
-            c_userid: c_userid,
-            local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
-            c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
-            key_words: nextProps.query.keywords && nextProps.query.keywords,
+        this.props
+          .dispatch(
+            blocSearch({
+              c_userid: c_userid,
+              local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
+              c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+              key_words: nextProps.query.keywords && nextProps.query.keywords,
+            })
+          )
+          .then(res => {
+            if (res.data.data.length === 0 || res.data.pager.total === 0) {
+              window.zhuge.track('名企搜索无结果', {
+                [`${tiggerKeyWord}`]:
+                  nextProps.query.keywords && nextProps.query.keywords,
+              })
+            }
+            this.refs['blocCentent'].scrollTo(0,scrollTop)
           })
-        ).then((res)=>{
-          if(res.data.data.length === 0 || res.data.pager.total === 0){
-            window.zhuge.track('名企搜索无结果', { [`${tiggerKeyWord}`]: nextProps.query.keywords && nextProps.query.keywords })
-          }
-        })
       } else {
         this.props.dispatch(
           blocList({
@@ -258,17 +265,23 @@ export default class CompanyArea extends Component {
             local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
             c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
           })
-        )
+        ).then(()=>{
+          this.refs['blocCentent'].scrollTo(0,scrollTop)
+        })
       }
     }
   }
 
   componentWillUnmount() {
     this.props.dispatch(blocListClear())
+    /*组建卸载，存储滚动条的位置*/
+    this.props.dispatch(saveScrollTop(this.scrollTop))
   }
+
+
   render() {
     const { show, showRegWrap, is_login } = this.state
-    const category = this.props.list 
+    const category = this.props.list
     const categoryName = category.length > 0 ? category[0].category_name : ''
     return (
       <div className={style.CompanyArea}>
@@ -299,8 +312,15 @@ export default class CompanyArea extends Component {
             filterList={this.handleFilerSearch}
           />
         </div>
-        <div className={style.blocCentent}>
-          <CompanyList searchEnd={this.state.search} hasList={this.state.hasList}/>
+        <div
+          className={style.blocCentent}
+          ref="blocCentent"
+          onScroll={this.onScroll}
+        >
+          <CompanyList
+            searchEnd={this.state.search}
+            hasList={this.state.hasList}
+          />
         </div>
         {is_login ? null : showRegWrap ? (
           <RegisterWrap

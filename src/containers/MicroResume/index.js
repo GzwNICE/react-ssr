@@ -60,16 +60,16 @@ class MicroResume extends PureComponent {
     this.props.history.replace(
       '/register?redirect=' + this.props.history.location.pathname
     )
-    // return Modal.alert('', '请先登录', [
-    //   { text: '稍后', style: 'default' },
-    //   {
-    //     text: '登录',
-    //     onPress: () =>
-    //       this.props.history.replace(
-    //         '/register?redirect=' + this.props.history.location.pathname
-    //       ),
-    //   },
-    // ])
+    return Modal.alert('', '请先登录', [
+      { text: '稍后', style: 'default' },
+      {
+        text: '登录',
+        onPress: () =>
+          this.props.history.replace(
+            '/register?redirect=' + this.props.history.location.pathname
+          ),
+      },
+    ])
   }
 
   componentDidMount() {

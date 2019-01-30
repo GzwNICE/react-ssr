@@ -22,7 +22,7 @@ class DeliveryRecord extends PureComponent {
   }
 
   handleTabClick = index => {
-    this.props.history.replace(`/person/applyRecord?key=${index.page}`)
+    // this.props.history.replace(`/person/applyRecord?key=${index.page}`)
     this.props.dispatch(
       readResume({
         type: index.page,
@@ -48,7 +48,7 @@ class DeliveryRecord extends PureComponent {
     window.location.href =
       'share2js://app?type=7&enterpriseNum=1&interviewNum=2&notAppropriateNum=3'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
     }, 2000)
   }
 

@@ -82,9 +82,6 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    // let str = 'search/会计?keyword=会计&areaParms=050100'
-    // let arr = str.split('&')
-    // console.log(arr)
     const {
       // keyword,
       position,
@@ -192,7 +189,7 @@ class SearchEnd extends PureComponent {
   }
   goBack = () => {
     const { redirect } = queryString.parse(this.props.history.location.search)
-    console.log(redirect)
+    // console.log(redirect)
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -205,6 +202,7 @@ class SearchEnd extends PureComponent {
   }
 
   goSerch = () => {
+    this.props.dispatch(deleteList())
     this.props.history.push(`/search`)
     // const { redirect, sss } = queryString.parse(
     //   this.props.history.location.search
@@ -267,6 +265,7 @@ class SearchEnd extends PureComponent {
   }
 
   filterSearch = (value = {}) => {
+    // console.log(value.more)
     //zhuge统计
     let val = ''
     if (value.position) {
@@ -299,6 +298,7 @@ class SearchEnd extends PureComponent {
           option.opts_company_industry_all_index) ||
         {}
       const industry = industry_index[value.more.company_industry] || ''
+
       // 发布日期
       const update_time_index =
         (option.opts_update_time && option.opts_update_time_index) || {}
@@ -344,6 +344,10 @@ class SearchEnd extends PureComponent {
       },
       () => {
         const allQuery = this.handleSearchQuery()
+        
+        // let obj = {...allQuery}
+        // delete obj.keywords
+        // console.log(obj)
         this.props.dispatch(getSearchListInit(allQuery))
       }
     )
@@ -372,6 +376,10 @@ class SearchEnd extends PureComponent {
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
         : this.props.supers.location.address.code
+    // console.log(data)
+    // console.log(this.state.init)
+    // console.log(this.props.query)
+
     let allQuery = {
       ...data,
       ...this.state.init,
@@ -393,6 +401,9 @@ class SearchEnd extends PureComponent {
         code ||
         this.getQuery.area,
     }
+    console.log(this.getQuery.isUsed)
+    
+
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -401,7 +412,7 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
-
+    // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
@@ -486,7 +497,7 @@ class SearchEnd extends PureComponent {
   downLoadAd = () => {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -586,7 +597,7 @@ class SearchEnd extends PureComponent {
           <title>最佳东方 - 旅游服务业专业的招聘平台</title>
           <meta
             name="description"
-            content="11最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
           />
           <meta
             name="keywords"
@@ -595,7 +606,6 @@ class SearchEnd extends PureComponent {
         </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
-
           <SearchEndBar
             goBack={this.goBack}
             goSerch={this.goSerch}

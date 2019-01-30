@@ -119,28 +119,19 @@ class HomePage extends PureComponent {
     } else {
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
     }
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
   }
 
   /* 记录滚动条的位置 */
-  // onScroll = e => {
-  //   // let top = document.body.scrollTop || document.documentElement.scrollTop
-  //   // this.scrollTop = top
-  //   let scroll = e.scrollY
-  //   if (scroll > 360) {
-  //     this.setState({
-  //       showAd: true,
-  //     })
-  //   } else {
-  //     this.setState({
-  //       showAd: false,
-  //     })
-  //   }
-  // }
+  onScroll = () => {
+    let top = this.refs['homecentent'].scrollTop
+    this.scrollTop = top
+  }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
-    // this.scrollTop = this.props.homeDate.scrollTop
+    this.scrollTop = this.props.homeDate.scrollTop
+    this.refs['homecentent'].scrollTo(0, this.scrollTop)
     // const { userStatus, supers } = this.props
     // const location =
     //   userStatus.code && userStatus.code[0]
@@ -175,7 +166,7 @@ class HomePage extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+            this.refs['homecentent'].scrollTo(0,scrollTop)
           }
         }
       )
@@ -197,6 +188,8 @@ class HomePage extends PureComponent {
     //       document.body.scrollTop = document.documentElement.scrollTop = 0
     //     })
     // }
+
+
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
   }
 
@@ -220,13 +213,12 @@ class HomePage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-        {!show && (
-          <Ad.AdWindow
-            show={show}
-            onCloseAd={this.onCloseAd}
-            downLoadAd={() => this.downLoadAd(1)}
-          />
-        )}
+        
+        <Ad.AdWindow
+          show={show}
+          onCloseAd={this.onCloseAd}
+          downLoadAd={() => this.downLoadAd(1)}
+        />
         <div className={style.homehead}>
           <div className={style.searchBar}>
             <Ad.AdTop downLoadAd={() => this.downLoadAd(2)} />
@@ -241,7 +233,7 @@ class HomePage extends PureComponent {
           </div>
         </div>
 
-        <div className={style.homecentent}>
+        <div className={style.homecentent} onScroll={this.onScroll} ref="homecentent">
           <Carousels {...this.props} />
           <FamousCompany />
           <HotTrade />

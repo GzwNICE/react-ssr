@@ -7,6 +7,7 @@ import {
 } from './autoFetch'
 
 export function singleApi(...args) {
+
   const { url, action,cache, prelude, should } = getArgs(args)
   // console.log(cache)
   return (args = {}) => (dispatch, getState) => {
@@ -27,6 +28,7 @@ export function singleApi(...args) {
       // if (url.indexOf('/job/search') !== -1) {
       // }
       args = Object.assign(args, {appchannel: 'web'})
+
       return singleFetch(url, args)
         .then(json => dispatch(action(args, json)))
         .catch(err => {return err})

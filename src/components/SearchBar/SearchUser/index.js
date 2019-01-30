@@ -36,7 +36,7 @@ class SearchUser extends Component {
     }else {
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位详情页顶部推荐' })
     }
-    window.location.href = 'https://m.veryeast.cn/mobile/index.html?c=mobile'
+    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   goHome=(key)=>{
@@ -103,7 +103,7 @@ class SearchUser extends Component {
             >
               <img
                 src={is_login ? (photo ? photo : Userdefault) : personal}
-                alt="img"
+                alt=""
                 className={style.personal}
               />
             </Link>
