@@ -13,7 +13,7 @@ class ConnectList extends PureComponent {
         if (data.errCode === 2002) {
           // Modal.alert('', '请先登录', [
           //   { text: '稍后', style: 'default' },
-          //   { text: '登录', onPress: () => this.props.push('/register?redirect=' + this.props.history.location.pathname, {key: '消息'})},
+          //   { text: '登录', onPress: () => this.props.push('/user/register?redirect=' + this.props.history.location.pathname, {key: '消息'})},
           // ])
         }
         this.setState({

@@ -291,7 +291,7 @@ class LoginCode extends PureComponent {
           </a>
         </div>
         <div
-          onClick={() => this.goRegister(`/register`, '登录页点击注册')}
+          onClick={() => this.goRegister(`/user/register`, '登录页点击注册')}
           className={style.goRegister}
         >
           <span>立即注册</span>

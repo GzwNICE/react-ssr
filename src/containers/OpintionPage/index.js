@@ -36,7 +36,7 @@ class OpintionPage extends PureComponent {
       this.props.history.push(url)
     } else {
       this.props.history.push(
-        '/register?redirect=' + this.props.history.location.pathname,
+        '/user/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }
       )
     }

@@ -71,7 +71,7 @@ export default class RegisterWrap extends Component {
     return (
       <div className={style.registerWrap}>
         <Link
-          to={`/register?redirect=${this.props.location}`}
+          to={`/user/register?redirect=${this.props.location}`}
           onClick={() => this.openRegister(this.props.zhugeFrom)}
         >
           <div className={style.left}>

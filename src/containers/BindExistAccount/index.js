@@ -85,7 +85,7 @@ class BindExistAccount extends PureComponent {
   }
   goRegister = () => {
     this.props.dispatch({ type: 'ACCOUNT_IS_VERIFY', payload: '1' })
-    this.props.history.replace(`/register${this.props.history.location.search}`)
+    this.props.history.replace(`/user/register${this.props.history.location.search}`)
   }
   goBack = () => {
     this.props.history.goBack()

@@ -36,7 +36,7 @@ export default class CompanyDuce extends Component {
       [`${triggerFrom}`]: '企业联系方式获取',
     })
     const pathname = this.props.history.location.pathname
-    const url = `/register?redirect=${pathname}`
+    const url = `/user/register?redirect=${pathname}`
     this.props.history.replace(url, { key: '获取联系方式' })
   }
 

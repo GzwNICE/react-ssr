@@ -86,7 +86,7 @@ class Resume extends PureComponent {
       .then(data => {
         if (data.errMsg === '未登陆') {
           this.props.history.replace(
-            '/register?redirect=' + this.props.history.location.pathname
+            '/user/register?redirect=' + this.props.history.location.pathname
           )
         }
         this.languageKillArr()
