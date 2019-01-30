@@ -40,7 +40,6 @@ class Subscription extends PureComponent {
     let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
     this.props.form.validateFields((err,value) => {
       if(err) return
-      console.log(value)
       let isok =this.tipsErr([
         [value.subscribe_email, ['请输入邮箱','请输入正确邮箱'], reg],
         [value.jobarea, '请选择地点'],

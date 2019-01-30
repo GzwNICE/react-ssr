@@ -171,7 +171,7 @@ class ComplexSelView extends ComplexFormField {
     const { value, optionsSubChil, selectedHight, clickCode } = this.state
 
     let styleObj = {
-      top: `${60 + selectedHight}px`,
+      top: `${55 + selectedHight}px`,
     }
     return (
       <div className={style.root}>

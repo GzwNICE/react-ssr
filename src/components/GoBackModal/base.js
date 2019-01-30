@@ -29,8 +29,8 @@ class GoBackModal extends (PureComponent || Component) {
           <p>内容尚未保存</p>
           <p>你确定要退出吗?</p>
           <div>
-            <div onClick={this.props.handleExit}>退出</div>
-            <div onClick={this.handleContinue}>继续填写</div>
+            <div className={style.close} onClick={this.props.handleExit}>退出</div>
+            <div className={style.ok} onClick={this.handleContinue}>继续填写</div>
           </div>
         </div>
       </Modal>

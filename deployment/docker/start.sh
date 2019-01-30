@@ -15,11 +15,11 @@ echo -e "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 #yarn install
 tar zxvf /node_modules.tar.gz -C /var/www/site
 rm -rf /node_modules.tar.gz
-echo '---build----'
-yarn build:client
-echo '---build-ok---'
+#echo '---build----'
+#yarn build:clientPre
+#echo '---build-ok---'
 # 使用pm2启动node服务
-pm2 start ./server/index.js -i 2
+pm2 start ./server/index.js -i 1
 echo 'pm2 start ok'
 nginx
 pm2 log

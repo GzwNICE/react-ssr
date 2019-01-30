@@ -170,7 +170,7 @@ class BindMoblePhone extends PureComponent {
   }
 
   onScrollChange= (value) => {
-    console.log(value)
+    // console.log(value)
   }
 
   componentDidMount() {

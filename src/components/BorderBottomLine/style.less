@@ -1,46 +1,90 @@
-.line {
-  height: 0.5Px;
-  // background-color: #dddddd;
-  // opacity: 0.5;
-  background-color: rgba(200, 199, 204, 0.5);
-  // background-color: rgba(200,199,204, 1);
-}
-.line2 {
-  margin: 0 20px;
-  height: 1Px;
-  // background-color: #dddddd;
-  // opacity: 0.5;
-  background-color: rgba(200, 199, 204, 0.5);
-  // background-color:rgba(200,199,204, 1);
-}
+// .line {
+//   height: 1Px;
+//   // background-color: #dddddd;
+//   // opacity: 0.5;
+//   background-color: rgba(200, 199, 204, 0.5);
+//   // background-color: rgba(200,199,204, 1);
+// }
+// .line2 {
+//   margin: 0 20px;
+//   height: 1Px;
+//   // background-color: #dddddd;
+//   // opacity: 0.5;
+//   background-color: rgba(200, 199, 204, 0.5);
+//   // background-color:rgba(200,199,204, 1);
+// }
 
 // .line {
-//   border: 1px solid rgba(200, 199, 204, 1);
+//   border: 0.5px solid rgba(200, 199, 204, 0.5);
 // }
 // @media screen and (-webkit-min-device-pixel-ratio: 2) {
 //   .line {
-//     border: 0.5px solid rgba(200, 199, 204, 1);
+//     border: 0.5px solid rgba(200, 199, 204, 0.5);
 //   }
 // }
 // @media screen and (-webkit-min-device-pixel-ratio: 3) {
 //   .line {
-//     border: 0.333333px solid rgba(200, 199, 204, 1);
+//     border: 0.333333px solid rgba(200, 199, 204, 0.5);
 //   }
 // }
-
 // .line2 {
-//   border: 1px solid rgba(200, 199, 204, 1);
+//   .line();
 //   margin: 0 20px;
 // }
-// @media screen and (-webkit-min-device-pixel-ratio: 2) {
-//   .line2 {
-//     border: 0.5px solid rgba(200, 199, 204, 1);
-//     margin: 0 20px;
-//   }
-// }
-// @media screen and (-webkit-min-device-pixel-ratio: 3) {
-//   .line2 {
-//     border: 0.333333px solid rgba(200, 199, 204, 1);
-//     margin: 0 20px;
-//   }
-// }
+
+
+.border-1px {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid rgba(200, 199, 204, 0.5);
+    content: ' ';
+    -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+  }
+}
+// todo 下面的为什么没有生效
+@media (-webkit-min-device-pixel-ratio: 1),(min-device-pixel-ratio: 1){
+  .border-1px{
+    &::after{
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5){
+  .border-1px{
+    &::after{
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
+  .border-1px{
+    &::after{
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    }
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3){
+  .border-1px{
+    &::after{
+      -webkit-transform: scaleY(0.3333);
+      transform: scaleY(0.3333);
+    }
+  }
+}
+.line {
+  .border-1px()
+}
+.line2 {
+  .border-1px();
+  margin: 0 20px;
+}
+  

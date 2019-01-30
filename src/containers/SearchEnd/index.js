@@ -37,7 +37,9 @@ const tiggerBoard = '食宿情况'
 const tiggerWorkMode = '职位性质'
 const tiggerKeyWord = '搜索词'
 
+let queryMoreOnly = {}
 @connect(state => {
+  console.log(state.search.list)
   return {
     isLoading: state.search.isLoading,
     searchLIst: state.search.list,
@@ -111,16 +113,26 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
+    console.log(this.getQuery)
 
     const data = this.props.location.state || {}
     const { keyword } = queryString.parse(this.props.history.location.search)
     if (keyword) this.getQuery.keyword = keyword
+    this.setQueryMore(keyword)
     const allQuery = this.handleSearchQuery()
     if (data.keyword || keyword) {
+      let key = data.keyword || keyword
+      let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
+    arr2.forEach(item => {
+      if (item === key) {
+        key = ''
+      }
+    })
       this.setState({
-        defaultValue: data.keyword || keyword,
+        defaultValue: key,
       })
     }
+   
     Toast.loading('Loading...')
     if (this.props.searchLIst.length < 1) {
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
@@ -135,8 +147,6 @@ class SearchEnd extends PureComponent {
         }
       })
     }
-    
-    this.setQueryMore(keyword)
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
     /*
@@ -146,6 +156,7 @@ class SearchEnd extends PureComponent {
     if (Object.keys(this.getQuery.more).length === 0) {
       delete this.getQuery.more
     }
+    console.log(this.getQuery)
     this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
     this.timer = setTimeout(() => {
       this.setState({
@@ -189,6 +200,8 @@ class SearchEnd extends PureComponent {
       const obj = {
       company_industry: select,
       }
+      queryMoreOnly = obj
+      
       this.setState({
         queryMore: obj,
       })
@@ -384,7 +397,15 @@ class SearchEnd extends PureComponent {
         ? this.props.query.salary[1]
         : 100000
     const { keyword } = queryString.parse(this.props.history.location.search)
-    const key = data.keyword || keyword || ''
+    
+    let path = this.props.history.location.pathname
+    let arr1 = path.split('search/')
+    
+    let key = data.keyword || keyword || arr1[1]
+   
+
+   
+    console.log(queryMoreOnly)
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
@@ -410,9 +431,9 @@ class SearchEnd extends PureComponent {
         (this.props.userStatus.code && (this.props.userStatus.code[0] || '')) ||
         code ||
         this.getQuery.area,
+      ...queryMoreOnly,
     }
-    console.log(this.getQuery.isUsed)
-    
+
 
     if (this.getQuery.isUsed) {
       allQuery = {
@@ -422,6 +443,14 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
+    console.log(allQuery)
+    let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
+    arr2.forEach(item => {
+      if (item === allQuery.keyword) {
+        allQuery.keyword = ''
+      }
+    })
+ 
     // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
@@ -561,11 +590,13 @@ class SearchEnd extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.getQuery.isUsed = 0
+    this.props.dispatch(saveScrollTop(this.scrollTop))
+
     this.props.dispatch({
       type: 'SEARCH_EMPTY_ALL',
     })
     clearTimeout(this.timer)
-    this.props.dispatch(saveScrollTop(this.scrollTop))
+    queryMoreOnly = {}
   }
 
   render() {
@@ -579,6 +610,8 @@ class SearchEnd extends PureComponent {
       query.area = area
     }
     query.more = {...query.more, ...queryMore}
+
+
     delete query.keyword
     delete query.isUsed
 
@@ -631,7 +664,6 @@ class SearchEnd extends PureComponent {
         <div className={style.listBox} ref={(el) => { this.listBox = el }} onScroll={this.onScroll}>
           {allPage > 0 ? (
             <ListView
-
               className={style.listView}
               dataSource={this.state.dataSource}
               renderRow={Row}

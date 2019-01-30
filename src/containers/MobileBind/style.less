@@ -13,6 +13,23 @@
       font-size: 15px;
       color: #4A4A4A;
     }
+    .am-list-line {
+      height: 60px;
+      .am-input-control  {
+        margin-top: 14px;
+      }
+      .am-input-clear{
+        width: 16px;
+        height: 16px;
+        margin-top: 14px;
+        background-position: inherit !important;
+      }
+    }
+    .am-list-item.am-input-item {
+      height: 60px;
+      border-bottom: 0.5Px solid rgba(200,199,204,0.50);
+    }
+    
   }
 }
 
@@ -23,7 +40,7 @@
   background-color: #fff;
   margin-left: 0 !important;
   > div {
-    margin: 20px 20px;
+    margin: 40px 40px;
   }
 }
 
@@ -43,8 +60,12 @@
     .am-input-item > .am-input-control > input {
       text-align: left;
     }
+    // .am-list-line {
+    //   height: 60px;
+    //   line-height: 60px;
+    // }
     .am-list-item.am-input-item {
-      padding-left: 10px!important;
+      padding-left: 0 !important;
     }
   }
 }
@@ -55,7 +76,7 @@
 }
 
 .nav {
-  border-bottom: 1PX solid #F0F0F0;
+  border-bottom: 0.5px solid #F0F0F0;
   :global {
     .am-icon {
       color: #555555;
@@ -76,10 +97,25 @@
   }
 }
 .btn {
-  padding-top: 40px;
+  height: 40px;
+  margin-top: 40px;
+  a{
+    display: block;
+    height: 100%;
+    line-height: 40px;
+    background: #FF4F00;
+    border-radius: 2px;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  .disabled{
+    color: rgba(255,255,255,0.5) !important;
+  }
 }
 .tip {
-  padding-right: 100px;
+  padding-right: 75px;
 }
 
 .massage{
@@ -95,4 +131,7 @@
 }
 .disabledCode{
   color: rgba(164,164,164,0.50) !important;
+}
+.paddingtop10 {
+  padding-top: 16px;
 }
