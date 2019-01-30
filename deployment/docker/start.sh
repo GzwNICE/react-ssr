@@ -19,7 +19,7 @@ rm -rf /node_modules.tar.gz
 #yarn build:clientPre
 #echo '---build-ok---'
 # 使用pm2启动node服务
-pm2 start ./server/index.js -i 2
+pm2 start ./server/index.js -i 1
 echo 'pm2 start ok'
 nginx
 pm2 log
