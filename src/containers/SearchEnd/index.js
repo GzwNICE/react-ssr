@@ -189,7 +189,7 @@ class SearchEnd extends PureComponent {
   }
   goBack = () => {
     const { redirect } = queryString.parse(this.props.history.location.search)
-    console.log(redirect)
+    // console.log(redirect)
     this.props.dispatch(deleteList())
 
     if (redirect) {
@@ -202,6 +202,7 @@ class SearchEnd extends PureComponent {
   }
 
   goSerch = () => {
+    this.props.dispatch(deleteList())
     this.props.history.push(`/search`)
     // const { redirect, sss } = queryString.parse(
     //   this.props.history.location.search
@@ -264,6 +265,7 @@ class SearchEnd extends PureComponent {
   }
 
   filterSearch = (value = {}) => {
+    // console.log(value.more)
     //zhuge统计
     let val = ''
     if (value.position) {
@@ -296,6 +298,7 @@ class SearchEnd extends PureComponent {
           option.opts_company_industry_all_index) ||
         {}
       const industry = industry_index[value.more.company_industry] || ''
+
       // 发布日期
       const update_time_index =
         (option.opts_update_time && option.opts_update_time_index) || {}
@@ -341,6 +344,10 @@ class SearchEnd extends PureComponent {
       },
       () => {
         const allQuery = this.handleSearchQuery()
+        
+        // let obj = {...allQuery}
+        // delete obj.keywords
+        // console.log(obj)
         this.props.dispatch(getSearchListInit(allQuery))
       }
     )
@@ -369,6 +376,10 @@ class SearchEnd extends PureComponent {
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
         : this.props.supers.location.address.code
+    // console.log(data)
+    // console.log(this.state.init)
+    // console.log(this.props.query)
+
     let allQuery = {
       ...data,
       ...this.state.init,
@@ -390,6 +401,9 @@ class SearchEnd extends PureComponent {
         code ||
         this.getQuery.area,
     }
+    console.log(this.getQuery.isUsed)
+    
+
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -398,7 +412,7 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
-
+    // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
@@ -592,7 +606,6 @@ class SearchEnd extends PureComponent {
         </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
-
           <SearchEndBar
             goBack={this.goBack}
             goSerch={this.goSerch}

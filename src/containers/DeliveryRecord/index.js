@@ -22,7 +22,7 @@ class DeliveryRecord extends PureComponent {
   }
 
   handleTabClick = index => {
-    this.props.history.replace(`/person/applyRecord?key=${index.page}`)
+    // this.props.history.replace(`/person/applyRecord?key=${index.page}`)
     this.props.dispatch(
       readResume({
         type: index.page,

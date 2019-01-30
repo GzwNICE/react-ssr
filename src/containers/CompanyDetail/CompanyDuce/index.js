@@ -117,7 +117,7 @@ export default class CompanyDuce extends Component {
                 {this.props.is_login ? (
                   <span>{company.contact_tel}</span>
                 ) : (
-                  <span onClick={this.goLogin}>登陆后查看</span>
+                  <span onClick={this.goLogin}>登录后查看</span>
                 )}
               </div>
             ) : null}
@@ -127,7 +127,7 @@ export default class CompanyDuce extends Component {
                 {this.props.is_login ? (
                   <span>{company.contact_phone}</span>
                 ) : (
-                  <span onClick={this.goLogin}>登陆后查看</span>
+                  <span onClick={this.goLogin}>登录后查看</span>
                 )}
               </div>
             ) : null}
@@ -137,7 +137,7 @@ export default class CompanyDuce extends Component {
                 {this.props.is_login ? (
                   <span>{company.contact_email}</span>
                 ) : (
-                  <span onClick={this.goLogin}>登陆后查看</span>
+                  <span onClick={this.goLogin}>登录后查看</span>
                 )}
               </div>
             ) : null}
