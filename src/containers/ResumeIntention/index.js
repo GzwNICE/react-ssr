@@ -114,7 +114,7 @@ class ResumeIntention extends PureComponent {
       })
     })
   }
-
+  componentWillReceiveProps() {}
   render() {
     const {
       form,
@@ -127,6 +127,16 @@ class ResumeIntention extends PureComponent {
     } = this.props
     const { goBackModalVisible } = this.state
     const { getFieldProps } = form
+    // todo this.props.form.getFieldsValue() 刷新时为空，但是有数据？？？
+    const {
+      desired_positions,
+      company_industry,
+      desired_locations,
+      desired_salary,
+      work_mode,
+      job_status,
+    } = this.props.form.getFieldsValue()
+
     // console.log(DesiredPositions && DesiredPositions.length > 0 ? DesiredPositions : [])
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -162,7 +172,16 @@ class ResumeIntention extends PureComponent {
             extra="请选择"
             maxLength={5}
           >
-            <List.Item arrow="horizontal">意向职位</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                desired_positions && desired_positions.length > 0
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              意向职位
+            </List.Item>
           </Post>
           <BorderBottomLine />
           <Industry
@@ -175,7 +194,16 @@ class ResumeIntention extends PureComponent {
             maxLength={5}
             type="Industry"
           >
-            <List.Item arrow="horizontal">意向行业</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                company_industry && company_industry.length > 0
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              意向行业
+            </List.Item>
           </Industry>
           <BorderBottomLine />
 
@@ -186,7 +214,16 @@ class ResumeIntention extends PureComponent {
             extra="请选择"
             maxLength={5}
           >
-            <List.Item arrow="horizontal">意向城市</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                desired_locations && desired_locations.length > 0
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              意向城市
+            </List.Item>
           </Area>
           <BorderBottomLine />
 
@@ -198,7 +235,18 @@ class ResumeIntention extends PureComponent {
                 initialValue: [DesiredJob.desired_salary],
               })}
             >
-              <List.Item arrow="horizontal">期望月薪</List.Item>
+              <List.Item
+                arrow="horizontal"
+                className={`${
+                  desired_salary &&
+                  desired_salary[0] &&
+                  desired_salary[0] !== '0'
+                    ? style.selectcolor
+                    : ''
+                }`}
+              >
+                期望月薪
+              </List.Item>
             </Salary>
           </div>
 
@@ -223,7 +271,16 @@ class ResumeIntention extends PureComponent {
             title="工作类型"
             extra="请选择"
           >
-            <List.Item arrow="horizontal">工作类型</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                work_mode && work_mode[0] && work_mode[0] !== '0'
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              工作类型
+            </List.Item>
           </WorkMode>
           <BorderBottomLine />
 
@@ -234,7 +291,16 @@ class ResumeIntention extends PureComponent {
             title="求职状态"
             extra="请选择"
           >
-            <List.Item arrow="horizontal">求职状态</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                job_status && job_status[0] && job_status[0] !== undefined
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              求职状态
+            </List.Item>
           </JobStatus>
         </List>
         <GobackModal
