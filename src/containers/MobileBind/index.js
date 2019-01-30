@@ -6,9 +6,7 @@ import { withRouter } from 'react-router-dom'
 import {
   NavBar,
   Flex,
-  WingBlank,
   InputItem,
-  Button,
   Toast,
   Icon,
 } from 'antd-mobile'
@@ -52,8 +50,22 @@ class MobileBind extends PureComponent {
     text: '立即绑定',
     mobilePlacehold: '请输入手机号',
     phoneCounty: '0086',
+    disabled: false,
   }
-
+  onUserName = () => {
+    this.props.form.validateFields((err, value) => {
+      if (err) return
+      if (value.mobile && value.code) {
+        this.setState({
+          disabled: true,
+        })
+      } else {
+        this.setState({
+          disabled: false,
+        })
+      }
+    })
+  }
   componentDidMount() {
     const mobile = this.props.match.params.mobile
     const hidden_mobile = this.props.match.params.hidden_mobile
@@ -78,6 +90,7 @@ class MobileBind extends PureComponent {
     }
   }
   setSst = obj => {
+    console.log(obj)
     this.setState({
       phoneCounty: obj.country,
     })
@@ -123,6 +136,7 @@ class MobileBind extends PureComponent {
         user_id: this.props.user_id,
         version: '9.9.9',
         mobile: mobileVal,
+        country: phoneCounty,
       }).then(data => {
         const { msg, errMsg, status } = data
         if (status !== 1) {
@@ -253,7 +267,7 @@ class MobileBind extends PureComponent {
         </NavBar>
         <Flex.Item className={style.wrap}>
           <div>
-            <WingBlank size="md">{desc}</WingBlank>
+            <div>{desc}</div>
             <div className={style.list}>
               <div>
                 <InputItem
@@ -265,11 +279,15 @@ class MobileBind extends PureComponent {
                         message: '请输入手机号码',
                       },
                     ],
+                    onChange: this.onUserName,
                   })}
                   clear
                   placeholder={mobilePlacehold}
                 >
+                  <div className={style.paddingtop10}>
                   <County setSet={this.setSst.bind(this)} />
+                  
+                  </div>
                 </InputItem>
                 <BorderBottomLine />
                 <div className={style.tip}>
@@ -282,6 +300,7 @@ class MobileBind extends PureComponent {
                           message: '请输入短信验证码',
                         },
                       ],
+                    onChange: this.onUserName,
                     })}
                     clear
                     className={style.authCode}
@@ -301,9 +320,12 @@ class MobileBind extends PureComponent {
                 <BorderBottomLine />
               </div>
               <div className={style.btn}>
-                <Button type="primary" onClick={this.handleSubmit}>
+                <a
+                  className={this.state.disabled ? null : `${style.disabled}`}
+                  onClick={this.handleSubmit}
+                >
                   {text}
-                </Button>
+                </a>
               </div>
             </div>
           </div>

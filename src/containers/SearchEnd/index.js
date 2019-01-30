@@ -116,12 +116,15 @@ class SearchEnd extends PureComponent {
     if (keyword) this.getQuery.keyword = keyword
     const allQuery = this.handleSearchQuery()
     if (data.keyword || keyword) {
+      let key = data.keyword || keyword
+      console.log(key)
       this.setState({
-        defaultValue: data.keyword || keyword,
+        defaultValue: key,
       })
     }
     Toast.loading('Loading...')
     if (this.props.searchLIst.length < 1) {
+      console.log(allQuery)
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
         this.setState({
@@ -375,7 +378,15 @@ class SearchEnd extends PureComponent {
     // todo 这边有2处不明白，为什么到更多页面url参数没有跟过去，filter为什么没有等到页面回来再执行
     const pathname = this.props.history.location.pathname
     let arr = pathname.split('/search/')
-    const key = data.keyword || keyword || arr[1]
+    let key = data.keyword || keyword || arr[1]
+    // let arr1 = ['酒店', '餐饮', '休闲娱乐', '康养']
+    // arr1.forEach(item => {
+    //   if (key === item) {
+    //     key = ''
+    //   }
+    // })
+  
+
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code

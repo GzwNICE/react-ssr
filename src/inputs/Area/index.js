@@ -218,7 +218,7 @@ class ComplexSelView extends ComplexFormField {
       })
     }
     let styleObj = {
-      top: `${60 + selectedHight}px`,
+      top: `${55 + selectedHight}px`,
     }
     let myCityCkecked = false
     value.forEach(item => {
