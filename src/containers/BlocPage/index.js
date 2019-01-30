@@ -68,9 +68,13 @@ export default class CompanyArea extends Component {
 
   /* 下载或者打开app */
   downLoadAd = () => {
-    const triggerFrom = '触发来源'
-    window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'share2js://app?type=1'
+    setTimeout(() => {
+      const triggerFrom = '触发来源'
+      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
+      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
+    }, 2000)
+    
   }
 
   // 关闭底部引导注册弹框

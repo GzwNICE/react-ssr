@@ -498,9 +498,12 @@ class SearchEnd extends PureComponent {
 
   /* 下载或者打开app */
   downLoadAd = () => {
+    window.location.href = 'share2js://app?type=1'
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
-    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
+    setTimeout(() => {
+      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h504'
+    }, 2000)
   }
 
 

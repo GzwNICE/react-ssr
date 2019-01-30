@@ -111,13 +111,17 @@ class HomePage extends PureComponent {
 
   /* 下载或者打开app */
   downLoadAd = key => {
-    const triggerFrom = '触发来源'
-    if (key === 1) {
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页弹窗' })
-    } else {
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
-    }
-    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'share2js://app?type=1'
+    setTimeout(() => {
+      const triggerFrom = '触发来源'
+      if (key === 1) {
+        window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页弹窗' })
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h502'
+      } else {
+        window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h501'
+      }
+    }, 2000)
   }
 
   /* 记录滚动条的位置 */
