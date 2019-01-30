@@ -131,7 +131,7 @@ class PositionDetail extends PureComponent {
 
   // 搜索框点击进入搜索页
   searchFocus = () => {
-    this.props.history.push('/search')
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
   }
 
   // 跳转到职位详情

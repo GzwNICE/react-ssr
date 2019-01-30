@@ -153,7 +153,7 @@ class CompanyDetail extends PureComponent {
   }
 
   searchFocus = () => {
-    this.props.history.push('/search')
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
   }
 
   /* 下载或者打开app */

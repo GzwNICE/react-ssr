@@ -52,7 +52,7 @@ class HomePage extends PureComponent {
   }
 
   searchFocus = () => {
-    this.props.history.push('/search')
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
   }
 
   goPosition = d => {

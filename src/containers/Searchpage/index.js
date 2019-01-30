@@ -12,6 +12,7 @@ import SearchHot from '../../components/SearchHot'
 import SearchHistory from '../../components/SearchHistory'
 import F from '../../helper/tool'
 import resume from '../../static/sresume@3x.png'
+import queryString from 'query-string'
 import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
@@ -51,11 +52,6 @@ class SearchPage extends PureComponent {
     const code = value.areas
     if (value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
-
-      // let val = Area[code]
-      // window.zhuge.track("搜索", {
-      //   "城市": val,
-      // })
     }
   }
 
@@ -73,8 +69,12 @@ class SearchPage extends PureComponent {
   }
 
   Cancel = () => {
-    // this.props.history.go(-1)
-    this.props.history.replace('/home')
+    const { redirect } = queryString.parse(window.location.search)
+    if (redirect) {
+      this.props.history.replace(redirect)
+    } else {
+      this.props.history.replace('/home')
+    }
   }
 
   touchHot = item => {
@@ -252,7 +252,6 @@ class SearchPage extends PureComponent {
   }
 
   render() {
-    // console.log(this.props)
     return (
       <div className={style.SearchPageWrap}>
         <Helmet>
