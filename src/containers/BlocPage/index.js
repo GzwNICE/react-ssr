@@ -307,11 +307,12 @@ export default class CompanyArea extends Component {
           <Search
             searchValue={this.state.searchValue}
             goBack={this.whereWillIGo}
-            Search={this.onSubmit}
-            Cancel={this.onCancel}
-            Change={this.onChange}
-            Clear={this.onClear}
-            visable={this.state.isVisable}
+            // Search={this.onSubmit}
+            // Cancel={this.onCancel}
+            // Change={this.onChange}
+            // Clear={this.onClear}
+            // visable={this.state.isVisable}
+            title={categoryName}
           />
           <FilterList
             // wrappedComponentRef={inst => (this.formRef = inst)}
@@ -324,7 +325,7 @@ export default class CompanyArea extends Component {
           onScroll={this.onScroll}
         >
           <CompanyList
-            searchEnd={this.state.search}
+            // searchEnd={this.state.search}
             hasList={this.state.hasList}
           />
         </div>
