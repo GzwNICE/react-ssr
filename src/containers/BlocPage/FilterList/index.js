@@ -53,8 +53,9 @@ class FilterList extends (PureComponent || Component) {
                   extra="城市"
                   {...getFieldProps('areas', {
                     // initialValue: supers.location.address.code,
-                    initialValue: ["999"],
+                    initialValue: [],
                   })} // 触发form，调用onChangeCity
+                  maxLength={1}
                 >
                   <SimpleItem arrow="horizontal" />
                 </Area>
