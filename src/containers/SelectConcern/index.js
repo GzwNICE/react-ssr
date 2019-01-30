@@ -1,6 +1,7 @@
 
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import queryString from 'query-string'
 import { Tabs, Badge } from 'antd-mobile'
 import NavBack from '../../components/Back'
 import SelectPost from '../SelectPost'
@@ -10,6 +11,19 @@ import style from './style.less'
 
 @connect(state => ({}))
 class SelectConcern extends PureComponent {
+  state={
+    key: 0,
+  }
+  handleTabClick = index => {
+    this.props.history.replace(`/person/concern?key=${index.title.key}`)
+  }
+
+  componentWillMount(){
+    const parsed = queryString.parse(window.location.search)
+    this.setState({
+      key: parsed.key-1 || 0,
+    })
+  }
 
   componentDidMount(){
     if(!sessionStorage.getItem('is_login')){
@@ -28,11 +42,12 @@ class SelectConcern extends PureComponent {
         <div className={style.loginTab}>
           <Tabs
             tabs={tabs}
-            initialPage={0}
             swipeable={false}
+            initialPage={this.state.key}
+            onTabClick={this.handleTabClick}
           >
-            <SelectCompany location={this.props.history}/>
-            <SelectPost location={this.props.history} />
+            <SelectCompany {...this.props} />
+            <SelectPost {...this.props} />
           </Tabs>
         </div>
       </div>

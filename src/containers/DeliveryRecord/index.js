@@ -14,6 +14,7 @@ import DeliveryNo from '../../components/Delivery/inappropriate'
 class DeliveryRecord extends PureComponent {
   state = {
     type: 1,
+    key: 0,
   }
 
   goBack = () => {
@@ -22,7 +23,7 @@ class DeliveryRecord extends PureComponent {
   }
 
   handleTabClick = index => {
-    // this.props.history.replace(`/person/applyRecord?key=${index.page}`)
+    this.props.history.replace(`/person/applyRecord?key=${index.page}`)
     this.props.dispatch(
       readResume({
         type: index.page,
@@ -52,11 +53,10 @@ class DeliveryRecord extends PureComponent {
     }, 2000)
   }
 
-  componentDidMount() {
-    window.zhuge.track('全部')
+  componentWillMount(){
     const parsed = queryString.parse(window.location.search)
     this.setState({
-      key: parsed.key || 1,
+      key: parsed.key-1 || 0,
     })
   }
 
@@ -73,7 +73,7 @@ class DeliveryRecord extends PureComponent {
         <Tabs
           tabs={tabs}
           className={style.title}
-          initialPage={`${this.state.key}`}
+          initialPage={this.state.key}
           onTabClick={this.handleTabClick}
           swipeable={false}
         >

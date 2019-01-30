@@ -102,7 +102,7 @@ class SelectPost extends PureComponent {
             },
           ]}
         >
-          <Link to={`/${data.company_id}/${data.job_id}?redirect=${this.props.location.location.pathname}`} onClick={this.goPostion}>
+          <Link to={`/${data.company_id}/${data.job_id}?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`} onClick={this.goPostion}>
             <CollectPostItem {...data} />
           </Link>
         </SwipeAction>
