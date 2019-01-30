@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar, Icon,Flex, WhiteSpace } from 'antd-mobile'
+import { NavBar, Icon } from 'antd-mobile'
 import { connect } from 'react-redux'
 import ComplexSelView, { style } from '../../components/Complex/ComplexSelView'
 import style2 from './style.less'

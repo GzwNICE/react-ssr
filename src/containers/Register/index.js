@@ -311,7 +311,7 @@ class Register extends PureComponent {
 
             <div className={Loginstyle.otherLogin}>
               <div />
-              <div onClick={() => this.goLogin('/login', '注册页点击登录')}>
+              <div onClick={() => this.goLogin('/user/login', '注册页点击登录')}>
                 <span>直接登录</span>
               </div>
             </div>
@@ -354,7 +354,7 @@ class Register extends PureComponent {
             },
             {
               text: '登录',
-              onPress: () => this.goLogin('/login'),
+              onPress: () => this.goLogin('/user/login'),
               type: 'ok',
             },
           ]}

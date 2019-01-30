@@ -22,17 +22,6 @@ import { withRouter } from 'react-router-dom'
 })
 @withRouter
 class FilterSearch extends (PureComponent || Component) {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     queryMore: {},
-  //   }
-  // }
-  // componentDidMount() {
-  //   console.log(11111111111111)
-  //   const {keyword} = queryString.parse(this.props.history.location.search)
-  //   console.log(keyword)
-  // }
   format(value) {
     return value.length ? `(${value.length})` : null
   }
@@ -45,23 +34,9 @@ class FilterSearch extends (PureComponent || Component) {
     const len = Object.keys(value).length
     return len ? `(${len})` : ''
   }
-  componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(this.props.query) !== JSON.stringify(nextProps.query)) {
-      // this.props.form.setFieldsValue(nextProps.query)
-    }
-    // const {keyword} = queryString.parse(this.props.history.location.search)
-    // console.log(this.props.history.location.search)
-  }
-
-
   render() {
     const { form, query } = this.props
     const { getFieldProps } = form
-    // console.log(query)
-    // const obj = {
-    //   company_industry: 1,
-    // }
-    // const more = {...query.more, ...obj}
     return (
       <div className={style.FilterSearchWrap}>
 

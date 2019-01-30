@@ -52,7 +52,7 @@ export function multiApi(...args) {
         })
         .catch(err => {
           if (err.errCode === 5004) {
-            state.history.replace('/login')
+            state.history.replace('/user/login')
           }
           throw err
         })

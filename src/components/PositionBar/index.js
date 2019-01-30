@@ -185,10 +185,10 @@ class PositionBar extends PureComponent {
     //   ? this.props.history.location.search
     //   : '?'
     const pathname = this.props.history.location.pathname
-    // const url = `/register${search}${
+    // const url = `/user/register${search}${
     //   search === '?' ? '' : '&'
     // }redirect=${pathname}`
-    this.props.history.replace(`/register?redirect=${pathname}`, { key: key })
+    this.props.history.replace(`/user/register?redirect=${pathname}`, { key: key })
   }
 
   // 跳转app投递列表

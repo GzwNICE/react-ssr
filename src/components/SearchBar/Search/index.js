@@ -54,7 +54,7 @@ class Search extends Component {
           to={
             is_login
               ? `/user?redirect=${this.props.location.pathname}`
-              : `/register?redirect=${this.props.location.pathname}`
+              : `/user/register?redirect=${this.props.location.pathname}`
           }
           onClick={this.goRegister}
         >
