@@ -97,6 +97,9 @@
       }
     }
     :global {
+      .am-card {
+        min-height: 0;
+      }
       .am-card:not(.am-card-full)::before {
         display: none;
       }
@@ -119,6 +122,7 @@
   border-radius: 1px;
   //am-card-header-content
   :global {
+
     .am-card-header-content {
       > span {
         font-size: 16px;
@@ -299,7 +303,7 @@ font-family: PingFangSC-Regular;
       }
     }
     &-content {
-      margin: 30px 0;
+      margin: 18px 0 28px 0;
       &-header {
         display: flex;
         justify-content: space-between;
@@ -374,5 +378,17 @@ font-family: PingFangSC-Regular;
     top: -10px;
     width: 48px;
     height: 20px;
+  }
+}
+.add-footer {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4a4a4a;
+  img {
+    width: 16px;
+    height: 16px;
+    padding-right: 5px;
   }
 }

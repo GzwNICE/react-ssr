@@ -116,20 +116,20 @@ class Resume extends PureComponent {
   languageKillArr = () => {
     // console.log(this.props.resumeToogle)
 
-    const {skills, languages, other_exps, resumeToogle} = this.props
+    const { skills, languages, other_exps, resumeToogle } = this.props
     if (skills.length > 0 || languages.length > 0) {
       let languagesLen = languages.length
       let skillsLen = skills.length
       let languagesArr = []
       let skillsArr = []
-      if ((languagesLen + skillsLen) > 5 ) {
+      if (languagesLen + skillsLen > 5) {
         if (languagesLen > 5) {
-          languagesArr = languages.slice(0,5)
+          languagesArr = languages.slice(0, 5)
           skillsArr = []
         } else {
           languagesArr = languages
           let remainingLen = 5 - languagesLen
-          skillsArr = skills.slice(0,remainingLen)
+          skillsArr = skills.slice(0, remainingLen)
         }
       } else {
         languagesArr = languages
@@ -202,12 +202,11 @@ class Resume extends PureComponent {
     this.props.history.push(item)
   }
   handleToogle = () => {
-   
     const toogle = !this.state.toogle
     this.setState({
       toogle,
     })
-      this.props.dispatch({
+    this.props.dispatch({
       type: 'RESUMETOOGLE',
       payload: toogle,
     })
@@ -235,7 +234,6 @@ class Resume extends PureComponent {
   componentWillReceiveProps(next) {
     // const {skills, languages, other_exps} = next
     // console.log(next)
-    
   }
   render() {
     const {
@@ -251,8 +249,16 @@ class Resume extends PureComponent {
       other_exps,
       DesiredCompanyTypes = [],
     } = this.props
-    const { toogle, percentage, toInfo, search, showToogleModal, languagesArr, skillsArr } = this.state
-    // console.log(toogle)
+    const {
+      toogle,
+      percentage,
+      toInfo,
+      search,
+      showToogleModal,
+      languagesArr,
+      skillsArr,
+    } = this.state
+    // console.log(other_exps)
     // console.log(
     //   toogle || (languages.length === 0 && skills.length === 0)
     // )
@@ -266,7 +272,7 @@ class Resume extends PureComponent {
     }
     return (
       <Flex direction="column" align="stretch" className={style.wraper}>
-      <Helmet>
+        <Helmet>
           <title>最佳东方 - 旅游服务业专业的招聘平台</title>
           <meta
             name="description"
@@ -440,14 +446,18 @@ class Resume extends PureComponent {
                 </Card.Body>
               </Card>
               <Card className={style.card}>
-                <Card.Header
-                  title={
-                    <span>
-                      工作经历 <span>(必填)</span>
-                    </span>
-                  }
-                />
-                <BorderBottomLine />
+                {work_exps && work_exps.length > 0 ? (
+                  <div>
+                    <Card.Header
+                      title={
+                        <span>
+                          工作经历 <span>(必填)</span>
+                        </span>
+                      }
+                    />
+                    <BorderBottomLine />
+                  </div>
+                ) : null}
 
                 <Card.Body className={style['card-job']}>
                   {work_exps.map((item, key) => (
@@ -483,7 +493,9 @@ class Resume extends PureComponent {
                           value={`${item.job_responsibilities_cn || ''}`}
                           editable={false}
                         />
-                      ) : <p>暂未填写岗位职责</p>}
+                      ) : (
+                        <p>暂未填写岗位职责</p>
+                      )}
 
                       {work_exps.length - 1 !== key ? (
                         <div className={style['card-education-wraper-line']} />
@@ -492,19 +504,25 @@ class Resume extends PureComponent {
                   ))}
                   <div className={style['card-education-footer']}>
                     <img src={addIcon} />
-                    <Link to={`/resume/experience/add${search}`}>添加工作经验</Link>
+                    <Link to={`/resume/experience/add${search}`}>
+                      添加工作经验
+                    </Link>
                   </div>
                 </Card.Body>
               </Card>
               <Card className={style.card}>
-                <Card.Header
-                  title={
-                    <span>
-                      教育经历 <span>(必填)</span>
-                    </span>
-                  }
-                />
-                <BorderBottomLine />
+                {educationals && educationals.length > 0 ? (
+                  <div>
+                    <Card.Header
+                      title={
+                        <span>
+                          教育经历 <span>(必填)</span>
+                        </span>
+                      }
+                    />
+                    <BorderBottomLine />
+                  </div>
+                ) : null}
 
                 <Card.Body className={style['card-education']}>
                   {educationals.map((item, key) => (
@@ -514,8 +532,10 @@ class Resume extends PureComponent {
                         className={style['card-education-wraper-circle']}
                       />
                       <div className={style.oversea}>
-                      <div className={style.ellipsis}>{item.school_cn}</div>
-                        {item.is_overseas === '1' ? <img src={overSeaIcon} /> : null}
+                        <div className={style.ellipsis}>{item.school_cn}</div>
+                        {item.is_overseas === '1' ? (
+                          <img src={overSeaIcon} />
+                        ) : null}
                       </div>
 
                       <img
@@ -524,14 +544,11 @@ class Resume extends PureComponent {
                           this,
                           `/resume/education/${item.id}${search}`
                         )}
-                      
                         className={style['card-education-wraper-editor']}
                       />
                       <p>
                         {option.opts_education_index[item.degree] || '不限'} |{' '}
-                        {item.major_cn ||
-                          
-                          '不限'}
+                        {item.major_cn || '不限'}
                       </p>
                       <p>{`${item.begin_year}.${item.begin_month}-${
                         item.end_year
@@ -543,21 +560,28 @@ class Resume extends PureComponent {
                   ))}
                   <div className={style['card-education-footer']}>
                     <img src={addIcon} />
-                    <Link to={`/resume/education/add${search}`}>添加教育经历</Link>
+                    <Link to={`/resume/education/add${search}`}>
+                      添加教育经历
+                    </Link>
                   </div>
                 </Card.Body>
               </Card>
               {toogle ? (
                 <Card className={style.card}>
+                {(languagesArr.length + skillsArr.length) > 0 ? (
+                  <div>
                   <Card.Header
-                    title={<span>语言/技能</span>}
-                    extra={
-                      <Link to="/resume/language">
-                        <img src={editIcon} />
-                      </Link>
-                    }
-                  />
+                  title={<span>语言/技能</span>}
+                  extra={
+                    <Link to="/resume/language">
+                      <img src={editIcon} />
+                    </Link>
+                  }
+                />
                 <BorderBottomLine />
+                  </div>
+                ) : null}
+                 
                   <Card.Body className={style['card-language']}>
                     {languagesArr.map((item, index) => (
                       <div
@@ -599,12 +623,28 @@ class Resume extends PureComponent {
                         />
                       </div>
                     ))}
+                    {(languagesArr.length + skillsArr.length) === 0 ? (
+                      <div className={style['add-footer']}>
+                      <img src={addIcon} />
+                      <Link to={`/resume/language`}>
+                        添加语言/技能
+                      </Link>
+                    </div>
+                    ) : null}
+                    
                   </Card.Body>
-                </Card>
+                
+                
+                
+          
+                  </Card>
               ) : null}
               {toogle ? (
                 <Card className={style.card}>
-                  <Card.Header
+                  
+                  {other_exps.length > 0 ? (
+                    <div>
+                    <Card.Header
                     title={<span>自我描述</span>}
                     extra={
                       <Link to="/resume/description">
@@ -612,8 +652,10 @@ class Resume extends PureComponent {
                       </Link>
                     }
                   />
-                <BorderBottomLine />
-
+                  <BorderBottomLine />
+                    </div>
+                  
+                  ) : null}
                   <Card.Body className={style['card-body']}>
                     {other_exps.length > 0
                       ? other_exps.map(item => (
@@ -632,36 +674,38 @@ class Resume extends PureComponent {
                             </div>
                           </div>
                         ))
-                      : '请简明扼要地描述你的职业优势,让企业HR快速了解你~'}
-                    {/*<p className={style['card-body-describe']}>jdfkldjaskf放开了大家分开了打手机放开了  1fdafdasfdasf放大发生的范德萨范德萨发的 </p>*/}
+                      : null}
+                      {other_exps.length === 0 ? (
+                        <div className={style['add-footer']}>
+                        <img src={addIcon} />
+                        <Link to={`/resume/description`}>
+                          添加自我描述
+                        </Link>
+                      </div>
+                      ) : null}
+
                   </Card.Body>
                 </Card>
               ) : null}
-              {
-                showToogleModal ?
-                (
-                  toogle ? 
-                   (
-                    <div className={style.toogle} onClick={this.handleToogle}>
+              {showToogleModal ? (
+                toogle ? (
+                  <div className={style.toogle} onClick={this.handleToogle}>
                     <div>
                       <img src={upIcon} />
                       收起更多模块
                     </div>
                     <p>更多简历信息请前往最佳东方官网编辑</p>
                   </div>
-                  ) :  (<div className={style.toogle} onClick={this.handleToogle}>
-                  <div>
-                    <img src={downIcon} />
-                    展开更多模块
+                ) : (
+                  <div className={style.toogle} onClick={this.handleToogle}>
+                    <div>
+                      <img src={downIcon} />
+                      展开更多模块
+                    </div>
+                    <p>包括语言/技能，自我描述</p>
                   </div>
-                  <p>包括语言/技能，自我描述</p>
-                </div>
-                ) 
-                  
-                ) : null
-              }
-          
-              
+                )
+              ) : null}
             </div>
           </div>
           <div />

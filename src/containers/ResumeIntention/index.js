@@ -136,7 +136,7 @@ class ResumeIntention extends PureComponent {
       work_mode,
       job_status,
     } = this.props.form.getFieldsValue()
-
+console.log(work_mode)
     // console.log(DesiredPositions && DesiredPositions.length > 0 ? DesiredPositions : [])
     return (
       <Flex direction="column" align="stretch" className={style.root}>
@@ -294,7 +294,7 @@ class ResumeIntention extends PureComponent {
             <List.Item
               arrow="horizontal"
               className={`${
-                job_status && job_status[0] && job_status[0] !== undefined
+                job_status && job_status[0] && job_status[0] !== undefined && job_status[0] !== '0'
                   ? style.selectcolor
                   : ''
               }`}
