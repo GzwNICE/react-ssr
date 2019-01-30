@@ -188,17 +188,23 @@ class SearchEnd extends PureComponent {
     }
   }
   goBack = () => {
-    const { redirect } = queryString.parse(this.props.history.location.search)
-    // console.log(redirect)
-    this.props.dispatch(deleteList())
+    // const { redirect } = queryString.parse(this.props.history.location.search)
+    // // console.log(redirect)
+    // this.props.dispatch(deleteList())
 
+    // if (redirect) {
+    //   // window.location.href = redirect
+    //   this.props.history.push(redirect)
+    // }
+    // this.scrollTop = 0
+    // // this.props.history.replace('/search')
+    // this.props.history.goBack()
+    const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      // window.location.href = redirect
-      this.props.history.push(redirect)
+      this.props.history.replace(redirect)
+    } else {
+      this.props.history.replace('/home')
     }
-    this.scrollTop = 0
-    // this.props.history.replace('/search')
-    this.props.history.goBack()
   }
 
   goSerch = () => {
@@ -648,7 +654,7 @@ class SearchEnd extends PureComponent {
           <div className={style.registerwrap}>
             <RegisterWrap
               onCloseReg={this.handleCloseReg.bind(this)}
-              location={this.props.history.location.pathname}
+              location={`${this.props.history.location.pathname}${this.props.history.location.search}`}
               zhugeFrom="职位列表页底部推荐注册"
             />
           </div>

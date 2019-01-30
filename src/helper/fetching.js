@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import axios from "axios"
 import isServer from './isServer'
 import qs from 'query-string'
-import { Toast} from 'antd-mobile';
+// import { Toast} from 'antd-mobile';
 // import { Modal } from 'antd-mobile'
 // import { createBrowserHistory, createMemoryHistory } from 'history'
 

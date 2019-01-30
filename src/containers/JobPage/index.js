@@ -2,10 +2,9 @@
  * Created by huangchao on 2017/9/29.
  */
 import React, {PureComponent, Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
-import store from 'store'
-import JobCard from '../../components/JobCard'
+// import JobCard from '../../components/JobCard'
 // import MySearchBar from '../../components/SearchBar'
 import JobList from '../../components/JobList'
 import Search from '../../components/SearchBar/Search'
@@ -14,10 +13,9 @@ import * as Ad from '../../components/Ad'
 import style from './style.less'
 import RegisterWrap from '../../components/RegisterWrap'
 import FilterSearch from '../../components/FilterSearch'
-import F from '../../helper/tool'
-import {getSearchInit, changeQuery, getSearchListadd,saveScrollTop ,saveQuery, deletecache} from '../../actions/jobPage'
+// import F from '../../helper/tool'
+import {getSearchInit, changeQuery, getSearchListadd,saveScrollTop , deletecache} from '../../actions/jobPage'
 import { ListView } from 'antd-mobile'
-const option = store.get('m:option')
 
 @connect((state) => ({
   refreshing: state.jobpage.refreshing,
@@ -56,39 +54,38 @@ class JobPage extends (PureComponent || Component) {
   }
 
   filterSearch = (value = {}) => {
-
     //zhuge统计
-    let val = ''
-    if(value.position){ // 记录职位
-      const positions_index = option.positions_index || {}
-      value.position.map(item => {
-        val += positions_index[item] + ';'
-        return null
-      })
-      // window.zhuge.track('工作筛选项', {'职位': val})
-    }
-    if(value.area){ // 记录地区
-      const areas_index = option.areas_index || {}
-      val = areas_index[value.area[0]]
-      // window.zhuge.track('工作筛选项', {'地区': val})
-    }
-    if(value.salary){ // 记录薪资
-      const salary_scope_index = (option.opts_salary && option.opts_salary.salary_scope_index) || {}
-      val = salary_scope_index[value.salary[0]]
-      // window.zhuge.track('工作筛选项', {'薪资': val})
-    }
-    if(value.more){ // 记录更多
-      // window.zhuge.track('工作筛选项', {'更多': 'click'})
-    }
+    // let val = ''
+    // if(value.position){ // 记录职位
+    //   const positions_index = option.positions_index || {}
+    //   value.position.map(item => {
+    //     val += positions_index[item] + ';'
+    //     return null
+    //   })
+    //   // window.zhuge.track('工作筛选项', {'职位': val})
+    // }
+    // if(value.area){ // 记录地区
+    //   const areas_index = option.areas_index || {}
+    //   val = areas_index[value.area[0]]
+    //   // window.zhuge.track('工作筛选项', {'地区': val})
+    // }
+    // if(value.salary){ // 记录薪资
+    //   const salary_scope_index = (option.opts_salary && option.opts_salary.salary_scope_index) || {}
+    //   val = salary_scope_index[value.salary[0]]
+    //   // window.zhuge.track('工作筛选项', {'薪资': val})
+    // }
+    // if(value.more){ // 记录更多
+    //   // window.zhuge.track('工作筛选项', {'更多': 'click'})
+    // }
 
-    this.props.dispatch(saveQuery(F.filterUndefindToString(value)))
-    this.setState({
-      page: 1,
-    }, () => {
-      const allQuery = this.handleSearchQuery()
-      // console.log(allQuery)
-      this.props.dispatch(getSearchInit(allQuery))
-    })
+    // this.props.dispatch(saveQuery(F.filterUndefindToString(value)))
+    // this.setState({
+    //   page: 1,
+    // }, () => {
+    //   const allQuery = this.handleSearchQuery()
+    //   // console.log(allQuery)
+    //   this.props.dispatch(getSearchInit(allQuery))
+    // })
   }
 
    // 关闭底部引导注册弹框

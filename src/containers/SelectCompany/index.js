@@ -104,7 +104,7 @@ class SelectCompany extends PureComponent {
             },
           ]}
         >
-          <Link to={`/${data.company_id}`} onClick={this.goPostion}>
+          <Link to={`/${data.company_id}?redirect=${this.props.location.location.pathname}`} onClick={this.goPostion}>
             <CollectCompanyItemWrap {...data} />
           </Link>
         </SwipeAction>

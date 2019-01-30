@@ -2,9 +2,9 @@
  * Created by huangchao on 2017/9/21.
  */
 import React, { PureComponent } from 'react'
-import searchHistory from '../../static/search_history.png'
+// import searchHistory from '../../static/search_history.png'
 import deleteHistory from '../../static/delete_history@3x.png'
-import Rectangle from '../../static/Rectangle@3x.png'
+// import Rectangle from '../../static/Rectangle@3x.png'
 import style from './style.less'
 // import PropTypes from 'prop-types'
 

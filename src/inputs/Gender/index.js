@@ -11,7 +11,7 @@ import style from './style.less'
 })
 class IdType extends PureComponent {
   render() {
-    const { options = [], value = 1, children } = this.props
+    const { value = 1, children } = this.props
     let val = value
     if (Number(value) !== 2 ) {
       val = 1
