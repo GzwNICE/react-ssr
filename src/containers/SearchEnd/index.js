@@ -384,7 +384,12 @@ class SearchEnd extends PureComponent {
         ? this.props.query.salary[1]
         : 100000
     const { keyword } = queryString.parse(this.props.history.location.search)
-    const key = data.keyword || keyword || ''
+    
+    let path = this.props.history.location.pathname
+    let arr1 = path.split('search/')
+    console.log(arr1[1])
+    const key = data.keyword || keyword || arr1[1]
+    
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
@@ -534,18 +539,18 @@ class SearchEnd extends PureComponent {
     if (this.props.location.state !== nextProps.location.state) {
       const data = nextProps.location.state || {}
       const allQuery = this.handleSearchQuery()
-      if (data !== {}) {
-        setTimeout(() => {
-          this.props.dispatch(changeQuery(allQuery)).then(data => {
-            document.body.scrollTop = document.documentElement.scrollTop = 0
-            if (data.data.count === 0) {
-              this.setState({
-                Loaded: '没有更多了',
-              })
-            }
-          })
-        })
-      }
+      // if (data !== {}) {
+      //   setTimeout(() => {
+      //     this.props.dispatch(changeQuery(allQuery)).then(data => {
+      //       document.body.scrollTop = document.documentElement.scrollTop = 0
+      //       if (data.data.count === 0) {
+      //         this.setState({
+      //           Loaded: '没有更多了',
+      //         })
+      //       }
+      //     })
+      //   })
+      // }
     }
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])

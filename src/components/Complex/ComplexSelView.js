@@ -127,11 +127,11 @@ class ComplexSelView extends ComplexFormField {
                 <slot>
                   {this.props.optIndex ? this.props.optIndex[code] : null}
                 </slot>
-                <i
-                  onClick={() =>
-                    (this.props.onSelect || this.selectValue)(code)
-                  }
-                />
+                <Icon
+              onClick={() => (this.props.onSelect || this.selectValue)(code)}
+              type="cross"
+            />
+                
               </span>
             ))}
           </div>
