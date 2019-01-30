@@ -143,6 +143,7 @@ class MicroResume extends PureComponent {
     const { form } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
+    const { person_desired_position, person_desired_industry, person_desired_location, desired_salary } = this.props.form.getFieldsValue()
 
     return (
       <div className={style.container}>
@@ -175,7 +176,13 @@ class MicroResume extends PureComponent {
         <p className={style.title}>你期望的工作</p>
         <p className={style.subtitle}>“根据你的期望，给你推荐更合适的职位”</p>
         <Post {...getFieldProps('person_desired_position', {})} maxLength={5}>
-          <List.Item arrow="horizontal">期望职位</List.Item>
+          <List.Item arrow="horizontal"
+          className={`${
+            person_desired_position
+              ? style.selectcolor
+              : ''
+          }`}
+          >期望职位</List.Item>
         </Post>
         <BorderBottomLine />
 
@@ -184,17 +191,35 @@ class MicroResume extends PureComponent {
           maxLength={5}
           type="Industry"
         >
-          <List.Item arrow="horizontal">期望行业</List.Item>
+          <List.Item arrow="horizontal"
+          className={`${
+            person_desired_industry
+              ? style.selectcolor
+              : ''
+          }`}
+          >期望行业</List.Item>
         </Industry>
         <BorderBottomLine />
 
         <Area {...getFieldProps('person_desired_location', {})} maxLength={3}>
-          <List.Item arrow="horizontal">期望城市</List.Item>
+          <List.Item arrow="horizontal"
+          className={`${
+            person_desired_location
+              ? style.selectcolor
+              : ''
+          }`}
+          >期望城市</List.Item>
         </Area>
         <BorderBottomLine />
 
         <Salary auto {...getFieldProps('desired_salary', {})}>
-          <List.Item arrow="horizontal">期望月薪</List.Item>
+          <List.Item arrow="horizontal"
+          className={`${
+            desired_salary
+              ? style.selectcolor
+              : ''
+          }`}
+          >期望月薪</List.Item>
         </Salary>
         <BorderBottomLine />
         <GobackModal

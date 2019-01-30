@@ -36,9 +36,11 @@ class ResumeEducationEdit extends PureComponent {
     }
   }
   componentDidMount() {
-    this.props.dispatch(getAllInfo({
-      appchannel: 'web',
-    }))
+    this.props.dispatch(
+      getAllInfo({
+        appchannel: 'web',
+      })
+    )
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
@@ -75,7 +77,7 @@ class ResumeEducationEdit extends PureComponent {
         is_overseas: values.overseas ? '1' : '2',
         begin_year: moment(values.begin).format('YYYY'),
         begin_month: moment(values.begin).format('MM'),
-        end_year:  moment(values.end).format('YYYY'),
+        end_year: moment(values.end).format('YYYY'),
         end_month: moment(values.end).format('MM'),
         // detail_cn: '', // values.detail_cn || ''
       }
@@ -107,33 +109,39 @@ class ResumeEducationEdit extends PureComponent {
     })
   }
   // 确认删除
-  handleDeleteOk = (item) => {
+  handleDeleteOk = item => {
     this.setState({
       deletModal: false,
     })
-    this.props.dispatch(educationalsRemove({
-      edu_exp_id: item.id,
-    })).then(() => {
-      this.props.history.goBack()
-    })
+    this.props
+      .dispatch(
+        educationalsRemove({
+          edu_exp_id: item.id,
+        })
+      )
+      .then(() => {
+        this.props.history.goBack()
+      })
   }
 
   render() {
     const {
       form,
       // option,
-      educationals=[],
+      educationals = [],
       match,
     } = this.props
     const { getFieldProps } = form
     const { deletModal, goBackModalVisible } = this.state
-    const item = educationals.filter(item => {
-      return item.id === match.params.id
-    })[0] || {}
+    const item =
+      educationals.filter(item => {
+        return item.id === match.params.id
+      })[0] || {}
+    const { school_cn, major_cn } = this.props.form.getFieldsValue()
     // console.log(item)
     return (
       <Flex direction="column" align="stretch" className={style.root}>
-      <Helmet>
+        <Helmet>
           <title>最佳东方 - 旅游服务业专业的招聘平台</title>
           <meta
             name="description"
@@ -151,7 +159,11 @@ class ResumeEducationEdit extends PureComponent {
           onLeftClick={() => {
             this.setState({ goBackModalVisible: true })
           }}
-          rightContent={<span onClick={() => this.changeValue()}><span>保存</span></span>}
+          rightContent={
+            <span onClick={() => this.changeValue()}>
+              <span>保存</span>
+            </span>
+          }
         >
           教育经历
         </NavBar>
@@ -162,7 +174,12 @@ class ResumeEducationEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">学校</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${school_cn ? style.selectcolor : ''}`}
+            >
+              学校
+            </List.Item>
           </School>
           <BorderBottomLine />
           <Specialty
@@ -171,44 +188,49 @@ class ResumeEducationEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">专业</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${major_cn ? style.selectcolor : ''}`}
+            >
+              专业
+            </List.Item>
           </Specialty>
           <BorderBottomLine />
-            <div className={style2.pad20}>
+          <div className={style2.pad20}>
             <Education
-            {...getFieldProps('degree', {
-              initialValue: item.degree,
-            })}
-            title="学历"
-            extra="请选择"
-          >
-            <List.Item arrow="horizontal">学历</List.Item>
-          </Education>
-            </div>
-          
+              {...getFieldProps('degree', {
+                initialValue: item.degree,
+              })}
+              title="学历"
+              extra="请选择"
+            >
+              <List.Item arrow="horizontal">学历</List.Item>
+            </Education>
+          </div>
+
           <BorderBottomLine />
 
           <EnterShoolTime
-          extra="请选择"
-          {...getFieldProps('begin', {
-            initialValue:
-              item.begin_year && item.begin_year !== '0'
-                ? `${item.begin_year}-${item.begin_month}`
-                : null,
-          })}
-          title="入学时间"
-        />
-        <BorderBottomLine/>
-        <LeaveShoolTime
-          extra="请选择"
-          {...getFieldProps('end', {
-            initialValue:
-              item.end_year && item.end_year !== '0'
-                ? `${item.end_year}-${item.end_month}`
-                : null,
-          })}
-          title="毕业时间"
-        />
+            extra="请选择"
+            {...getFieldProps('begin', {
+              initialValue:
+                item.begin_year && item.begin_year !== '0'
+                  ? `${item.begin_year}-${item.begin_month}`
+                  : null,
+            })}
+            title="入学时间"
+          />
+          <BorderBottomLine />
+          <LeaveShoolTime
+            extra="请选择"
+            {...getFieldProps('end', {
+              initialValue:
+                item.end_year && item.end_year !== '0'
+                  ? `${item.end_year}-${item.end_month}`
+                  : null,
+            })}
+            title="毕业时间"
+          />
 
           <List.Item className={`${style.checkbox} ${style2.padbtm}`}>
             <label>
@@ -221,13 +243,12 @@ class ResumeEducationEdit extends PureComponent {
               <span>海外学习经历</span>
             </label>
           </List.Item>
-          
         </List>
-        {
-          (educationals.length > 1 && item.id) ? <div className={style.bottom} onClick={this.handleDelete}>
+        {educationals.length > 1 && item.id ? (
+          <div className={style.bottom} onClick={this.handleDelete}>
             删除此教育经历
-          </div> : null
-        }
+          </div>
+        ) : null}
 
         <Modal
           visible={deletModal}
@@ -245,9 +266,9 @@ class ResumeEducationEdit extends PureComponent {
           </div>
         </Modal>
         <GobackModal
-        setSet={this.setSst.bind(this)}
-        goBackModalVisible={goBackModalVisible}
-      />
+          setSet={this.setSst.bind(this)}
+          goBackModalVisible={goBackModalVisible}
+        />
       </Flex>
     )
   }
