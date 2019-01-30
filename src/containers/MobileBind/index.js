@@ -222,8 +222,6 @@ class MobileBind extends PureComponent {
   render() {
     const { form } = this.props
     const {
-      tipFont,
-      disableCode,
       status,
       hidden_mobile,
       text,

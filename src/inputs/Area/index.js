@@ -4,7 +4,7 @@ import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { Toast } from 'antd-mobile/lib/index'
-import guanbiIcon from '../../static/guanbi@2x.png'
+// import guanbiIcon from '../../static/guanbi@2x.png'
 const triggerCity = "城市"
 
 @connect(state => {

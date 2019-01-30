@@ -1,5 +1,5 @@
 import React from 'react'
-import F from '../../helper/tool'
+// import F from '../../helper/tool'
 import style from './style.less'
 // import { Card } from 'antd-mobile'
 import jizhaoIcon from '../../static/jizhao@3x.png'

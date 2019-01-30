@@ -9,9 +9,7 @@ import FamousCompany from './FamousCompany'
 import HotTrade from './HotTrade'
 import { Helmet } from 'react-helmet'
 import * as Ad from '../../components/Ad'
-import {
-  saveScrollTop,
-} from '../../actions/home'
+import { saveScrollTop } from '../../actions/home'
 import { saveCityCode } from '../../actions/userStatus'
 import { saveQuery } from '../../actions/jobPage'
 import { ListView } from 'antd-mobile'
@@ -113,25 +111,29 @@ class HomePage extends PureComponent {
 
   /* 下载或者打开app */
   downLoadAd = key => {
-    const triggerFrom = '触发来源'
-    if (key === 1) {
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页弹窗' })
-    } else {
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
-    }
-    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile' //"BaiduDsp://activity.veryeast.cn/baidu/mobile/index"
+    window.location.href = 'share2js://app?type=1'
+    setTimeout(() => {
+      const triggerFrom = '触发来源'
+      if (key === 1) {
+        window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页弹窗' })
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h502'
+      } else {
+        window.zhuge.track('下载APP', { [`${triggerFrom}`]: '首页顶部推荐' })
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h501'
+      }
+    }, 2000)
   }
 
   /* 记录滚动条的位置 */
   onScroll = () => {
-    let top = this.refs['homecentent'].scrollTop
+    let top = this.homecentent.scrollTop
     this.scrollTop = top
   }
 
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
-    this.refs['homecentent'].scrollTo(0, this.scrollTop)
+    this.homecentent.scrollTo(0, this.scrollTop)
     // const { userStatus, supers } = this.props
     // const location =
     //   userStatus.code && userStatus.code[0]
@@ -166,7 +168,7 @@ class HomePage extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            this.refs['homecentent'].scrollTo(0,scrollTop)
+            this.homecentent.scrollTo(0,scrollTop)
           }
         }
       )
@@ -213,12 +215,7 @@ class HomePage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-        
-        <Ad.AdWindow
-          show={show}
-          onCloseAd={this.onCloseAd}
-          downLoadAd={() => this.downLoadAd(1)}
-        />
+       
         <div className={style.homehead}>
           <div className={style.searchBar}>
             <Ad.AdTop downLoadAd={() => this.downLoadAd(2)} />
@@ -233,7 +230,7 @@ class HomePage extends PureComponent {
           </div>
         </div>
 
-        <div className={style.homecentent} onScroll={this.onScroll} ref="homecentent">
+        <div className={style.homecentent} onScroll={this.onScroll} ref={(el) => { this.homecentent = el }}>
           <Carousels {...this.props} />
           <FamousCompany />
           <HotTrade />
@@ -245,6 +242,11 @@ class HomePage extends PureComponent {
             zhugeFrom="首页底部推荐注册"
           />
         ) : null}
+        <Ad.AdWindow
+          show={show}
+          onCloseAd={this.onCloseAd}
+          downLoadAd={() => this.downLoadAd(1)}
+        />
       </div>
     )
   }

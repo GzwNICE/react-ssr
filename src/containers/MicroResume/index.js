@@ -27,7 +27,7 @@ import { getAllInfo } from '../../actions/resume'
 const auth = store.get('m:auth') || {}
 const tabs = [{ title: '在职' }, { title: '在校' }]
 const isNull = str => {
-  if (str == '') return true
+  if (str === '') return true
   var regu = '^[ ]+$'
   var re = new RegExp(regu)
   return re.test(str)
