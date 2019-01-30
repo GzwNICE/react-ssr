@@ -62,7 +62,7 @@ class SearchEndBar extends PureComponent {
           to={
             is_login
               ? `/user?redirect=${location.pathname}`
-              : `/register?redirect=${location.pathname}`
+              : `/user/register?redirect=${location.pathname}`
           }
           onClick={() => {
             const triggerFrom = '触发来源'

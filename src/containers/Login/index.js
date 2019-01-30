@@ -188,7 +188,7 @@ class Login extends PureComponent {
             </a>
           </div>
           <div className={style.otherLogin}>
-            <div onClick={() => this.goRegister(`/register`, '登录页点击注册')}>
+            <div onClick={() => this.goRegister(`/user/register`, '登录页点击注册')}>
               <span>立即注册</span>
             </div>
             <div className={style.rule} />

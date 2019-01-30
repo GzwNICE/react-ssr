@@ -61,7 +61,7 @@ class MicroResume extends PureComponent {
         text: '登录',
         onPress: () =>
           this.props.history.replace(
-            '/login?redirect=' + this.props.history.location.pathname
+            '/user/login?redirect=' + this.props.history.location.pathname
           ),
       },
     ])
