@@ -11,7 +11,7 @@ RUN npm update && \
 COPY node_modules.tar.gz /
 COPY ssh /root/.ssh
 COPY start.sh /start.sh
-COPY nginx.conf /etc/nginx/sites-enabled/default
+COPY nginx.conf /etc/nginx/nginx.conf
 RUN chmod 600 /root/.ssh/id_rsa &&\
     chmod a+x /start.sh
 
