@@ -187,6 +187,8 @@ class ComplexSelView extends ComplexFormField {
     return (
       <div className={style.wrap}>
         <div className={style.opt}>{opt}</div>
+        <div className={style.banner}></div>
+
         <div className={style.all}>{main}</div>
       </div>
     )

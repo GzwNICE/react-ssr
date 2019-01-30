@@ -121,7 +121,7 @@ class JobTime extends PureComponent {
     const { endTimedata, sValue, timeChange } = this.state
     const { title } = this.props
     const CustomChildren = ({ extra, onClick, children }) => {
-      extra = timeChange ? extra : '请选择'
+      extra = timeChange ? <span className={style.extraCkecked}>{extra}</span> : <span className={style.extra}>请选择</span>
       return (
         <div
           onClick={onClick}

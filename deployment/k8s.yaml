@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: m-veryeast-cn
-        image: 10.10.50.4/veryeast/ve-m-ssr
+        image: docker-registry.cluster.dfwsgroup.cn/veryeast/ve-m-ssr
         env:
         - name: GIT_EMAIL
           valie: zhengkui@dfwsgroup.com
@@ -40,9 +40,11 @@ spec:
         - name: GIT_REPO
           value: git@gitee.com:veryeast/ve_m_ssr.git
         - name: GIT_BRANCH
-          value: test
+          value: product
+        - name: NODE_ENV
+          value: production
 
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         #resources:
@@ -58,7 +60,7 @@ kind: Ingress
 metadata:
   name: m-veryeast-cn
   annotations:
-    kubernetes.io/ingress.class: "traefik"
+    kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
   #- hosts:

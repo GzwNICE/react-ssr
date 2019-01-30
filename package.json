@@ -135,10 +135,8 @@
     "server": "cross-env NODE_ENV=production nodemon --exec babel-node ./server/index.js",
     "start:client": "cross-env DANGEROUSLY_DISABLE_HOST_CHECK=true node scripts/start.js",
     "start": "npm run build:client && npm run server",
-    "build:client": "cross-env GENERATE_SOURCEMAP=false node scripts/build",
-    "build:server": "cross-env GENERATE_SOURCEMAP=false node scripts/build.server",
-    "build:serverTest": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=/ node scripts/build.server",
-    "build:serverPre": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=//f3-v.veimg.cn/m/v2/ node scripts/build.server",
+    "build:client": "cross-env GENERATE_SOURCEMAP=false  PUBLIC_URL=/ node scripts/build",
+    "build:clientPre": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=//f3-v.veimg.cn/m/v3/ node scripts/build",
     "test": "node scripts/test.js --env=jsdom",
     "eslint": "eslint ./src",
     "postinstall": "cp .hooks/* .git/hooks/"

@@ -170,7 +170,12 @@ class ResumeExperienceEdit extends PureComponent {
     } else if (item.end_year && item.end_year !== undefined) {
       end_time = `${item.end_year}-${item.end_month}`
     }
-    // console.log(item)
+    const {
+      company_name_cn,
+      position_cn,
+      company_industry,
+      job_responsibilities_cn,
+    } = this.props.form.getFieldsValue()
     return (
       <Flex direction="column" align="stretch" className={style.root}>
         <Helmet>
@@ -202,7 +207,12 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">企业名称</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${company_name_cn ? style.selectcolor : ''}`}
+            >
+              企业名称
+            </List.Item>
           </Company>
           <BorderBottomLine />
 
@@ -212,7 +222,12 @@ class ResumeExperienceEdit extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">职位名称</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${position_cn ? style.selectcolor : ''}`}
+            >
+              职位名称
+            </List.Item>
           </Job>
           <BorderBottomLine />
 
@@ -242,7 +257,14 @@ class ResumeExperienceEdit extends PureComponent {
             extra="请选择"
             maxLength={1}
           >
-            <List.Item arrow="horizontal">所属行业</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                company_industry && company_industry[0] ? style.selectcolor : ''
+              }`}
+            >
+              所属行业
+            </List.Item>
           </CompanyIndustry>
           <BorderBottomLine />
 
@@ -285,7 +307,16 @@ class ResumeExperienceEdit extends PureComponent {
             maxLength={2000}
             count={2000}
           >
-            <List.Item arrow="horizontal">岗位职责</List.Item>
+            <List.Item
+              arrow="horizontal"
+              className={`${
+                job_responsibilities_cn && job_responsibilities_cn !== undefined
+                  ? style.selectcolor
+                  : ''
+              }`}
+            >
+              岗位职责
+            </List.Item>
           </TextareaField>
         </List>
         {work_exps.length > 1 && item.id ? (

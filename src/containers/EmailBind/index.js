@@ -38,8 +38,22 @@ class EmailBind extends PureComponent {
     hidden_email: '',
     text: '立即绑定',
     emailPlacehold: '请输入邮箱',
+    disabled: false,
   }
-
+  onUserName = () => {
+    this.props.form.validateFields((err, value) => {
+      if (err) return
+      if (value.email && value.code) {
+        this.setState({
+          disabled: true,
+        })
+      } else {
+        this.setState({
+          disabled: false,
+        })
+      }
+    })
+  }
   componentDidMount() {
     const email = this.props.match.params.email
     const hidden_email = this.props.match.params.hidden_email
@@ -220,7 +234,7 @@ class EmailBind extends PureComponent {
         </NavBar>
         <Flex.Item className={style.wrap}>
           <div>
-            <WingBlank size="md">{desc}</WingBlank>
+            <div>{desc}</div>
             <div className={style.list}>
               <div>
                 <InputItem
@@ -232,6 +246,7 @@ class EmailBind extends PureComponent {
                         message: '请输入邮箱',
                       },
                     ],
+                    onChange: this.onUserName,
                   })}
                   clear
                   placeholder={emailPlacehold}
@@ -247,6 +262,7 @@ class EmailBind extends PureComponent {
                           message: '请输入短信验证码',
                         },
                       ],
+                      onChange: this.onUserName,
                     })}
                     clear
                     className={style.authCode}
@@ -269,10 +285,13 @@ class EmailBind extends PureComponent {
               </p>
 
               <div className={style.btn}>
-                <Button type="primary" onClick={this.handleSubmit}>
-                  {text}
-                </Button>
-              </div>
+              <a
+                className={this.state.disabled ? null : `${style.disabled}`}
+                onClick={this.handleSubmit}
+              >
+                {text}
+              </a>
+            </div>
             </div>
           </div>
         </Flex.Item>
