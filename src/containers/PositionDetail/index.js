@@ -126,6 +126,7 @@ class PositionDetail extends PureComponent {
         })
       }
     }, 100)
+    
   }
 
   // 搜索框点击进入搜索页
@@ -201,6 +202,7 @@ class PositionDetail extends PureComponent {
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
           this.shareWeixin(data)
+          
         })
     }
   }
@@ -222,7 +224,7 @@ class PositionDetail extends PureComponent {
     const is_valid = this.props.position.is_valid //职位是否有效
     const hotData = this.props.position.hotData || {}
     return (
-      <div className={style.PositionDetailWrap}>
+      <div className={style.PositionDetailWrap} >
         <Helmet>
           <title>{`招聘${job_name}_${company.company_name}-最佳东方`}</title>
           <meta
@@ -242,7 +244,7 @@ class PositionDetail extends PureComponent {
           zhugeFrom={2}
         />
 
-        <div id="page" className={style.connent} onScroll={this.onScroll}>
+        <div id="page" className={style.connent} onScroll={this.onScroll} >
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
               <h1 className={style.name}>{job_name}</h1>

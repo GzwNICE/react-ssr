@@ -9,8 +9,8 @@ import {
   blocSearch,
   blocSearchClear,
   blocListClear,
-} from '../../actions/company'
-import { saveScrollTop } from '../../actions/home'
+} from '../../actions/bloc'
+
 import { saveQuery, saveSearch } from '../../actions/search'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -36,14 +36,15 @@ const tiggerBrand = '品牌'
 //     props.filterList(querys)
 //   },
 // })
+
 @connect(state => ({
   userStatus: state.userStatus,
   supers: state.supers,
-  list: state.company.list,
-  listPhoto: state.company.listPhoto,
-  pagers: state.company.pager,
-  searchList: state.company.searchList,
-  searchPager: state.company.searchPager,
+  list: state.bloc.list,
+  listPhoto: state.bloc.listPhoto,
+  pagers: state.bloc.pager,
+  searchList: state.bloc.searchList,
+  searchPager: state.bloc.searchPager,
   query: state.search.query,
   searchState: state.search.searchState,
   searchKeyword: state.search.searchKeyword,
@@ -90,7 +91,7 @@ export default class CompanyArea extends Component {
 
     if (value.brand) {
       // 薪资
-      const brand_index = this.props.company.brand || []
+      const brand_index = this.props.bloc.brand || []
       const brand =
         brand_index.filter(v => v.code === value.brand[0])[0].value || ''
       window.zhuge.track('名企品牌筛选', { [`${tiggerBrand}`]: brand })
@@ -106,10 +107,10 @@ export default class CompanyArea extends Component {
     )
   }
   /* 记录滚动条的位置 */
-  onScroll = () => {
-    let top = this.refs['blocCentent'].scrollTop
-    this.scrollTop = top
-  }
+  // onScroll = () => {
+  //   const top = this.refs['blocCentent'].scrollTop
+  //   this.scrollTop = top
+  // }
 
   whereWillIGo = () => {
     const { redirect } = queryString.parse(window.location.search)
@@ -190,8 +191,8 @@ export default class CompanyArea extends Component {
 
   componentDidMount() {
     /* 初始化this.scrollTop */
-    this.scrollTop = this.props.homeDate.scrollTop
-    this.refs['blocCentent'].scrollTo(0, this.scrollTop)
+    // this.scrollTop = this.props.homeDate.scrollTop
+    // this.refs['blocCentent'].scrollTo(0, this.scrollTop)
 
     const c_userid = this.props.match.params.c_userid
     const { listPhoto } = this.props
@@ -232,7 +233,7 @@ export default class CompanyArea extends Component {
 
     // 选择城市和品牌筛选数据
     const c_userid = this.props.match.params.c_userid
-    const scrollTop = nextProps.homeDate.scrollTop
+    // const scrollTop = nextProps.homeDate.scrollTop
     if (
       nextProps.query.area !== this.props.query.area ||
       nextProps.query.brand !== this.props.query.brand ||
@@ -256,7 +257,7 @@ export default class CompanyArea extends Component {
                   nextProps.query.keywords && nextProps.query.keywords,
               })
             }
-            this.refs['blocCentent'].scrollTo(0,scrollTop)
+            // this.refs['blocCentent'].scrollTo(0,scrollTop)
           })
       } else {
         this.props.dispatch(
@@ -266,7 +267,7 @@ export default class CompanyArea extends Component {
             c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
           })
         ).then(()=>{
-          this.refs['blocCentent'].scrollTo(0,scrollTop)
+          // this.refs['blocCentent'].scrollTo(0,scrollTop)
         })
       }
     }
@@ -275,7 +276,7 @@ export default class CompanyArea extends Component {
   componentWillUnmount() {
     this.props.dispatch(blocListClear())
     /*组建卸载，存储滚动条的位置*/
-    this.props.dispatch(saveScrollTop(this.scrollTop))
+    // this.props.dispatch(saveScrollTop(this.scrollTop))
   }
 
 
