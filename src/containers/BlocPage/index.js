@@ -11,7 +11,7 @@ import {
   blocListClear,
 } from '../../actions/bloc'
 
-import { saveQuery, saveSearch } from '../../actions/search'
+import { saveBlocQuery, saveSearch } from '../../actions/bloc'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
@@ -45,12 +45,13 @@ const tiggerBrand = '品牌'
   pagers: state.bloc.pager,
   searchList: state.bloc.searchList,
   searchPager: state.bloc.searchPager,
-  query: state.search.query,
-  searchState: state.search.searchState,
-  searchKeyword: state.search.searchKeyword,
+  query: state.bloc.query,
+  searchState: state.bloc.searchState,
+  searchKeyword: state.bloc.searchKeyword,
   option: state.option,
   company: state.company,
   homeDate: state.home,
+  bloc: state.bloc,
 }))
 export default class CompanyArea extends Component {
   state = {
@@ -74,7 +75,6 @@ export default class CompanyArea extends Component {
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
       window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
     }, 2000)
-    
   }
 
   // 关闭底部引导注册弹框
@@ -103,7 +103,7 @@ export default class CompanyArea extends Component {
 
     this.props.dispatch(blocSearchClear())
     this.props.dispatch(
-      saveQuery({
+      saveBlocQuery({
         area: value.area ? value.area : [],
         brand: value.brand ? value.brand : [],
         keywords: this.state.keyWords,
@@ -142,7 +142,7 @@ export default class CompanyArea extends Component {
         })
       )
       this.props.dispatch(
-        saveQuery({
+        saveBlocQuery({
           keywords: value,
         })
       )
@@ -187,7 +187,7 @@ export default class CompanyArea extends Component {
       searchValue: value,
     })
     this.props.dispatch(
-      saveQuery({
+      saveBlocQuery({
         keywords: value,
       })
     )
