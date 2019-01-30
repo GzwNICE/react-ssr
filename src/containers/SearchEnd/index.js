@@ -16,8 +16,8 @@ import { Helmet } from 'react-helmet'
 import {
   getSearchListInit,
   getSearchListadd,
-  saveScrollTop,
   changeQuery,
+  saveScrollTop,
   saveQuery,
   deleteList,
 } from '../../actions/search'
@@ -47,6 +47,7 @@ const tiggerKeyWord = '搜索词'
     srearchData: state.search,
     supers: state.supers,
     salaryString: state.search.salaryString,
+    homeDate: state.home,
   }
 })
 @withRouter
@@ -82,6 +83,9 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+     /* 初始化this.scrollTop */
+    this.scrollTop = this.props.srearchData.scrollTop
+
     const {
       // keyword,
       position,
@@ -191,17 +195,23 @@ class SearchEnd extends PureComponent {
     }
   }
   goBack = () => {
-    const { redirect } = queryString.parse(this.props.history.location.search)
-    // console.log(redirect)
-    this.props.dispatch(deleteList())
+    // const { redirect } = queryString.parse(this.props.history.location.search)
+    // // console.log(redirect)
+    // this.props.dispatch(deleteList())
 
+    // if (redirect) {
+    //   // window.location.href = redirect
+    //   this.props.history.push(redirect)
+    // }
+    // this.scrollTop = 0
+    // // this.props.history.replace('/search')
+    // this.props.history.goBack()
+    const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      // window.location.href = redirect
-      this.props.history.push(redirect)
+      this.props.history.replace(redirect)
+    } else {
+      this.props.history.replace('/home')
     }
-    this.scrollTop = 0
-    // this.props.history.replace('/search')
-    this.props.history.goBack()
   }
 
   goSerch = () => {
@@ -359,7 +369,7 @@ class SearchEnd extends PureComponent {
   }
 
   onScroll = () => {
-    let top = document.body.scrollTop || document.documentElement.scrollTop
+    let top = this.listBox.scrollTop
     this.scrollTop = top
   }
 
@@ -385,7 +395,7 @@ class SearchEnd extends PureComponent {
     //     key = ''
     //   }
     // })
-  
+
 
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
@@ -531,8 +541,9 @@ class SearchEnd extends PureComponent {
           }
         }
       )
+      this.listBox.scrollTo(0, this.scrollTop)
     }
-
+    
     if (nextList.length < 20) {
       this.setState({
         Loaded: '没有更多了',
@@ -637,9 +648,10 @@ class SearchEnd extends PureComponent {
           {this.state.showSelectP ? this.selectProjectRender(query) : null}
         </div>
 
-        {allPage > 0 ? (
-          <div className={style.listBox}>
+        <div className={style.listBox} ref={(el) => { this.listBox = el }} onScroll={this.onScroll}>
+          {allPage > 0 ? (
             <ListView
+
               className={style.listView}
               dataSource={this.state.dataSource}
               renderRow={Row}
