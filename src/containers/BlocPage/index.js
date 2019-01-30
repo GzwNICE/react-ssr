@@ -244,6 +244,7 @@ export default class CompanyArea extends Component {
       nextProps.searchKeyword !== this.props.searchKeyword ||
       nextProps.searchState !== this.props.searchState
     ) {
+      Toast.loading('Loading...',1)
       if (nextProps.searchState) {
         this.props
           .dispatch(
@@ -261,9 +262,10 @@ export default class CompanyArea extends Component {
                   nextProps.query.keywords && nextProps.query.keywords,
               })
             }
-            // this.refs['blocCentent'].scrollTo(0,scrollTop)
+            Toast.hide()
           })
       } else {
+        Toast.loading('Loading...',1)
         this.props.dispatch(
           blocList({
             c_userid: c_userid,
@@ -271,7 +273,7 @@ export default class CompanyArea extends Component {
             c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
           })
         ).then(()=>{
-          // this.refs['blocCentent'].scrollTo(0,scrollTop)
+          Toast.hide()
         })
       }
     }
@@ -282,7 +284,6 @@ export default class CompanyArea extends Component {
     /*组建卸载，存储滚动条的位置*/
     // this.props.dispatch(saveScrollTop(this.scrollTop))
   }
-
 
   render() {
     const { show, showRegWrap, is_login } = this.state

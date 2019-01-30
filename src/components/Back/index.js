@@ -9,13 +9,19 @@ import style from './style.less'
 @connect(state => ({}))
 class NavBack extends PureComponent {
   whereWillIGo = () => {
-    const { pathSearch } = queryString.parse(window.location.search)
-    if (pathSearch) {
-      this.props.history.go(-1)
+    // const { pathSearch } = queryString.parse(window.location.search)
+    // if (pathSearch) {
+    //   this.props.history.go(-1)
+    // } else {
+    //   this.props.history.length === 2 || this.props.history.length === 1
+    //     ? this.props.history.push('/user')
+    //     : this.props.history.go(-1)
+    // }
+    const { redirect } = queryString.parse(window.location.search)
+    if (redirect) {
+      this.props.history.replace(redirect)
     } else {
-      this.props.history.length === 2 || this.props.history.length === 1
-        ? this.props.history.push('/user')
-        : this.props.history.go(-1)
+      this.props.history.replace('/user')
     }
   }
   render() {
