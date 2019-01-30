@@ -216,7 +216,8 @@ class ResumeInfo extends PureComponent {
     const { form, resume } = this.props
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
-    // console.log(resume.work_date)
+    const {current_location} = this.props.form.getFieldsValue()
+    console.log(current_location)
 
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
@@ -332,7 +333,7 @@ class ResumeInfo extends PureComponent {
                 : [],
             })}
           >
-            <List.Item arrow="horizontal">现居地</List.Item>
+            <List.Item arrow="horizontal" className={`${(current_location&&current_location.length > 0) ? style.selectcolor : ''}`}>现居地</List.Item>
           </Area>
           <BorderBottomLine />
           <List.Item
