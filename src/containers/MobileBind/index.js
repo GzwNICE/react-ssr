@@ -289,16 +289,15 @@ class MobileBind extends PureComponent {
                   />
                 </div>
 
-                <Button
-                  className={style.mobieCode}
+                <div
                   onClick={this.getCode}
-                  disabled={!disableCode}
-                  type="ghost"
-                  size="small"
-                  inline
+                  className={`${style.massage} ${
+                    this.state.disableCode ? null : style.disabledCode
+                  }`}
                 >
-                  {tipFont}
-                </Button>
+                  {this.state.tipFont}
+                </div>
+
                 <BorderBottomLine />
               </div>
               <div className={style.btn}>
@@ -315,3 +314,14 @@ class MobileBind extends PureComponent {
 }
 
 export default MobileBind
+
+// <Button
+// className={style.mobieCode}
+// onClick={this.getCode}
+// disabled={!disableCode}
+// type="ghost"
+// size="small"
+// inline
+// >
+// {tipFont}
+// </Button>

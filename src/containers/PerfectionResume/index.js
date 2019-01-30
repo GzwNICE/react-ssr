@@ -14,7 +14,7 @@ import { microDone } from '../../actions/microresume'
 import Salary from '../../inputs/Salary'
 import store from 'store'
 import GobackModal from '../../components/GoBackModal/index2'
-import BorderBottomLine from '../../components/BorderBottomLine'
+import BorderBottomLine from '../../components/BorderBottomLine/index2'
 
 const auth = store.get('m:auth') || {}
 @connect(state => {
@@ -37,21 +37,21 @@ class MicroResume extends PureComponent {
 
   componentDidMount() {
     window.zhuge.track('微简历-完善信息页面打开')
-    // setTimeout(() => {
-    //   if (!auth.user_id && !Cookies('ticket')) {
-    //     this.goLogin()
-    //   }
-    //   let arr = Object.keys(this.props.microresumeParams)
-    //   if (arr.length === 0) {
-    //     Toast.info('请先填写简历', 2)
-    //     let search = this.props.history.location.search
-    //     let path = ''
-    //     if (search.indexOf('?redirect=') !== -1) {
-    //       path = search.split('?redirect=')[1]
-    //     }
-    //     this.props.history.push('/resume/micro?redirect=' + path)
-    //   }
-    // }, 400)
+    setTimeout(() => {
+      if (!auth.user_id && !Cookies('ticket')) {
+        this.goLogin()
+      }
+      let arr = Object.keys(this.props.microresumeParams)
+      if (arr.length === 0) {
+        Toast.info('请先填写简历', 2)
+        let search = this.props.history.location.search
+        let path = ''
+        if (search.indexOf('?redirect=') !== -1) {
+          path = search.split('?redirect=')[1]
+        }
+        this.props.history.push('/resume/micro?redirect=' + path)
+      }
+    }, 400)
   }
 
   goLogin = () => {
@@ -187,6 +187,7 @@ class MicroResume extends PureComponent {
           <List.Item arrow="horizontal">期望行业</List.Item>
         </Industry>
         <BorderBottomLine />
+
         <Area {...getFieldProps('person_desired_location', {})} maxLength={3}>
           <List.Item arrow="horizontal">期望城市</List.Item>
         </Area>
@@ -196,7 +197,6 @@ class MicroResume extends PureComponent {
           <List.Item arrow="horizontal">期望月薪</List.Item>
         </Salary>
         <BorderBottomLine />
-        
         <GobackModal
           setSet={this.setSst.bind(this)}
           goBackModalVisible={goBackModalVisible}

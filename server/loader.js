@@ -66,7 +66,6 @@ export default (req, res, next) => {
         return false;
       }
       const serverRender = () => {
-        console.log(store)
         frontloadServerRender(() =>
           renderToString(
             <Provider store={store}>
@@ -179,10 +178,9 @@ export default (req, res, next) => {
       if (homePage.exec(req.url)) { // 首页
         render = false
         store.dispatch(getPostInit()).then(() => {
-          store.dispatch(getBanner()).then((data) => {
+          store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                console.log('homepagehomepagehomepagehomepage')
                 serverRender()
               })
             })
@@ -197,13 +195,10 @@ export default (req, res, next) => {
           })
         })
       }
-      
+    
       if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
-        render = false
-        let url = decodeURI(req.url)
-        let arr = url.split('&')
-        console.log(888888888888888888)
-        
+        let arr = req.url.split('&')
+        console.log(arr)
         let params = {
           keyword: '',
           area: '',

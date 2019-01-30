@@ -20,6 +20,7 @@ import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
 import { $ } from '../../actions/resume'
 import { Helmet } from 'react-helmet'
+import BorderBottomLine from '../../components/BorderBottomLine'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -88,25 +89,8 @@ class Resume extends PureComponent {
           this.props.history.replace(
             '/register?redirect=' + this.props.history.location.pathname
           )
-          // return Modal.alert('', '请先登录', [
-          //   { text: '稍后', style: 'default' },
-          //   {
-          //     text: '登录',
-          //     onPress: () =>
-          //       this.props.history.replace(
-          //         '/register?redirect=' + this.props.history.location.pathname
-          //       ),
-          //   },
-          // ])
         }
         this.languageKillArr()
-        // 根据姓名判断
-        // const {resume}  = this.props
-        // if (!resume.true_name_cn) {
-        //   this.props.history.replace(
-        //     '/resume/micro'
-        //   )
-        // }
       })
 
     this.props
@@ -354,6 +338,7 @@ class Resume extends PureComponent {
                     </Link>
                   }
                 />
+                <BorderBottomLine />
                 <Card.Body className={style['card-body']}>
                   <div className={style.ellipsis}>
                     <span>
@@ -413,6 +398,7 @@ class Resume extends PureComponent {
                     </Link>
                   }
                 />
+                <BorderBottomLine />
                 <Card.Body className={style['card-body']}>
                   <div className={style.ellipsis}>
                     <span>意向职位：</span>
@@ -461,6 +447,8 @@ class Resume extends PureComponent {
                     </span>
                   }
                 />
+                <BorderBottomLine />
+
                 <Card.Body className={style['card-job']}>
                   {work_exps.map((item, key) => (
                     <div key={key} className={style['card-job-wraper']}>
@@ -482,7 +470,7 @@ class Resume extends PureComponent {
                         )}
                         className={style['card-job-wraper-editor']}
                       />
-                      <p>
+                      <p className={style.jobtime}>
                         {`${item.begin_year}.${item.begin_month}`}-
                         {item.end_year !== '0'
                           ? `${item.end_year}.${item.end_month}`
@@ -516,6 +504,8 @@ class Resume extends PureComponent {
                     </span>
                   }
                 />
+                <BorderBottomLine />
+
                 <Card.Body className={style['card-education']}>
                   {educationals.map((item, key) => (
                     <div key={key} className={style['card-education-wraper']}>
@@ -567,6 +557,7 @@ class Resume extends PureComponent {
                       </Link>
                     }
                   />
+                <BorderBottomLine />
                   <Card.Body className={style['card-language']}>
                     {languagesArr.map((item, index) => (
                       <div
@@ -621,6 +612,8 @@ class Resume extends PureComponent {
                       </Link>
                     }
                   />
+                <BorderBottomLine />
+
                   <Card.Body className={style['card-body']}>
                     {other_exps.length > 0
                       ? other_exps.map(item => (

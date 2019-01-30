@@ -19,10 +19,12 @@
           color: #ff4f00;
         }
       }
-     
     }
   }
   :global {
+    .am-tabs-default-bar-underline {
+      border: none;
+    }
     .am-tabs-default-bar-tab {
       font-family: 'PingFangSC-Regular';
       font-size: 14px;
@@ -113,6 +115,7 @@
     //.am-accordion .am-accordion-item .am-accordion-header {
     //
 
+
     //}
   }
 }
@@ -121,11 +124,54 @@
     opacity: 0;
     height: 0 !important;
   }
+  .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+    opacity: 0;
+    display: none;
+  }
+  .am-accordion-header::after {
+    opacity: 0;
+    display: none;
+  }
 }
-
+.underline {
+  width: 375px;
+  // height: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+.underline2 {
+  width: 375px;
+  // height: 5px;
+  position: absolute;
+  left: 0;
+  // top: -30px;
+  // top: -20px;
+  z-index: 10;
+  background-color: #ffffff;
+}
+.underlineleft {
+  border-bottom: 2px solid #ff7214;
+  width: 26px;
+  margin-left: 78px;
+  // position: absolute;
+  // left: 124px;
+  // top: -2px;
+}
+.underlineright {
+  border-bottom: 2px solid #ff7214;
+  width: 26px;
+  margin-left: 268px;
+  // position: absolute;
+  // left: 224px;
+  // top: -36px;
+  // margin-top: -30px;
+}
 .wraper {
   background-color: #ffffff;
   padding: 0 20px;
+  position: relative;
   //height: 0;
   //overflow: auto;
   //-webkit-overflow-scrolling: touch;
@@ -159,7 +205,6 @@
       color: #979797;
     }
   }
-
 }
 .option {
   background: #f6f6f6;
@@ -171,6 +216,7 @@
 }
 
 .wraperSkill {
+  position: relative;
   :global {
     .am-accordion-header .arrow {
       opacity: 0;
@@ -219,13 +265,15 @@
     }
   }
   .addSkill {
-    height: 40px;
-    line-height: 40px;
-    color: #ff4f00;
-    text-align: center;
-    border: 1px solid #ff4f00;
-    border-radius: 2px;
-    margin: 30px 20px 0 20px;
+    padding: 30px 20px 0 20px;
+    > div {
+      height: 40px;
+      line-height: 40px;
+      color: #ff4f00;
+      text-align: center;
+      border: 1px solid #ff4f00;
+      border-radius: 2px;
+    }
   }
 }
 
@@ -268,12 +316,22 @@
 
 .addSkillModal {
   :global {
+    input {
+      text-align: center;
+    }
+    input::-webkit-input-placeholder {
+      text-align: center;
+    }
+    .am-modal-content {
+      border-radius: 4px;
+    }
     .am-modal-title {
       color: #222222 !important;
       font-size: 16px;
     }
     .am-modal-header {
-      padding-top: 13px !important;
+      padding-top: 10px !important;
+      padding-bottom: 24px;
     }
     .am-list-item,
     .am-list-line {
@@ -310,9 +368,13 @@
 }
 
 .icondownup {
-  animation: rotateIcon .4s;
+  animation: rotateIcon 0.4s;
 }
 @keyframes rotateIcon {
-  0% {transform : rotate(0deg);}
-  100% {transform : rotate(360deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

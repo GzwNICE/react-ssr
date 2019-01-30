@@ -60,38 +60,38 @@ class MicroResume extends PureComponent {
     this.props.history.replace(
       '/register?redirect=' + this.props.history.location.pathname
     )
-    // return Modal.alert('', '请先登录', [
-    //   { text: '稍后', style: 'default' },
-    //   {
-    //     text: '登录',
-    //     onPress: () =>
-    //       this.props.history.replace(
-    //         '/register?redirect=' + this.props.history.location.pathname
-    //       ),
-    //   },
-    // ])
+    return Modal.alert('', '请先登录', [
+      { text: '稍后', style: 'default' },
+      {
+        text: '登录',
+        onPress: () =>
+          this.props.history.replace(
+            '/register?redirect=' + this.props.history.location.pathname
+          ),
+      },
+    ])
   }
 
   componentDidMount() {
-    // window.zhuge.track('微简历-基本信息页面打开')
-    // setTimeout(() => {
-    //   if (!auth.user_id && !Cookies('ticket')) {
-    //     this.goLogin()
-    //   } else {
-    //     this.props
-    //       .dispatch(
-    //         getAllInfo({
-    //           // version: '5.2.1',
-    //           appchannel: 'web',
-    //         })
-    //       )
-    //       .then(data => {
-    //         if (this.props.resume.true_name_cn) {
-    //           this.props.history.replace('/resume')
-    //         }
-    //       })
-    //   }
-    // }, 400)
+    window.zhuge.track('微简历-基本信息页面打开')
+    setTimeout(() => {
+      if (!auth.user_id && !Cookies('ticket')) {
+        this.goLogin()
+      } else {
+        this.props
+          .dispatch(
+            getAllInfo({
+              // version: '5.2.1',
+              appchannel: 'web',
+            })
+          )
+          .then(data => {
+            if (this.props.resume.true_name_cn) {
+              this.props.history.replace('/resume')
+            }
+          })
+      }
+    }, 400)
   }
   // 所有子组件修改根组件都可以调用这个方法
   setSst = obj => {
