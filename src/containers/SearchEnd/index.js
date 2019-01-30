@@ -631,7 +631,6 @@ class SearchEnd extends PureComponent {
         <div className={style.listBox} ref={(el) => { this.listBox = el }} onScroll={this.onScroll}>
           {allPage > 0 ? (
             <ListView
-
               className={style.listView}
               dataSource={this.state.dataSource}
               renderRow={Row}
