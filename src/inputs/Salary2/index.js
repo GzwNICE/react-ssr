@@ -153,7 +153,6 @@ class Salary extends PureComponent {
     return (
       <div>
         <div className={style.content}>
-        <BorderBottomLine/>
           <div className={style.title}>
             月薪范围<span>({rangeString})</span>
           </div>

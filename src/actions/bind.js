@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
-import { toRealUrl, parseBody, pipeline } from '../helper/fetching'
-import axios from "axios"
+import { pipeline } from '../helper/fetching'
+// import axios from "axios"
 
 /**
  * 获取手机验证码

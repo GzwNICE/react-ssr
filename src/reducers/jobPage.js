@@ -67,6 +67,7 @@ export default (state = initState, action) => {
       }
     case  SEARCH_END_SAVE: // search_end 的条件保存
       if(action.args.more){
+        console.log(action.args.more)
         return {
           ...state,
           query: {

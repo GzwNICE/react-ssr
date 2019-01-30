@@ -31,12 +31,18 @@ class SearchUser extends Component {
 
   /* 诸葛 下载或者打开app */
   downLoadAd = (key) => {
+    window.location.href = 'share2js://app?type=1'
     if(key === 1){
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '企业详情页顶部推荐' })
+      setTimeout(() => {
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h506'
+      }, 2000)
     }else {
       window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位详情页顶部推荐' })
+      setTimeout(() => {
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h505'
+      }, 2000)
     }
-    window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
   goHome=(key)=>{
@@ -97,7 +103,7 @@ class SearchUser extends Component {
               to={
                 is_login
                   ? `/user?redirect=${this.props.location.pathname}`
-                  : `/register?redirect=${this.props.location.pathname}`
+                  : `/user/register?redirect=${this.props.location.pathname}`
               }
               onClick={()=>this.goRegister(this.props.zhugeFrom)}
             >

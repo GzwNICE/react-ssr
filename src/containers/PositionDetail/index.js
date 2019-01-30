@@ -82,15 +82,12 @@ class PositionDetail extends PureComponent {
   shareWeixin = data => {
     let info = data.data || {}
     let { job_name, company_name } = info
-    let url = window.location.href
-    wxconfig(url).then(data => {
-      let wechat_config = data.wechat_config
+    wxconfig().then(data => {
+      let wechat_config = data
       window.wx.config(wx_config(wechat_config)) // 配置信息
       window.wx.ready(function() {
         window.wx.onMenuShareTimeline(shareToAll(job_name, company_name)) // 分享到朋友圈
         window.wx.onMenuShareAppMessage(shareToPeople(job_name, company_name)) // 分享给朋友
-        window.wx.onMenuShareQQ(shareToPeople(job_name, company_name)) // 分享给QQ
-        window.wx.onMenuShareQZone(shareToAll(job_name, company_name)) // 分享给QQ空间
       })
     })
   }
@@ -126,11 +123,12 @@ class PositionDetail extends PureComponent {
         })
       }
     }, 100)
+    
   }
 
   // 搜索框点击进入搜索页
   searchFocus = () => {
-    this.props.history.push('/search')
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
   }
 
   // 跳转到职位详情
@@ -141,7 +139,7 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h507'
     }, 2000)
   }
 
@@ -150,7 +148,7 @@ class PositionDetail extends PureComponent {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
+      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h509'
     }, 2000)
   }
 
@@ -201,6 +199,7 @@ class PositionDetail extends PureComponent {
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
           this.shareWeixin(data)
+          
         })
     }
   }
@@ -222,7 +221,7 @@ class PositionDetail extends PureComponent {
     const is_valid = this.props.position.is_valid //职位是否有效
     const hotData = this.props.position.hotData || {}
     return (
-      <div className={style.PositionDetailWrap}>
+      <div className={style.PositionDetailWrap} >
         <Helmet>
           <title>{`招聘${job_name}_${company.company_name}-最佳东方`}</title>
           <meta
@@ -242,7 +241,7 @@ class PositionDetail extends PureComponent {
           zhugeFrom={2}
         />
 
-        <div id="page" className={style.connent} onScroll={this.onScroll}>
+        <div id="page" className={style.connent} onScroll={this.onScroll} >
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
               <h1 className={style.name}>{job_name}</h1>

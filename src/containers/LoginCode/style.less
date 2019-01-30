@@ -28,7 +28,6 @@
         width: 16px;
         height: 16px;
         margin-top: 16px;
-        background-position: inherit !important;
       }
     }
   }
@@ -66,13 +65,15 @@
   }
 }
 .numberCode {
-  border-bottom: 0.5Px solid rgba(200,199,204,0.50);
+  border-bottom: 0.7Px solid rgba(200,199,204,0.50);
+  box-sizing: border-box;
 }
 .massageCode{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 0.5Px solid rgba(200,199,204,0.50);
+  border-bottom: 0.7Px solid rgba(200,199,204,0.50);
+  box-sizing: border-box;
   .massageLeft{
     flex: 1;
     :global{
@@ -91,6 +92,9 @@
     font-family: PingFangSC-Regular;
     font-size: 14px;
     color: #4A4A4A;
+    border-top: none;
+    background-color: #fff;
+    box-sizing: border-box;
   }
 }
 

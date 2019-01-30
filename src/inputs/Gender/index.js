@@ -11,7 +11,7 @@ import style from './style.less'
 })
 class IdType extends PureComponent {
   render() {
-    const { options = [], value = 1, children } = this.props
+    const { value = 1, children } = this.props
     let val = value
     if (Number(value) !== 2 ) {
       val = 1
@@ -21,7 +21,7 @@ class IdType extends PureComponent {
         <Flex direction="row-reverse">
           <Checkbox
             key={2}
-            className={style.radio1}
+            className={`${style.radio1} ${(2 === parseInt(val, 10)) ? style.checked : ''}`}
             checked={2 === parseInt(val, 10)}
             onChange={e => this.props.onChange(2)}
           >
@@ -29,7 +29,7 @@ class IdType extends PureComponent {
           </Checkbox>
           <Checkbox
             key={1}
-            className={style.radio2}
+            className={`${style.radio2}  ${(1 === parseInt(val, 10)) ? style.checked : ''}`}
             checked={1 === parseInt(val, 10)}
             onChange={e => this.props.onChange(1)}
           >

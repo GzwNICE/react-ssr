@@ -63,7 +63,7 @@ class Education extends PureComponent {
     const { sValue, timeChange, data } = this.state
 
     const CustomChildren = ({ extra, onClick, children }) => {
-      extra = timeChange ? extra : '请选择'
+      extra = timeChange ? <span className={style.extraCkecked}>{extra}</span> : <span className={style.extra}>请选择</span>
       return (
         <div onClick={onClick} className={style.timeContent}>
           {children}

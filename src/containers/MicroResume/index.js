@@ -27,7 +27,7 @@ import { getAllInfo } from '../../actions/resume'
 const auth = store.get('m:auth') || {}
 const tabs = [{ title: '在职' }, { title: '在校' }]
 const isNull = str => {
-  if (str == '') return true
+  if (str === '') return true
   var regu = '^[ ]+$'
   var re = new RegExp(regu)
   return re.test(str)
@@ -58,7 +58,7 @@ class MicroResume extends PureComponent {
   }
   goLogin = () => {
     this.props.history.replace(
-      '/register?redirect=' + this.props.history.location.pathname
+      '/user/register?redirect=' + this.props.history.location.pathname
     )
     return Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },
@@ -66,7 +66,7 @@ class MicroResume extends PureComponent {
         text: '登录',
         onPress: () =>
           this.props.history.replace(
-            '/register?redirect=' + this.props.history.location.pathname
+            '/user/register?redirect=' + this.props.history.location.pathname
           ),
       },
     ])
@@ -315,7 +315,10 @@ class MicroResume extends PureComponent {
 
     const begin_time = !begin_year ? null : `${begin_year}-${begin_month}`
     const endTime = end_year===undefined ? null : (String(end_year) === '0' ? 0 : `${end_year}-${end_month}`)
-  
+    const getFields = this.props.form.getFieldsValue()
+    const getCompany_name_cn = getFields ? getFields.company_name_cn : ''
+    const getPosition_cn = getFields ? getFields.position_cn : ''
+
     return (
       <div className={style.job}>
         <div className={style.underlineleft} />
@@ -369,7 +372,13 @@ class MicroResume extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">最近所在公司</List.Item>
+            <List.Item arrow="horizontal"
+            className={`${
+              getCompany_name_cn
+                ? style.selectcolor
+                : ''
+            }`}
+            >最近所在公司</List.Item>
           </Company>
           <BorderBottomLine />
           
@@ -379,7 +388,13 @@ class MicroResume extends PureComponent {
             })}
             extra="请填写"
           >
-            <List.Item arrow="horizontal">最近所任职位</List.Item>
+            <List.Item arrow="horizontal"
+            className={`${
+              getPosition_cn
+                ? style.selectcolor
+                : ''
+            }`}
+            >最近所任职位</List.Item>
           </Job>
 
           <BorderBottomLine />
@@ -423,6 +438,9 @@ class MicroResume extends PureComponent {
       degree,
       school_cn,
     } = microresumeParams
+
+    const getFields = this.props.form.getFieldsValue()
+    const getSchool_cn = getFields ? getFields.school_cn : ''
     return (
       <div className={style.school}>
         <div className={style.underlineright} />
@@ -481,7 +499,13 @@ class MicroResume extends PureComponent {
           <School {...getFieldProps('school_cn', {
             initialValue: !school_cn ? null : school_cn,
           })} extra="请填写">
-            <List.Item arrow="horizontal">学校名称</List.Item>
+            <List.Item arrow="horizontal"
+            className={`${
+              getSchool_cn
+                ? style.selectcolor
+                : ''
+            }`}
+            >学校名称</List.Item>
           </School>
           <BorderBottomLine />
         </div>

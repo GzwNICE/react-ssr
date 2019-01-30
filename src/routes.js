@@ -496,12 +496,12 @@ const routes = [
     component: CompanyIntroduce,
   },
   {
-    path: '/login',
+    path: '/user/login',
     exact: true,
     component: LoginPage,
   },
   {
-    path: '/register',
+    path: '/user/register',
     exact: true,
     component: Register,
   },
