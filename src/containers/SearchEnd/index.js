@@ -347,7 +347,8 @@ class SearchEnd extends PureComponent {
         
         // let obj = {...allQuery}
         // delete obj.keywords
-        // console.log(obj)
+        console.log(allQuery)
+
         this.props.dispatch(getSearchListInit(allQuery))
       }
     )
@@ -371,14 +372,17 @@ class SearchEnd extends PureComponent {
         ? this.props.query.salary[1]
         : 100000
     const { keyword } = queryString.parse(this.props.history.location.search)
-    const key = data.keyword || keyword || ''
+    // todo 这边有2处不明白，为什么到更多页面url参数没有跟过去，filter为什么没有等到页面回来再执行
+    const pathname = this.props.history.location.pathname
+    let arr = pathname.split('/search/')
+    const key = data.keyword || keyword || arr[1]
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
         : this.props.supers.location.address.code
+    // console.log(keyword)
+    // console.log(key)
     // console.log(data)
-    // console.log(this.state.init)
-    // console.log(this.props.query)
 
     let allQuery = {
       ...data,
@@ -401,7 +405,6 @@ class SearchEnd extends PureComponent {
         code ||
         this.getQuery.area,
     }
-    console.log(this.getQuery.isUsed)
     
 
     if (this.getQuery.isUsed) {
@@ -412,7 +415,9 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
-    // console.log(allQuery)
+
+
+    console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
@@ -522,20 +527,22 @@ class SearchEnd extends PureComponent {
         Loaded: '没有更多了',
       })
     }
+    // console.log(this.props.location.state)
+    // console.log(nextProps.location.state)
 
     if (this.props.location.state !== nextProps.location.state) {
       const data = nextProps.location.state || {}
       const allQuery = this.handleSearchQuery()
       if (data !== {}) {
         setTimeout(() => {
-          this.props.dispatch(changeQuery(allQuery)).then(data => {
-            document.body.scrollTop = document.documentElement.scrollTop = 0
-            if (data.data.count === 0) {
-              this.setState({
-                Loaded: '没有更多了',
-              })
-            }
-          })
+          // this.props.dispatch(changeQuery(allQuery)).then(data => {
+          //   document.body.scrollTop = document.documentElement.scrollTop = 0
+          //   if (data.data.count === 0) {
+          //     this.setState({
+          //       Loaded: '没有更多了',
+          //     })
+          //   }
+          // })
         })
       }
     }
