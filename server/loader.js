@@ -19,6 +19,7 @@ import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
+import { wxconfig } from '../src/actions/auth'
 import { blocList, blocCategory } from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 import { getSearchListInit } from '../src/actions/search'
@@ -110,7 +111,7 @@ export default (req, res, next) => {
               // Pass all this nonsense into our HTML formatting function above
 
               // console.log(helmet.htmlAttributes.toString())
-             
+
               const html = injectHTML(htmlData, {
                 html: helmet.htmlAttributes.toString(),
                 title: helmet.title.toString(),
@@ -121,14 +122,16 @@ export default (req, res, next) => {
                   /</g,
                   '\\u003c'
                 ),
-                wxconfig: JSON.stringify(store.getState().wxconfig || {
-                  debug: true,
-                  appId: 'wxf8b4f85f3a794e77',
-                  timestamp: 1548900712,
-                  nonceStr: '7kQsDXOgtUn3ddYO',
-                  signature: '5f09b5acb96f8b8c694b21a241eb515bc6f94774',
-                  jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
-                }).replace(/</g, '\\u003c')
+                wxconfig: JSON.stringify(
+                  store.getState().auth.wxconfig || {
+                    debug: true,
+                    appId: 'wxf8b4f85f3a794e77',
+                    timestamp: 1548900712,
+                    nonceStr: '7kQsDXOgtUn3ddYO',
+                    signature: '5f09b5acb96f8b8c694b21a241eb515bc6f94774',
+                    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+                  }
+                ).replace(/</g, '\\u003c')
               })
 
               // We have all the final HTML, let's send it to the user already!
@@ -179,7 +182,9 @@ export default (req, res, next) => {
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
             .then(() => {
-              serverRender()
+              store.dispatch(wxconfig()).then(() => {
+                serverRender()
+              })
             })
         } else {
           // 企业详情页
