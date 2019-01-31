@@ -1,16 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-cn">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="theme-color" content="#000000">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -21,10 +24,16 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>最佳东方 - 旅游服务业专业的招聘平台</title>
-    <meta name="description" content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。" />
-    <meta name="keywords" content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会" />
+    <meta
+      name="description"
+      content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
+    />
+    <meta
+      name="keywords"
+      content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
+    />
 
-    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="msapplication-tap-highlight" content="no" />
 
     <!-- <link rel="stylesheet" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"> -->
     <!-- <link rel="stylesheet" href="//cdn.bootcss.com/antd-mobile/2.0.0-beta.3/antd-mobile.min.css"> -->
@@ -32,22 +41,23 @@
       #root {
         height: 100%;
       }
-      input,button,select,textarea{
-        outline:none;
+      input,
+      button,
+      select,
+      textarea {
+        outline: none;
         border: none;
       }
-      textarea{
-        resize:none;
+      textarea {
+        resize: none;
       }
-      a:nth-last-child(0){
+      a:nth-last-child(0) {
         display: none;
       }
     </style>
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -61,11 +71,23 @@
     -->
 
     <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273173446' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">
+      var cnzz_protocol =
+        'https:' == document.location.protocol ? ' https://' : ' http://'
+      document.write(
+        unescape(
+          "%3Cscript src='" +
+            cnzz_protocol +
+            "s22.cnzz.com/z_stat.php%3Fid%3D1273173446' type='text/javascript'%3E%3C/script%3E"
+        )
+      )
+    </script>
+    <script src="https://api.map.baidu.com/api?v=2.0&ak=a4izOFN6pDpKi5ni1chTavgsv8rN6aMa&s=1"></script>
     <!--微信share-->
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-
-    <script src="https://api.map.baidu.com/api?v=2.0&ak=a4izOFN6pDpKi5ni1chTavgsv8rN6aMa&s=1"></script>
+    <script>
+      wx.config(window.__INITIAL_STATE__.wxconfig)
+    </script>
   </body>
   <script>
     // (function (baseFontSize, fontscale) {
@@ -84,7 +106,7 @@
     //     dpr = 1;
     //   }
     //   var scale = 1 / dpr;
-    
+
     //   var metaEl = doc.querySelector('meta[Name="viewport"]');
     //   if (!metaEl) {
     //     metaEl = doc.createElement('meta');
@@ -96,44 +118,84 @@
     //     scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
     //   doc.documentElement.style.fontSize = _baseFontSize / 2 * dpr * _fontscale + 'px';
     // })();
-    addEventListener('resize', setRemUnit);
-    addEventListener('pageshow', function (e) {
-      e.persisted && setRemUnit();
-    });
-    setRemUnit();
+    addEventListener('resize', setRemUnit)
+    addEventListener('pageshow', function(e) {
+      e.persisted && setRemUnit()
+    })
+    setRemUnit()
 
     function setRemUnit() {
-      var docEle = document.documentElement;
-      var rootValue = docEle.clientWidth / 3.75;
-      docEle.style.fontSize = rootValue + 'px';
+      var docEle = document.documentElement
+      var rootValue = docEle.clientWidth / 3.75
+      docEle.style.fontSize = rootValue + 'px'
     }
   </script>
   <script type="text/javascript">
-    window.zhuge = window.zhuge || [];window.zhuge.methods = "_init debug identify track trackLink trackForm page".split(" ");
-    window.zhuge.factory = function(b) {return function() {var a = Array.prototype.slice.call(arguments);a.unshift(b);
-      window.zhuge.push(a);return window.zhuge;}};for (var i = 0; i < window.zhuge.methods.length; i++) {
-      var key = window.zhuge.methods[i];window.zhuge[key] = window.zhuge.factory(key);}window.zhuge.load = function(b, x) {
-      if (!document.getElementById("zhuge-js")) {var a = document.createElement("script");var verDate = new Date();
-        var verStr = verDate.getFullYear().toString()+ verDate.getMonth().toString() + verDate.getDate().toString();
-        a.type = "text/javascript";a.id = "zhuge-js";a.async = !0;a.src = (location.protocol == 'http:' ? "http://sdk.zhugeio.com/zhuge.min.js?v=" : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr;
-        a.onerror = function(){window.zhuge.identify = window.zhuge.track = function(ename, props, callback){if(callback && Object.prototype.toString.call(callback) === '[object Function]')callback();};};
-        var c = document.getElementsByTagName("script")[0];c.parentNode.insertBefore(a, c);window.zhuge._init(b, x)}};
-    window.zhuge.load('fc27aedcde6a4de3b4f681ad5f08ab42',{
+    window.zhuge = window.zhuge || []
+    window.zhuge.methods = '_init debug identify track trackLink trackForm page'.split(
+      ' '
+    )
+    window.zhuge.factory = function(b) {
+      return function() {
+        var a = Array.prototype.slice.call(arguments)
+        a.unshift(b)
+        window.zhuge.push(a)
+        return window.zhuge
+      }
+    }
+    for (var i = 0; i < window.zhuge.methods.length; i++) {
+      var key = window.zhuge.methods[i]
+      window.zhuge[key] = window.zhuge.factory(key)
+    }
+    window.zhuge.load = function(b, x) {
+      if (!document.getElementById('zhuge-js')) {
+        var a = document.createElement('script')
+        var verDate = new Date()
+        var verStr =
+          verDate.getFullYear().toString() +
+          verDate.getMonth().toString() +
+          verDate.getDate().toString()
+        a.type = 'text/javascript'
+        a.id = 'zhuge-js'
+        a.async = !0
+        a.src =
+          (location.protocol == 'http:'
+            ? 'http://sdk.zhugeio.com/zhuge.min.js?v='
+            : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr
+        a.onerror = function() {
+          window.zhuge.identify = window.zhuge.track = function(
+            ename,
+            props,
+            callback
+          ) {
+            if (
+              callback &&
+              Object.prototype.toString.call(callback) === '[object Function]'
+            )
+              callback()
+          }
+        }
+        var c = document.getElementsByTagName('script')[0]
+        c.parentNode.insertBefore(a, c)
+        window.zhuge._init(b, x)
+      }
+    }
+    window.zhuge.load('fc27aedcde6a4de3b4f681ad5f08ab42', {
       visualizer: true
-    });
+    })
   </script>
   <script>
-    var as = document.getElementsByTagName('a');
-    var current = as.length - 1;
-    as[current].style.display = 'none';
+    var as = document.getElementsByTagName('a')
+    var current = as.length - 1
+    as[current].style.display = 'none'
   </script>
   <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?bb6401d33941b99b0b91e2622ae7596d";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
+    var _hmt = _hmt || []
+    ;(function() {
+      var hm = document.createElement('script')
+      hm.src = 'https://hm.baidu.com/hm.js?bb6401d33941b99b0b91e2622ae7596d'
+      var s = document.getElementsByTagName('script')[0]
+      s.parentNode.insertBefore(hm, s)
+    })()
   </script>
 </html>
