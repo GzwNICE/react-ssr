@@ -227,8 +227,8 @@ export const wxconfig = singleApi({
   },
 })
 
-// export const wxconfig = () => {
-//   return fetch('https://m.veryeast.cn/s/ve.mobile.interface/h5-new/company-mobile-index/share').then(res => {
+// export const wxconfig = (url) => {
+//   return fetch('https://activity.veryeast.cn/wechat/get-sign-package?url=${url}').then(res => {
 //     return res.json()
 //   }).then(data => {
 //     if(data.status === 1) {

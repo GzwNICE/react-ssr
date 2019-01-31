@@ -16,19 +16,15 @@ import routes from '../src/routes'
 // import Root from '../src/pages/Root'
 import manifest from '../build/asset-manifest.json'
 import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
-import { companydetail, companyList } from '../src/actions/company'
+import { companydetail } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
 import { wxconfig } from '../src/actions/auth'
 import { blocList, blocCategory } from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
 import { getSearchListInit } from '../src/actions/search'
-// import * as option from '../src/actions/option'
-// import * as supersLocation from '../src/actions/supers/location'
 
 export default (req, res, next) => {
-  console.log(444444444444444444444)
-  console.log(req.url)
   const injectHTML = (
     data,
     { html, title, meta, body, scripts, state, wxconfig }
@@ -183,7 +179,7 @@ export default (req, res, next) => {
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
             .then(() => {
-              store.dispatch(wxconfig()).then(() => {
+              store.dispatch(wxconfig({url:req.url})).then(() => {
                 serverRender()
               })
             })
@@ -192,7 +188,7 @@ export default (req, res, next) => {
           render = false
           store.dispatch(companydetail({ company_id: com.value })).then(() => {
             // store.dispatch(companyList({ company_id: com.value })).then(() => {
-            store.dispatch(wxconfig()).then(() => {
+            store.dispatch(wxconfig({url:req.url})).then(() => {
               serverRender()
             })
             // })
@@ -206,7 +202,7 @@ export default (req, res, next) => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                store.dispatch(wxconfig()).then(() => {
+                store.dispatch(wxconfig({url:req.url})).then(() => {
                   serverRender()
                 })
               })
@@ -223,7 +219,7 @@ export default (req, res, next) => {
             store
               .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
               .then(() => {
-                store.dispatch(wxconfig()).then(() => {
+                store.dispatch(wxconfig({url:req.url})).then(() => {
                   serverRender()
                 })
               })
@@ -264,7 +260,7 @@ export default (req, res, next) => {
         console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
           // console.log('2222222222221111111')
-          store.dispatch(wxconfig()).then(() => {
+          store.dispatch(wxconfig({url:req.url})).then(() => {
             // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
             serverRender()
           })
@@ -272,7 +268,7 @@ export default (req, res, next) => {
       }
 
       if (render) {
-        store.dispatch(wxconfig()).then(() => {
+        store.dispatch(wxconfig({url:req.url})).then(() => {
           serverRender()
         })
       }
