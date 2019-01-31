@@ -287,8 +287,11 @@ export default class CompanyArea extends Component {
 
   render() {
     const { show, showRegWrap, is_login } = this.state
-    const category = this.props.list
-    const categoryName = category.length > 0 ? category[0].category_name : ''
+    // const category = this.props.list
+    // const categoryName = category.length > 0 ? category[0].category_name : ''
+    const categoryName = this.props.bloc.group_company_name
+    console.log(categoryName);
+    console.log(this.props.bloc);
     return (
       <div className={style.CompanyArea}>
         <Helmet>
@@ -307,11 +310,12 @@ export default class CompanyArea extends Component {
           <Search
             searchValue={this.state.searchValue}
             goBack={this.whereWillIGo}
-            Search={this.onSubmit}
-            Cancel={this.onCancel}
-            Change={this.onChange}
-            Clear={this.onClear}
-            visable={this.state.isVisable}
+            // Search={this.onSubmit}
+            // Cancel={this.onCancel}
+            // Change={this.onChange}
+            // Clear={this.onClear}
+            // visable={this.state.isVisable}  //名企专区搜索功能暂时关闭
+            title={categoryName}
           />
           <FilterList
             // wrappedComponentRef={inst => (this.formRef = inst)}
@@ -324,7 +328,7 @@ export default class CompanyArea extends Component {
           onScroll={this.onScroll}
         >
           <CompanyList
-            searchEnd={this.state.search}
+            // searchEnd={this.state.search} //名企专区搜索功能暂时关闭
             hasList={this.state.hasList}
           />
         </div>
