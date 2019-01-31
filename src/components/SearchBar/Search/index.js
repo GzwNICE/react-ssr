@@ -40,7 +40,7 @@ class Search extends Component {
         <div className={style.goBack} onClick={this.props.goBack}>
           <img src={back} alt="bank" />
         </div>
-        <SearchBar
+        {/*<SearchBar
           placeholder="搜索职位/品牌"
           value={this.props.searchValue}
           showCancelButton={this.props.visable}
@@ -48,7 +48,8 @@ class Search extends Component {
           onCancel={this.props.Cancel}
           onChange={this.props.Change}
           onClear={this.props.Clear}
-        />
+        />*/}
+        <div className={style.blocTitle}>{this.props.title}</div>
         <Link
           rel="stylesheet"
           to={

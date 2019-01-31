@@ -39,6 +39,7 @@ const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
 @connect(state => {
+  console.log(state.search.list)
   return {
     isLoading: state.search.isLoading,
     searchLIst: state.search.list,
@@ -112,6 +113,7 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
+    console.log(this.getQuery)
 
     const data = this.props.location.state || {}
     const { keyword } = queryString.parse(this.props.history.location.search)
@@ -145,7 +147,6 @@ class SearchEnd extends PureComponent {
         }
       })
     }
-    
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
     /*
@@ -155,6 +156,7 @@ class SearchEnd extends PureComponent {
     if (Object.keys(this.getQuery.more).length === 0) {
       delete this.getQuery.more
     }
+    console.log(this.getQuery)
     this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
     this.timer = setTimeout(() => {
       this.setState({
@@ -199,7 +201,7 @@ class SearchEnd extends PureComponent {
       company_industry: select,
       }
       queryMoreOnly = obj
-      console.log(queryMoreOnly)
+      
       this.setState({
         queryMore: obj,
       })
@@ -561,18 +563,18 @@ class SearchEnd extends PureComponent {
     if (this.props.location.state !== nextProps.location.state) {
       const data = nextProps.location.state || {}
       const allQuery = this.handleSearchQuery()
-      // if (data !== {}) {
-      //   setTimeout(() => {
-      //     this.props.dispatch(changeQuery(allQuery)).then(data => {
-      //       document.body.scrollTop = document.documentElement.scrollTop = 0
-      //       if (data.data.count === 0) {
-      //         this.setState({
-      //           Loaded: '没有更多了',
-      //         })
-      //       }
-      //     })
-      //   })
-      // }
+      if (data !== {}) {
+        setTimeout(() => {
+          this.props.dispatch(changeQuery(allQuery)).then(data => {
+            document.body.scrollTop = document.documentElement.scrollTop = 0
+            if (data.data.count === 0) {
+              this.setState({
+                Loaded: '没有更多了',
+              })
+            }
+          })
+        })
+      }
     }
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
@@ -588,11 +590,12 @@ class SearchEnd extends PureComponent {
   /*组建卸载，存储滚动条的位置*/
   componentWillUnmount() {
     this.getQuery.isUsed = 0
+    this.props.dispatch(saveScrollTop(this.scrollTop))
+
     this.props.dispatch({
       type: 'SEARCH_EMPTY_ALL',
     })
     clearTimeout(this.timer)
-    this.props.dispatch(saveScrollTop(this.scrollTop))
     queryMoreOnly = {}
   }
 
