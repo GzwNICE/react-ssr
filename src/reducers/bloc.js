@@ -17,6 +17,7 @@ const initState = {
   list: [],
   pager: {},
   listPhoto: {},
+  group_company_name: '',
   brand: [],
   brand_index: [],
   searchList: [],
@@ -48,6 +49,7 @@ export default (state = initState, action) => {
         listPhoto: {
           company_file: action.data.listPhoto.company_file,
         },
+        group_company_name: action.data.group_company_name,
       }
     case GET_BLOCDETAIL_CATEGORY:
       return {

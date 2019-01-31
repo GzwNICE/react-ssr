@@ -247,7 +247,7 @@ export const  shareToAll = (job_name, company_name) => { //所有人
 
 export const wx_config = (wechat_config) => {
   return {
-    debug: true,
+    debug: false,
     appId: wechat_config.appId,
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
