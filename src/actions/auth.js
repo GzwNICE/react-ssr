@@ -222,7 +222,7 @@ export const wxconfig = singleApi({
   action: (args, json) => {
     return {
       type: WEIXIN_SHARE_INIT,
-      data: json.data,
+      data: wx_config(json.data),
     }
   },
 })
