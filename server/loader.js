@@ -19,27 +19,29 @@ import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
-import { blocList, blocCategory} from '../src/actions/company'
+import { wxconfig } from '../src/actions/auth'
+import { blocList, blocCategory } from '../src/actions/company'
 import pathToRegexp from 'path-to-regexp'
-import {
-  getSearchListInit,
-} from '../src/actions/search'
+import { getSearchListInit } from '../src/actions/search'
 // import * as option from '../src/actions/option'
 // import * as supersLocation from '../src/actions/supers/location'
 
 export default (req, res, next) => {
-  console.log(444444444444444444444 )
+  console.log(444444444444444444444)
   console.log(req.url)
-  const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
+  const injectHTML = (
+    data,
+    { html, title, meta, body, scripts, state, wxconfig }
+  ) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
     data = data.replace('</head>', `${meta}</head>`)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig', wxconfig)
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__INITIAL_STATE__ = ${state}</script>`
     )
     data = data.replace('</body>', scripts.join('') + '</body>')
-
     return data
   }
 
@@ -58,12 +60,12 @@ export default (req, res, next) => {
 
       const isNumber = num => {
         if (typeof num === 'number') {
-          return num - num === 0;
+          return num - num === 0
         }
         if (typeof num === 'string' && num.trim() !== '') {
-          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
+          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num)
         }
-        return false;
+        return false
       }
       const serverRender = () => {
         frontloadServerRender(() =>
@@ -107,7 +109,7 @@ export default (req, res, next) => {
               // console.log('THE TITLE', helmet.title.toString())
 
               // Pass all this nonsense into our HTML formatting function above
-              
+
               // console.log(helmet.htmlAttributes.toString())
 
               const html = injectHTML(htmlData, {
@@ -116,7 +118,20 @@ export default (req, res, next) => {
                 meta: helmet.meta.toString(),
                 body: routeMarkup,
                 scripts: extraChunks,
-                state: JSON.stringify(store.getState()).replace(/</g, '\\u003c')
+                state: JSON.stringify(store.getState()).replace(
+                  /</g,
+                  '\\u003c'
+                ),
+                wxconfig: JSON.stringify(
+                  store.getState().auth.wxconfig || {
+                    debug: true,
+                    appId: 'wxf8b4f85f3a794e77',
+                    timestamp: 1548900712,
+                    nonceStr: '7kQsDXOgtUn3ddYO',
+                    signature: '5f09b5acb96f8b8c694b21a241eb515bc6f94774',
+                    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+                  }
+                ).replace(/</g, '\\u003c')
               })
 
               // We have all the final HTML, let's send it to the user already!
@@ -160,43 +175,66 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
+
       if (isNumber(com.value)) {
-        if (com.key === 1) { // 职位详情页
+        if (com.key === 1) {
+          // 职位详情页
           render = false
-          store.dispatch(positiondetail({job_id: job[2],company_id: job[1]})).then(() => {
-            serverRender()
-          })
-        } else {   // 企业详情页
+          store
+            .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
+            .then(() => {
+              store.dispatch(wxconfig()).then(() => {
+                serverRender()
+              })
+            })
+        } else {
+          // 企业详情页
           render = false
-          store.dispatch(companydetail({company_id: com.value})).then(() => {
-            store.dispatch(companyList({company_id: com.value})).then(() => {
+          store.dispatch(companydetail({ company_id: com.value })).then(() => {
+            // store.dispatch(companyList({ company_id: com.value })).then(() => {
+            store.dispatch(wxconfig()).then(() => {
               serverRender()
             })
+            // })
           })
         }
       }
-      if (homePage.exec(req.url)) { // 首页
+      if (homePage.exec(req.url)) {
+        // 首页
         render = false
         store.dispatch(getPostInit()).then(() => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                serverRender()
+                store.dispatch(wxconfig()).then(() => {
+                  serverRender()
+                })
               })
             })
           })
         })
       }
-      if (blocPage.exec(req.url)) { // 名企专区列表
+      if (blocPage.exec(req.url)) {
+        // 名企专区列表
         render = false
-        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then(() => {
-          store.dispatch(blocCategory({c_userid: blocPage.exec(req.url)[1]})).then(() => {
-            serverRender()
+        store
+          .dispatch(blocList({ c_userid: blocPage.exec(req.url)[1] }))
+          .then(() => {
+            store
+              .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
+              .then(() => {
+                store.dispatch(wxconfig()).then(() => {
+                  serverRender()
+                })
+              })
           })
-        })
       }
-    
-      if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
+
+      if (
+        req.url.indexOf('search/') !== -1 &&
+        req.url.indexOf('keyword') !== -1 &&
+        req.url.indexOf('areaParms') !== -1
+      ) {
         let arr = req.url.split('&')
         console.log(arr)
         let params = {
@@ -212,7 +250,7 @@ export default (req, res, next) => {
           update_time: '-1',
           work_mode: '0',
           page: '1',
-          size: '20',
+          size: '20'
         }
         arr.forEach(item => {
           let arr2 = item.split('=')
@@ -226,29 +264,22 @@ export default (req, res, next) => {
         console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
           // console.log('2222222222221111111')
+          store.dispatch(wxconfig()).then(() => {
+            // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
+            serverRender()
+          })
+        })
+      }
 
-          // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
+      if (render) {
+        store.dispatch(wxconfig()).then(() => {
           serverRender()
         })
       }
 
-      if(render){
-        serverRender()
-      }
-
-
-
-
-
-
-
-
-
       // const urlExcel = () => {
-        
+
       // }
-
-
 
       // let cityCode = []
       // function _optIndex(sublist, city) {
@@ -275,7 +306,6 @@ export default (req, res, next) => {
       //     urlExcel()
       //   })
       // })
-
 
       // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
       //   store.dispatch(getPostInit()).then(() => {

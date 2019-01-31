@@ -82,14 +82,15 @@ class PositionDetail extends PureComponent {
   shareWeixin = data => {
     let info = data.data || {}
     let { job_name, company_name } = info
-    wxconfig().then(data => {
-      let wechat_config = data
-      window.wx.config(wx_config(wechat_config)) // 配置信息
-      window.wx.ready(function() {
+    // this.props.dispatch(wxconfig()).then(data => {
+    //   console.log(data);
+    //   let wechat_config = data
+    //   window.wx.config(wx_config(wechat_config)) // 配置信息
+      window.wx.ready(() => {
         window.wx.onMenuShareTimeline(shareToAll(job_name, company_name)) // 分享到朋友圈
         window.wx.onMenuShareAppMessage(shareToPeople(job_name, company_name)) // 分享给朋友
       })
-    })
+    //})
   }
 
   //返回上一页，没有上一页返回到首页
