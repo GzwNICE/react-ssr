@@ -175,6 +175,7 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
+
       if (isNumber(com.value)) {
         if (com.key === 1) {
           // 职位详情页
@@ -190,9 +191,11 @@ export default (req, res, next) => {
           // 企业详情页
           render = false
           store.dispatch(companydetail({ company_id: com.value })).then(() => {
-            store.dispatch(companyList({ company_id: com.value })).then(() => {
+            // store.dispatch(companyList({ company_id: com.value })).then(() => {
+            store.dispatch(wxconfig()).then(() => {
               serverRender()
             })
+            // })
           })
         }
       }
@@ -203,7 +206,9 @@ export default (req, res, next) => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                serverRender()
+                store.dispatch(wxconfig()).then(() => {
+                  serverRender()
+                })
               })
             })
           })
@@ -218,7 +223,9 @@ export default (req, res, next) => {
             store
               .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
               .then(() => {
-                serverRender()
+                store.dispatch(wxconfig()).then(() => {
+                  serverRender()
+                })
               })
           })
       }
@@ -257,14 +264,17 @@ export default (req, res, next) => {
         console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
           // console.log('2222222222221111111')
-
-          // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
-          serverRender()
+          store.dispatch(wxconfig()).then(() => {
+            // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
+            serverRender()
+          })
         })
       }
 
       if (render) {
-        serverRender()
+        store.dispatch(wxconfig()).then(() => {
+          serverRender()
+        })
       }
 
       // const urlExcel = () => {
