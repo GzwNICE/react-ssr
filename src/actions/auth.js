@@ -3,8 +3,11 @@ import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
 import logoImg from '../static/logo.jpg'
 import axios from "axios"
+import { singleApi } from '../helper/reduxFetch'
 
+export const WEIXIN_SHARE_INIT = 'WEIXIN_SHARE_INIT' // 获取首页推荐职位
 
+const SHAREURLPOST = ':ve.mobile.interface/h5-new/company-mobile-index/share'
 
 /**
  * http://apidoc.veryeast.cn/
@@ -214,17 +217,26 @@ export const handleBindEmail = (params) => {
 /*
 * 获取微信分享配置信息
 * */
-
-export const wxconfig = () => {
-  return fetch('https://m.veryeast.cn/s/ve.mobile.interface/h5-new/company-mobile-index/share').then(res => {
-    return res.json()
-  }).then(data => {
-    if(data.status === 1) {
-      return data
+export const wxconfig = singleApi({
+  url: SHAREURLPOST,
+  action: (args, json) => {
+    return {
+      type: WEIXIN_SHARE_INIT,
+      data: json.data,
     }
-    throw  data
-  })
-}
+  },
+})
+
+// export const wxconfig = () => {
+//   return fetch('https://m.veryeast.cn/s/ve.mobile.interface/h5-new/company-mobile-index/share').then(res => {
+//     return res.json()
+//   }).then(data => {
+//     if(data.status === 1) {
+//       return data
+//     }
+//     throw  data
+//   })
+// }
 
 export const  shareToPeople = (job_name, company_name) => { // 给个人
   return {
