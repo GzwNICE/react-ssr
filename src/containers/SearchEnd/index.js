@@ -2,6 +2,7 @@
  * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
+// import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
@@ -12,7 +13,6 @@ import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
 import FilterSearch from '../../components/FilterSearch'
 import { withRouter } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
 import {
   getSearchListInit,
   getSearchListadd,
@@ -25,6 +25,8 @@ import F from '../../helper/tool'
 import vacantIcon from '../../static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
+import BorderBottomLine from '../../components/BorderBottomLine'
+
 const option = store.get('m:option')
 const triggerPost = '职位'
 const triggerFrom = '触发来源'
@@ -39,7 +41,7 @@ const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
 @connect(state => {
-  console.log(state.search.list)
+  // console.log(state.search.list)
   return {
     isLoading: state.search.isLoading,
     searchLIst: state.search.list,
@@ -82,12 +84,12 @@ class SearchEnd extends PureComponent {
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
       queryMore: {}, // 跳转过来展示的行业 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）
+      height: 0,
     }
   }
   componentDidMount() {
      /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
-
     const {
       // keyword,
       position,
@@ -98,6 +100,7 @@ class SearchEnd extends PureComponent {
       education,
       room_board,
       work_mode,
+      areaParms,
     } = queryString.parse(this.props.history.location.search)
     this.getQuery = {
       isUsed: 1,
@@ -113,16 +116,16 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
-    console.log(this.getQuery)
+    // console.log(this.getQuery)
 
     const data = this.props.location.state || {}
     const { keyword } = queryString.parse(this.props.history.location.search)
     if (keyword) this.getQuery.keyword = keyword
     this.setQueryMore(keyword)
-    const allQuery = this.handleSearchQuery()
+    let allQuery = this.handleSearchQuery()
     if (data.keyword || keyword) {
       let key = data.keyword || keyword
-      let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
+      let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养', '房地产']
     arr2.forEach(item => {
       if (item === key) {
         key = ''
@@ -133,8 +136,14 @@ class SearchEnd extends PureComponent {
       })
     }
    
-    Toast.loading('Loading...')
     if (this.props.searchLIst.length < 1) {
+    Toast.loading('Loading...')
+      // console.log(allQuery)
+      // console.log(areaParms)
+      // 保证深度刷新时地区选择正确
+      if (areaParms) {
+        allQuery.area = [areaParms]
+      } 
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
         this.setState({
@@ -156,7 +165,7 @@ class SearchEnd extends PureComponent {
     if (Object.keys(this.getQuery.more).length === 0) {
       delete this.getQuery.more
     }
-    console.log(this.getQuery)
+    // console.log(this.getQuery)
     this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
     this.timer = setTimeout(() => {
       this.setState({
@@ -170,11 +179,11 @@ class SearchEnd extends PureComponent {
     })
   }
 
-  componentDidUpdate(){
-    if(Number(this.props.pager.allPage) > 0){
-      this.listBox.scrollTo(0, this.props.srearchData.scrollTop)
-    }
-  }
+  // componentDidUpdate(){
+  //   if(Number(this.props.pager.allPage) > 0){
+  //     this.listBox.scrollTo(0, this.props.srearchData.scrollTop)
+  //   }
+  // }
   // 从首页点击 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）这几个时在筛选上有选项
   setQueryMore = keyword => {
     let select = ''
@@ -216,7 +225,7 @@ class SearchEnd extends PureComponent {
     //   // window.location.href = redirect
     //   this.props.history.push(redirect)
     // }
-    // this.scrollTop = 0
+    this.scrollTop = 0
     // // this.props.history.replace('/search')
     // this.props.history.goBack()
     const { redirect } = queryString.parse(window.location.search)
@@ -266,6 +275,7 @@ class SearchEnd extends PureComponent {
     this.setState({
       page: page,
     })
+    // console.log(page, allPage)
     if (page <= allPage) {
       const allQuery = this.handleSearchQuery()
       const params = {
@@ -374,14 +384,17 @@ class SearchEnd extends PureComponent {
         // let obj = {...allQuery}
         // delete obj.keywords
         // console.log(obj)
-        this.props.dispatch(getSearchListInit(allQuery))
+        this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+          this.scrollTop = 0
+          document.body.scrollTop = document.documentElement.scrollTop = 0
+        })
       }
     )
     this.getQuery.isUsed = 0
   }
 
   onScroll = () => {
-    let top = this.listBox.scrollTop
+    let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
   }
 
@@ -405,7 +418,7 @@ class SearchEnd extends PureComponent {
    
 
    
-    console.log(queryMoreOnly)
+    // console.log(queryMoreOnly)
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
@@ -443,8 +456,8 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
-    console.log(allQuery)
-    let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
+    // console.log(allQuery)
+    let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养', '房地产']
     arr2.forEach(item => {
       if (item === allQuery.keyword) {
         allQuery.keyword = ''
@@ -535,12 +548,12 @@ class SearchEnd extends PureComponent {
     }, 2000)
   }
 
-
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.searchLIst
     const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
-    if (nextList !== thisList) {
+
+    // if (nextList !== thisList) {
       this.setState(
         {
           dataSource: this.state.dataSource.cloneWithRows(nextList),
@@ -551,31 +564,29 @@ class SearchEnd extends PureComponent {
           }
         }
       )
-      this.listBox.scrollTo(0, this.scrollTop)
-    }
-    
+    // }
     if (nextList.length < 20) {
       this.setState({
         Loaded: '没有更多了',
       })
     }
 
-    if (this.props.location.state !== nextProps.location.state) {
-      const data = nextProps.location.state || {}
-      const allQuery = this.handleSearchQuery()
-      if (data !== {}) {
-        setTimeout(() => {
-          this.props.dispatch(changeQuery(allQuery)).then(data => {
-            document.body.scrollTop = document.documentElement.scrollTop = 0
-            if (data.data.count === 0) {
-              this.setState({
-                Loaded: '没有更多了',
-              })
-            }
-          })
-        })
-      }
-    }
+    // if (this.props.location.state !== nextProps.location.state) {
+    //   const data = nextProps.location.state || {}
+    //   const allQuery = this.handleSearchQuery()
+    //   if (data !== {}) {
+    //     setTimeout(() => {
+    //       this.props.dispatch(changeQuery(allQuery)).then(data => {
+    //         document.body.scrollTop = document.documentElement.scrollTop = 0
+    //         if (data.data.count === 0) {
+    //           this.setState({
+    //             Loaded: '没有更多了',
+    //           })
+    //         }
+    //       })
+    //     })
+    //   }
+    // }
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
@@ -592,9 +603,9 @@ class SearchEnd extends PureComponent {
     this.getQuery.isUsed = 0
     this.props.dispatch(saveScrollTop(this.scrollTop))
 
-    this.props.dispatch({
-      type: 'SEARCH_EMPTY_ALL',
-    })
+    // this.props.dispatch({
+    //   type: 'SEARCH_EMPTY_ALL',
+    // })
     clearTimeout(this.timer)
     queryMoreOnly = {}
   }
@@ -621,6 +632,7 @@ class SearchEnd extends PureComponent {
           <Link to={`/${d.company_id}/${d.job_id}?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`} onClick={this.goPosition}>
             <JobCard data={d} />
           </Link>
+          <BorderBottomLine/>
         </div>
       )
     }
@@ -633,19 +645,9 @@ class SearchEnd extends PureComponent {
         paddingBottom: 0,
       }
     }
+    // console.log(this.state.dataSource)
     return (
       <div className={style.SearchEndWrap} style={styleObj}>
-        <Helmet>
-          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
-          <meta
-            name="description"
-            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
-          />
-          <meta
-            name="keywords"
-            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
-          />
-        </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
           <SearchEndBar
@@ -661,9 +663,11 @@ class SearchEnd extends PureComponent {
           {this.state.showSelectP ? this.selectProjectRender(query) : null}
         </div>
 
-        <div className={style.listBox} ref={(el) => { this.listBox = el }} onScroll={this.onScroll}>
+        <div className={style.listBox}  >
           {allPage > 0 ? (
             <ListView
+            ref={(el) => { this.listBox = el }}
+            onScroll={this.onScroll}
               className={style.listView}
               dataSource={this.state.dataSource}
               renderRow={Row}
@@ -672,6 +676,7 @@ class SearchEnd extends PureComponent {
               scrollEventThrottle={100}
               initialListSize={1000}
               pageSize={2000}
+     
               useBodyScroll
               onEndReached={this.onEndReached} // 上啦加载
               renderFooter={() => (
