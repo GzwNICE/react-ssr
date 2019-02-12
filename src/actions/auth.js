@@ -221,14 +221,15 @@ export const wxconfig = singleApi({
   url: SHAREURLPOST,
   action: (args, json) => {
     return {
+      args,
       type: WEIXIN_SHARE_INIT,
       data: wx_config(json.data),
     }
   },
 })
 
-// export const wxconfig = () => {
-//   return fetch('https://m.veryeast.cn/s/ve.mobile.interface/h5-new/company-mobile-index/share').then(res => {
+// export const wxconfig = (url) => {
+//   return fetch('https://activity.veryeast.cn/wechat/get-sign-package?url=${url}').then(res => {
 //     return res.json()
 //   }).then(data => {
 //     if(data.status === 1) {
@@ -245,6 +246,14 @@ export const  shareToPeople = (job_name, company_name) => { // 给个人
     link: window.location.href,
     imgUrl: logoImg,
     type: `link`,
+    success: ()=> {
+      // 用户点击了分享后执行的回调函数
+      alert(6666)
+    },
+    fail: ()=> {
+      // 用户点击了分享后执行的回调函数
+      alert(132321)
+    },
   }
 }
 
@@ -259,7 +268,7 @@ export const  shareToAll = (job_name, company_name) => { //所有人
 
 export const wx_config = (wechat_config) => {
   return {
-    debug: false,
+    debug: true,
     appId: wechat_config.appId,
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
