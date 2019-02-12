@@ -70,11 +70,7 @@ class ComplexSelView extends ComplexFormField {
   filter = code => {
     return this.getValue().indexOf(code) >= 0
   }
-  selectValue = (code,value,iconClick) => {
-    console.log(code)
-    console.log(value)
-    console.log(iconClick)
-
+  selectValue = (code,value, iocnClick) => {
     code = String(code)
     window.zhuge.track('城市筛选', {[`${triggerCity}`]: value})
     if (this.props.maxLength > 1) {
@@ -107,7 +103,7 @@ class ComplexSelView extends ComplexFormField {
       // } else {
       //
       // }
-      if (iconClick === 'iconClick') {
+      if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
 
       } else {
@@ -198,7 +194,7 @@ class ComplexSelView extends ComplexFormField {
               {this.props.optIndex ? this.props.optIndex[code] : null}
             </slot>
             <Icon
-              onClick={() => (this.props.onSelect || this.selectValue)(code, '', 'iconClick')}
+              onClick={() => (this.props.onSelect || this.selectValue)(code, '', 'iocnClick')}
               type="cross"
             />
           </div>
