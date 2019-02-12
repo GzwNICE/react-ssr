@@ -290,8 +290,6 @@ export default class CompanyArea extends Component {
     // const category = this.props.list
     // const categoryName = category.length > 0 ? category[0].category_name : ''
     const categoryName = this.props.bloc.group_company_name
-    console.log(categoryName);
-    console.log(this.props.bloc);
     return (
       <div className={style.CompanyArea}>
         <Helmet>
