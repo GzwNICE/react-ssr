@@ -86,12 +86,9 @@ class PositionDetail extends PureComponent {
     //   console.log(data);
     //   let wechat_config = data
     //   window.wx.config(wx_config(wechat_config)) // 配置信息
-      window.wx.onMenuShareTimeline(shareToAll(job_name, company_name)) // 分享到朋友圈
-      window.wx.onMenuShareAppMessage(shareToPeople(job_name, company_name)) // 分享给朋友
       window.wx.ready(() => {
-        alert(123123)
-        window.wx.onMenuShareTimeline(shareToAll(job_name, company_name)) // 分享到朋友圈
-        window.wx.onMenuShareAppMessage(shareToPeople(job_name, company_name)) // 分享给朋友
+        window.wx.updateTimelineShareData(shareToAll(job_name, company_name)) // 分享到朋友圈
+        window.wx.updateAppMessageShareData(shareToPeople(job_name, company_name)) // 分享给朋友
       })
     //})
   }

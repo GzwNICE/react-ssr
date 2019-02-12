@@ -125,7 +125,7 @@ export default (req, res, next) => {
                     timestamp: 1548900712,
                     nonceStr: '7kQsDXOgtUn3ddYO',
                     signature: '5f09b5acb96f8b8c694b21a241eb515bc6f94774',
-                    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+                    jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
                   }
                 ).replace(/</g, '\\u003c')
               })
