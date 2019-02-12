@@ -28,7 +28,6 @@ import {
 // import * as supersLocation from '../src/actions/supers/location'
 
 export default (req, res, next) => {
-  console.log(444444444444444444444 )
   console.log(req.url)
   const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
     data = data.replace('<html>', `<html ${html}>`)
@@ -197,8 +196,8 @@ export default (req, res, next) => {
       }
     
       if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
+        render = false
         let arr = req.url.split('&')
-        console.log(arr)
         let params = {
           keyword: '',
           area: '',
@@ -217,17 +216,19 @@ export default (req, res, next) => {
         arr.forEach(item => {
           let arr2 = item.split('=')
           if (arr2[0].indexOf('keyword') !== -1) {
-            params.keyword = arr2[1]
+            // params.keyword = arr2[1]
+            params.keyword = decodeURI(arr2[1])
+            
+
           }
           if (arr2[0].indexOf('areaParms') !== -1) {
             params.area = arr2[1]
           }
         })
-        console.log(params)
-        store.dispatch(getSearchListInit(params)).then(() => {
-          // console.log('2222222222221111111')
-
-          // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
+        store.dispatch(getSearchListInit(params)).then((data) => {
+          // console.log(11122222111);
+          // console.log(params);
+          // console.log(data)
           serverRender()
         })
       }
