@@ -248,11 +248,11 @@ export const  shareToPeople = (job_name, company_name) => { // 给个人
     type: `link`,
     success: ()=> {
       // 用户点击了分享后执行的回调函数
-      alert(6666)
+      alert("成功")
     },
     fail: ()=> {
       // 用户点击了分享后执行的回调函数
-      alert(132321)
+      alert("失败")
     },
   }
 }
@@ -273,6 +273,6 @@ export const wx_config = (wechat_config) => {
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
     signature: wechat_config.signature,
-    jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+    jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'],
   }
 }
