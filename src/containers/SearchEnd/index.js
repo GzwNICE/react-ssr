@@ -562,13 +562,13 @@ class SearchEnd extends PureComponent {
       showKeyword = '养老'
     }
     let symbol = areaVal && showKeyword ? '、' : null
-
     return (
+      areaVal||symbol||showKeyword ?
       <div className={style.selectproject}>
         已选项： {areaVal}
         {symbol}
         {showKeyword}
-      </div>
+      </div> : null
     )
   }
 
