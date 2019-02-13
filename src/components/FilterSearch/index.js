@@ -4,7 +4,7 @@
 import React,{PureComponent, Component} from 'react'
 import style from './style.less'
 import { createForm } from 'rc-form'
-import Area from '../../inputs/Area'
+import Area from '../../inputs/Area1'
 import Salary from '../../inputs/Salary2'
 import SimpleItem from '../../inputs/SimpleItem'
 import More from '../../inputs/More'

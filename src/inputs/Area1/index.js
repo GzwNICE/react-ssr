@@ -43,11 +43,10 @@ class ComplexSelView extends ComplexFormField {
       code: 'hot',
       sublist: hot,
     }
-    // console.log(hotData)
-
     this.setState({
       optionsSubChil: hot,
       hotData,
+      value: this.props.value,
     })
   }
   format(value = []) {
@@ -98,24 +97,18 @@ class ComplexSelView extends ComplexFormField {
         })
       })
     } else {
-      // if(this.state.value[0] === code) {
-      //   this.setState({ value: [] })
-      // } else {
-      //
-      // }
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
-
       } else {
         this.setState({ value: [code] }, () => this.changeValue())
 
-      }
-      // setTimeout(() => this.changeValue())
+      }  
     }
   }
 
   changeValue = () => {
     if (this.props.onChange) {
+      console.log(this.serialize(this.getValue()))
       this.props.onChange(this.serialize(this.getValue()))
       this.changeVisible(false, true)
     } else {
@@ -139,6 +132,7 @@ class ComplexSelView extends ComplexFormField {
 
   getValue() {
     return this.props.root ? this.state.value : this.props.value
+    // return this.state.value.length > 0 ? this.state.value : this.props.value
   }
 
   save = () => {
@@ -212,6 +206,7 @@ class ComplexSelView extends ComplexFormField {
       hotData,
       selectedHight,
     } = this.state
+    // console.log(value)
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
         if (
@@ -276,7 +271,7 @@ class ComplexSelView extends ComplexFormField {
           <ul className={style.right}>
             <li className={style.mycity}>
               <span>当前定位</span>
-              {this.myCity && clickCode === 'hot' ? (
+              {this.myCity ? (
                 <span
                   onClick={() =>
                     (this.props.onSelect || this.selectValue)(this.myCity)
