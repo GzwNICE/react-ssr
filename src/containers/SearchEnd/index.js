@@ -591,9 +591,6 @@ class SearchEnd extends PureComponent {
     const scrollTop = nextProps.srearchData.scrollTop
     
     if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
-    //   console.log(this.props.supers.location.address.code[0])
-    // console.log(nextProps.supers.location.address.code[0])
-      // alert(11)
       const allQuery = this.handleSearchQuery()
       const params = {
         ...allQuery,
