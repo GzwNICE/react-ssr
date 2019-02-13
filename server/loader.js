@@ -179,7 +179,7 @@ export default (req, res, next) => {
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
             .then(() => {
-              store.dispatch(wxconfig({url:req.url})).then(() => {
+              store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
                 serverRender()
               })
             })
@@ -188,7 +188,7 @@ export default (req, res, next) => {
           render = false
           store.dispatch(companydetail({ company_id: com.value })).then(() => {
             // store.dispatch(companyList({ company_id: com.value })).then(() => {
-            store.dispatch(wxconfig({url:req.url})).then(() => {
+            store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
               serverRender()
             })
             // })
@@ -202,7 +202,7 @@ export default (req, res, next) => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                store.dispatch(wxconfig({url:req.url})).then(() => {
+                store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
                   serverRender()
                 })
               })
@@ -219,7 +219,7 @@ export default (req, res, next) => {
             store
               .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
               .then(() => {
-                store.dispatch(wxconfig({url:req.url})).then(() => {
+                store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
                   serverRender()
                 })
               })
@@ -260,7 +260,7 @@ export default (req, res, next) => {
         console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
           // console.log('2222222222221111111')
-          store.dispatch(wxconfig({url:req.url})).then(() => {
+          store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
             // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
             serverRender()
           })
@@ -268,7 +268,7 @@ export default (req, res, next) => {
       }
 
       if (render) {
-        store.dispatch(wxconfig({url:req.url})).then(() => {
+        store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
           serverRender()
         })
       }
