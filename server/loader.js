@@ -130,8 +130,8 @@ export default (req, res, next) => {
                   store.getState().auth.wxconfig || {}
                 ).replace(/</g, '\\u003c'),
                 share:{
-                  toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare()).replace(/</g, '\\u003c'),
-                  toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare() ).replace(/</g, '\\u003c'),
+                  toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare(url)).replace(/</g, '\\u003c'),
+                  toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare(url) ).replace(/</g, '\\u003c'),
                 }
               })
 

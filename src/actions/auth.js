@@ -256,11 +256,11 @@ export const  shareToAll = (job_name, company_name, type,link) => { //所有人
   }
 }
 
-export const  appShare = () => { //全站分享
+export const  appShare = (link) => { //全站分享
   return {
     title: `【最佳东方】旅游服务业的招聘求职平台`,
     desc: `平台入驻企业已累计达6w+家，涵盖酒店、餐饮、公寓、海外、邮轮、物业、航空、景区、养老、地产等领域。`,
-    link: 'https://m.veryeast.cn',
+    link: link || window.location.href,
     imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
   }
 }
