@@ -9,6 +9,7 @@ import { StaticRouter } from 'react-router'
 import { Frontload, frontloadServerRender } from 'react-frontload'
 // import { LocaleProvider } from 'antd'
 // import zh_CN from 'antd/lib/locale-provider/zh_CN'
+import Cookies from 'js-cookie'
 import '../src/style/theme.less'
 import '../src/style/style.less'
 import createStore from '../src/store'
@@ -182,7 +183,7 @@ export default (req, res, next) => {
           // 职位详情页
           render = false
           store
-            .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
+            .dispatch(positiondetail({ job_id: job[2], company_id: job[1], user_ticket: req.cookies.ticket}))
             .then(res => {
               res.type=1
               store.dispatch(wxconfig({url})).then(() => {
@@ -192,18 +193,18 @@ export default (req, res, next) => {
         } else {
           // 企业详情页
           render = false
-          store.dispatch(companydetail({ company_id: com.value })).then((res) => {
+          store.dispatch(companydetail({ company_id: com.value, user_ticket: req.cookies.ticket})).then((res) => {
             res.type=2
-            // store.dispatch(companyList({ company_id: com.value })).then(() => {
-            store.dispatch(wxconfig({url})).then(() => {
-              serverRender(res.data)
+            store.dispatch(companyList({ company_id: com.value, user_ticket: req.cookies.ticket})).then(() => {
+              store.dispatch(wxconfig({url})).then(() => {
+                serverRender(res.data)
+              })
             })
-            // })
           })
         }
       }
       if (homePage.exec(req.url)) {
-        // 首页
+        // 首页  
         render = false
         store.dispatch(getPostInit()).then(() => {
           store.dispatch(getBanner()).then(() => {
@@ -220,7 +221,6 @@ export default (req, res, next) => {
       if (blocPage.exec(req.url)) {
         // 名企专区列表
         render = false
-        console.log(blocPage.exec(req.url)[1])
         store
           .dispatch(blocList({ c_userid: blocPage.exec(req.url)[1] }))
           .then((res) => {
@@ -240,7 +240,6 @@ export default (req, res, next) => {
         req.url.indexOf('areaParms') !== -1
       ) {
         let arr = req.url.split('&')
-        console.log(arr)
         let params = {
           keyword: '',
           area: '',
@@ -259,7 +258,6 @@ export default (req, res, next) => {
         arr.forEach(item => {
           let arr2 = item.split('=')
           if (arr2[0].indexOf('keyword') !== -1) {
-            // params.keyword = arr2[1]
             params.keyword = decodeURI(arr2[1])
 
 
@@ -269,15 +267,9 @@ export default (req, res, next) => {
           }
         })
         store.dispatch(getSearchListInit(params)).then((data) => {
-          // console.log(11122222111);
-          // console.log(params);
-          // console.log(data)
           serverRender()
-        console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
-          // console.log('2222222222221111111')
           store.dispatch(wxconfig({url})).then(() => {
-            // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
             serverRender()
           })
         })
