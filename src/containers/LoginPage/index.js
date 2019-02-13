@@ -5,6 +5,7 @@ import Login from '../Login'
 import LoginCode from '../LoginCode'
 import style from './style.less'
 import Rectangle from '../../static/back.png'
+import { appShare } from '../../actions/auth'
 import queryString from 'query-string'
 const triggerFrom = "触发来源"
 
@@ -26,6 +27,10 @@ class LoginPage extends PureComponent {
     if(login){
       this.props.history.push('/user')
     }
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+    })
   }
 
   render() {

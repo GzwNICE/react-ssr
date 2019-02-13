@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
+import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
 const triggerType = '类型'
 const triggerFrom = '触发来源'
@@ -253,6 +254,10 @@ class Register extends PureComponent {
     if (login) {
       this.props.history.push('/user')
     }
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+    })
   }
 
   componentWillUnmount() {
