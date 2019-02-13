@@ -1,7 +1,6 @@
 import store from 'store'
 import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
-import logoImg from '../static/logo.jpg'
 
 import axios from "axios"
 import { singleApi } from '../helper/reduxFetch'
@@ -240,12 +239,12 @@ export const wxconfig = singleApi({
 //   })
 // }
 
-export const  shareToPeople = (job_name, company_name) => { // 给个人
+export const  shareToPeople = (job_name, company_name, type,link) => { // 给个人
   return {
-    title: `职位推荐：${job_name}`,
-    desc: `${company_name}正在招聘人才，机会特别好，推荐你去试试~`,
-    link: window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/search_veryeast_cn/static/images/logo_1.png?v=2018121206",
+    title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
+    desc: type === 1  ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~` : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
+    link: link || window.location.href,
+    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
     success: ()=> {
       // 用户点击了分享后执行的回调函数
       alert("成功")
@@ -257,13 +256,25 @@ export const  shareToPeople = (job_name, company_name) => { // 给个人
   }
 }
 
-export const  shareToAll = (job_name, company_name) => { //所有人
+export const  shareToAll = (job_name, company_name, type,link) => { //所有人
   return {
-    title: `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~`,
-    link: window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/search_veryeast_cn/static/images/logo_1.png?v=2018121206",
+    title: type === 1 ? `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~` : `${company_name}正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
+    link: link || window.location.href,
+    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
   }
 }
+
+export const  appShare = () => { //全站分享
+  return {
+    title: `【最佳东方】旅游服务业的招聘求职平台`,
+    desc: `平台入驻企业已累计达6w+家，涵盖酒店、餐饮、公寓、海外、邮轮、物业、航空、景区、养老、地产等领域。`,
+    link: 'https://m.veryeast.cn',
+    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
+  }
+}
+
+
+
 
 export const wx_config = (wechat_config) => {
   return {

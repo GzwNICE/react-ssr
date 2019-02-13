@@ -24,8 +24,6 @@ import jobType from '../../static/jobType@3x.png'
 import finish from '../../static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
 import {
-  wxconfig,
-  wx_config,
   shareToPeople,
   shareToAll,
 } from '../../actions/auth'
@@ -76,21 +74,20 @@ class PositionDetail extends PureComponent {
 
   goCompany = c_userid => {
     window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '职位详情页' })
-    this.props.history.push(`/${c_userid}?redirect=${this.props.history.location.pathname}`)
+    this.props.history.push(
+      `/${c_userid}?redirect=${this.props.history.location.pathname}`
+    )
   }
 
   shareWeixin = data => {
     let info = data.data || {}
     let { job_name, company_name } = info
-    // this.props.dispatch(wxconfig()).then(data => {
-    //   console.log(data);
-    //   let wechat_config = data
-    //   window.wx.config(wx_config(wechat_config)) // 配置信息
-      window.wx.ready(() => {
-        window.wx.updateTimelineShareData(shareToAll(job_name, company_name)) // 分享到朋友圈
-        window.wx.updateAppMessageShareData(shareToPeople(job_name, company_name)) // 分享给朋友
-      })
-    //})
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(shareToAll(job_name, company_name, 1)) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(
+        shareToPeople(job_name, company_name, 1)
+      ) // 分享给朋友
+    })
   }
 
   //返回上一页，没有上一页返回到首页
@@ -124,12 +121,13 @@ class PositionDetail extends PureComponent {
         })
       }
     }, 100)
-    
   }
 
   // 搜索框点击进入搜索页
   searchFocus = () => {
-    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
+    this.props.history.push(
+      `/search?redirect=${this.props.history.location.pathname}`
+    )
   }
 
   // 跳转到职位详情
@@ -140,7 +138,8 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h507'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h507'
     }, 2000)
   }
 
@@ -149,7 +148,8 @@ class PositionDetail extends PureComponent {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h509'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h509'
     }, 2000)
   }
 
@@ -200,7 +200,6 @@ class PositionDetail extends PureComponent {
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
           this.shareWeixin(data)
-          
         })
     }
   }
@@ -222,7 +221,7 @@ class PositionDetail extends PureComponent {
     const is_valid = this.props.position.is_valid //职位是否有效
     const hotData = this.props.position.hotData || {}
     return (
-      <div className={style.PositionDetailWrap} >
+      <div className={style.PositionDetailWrap}>
         <Helmet>
           <title>{`招聘${job_name}_${company.company_name}-最佳东方`}</title>
           <meta
@@ -231,7 +230,9 @@ class PositionDetail extends PureComponent {
           />
           <meta
             name="keywords"
-            content={`${company.company_name}${job_name}相关的招聘职位信息，帮助求职者早日找到测试职位相关工作`}
+            content={`${
+              company.company_name
+            }${job_name}相关的招聘职位信息，帮助求职者早日找到测试职位相关工作`}
           />
         </Helmet>
         <SearchUser
@@ -242,7 +243,7 @@ class PositionDetail extends PureComponent {
           zhugeFrom={2}
         />
 
-        <div id="page" className={style.connent} onScroll={this.onScroll} >
+        <div id="page" className={style.connent} onScroll={this.onScroll}>
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
               <h1 className={style.name}>{job_name}</h1>

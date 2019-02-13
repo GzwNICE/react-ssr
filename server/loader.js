@@ -17,7 +17,7 @@ import routes from '../src/routes'
 import manifest from '../build/asset-manifest.json'
 import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
-import { wxconfig } from '../src/actions/auth'
+import { wxconfig,appShare,shareToPeople,shareToAll } from '../src/actions/auth'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
 import { blocList, blocCategory} from '../src/actions/company'
@@ -32,12 +32,14 @@ export default (req, res, next) => {
   console.log(req.url)
   const injectHTML = (
     data,
-    { html, title, meta, body, scripts, state, config }
+    { html, title, meta, body, scripts, state, config,share }
   ) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
     data = data.replace('</head>', `${meta}</head>`)
     data = data.replace('window.__INITIAL_STATE__.wxconfig', config)
+    data = data.replace(/window.__INITIAL_STATE__.wxconfig.share/g,share.toAll)
+    data = data.replace(/window.__INITIAL_STATE__.wxconfig.toPeople/g,share.toPeople)
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__INITIAL_STATE__ = ${state}</script>`
@@ -68,7 +70,8 @@ export default (req, res, next) => {
         }
         return false
       }
-      const serverRender = () => {
+      let url= `https://m.veryeast.cn${req.url}`
+      const serverRender = (share=null) => {
         frontloadServerRender(() =>
           renderToString(
             <Provider store={store}>
@@ -124,15 +127,12 @@ export default (req, res, next) => {
                   '\\u003c'
                 ),
                 config: JSON.stringify(
-                  store.getState().auth.wxconfig || {
-                    debug: true,
-                    appId: 'wxf8b4f85f3a794e77',
-                    timestamp: 1548900712,
-                    nonceStr: '7kQsDXOgtUn3ddYO',
-                    signature: '5f09b5acb96f8b8c694b21a241eb515bc6f94774',
-                    jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
-                  }
-                ).replace(/</g, '\\u003c')
+                  store.getState().auth.wxconfig || {}
+                ).replace(/</g, '\\u003c'),
+                share:{
+                  toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare()).replace(/</g, '\\u003c'),
+                  toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare() ).replace(/</g, '\\u003c'),
+                }
               })
 
               // We have all the final HTML, let's send it to the user already!
@@ -143,7 +143,6 @@ export default (req, res, next) => {
             console.log('error: ' + error)
           })
       }
-
       const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
       const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
       const companyUrl = pathToRegexp('/:company_id(\\d+)\\?(.*)')
@@ -153,7 +152,7 @@ export default (req, res, next) => {
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
-      let url= `https://m.veryeast.cn${req.url}`
+      
       let com = {
         key: '',
         value: ''
@@ -184,18 +183,20 @@ export default (req, res, next) => {
           render = false
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
-            .then(() => {
+            .then(res => {
+              res.type=1
               store.dispatch(wxconfig({url})).then(() => {
-                serverRender()
+                serverRender(res)
               })
             })
         } else {
           // 企业详情页
           render = false
-          store.dispatch(companydetail({ company_id: com.value })).then(() => {
+          store.dispatch(companydetail({ company_id: com.value })).then((res) => {
+            res.type=2
             // store.dispatch(companyList({ company_id: com.value })).then(() => {
             store.dispatch(wxconfig({url})).then(() => {
-              serverRender()
+              serverRender(res)
             })
             // })
           })

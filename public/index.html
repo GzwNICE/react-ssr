@@ -87,6 +87,10 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script>
         wx.config(window.__INITIAL_STATE__.wxconfig)
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+          wx.updateAppMessageShareData(window.__INITIAL_STATE__.wxconfig.share)
+          wx.updateTimelineShareData(window.__INITIAL_STATE__.wxconfig.toPeople)
+      });
     </script>
   </body>
   <script>

@@ -9,6 +9,10 @@ import queryString from 'query-string'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
+import {
+  shareToPeople,
+  shareToAll,
+} from '../../actions/auth'
 import CompanyDuce from './CompanyDuce'
 import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
@@ -141,14 +145,7 @@ class CompanyDetail extends PureComponent {
   }
 
   goLogin = () => {
-    // const search = this.props.history.location.search
-    //   ? this.props.history.location.search
-    //   : '?'
     const pathname = this.props.history.location.pathname
-    // const url = search
-    //   ? `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
-    //   : `/user/register?redirect=${pathname}`
-    // this.props.history.replace(url, )
     this.props.history.replace(`/user/register?redirect=${pathname}`, { key: '关注' })
   }
 
@@ -159,6 +156,17 @@ class CompanyDetail extends PureComponent {
   /* 下载或者打开app */
   downLoadAd = () => {
     window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
+  }
+
+  shareWeixin = data => {
+    let info = data.data || {}
+    let { company_name } = info
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(shareToAll('', company_name, 2)) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(
+        shareToPeople('', company_name, 2)
+      ) // 分享给朋友
+    })
   }
 
   componentDidMount() {
@@ -176,7 +184,9 @@ class CompanyDetail extends PureComponent {
           company_id: id,
           from: from,
         })
-      )
+      ).then((data)=>{
+        this.shareWeixin(data)
+      })
       this.props
         .dispatch(
           companyList({
