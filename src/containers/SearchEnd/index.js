@@ -41,6 +41,7 @@ const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
 let filterChange = false
+// let reloadInit = 1  // 页面刷新后请求数据
 @connect(state => {
   // console.log(state.search.list)
   return {
@@ -89,6 +90,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+   
      /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -164,6 +166,7 @@ class SearchEnd extends PureComponent {
           })
         }
       })
+
     }
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
@@ -478,7 +481,7 @@ class SearchEnd extends PureComponent {
         this.getQuery.area,
       ...queryMoreOnly,
     }
-    // console.log(allQuery.area)
+    console.log(allQuery.area)
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -583,7 +586,19 @@ class SearchEnd extends PureComponent {
     const nextList = nextProps.searchLIst
     const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
-
+    // console.log(this.props.supers.location.address.code)
+    // console.log(nextProps.supers.location.address.code)
+    if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
+      const allQuery = this.handleSearchQuery()
+      const params = {
+        ...allQuery,
+        area:
+          this.props.query.area ||
+          (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
+        ...this.state.searchCondition,
+      }
+      this.props.dispatch(getSearchListInit(params))
+    }
     // if (nextList !== thisList) {
       this.setState(
         {
@@ -633,7 +648,7 @@ class SearchEnd extends PureComponent {
   componentWillUnmount() {
     this.getQuery.isUsed = 0
     this.props.dispatch(saveScrollTop(this.scrollTop))
-
+    // reloadInit = 0
     // this.props.dispatch({
     //   type: 'SEARCH_EMPTY_ALL',
     // })
