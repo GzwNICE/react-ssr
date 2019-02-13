@@ -9,10 +9,6 @@ import queryString from 'query-string'
 import PageScroll from '../../components/PageScroll'
 import RegisterWrap from '../../components/RegisterWrap'
 import SearchUser from '../../components/SearchBar/SearchUser'
-import {
-  shareToPeople,
-  shareToAll,
-} from '../../actions/auth'
 import CompanyDuce from './CompanyDuce'
 import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
@@ -24,6 +20,7 @@ import {
   companydetailClear,
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
+import shareWeixin from '../../helper/tool'
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
@@ -158,17 +155,6 @@ class CompanyDetail extends PureComponent {
     window.location.href = 'https://m.veryeast.cn/mobile/index?c=mobile'
   }
 
-  shareWeixin = data => {
-    let info = data.data || {}
-    let { company_name } = info
-    window.wx.ready(() => {
-      window.wx.updateTimelineShareData(shareToAll('', company_name, 2)) // 分享到朋友圈
-      window.wx.updateAppMessageShareData(
-        shareToPeople('', company_name, 2)
-      ) // 分享给朋友
-    })
-  }
-
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.company.scrollTop
@@ -185,7 +171,7 @@ class CompanyDetail extends PureComponent {
           from: from,
         })
       ).then((data)=>{
-        this.shareWeixin(data)
+        shareWeixin(2,data)
       })
       this.props
         .dispatch(

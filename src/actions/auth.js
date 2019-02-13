@@ -245,14 +245,6 @@ export const  shareToPeople = (job_name, company_name, type,link) => { // 给个
     desc: type === 1  ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~` : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
     link: link || window.location.href,
     imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
-    success: ()=> {
-      // 用户点击了分享后执行的回调函数
-      alert("成功")
-    },
-    fail: ()=> {
-      // 用户点击了分享后执行的回调函数
-      alert("失败")
-    },
   }
 }
 
