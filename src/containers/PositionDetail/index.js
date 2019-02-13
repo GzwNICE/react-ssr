@@ -23,7 +23,7 @@ import education from '../../static/education@3x.png'
 import jobType from '../../static/jobType@3x.png'
 import finish from '../../static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
-import shareWeixin from '../../helper/tool'
+import {shareWeixin} from '../../helper/tool'
 const triggerFrom = '触发来源'
 
 @connect(state => ({

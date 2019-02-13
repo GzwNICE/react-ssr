@@ -20,7 +20,7 @@ import {
   companydetailClear,
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
-import shareWeixin from '../../helper/tool'
+import {shareWeixin} from '../../helper/tool'
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'

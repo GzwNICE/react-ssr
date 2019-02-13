@@ -10,7 +10,7 @@ import {
   blocSearchClear,
   blocListClear,
 } from '../../actions/bloc'
-import shareWeixin from '../../helper/tool'
+import {shareWeixin} from '../../helper/tool'
 import { saveBlocQuery, saveSearch } from '../../actions/bloc'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
