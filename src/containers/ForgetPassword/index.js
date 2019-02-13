@@ -11,7 +11,6 @@ import paswordimg from '../../static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import F from '../../helper/tool'
 import {errCode} from '../../helper/errCode'
-// import {captcha} from '../../actions/auth'
 import {mobile, findPassword} from '../../actions/auth'
 
 @createForm()
@@ -166,10 +165,9 @@ class ForgetPassword extends PureComponent {
   }
 
   // componentDidMount() {
-  //   captcha().then(data => {
-  //     this.setState({
-  //       url: data,
-  //     })
+  //   window.wx.ready(() => {
+  //     window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+  //     window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
   //   })
   // }
 

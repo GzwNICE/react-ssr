@@ -103,7 +103,7 @@ class SearchEnd extends PureComponent {
       education,
       room_board,
       work_mode,
-      areaParms,
+      // areaParms,
     } = queryString.parse(this.props.history.location.search)
     this.getQuery = {
       isUsed: 1,
@@ -189,6 +189,7 @@ class SearchEnd extends PureComponent {
         ? sessionStorage.getItem('is_login')
         : '',
     })
+
   }
 
   // componentDidUpdate(){
@@ -582,9 +583,11 @@ class SearchEnd extends PureComponent {
     }, 2000)
   }
 
+
+
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.searchLIst
-    const thisList = this.props.searchLIst
+    // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
     // console.log(this.props.supers.location.address.code)
     // console.log(nextProps.supers.location.address.code)

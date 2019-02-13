@@ -270,7 +270,7 @@ export const  appShare = (link) => { //全站分享
 
 export const wx_config = (wechat_config) => {
   return {
-    debug: true,
+    debug: false,
     appId: wechat_config.appId,
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
