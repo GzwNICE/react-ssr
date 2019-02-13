@@ -2,9 +2,10 @@ import * as supersLocation from '../actions/supers/location'
 import * as LocalReducers from '../reducers'
 import * as option from '../actions/option'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from "redux-thunk"
+import thunkMiddleware from 'redux-thunk'
 import { createBrowserHistory, createMemoryHistory } from 'history'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
+import { HOME_CHANGE_CITY } from '../actions/home'
 
 export const isServer = !(
   typeof window !== 'undefined' &&
@@ -12,8 +13,9 @@ export const isServer = !(
   window.document.createElement
 )
 
-export default function configureStore( url='/') {
-  const history = isServer ? createMemoryHistory({ initialEntries: [url] })
+export default function configureStore(url = '/') {
+  const history = isServer
+    ? createMemoryHistory({ initialEntries: [url] })
     : createBrowserHistory()
 
   const routeMiddleware = routerMiddleware(history)
@@ -30,7 +32,7 @@ export default function configureStore( url='/') {
   }
 
   const composedEnhancers = compose(
-    applyMiddleware( routeMiddleware, thunkMiddleware ),
+    applyMiddleware(routeMiddleware, thunkMiddleware),
     ...enhancers
   )
 
@@ -53,7 +55,7 @@ export default function configureStore( url='/') {
 
   let cityCode = []
   function _optIndex(sublist, city) {
-    (sublist || []).forEach(item => {
+    ;(sublist || []).forEach(item => {
       if (new RegExp(item.value).test(city)) {
         cityCode.push(item.code)
       }
@@ -61,11 +63,15 @@ export default function configureStore( url='/') {
     })
   }
 
-// 项目初始化前先加载配置文件
+  // 项目初始化前先加载配置文件
   if (!isServer) {
     store.dispatch(option.load()).then(option => {
       supersLocation.getCoords().then(payload => {
         _optIndex(option.data.areas, payload.address.city)
+         store.dispatch({
+              type: HOME_CHANGE_CITY,
+              area: cityCode,
+            })
         store.dispatch({
           type: supersLocation.$.location_load,
           payload: {
@@ -80,10 +86,5 @@ export default function configureStore( url='/') {
     })
   }
 
-
   return { store, history }
 }
-
-
-
-

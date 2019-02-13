@@ -40,6 +40,7 @@ const tiggerWorkMode = '职位性质'
 const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
+let filterChange = false
 @connect(state => {
   // console.log(state.search.list)
   return {
@@ -141,9 +142,17 @@ class SearchEnd extends PureComponent {
       // console.log(allQuery)
       // console.log(areaParms)
       // 保证深度刷新时地区选择正确
-      if (areaParms) {
-        allQuery.area = [areaParms]
-      } 
+      // if (areaParms) {
+      //   allQuery.area = [areaParms]
+      //   this.props.dispatch({
+      //     type: 'JOB_PAGE_CITY_CODE_SET',
+      //     area: [areaParms],
+      //   })
+      //   this.props.dispatch({
+      //     type: 'HOME_CHANGE_CITY',
+      //     area: [areaParms],
+      //   })
+      // }
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
         this.setState({
@@ -225,7 +234,9 @@ class SearchEnd extends PureComponent {
     //   // window.location.href = redirect
     //   this.props.history.push(redirect)
     // }
+    this.props.dispatch(deleteList())
     this.scrollTop = 0
+    document.body.scrollTop = document.documentElement.scrollTop = 0
     // // this.props.history.replace('/search')
     // this.props.history.goBack()
     const { redirect } = queryString.parse(window.location.search)
@@ -238,6 +249,8 @@ class SearchEnd extends PureComponent {
 
   goSerch = () => {
     this.props.dispatch(deleteList())
+    this.scrollTop = 0
+    document.body.scrollTop = document.documentElement.scrollTop = 0
     this.props.history.push(`/search`)
     // const { redirect, sss } = queryString.parse(
     //   this.props.history.location.search
@@ -275,7 +288,7 @@ class SearchEnd extends PureComponent {
     this.setState({
       page: page,
     })
-    // console.log(page, allPage)
+    console.log(this.props.query.area)
     if (page <= allPage) {
       const allQuery = this.handleSearchQuery()
       const params = {
@@ -301,7 +314,7 @@ class SearchEnd extends PureComponent {
   }
 
   filterSearch = (value = {}) => {
-    // console.log(value.more)
+    filterChange = true
     //zhuge统计
     let val = ''
     if (value.position) {
@@ -318,6 +331,19 @@ class SearchEnd extends PureComponent {
       // 城市选择
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: value.area,
+      })
+      // const cityPayload = value.area[0] ? [value.area[0]] : ['']
+      // this.props.dispatch({
+      //   type: 'HOME_CHANGE_CITY',
+      //   area:  cityPayload,
+      // })
+      // setTimeout(() => {
+      
+      // }, 1500)
+     
       window.zhuge.track('城市筛选', { [`${tiggerCity}`]: val })
     }
     if (value.salary) {
@@ -334,7 +360,10 @@ class SearchEnd extends PureComponent {
           option.opts_company_industry_all_index) ||
         {}
       const industry = industry_index[value.more.company_industry] || ''
-
+      const obj = {
+        company_industry: value.more.company_industry || 0,
+        }
+        queryMoreOnly = obj
       // 发布日期
       const update_time_index =
         (option.opts_update_time && option.opts_update_time_index) || {}
@@ -373,6 +402,7 @@ class SearchEnd extends PureComponent {
       type: 'SEARCH_SALARYSHOW',
       payload: false,
     })
+    // console.log(F.filterUndefindToString(value))
     this.props.dispatch(saveQuery(F.filterUndefindToString(value)))
     this.setState(
       {
@@ -383,7 +413,7 @@ class SearchEnd extends PureComponent {
         
         // let obj = {...allQuery}
         // delete obj.keywords
-        // console.log(obj)
+   
         this.props.dispatch(getSearchListInit(allQuery)).then(() => {
           this.scrollTop = 0
           document.body.scrollTop = document.documentElement.scrollTop = 0
@@ -399,6 +429,8 @@ class SearchEnd extends PureComponent {
   }
 
   handleSearchQuery = () => {
+    // console.log(this.props.query)
+
     const data = this.props.location.state || {}
     const more = this.props.query && this.props.query.more
     const salary_min =
@@ -416,9 +448,9 @@ class SearchEnd extends PureComponent {
     
     let key = data.keyword || keyword || arr1[1]
    
-
-   
     // console.log(queryMoreOnly)
+    // console.log(more.company_industry)
+
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
@@ -446,8 +478,7 @@ class SearchEnd extends PureComponent {
         this.getQuery.area,
       ...queryMoreOnly,
     }
-
-
+    // console.log(allQuery.area)
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -606,19 +637,21 @@ class SearchEnd extends PureComponent {
     // this.props.dispatch({
     //   type: 'SEARCH_EMPTY_ALL',
     // })
+    filterChange = false
     clearTimeout(this.timer)
     queryMoreOnly = {}
   }
 
   render() {
+    
     const {queryMore} = this.state
     let query = this.props.query
     const area =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
         : this.props.supers.location.address.code
-    if (query.area.length === 0) {
-      query.area = area
+    if (query.area.length === 0 && !filterChange) {
+      // query.area = area
     }
     query.more = {...query.more, ...queryMore}
 

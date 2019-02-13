@@ -25,7 +25,6 @@ class TextareaField extends ComplexFormField {
         appchannel: 'web',
       })
     )
-    console.log(this.props.value)
   }
   leftClick = () => {
     this.setState({

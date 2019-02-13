@@ -231,14 +231,35 @@ export default (state = initState, action) => {
     case SEAND_PAGE_GOBACK:
       return {
         ...state,
-        list: [],
+        hot: [],
+        tips: {},
         scrollTop: 0,
+        refreshing: false,
+        isLoading: false,
+        list: [],
         query: {
-          area:[],
+          ...state.query,
+          // area:[],
           more: {},
           brand: [],
           keywords: '',
+          salary: [0, 1000000],
         },
+        pager: {
+          cur:1,
+          count: '',
+          allPage: '',
+          size: 20,
+        },
+        company: {},
+        salaryShow: false, // 薪资下拉框显示隐藏
+        salaryString: '',
+        searchEndSalary: {
+          defaultRange: [0, 20],
+          rangeString: '不限',
+          rangeTitle: '薪资',
+        },
+        searchState: false,
       }
     default:
       return state

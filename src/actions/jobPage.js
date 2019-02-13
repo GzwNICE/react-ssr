@@ -10,7 +10,7 @@ export const JOB_SEARCH_LODING  = 'JOB_SEARCH_LODING' // loding
 export const JOB_SEARCH_SAVE = 'JOB_SEARCH_SAVE' // 保存搜索条件
 export const JOB_PAGE_UNMOUNT = 'JOB_PAGE_UNMOUNT' // 页面卸载
 export const JOB_PAGE_DELETE_LIST = 'JOB_PAGE_DELETE_LIST' //删除缓存
-
+export const JOB_PAGE_CITY_CODE_SET = 'JOB_PAGE_CITY_CODE_SET' //设置城市code
 const URLPOST = ':ve.mobile.interface/job/search'
 
 export const saveQuery = args => {
