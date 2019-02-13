@@ -6,7 +6,6 @@ import axios from "axios"
 import { singleApi } from '../helper/reduxFetch'
 
 export const WEIXIN_SHARE_INIT = 'WEIXIN_SHARE_INIT' // 微信分享config
-export const WEIXIN_SHARE_TEXT = 'WEIXIN_SHARE_TEXT' // 分享内容
 
 const SHAREURLPOST = ':ve.mobile.interface/h5-new/company-mobile-index/share'
 
@@ -229,14 +228,6 @@ export const wxconfig = singleApi({
   },
 })
 
-
-export const saveShare = data => {
-  return {
-    type: WEIXIN_SHARE_TEXT,
-    share: data,
-  }
-}
-
 // export const wxconfig = (url) => {
 //   return fetch('https://activity.veryeast.cn/wechat/get-sign-package?url=${url}').then(res => {
 //     return res.json()
@@ -249,12 +240,6 @@ export const saveShare = data => {
 // }
 
 export const  shareToPeople = (job_name, company_name, type,link) => { // 给个人
-  saveShare( {
-    title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
-    desc: type === 1  ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~` : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
-    link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
-  })
   return {
     title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
     desc: type === 1  ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~` : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
@@ -264,11 +249,6 @@ export const  shareToPeople = (job_name, company_name, type,link) => { // 给个
 }
 
 export const  shareToAll = (job_name, company_name, type,link) => { //所有人
-  saveShare( {
-    title: type === 1 ? `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~` : `${company_name}正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
-    link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
-  })
   return {
     title: type === 1 ? `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~` : `${company_name}正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
     link: link || window.location.href,
@@ -277,12 +257,6 @@ export const  shareToAll = (job_name, company_name, type,link) => { //所有人
 }
 
 export const  appShare = (link) => { //全站分享
-  saveShare( {
-    title: `【最佳东方】旅游服务业的招聘求职平台`,
-    desc: `平台入驻企业已累计达6w+家，涵盖酒店、餐饮、公寓、海外、邮轮、物业、航空、景区、养老、地产等领域。`,
-    link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
-  })
   return {
     title: `【最佳东方】旅游服务业的招聘求职平台`,
     desc: `平台入驻企业已累计达6w+家，涵盖酒店、餐饮、公寓、海外、邮轮、物业、航空、景区、养老、地产等领域。`,
