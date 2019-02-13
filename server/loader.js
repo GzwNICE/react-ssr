@@ -20,7 +20,7 @@ import { companydetail, companyList } from '../src/actions/company'
 import { wxconfig,appShare,shareToPeople,shareToAll } from '../src/actions/auth'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
-import { blocList, blocCategory} from '../src/actions/company'
+import { blocList, blocCategory} from '../src/actions/bloc'
 import pathToRegexp from 'path-to-regexp'
 import {
   getSearchListInit,
@@ -186,7 +186,7 @@ export default (req, res, next) => {
             .then(res => {
               res.type=1
               store.dispatch(wxconfig({url})).then(() => {
-                serverRender(res)
+                serverRender(res.data)
               })
             })
         } else {
@@ -196,7 +196,7 @@ export default (req, res, next) => {
             res.type=2
             // store.dispatch(companyList({ company_id: com.value })).then(() => {
             store.dispatch(wxconfig({url})).then(() => {
-              serverRender(res)
+              serverRender(res.data)
             })
             // })
           })
@@ -220,14 +220,15 @@ export default (req, res, next) => {
       if (blocPage.exec(req.url)) {
         // 名企专区列表
         render = false
+        console.log(blocPage.exec(req.url)[1])
         store
           .dispatch(blocList({ c_userid: blocPage.exec(req.url)[1] }))
-          .then(() => {
+          .then((res) => {
             store
               .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
               .then(() => {
                 store.dispatch(wxconfig({url})).then(() => {
-                  serverRender()
+                  serverRender({type:2,company_name:res.data.group_company_name,job_name:''})
                 })
               })
           })

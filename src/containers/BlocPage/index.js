@@ -10,7 +10,7 @@ import {
   blocSearchClear,
   blocListClear,
 } from '../../actions/bloc'
-
+import shareWeixin from '../../helper/tool'
 import { saveBlocQuery, saveSearch } from '../../actions/bloc'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -72,8 +72,11 @@ export default class CompanyArea extends Component {
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
       const triggerFrom = '触发来源'
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
+      window.zhuge.track('下载APP', {
+        [`${triggerFrom}`]: '名企列表页顶部推荐',
+      })
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
     }, 2000)
   }
 
@@ -215,6 +218,7 @@ export default class CompanyArea extends Component {
           this.setState({
             hasList: true,
           })
+          shareWeixin(2, { company_name: res.data.group_company_name })
         })
     }
     this.setState({
@@ -244,7 +248,7 @@ export default class CompanyArea extends Component {
       nextProps.searchKeyword !== this.props.searchKeyword ||
       nextProps.searchState !== this.props.searchState
     ) {
-      Toast.loading('Loading...',1)
+      Toast.loading('Loading...', 1)
       if (nextProps.searchState) {
         this.props
           .dispatch(
@@ -265,16 +269,18 @@ export default class CompanyArea extends Component {
             Toast.hide()
           })
       } else {
-        Toast.loading('Loading...',1)
-        this.props.dispatch(
-          blocList({
-            c_userid: c_userid,
-            local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
-            c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+        Toast.loading('Loading...', 1)
+        this.props
+          .dispatch(
+            blocList({
+              c_userid: c_userid,
+              local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
+              c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+            })
+          )
+          .then(() => {
+            Toast.hide()
           })
-        ).then(()=>{
-          Toast.hide()
-        })
       }
     }
   }
