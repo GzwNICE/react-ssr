@@ -10,7 +10,8 @@ import {
   blocSearchClear,
   blocListClear,
 } from '../../actions/bloc'
-import {shareWeixin} from '../../helper/tool'
+// import {shareWeixin} from '../../helper/tool'
+import { shareToPeople, shareToAll } from '../../actions/auth'
 import { saveBlocQuery, saveSearch } from '../../actions/bloc'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -218,7 +219,12 @@ export default class CompanyArea extends Component {
           this.setState({
             hasList: true,
           })
-          shareWeixin(2, { company_name: res.data.group_company_name })
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(shareToAll('', res.data.group_company_name, 2)) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople('', res.data.group_company_name, 2)
+            ) // 分享给朋友
+          })
         })
     }
     this.setState({

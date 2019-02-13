@@ -20,7 +20,8 @@ import {
   companydetailClear,
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
-import {shareWeixin} from '../../helper/tool'
+// import {shareWeixin} from '../../helper/tool'
+import { shareToPeople, shareToAll } from '../../actions/auth'
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
@@ -173,7 +174,15 @@ class CompanyDetail extends PureComponent {
           from: from,
         })
       ).then((data)=>{
-        shareWeixin(2,data)
+        // shareWeixin(2,data)
+        let info = data.data || {}
+          let { company_name, job_name = '' } = info
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(shareToAll(job_name, company_name, 2)) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople(job_name, company_name, 2)
+            ) // 分享给朋友
+          })
       })
       this.props
         .dispatch(
