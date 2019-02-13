@@ -2,6 +2,7 @@ import store from 'store'
 import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
 import logoImg from '../static/logo.jpg'
+
 import axios from "axios"
 import { singleApi } from '../helper/reduxFetch'
 
@@ -244,8 +245,7 @@ export const  shareToPeople = (job_name, company_name) => { // 给个人
     title: `职位推荐：${job_name}`,
     desc: `${company_name}正在招聘人才，机会特别好，推荐你去试试~`,
     link: window.location.href,
-    imgUrl: logoImg,
-    type: `link`,
+    imgUrl: "https://f3-v.veimg.cn/search_veryeast_cn/static/images/logo_1.png?v=2018121206",
     success: ()=> {
       // 用户点击了分享后执行的回调函数
       alert("成功")
@@ -261,8 +261,7 @@ export const  shareToAll = (job_name, company_name) => { //所有人
   return {
     title: `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~`,
     link: window.location.href,
-    imgUrl: logoImg,
-    type: `link`,
+    imgUrl: "https://f3-v.veimg.cn/search_veryeast_cn/static/images/logo_1.png?v=2018121206",
   }
 }
 
