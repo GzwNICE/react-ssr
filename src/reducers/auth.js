@@ -1,9 +1,9 @@
 import store from 'store'
 import { LOGIN_OUT } from '../actions/userStatus'
 import storageSync from '../helper/storage-sync'
-import { WEIXIN_SHARE_INIT } from '../actions/auth'
+import { WEIXIN_SHARE_INIT, WEIXIN_SHARE_TEXT } from '../actions/auth'
 
-const initialState = { wxconfig: {} }
+const initialState = { wxconfig: {}, wxShare: {}}
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
@@ -14,6 +14,11 @@ const reducers = (state = initialState, action) => {
       return {
         ...state,
         wxconfig: action.data,
+      }
+    case WEIXIN_SHARE_TEXT:
+      return {
+        ...state,
+        wxShare: action.data,
       }
     default:
       return store.get('m:auth') || {}
