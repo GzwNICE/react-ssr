@@ -506,11 +506,12 @@ class SearchEnd extends PureComponent {
   noVacancies = query => {
     // 记录地区
     const areas_index = option && option.areas_index ? option.areas_index : {}
-    const areaVal = areas_index[query.area[0]]
+    let areaVal = areas_index[query.area[0]]
+    areaVal = areaVal ? `-${areaVal}` : null
     const more = query.more ? query.more : {}
     let company_industry
     if (more.company_industry) {
-      company_industry = `-${
+      company_industry = `${
         option.opts_company_industry_all_index[more.company_industry]
       }`
     }
