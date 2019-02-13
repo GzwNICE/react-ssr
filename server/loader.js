@@ -17,6 +17,7 @@ import routes from '../src/routes'
 import manifest from '../build/asset-manifest.json'
 import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
+import { wxconfig } from '../src/actions/auth'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
 import { blocList, blocCategory} from '../src/actions/company'
@@ -29,15 +30,14 @@ import {
 
 export default (req, res, next) => {
   console.log(req.url)
-  const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
   const injectHTML = (
     data,
-    { html, title, meta, body, scripts, state, wxconfig }
+    { html, title, meta, body, scripts, state, config }
   ) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
     data = data.replace('</head>', `${meta}</head>`)
-    data = data.replace('window.__INITIAL_STATE__.wxconfig', wxconfig)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig', config)
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__INITIAL_STATE__ = ${state}</script>`
@@ -123,7 +123,7 @@ export default (req, res, next) => {
                   /</g,
                   '\\u003c'
                 ),
-                wxconfig: JSON.stringify(
+                config: JSON.stringify(
                   store.getState().auth.wxconfig || {
                     debug: true,
                     appId: 'wxf8b4f85f3a794e77',
@@ -153,6 +153,7 @@ export default (req, res, next) => {
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
+      let url= `https://m.veryeast.cn${req.url}`
       let com = {
         key: '',
         value: ''
@@ -184,7 +185,7 @@ export default (req, res, next) => {
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1] }))
             .then(() => {
-              store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+              store.dispatch(wxconfig({url})).then(() => {
                 serverRender()
               })
             })
@@ -193,7 +194,7 @@ export default (req, res, next) => {
           render = false
           store.dispatch(companydetail({ company_id: com.value })).then(() => {
             // store.dispatch(companyList({ company_id: com.value })).then(() => {
-            store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+            store.dispatch(wxconfig({url})).then(() => {
               serverRender()
             })
             // })
@@ -207,7 +208,7 @@ export default (req, res, next) => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+                store.dispatch(wxconfig({url})).then(() => {
                   serverRender()
                 })
               })
@@ -224,7 +225,7 @@ export default (req, res, next) => {
             store
               .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
               .then(() => {
-                store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+                store.dispatch(wxconfig({url})).then(() => {
                   serverRender()
                 })
               })
@@ -273,59 +274,19 @@ export default (req, res, next) => {
         console.log(params)
         store.dispatch(getSearchListInit(params)).then(() => {
           // console.log('2222222222221111111')
-          store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+          store.dispatch(wxconfig({url})).then(() => {
             // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
             serverRender()
           })
         })
+      })
       }
 
       if (render) {
-        store.dispatch(wxconfig({url: `https://m.veryeast.cn${req.url}`})).then(() => {
+        store.dispatch(wxconfig({url})).then(() => {
           serverRender()
         })
       }
-
-      // const urlExcel = () => {
-
-      // }
-
-      // let cityCode = []
-      // function _optIndex(sublist, city) {
-      //   (sublist || []).forEach(item => {
-      //     if (new RegExp(item.value).test(city)) {
-      //       cityCode.push(item.code)
-      //     }
-      //     _optIndex(item.sublist, city)
-      //   })
-      // }
-      // store.dispatch(option.load()).then(option => {
-      //   supersLocation.getCoords().then(payload => {
-      //     _optIndex(option.data.areas, payload.address.city)
-      //     store.dispatch({
-      //       type: supersLocation.$.location_load,
-      //       payload: {
-      //         ...payload,
-      //         address: {
-      //           ...payload.address,
-      //           code: cityCode,
-      //         },
-      //       },
-      //     })
-      //     urlExcel()
-      //   })
-      // })
-
-
-      // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
-      //   store.dispatch(getPostInit()).then(() => {
-      //     store.dispatch(getBanner()).then(() => {
-      //       serverRender()
-      //     })
-      //   })
-      // } else {
-      //   serverRender()
-      // }
-    }
-  )
-}
+    })
+  
+  }
