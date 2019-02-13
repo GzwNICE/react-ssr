@@ -1,7 +1,8 @@
 import { $ as location$ } from '../../actions/supers/location'
 import {SAVE_USER_CITY_CODE} from '../../actions/userStatus'
-import {JOB_SEARCH_SAVE} from '../../actions/jobPage'
+import {JOB_SEARCH_SAVE,JOB_PAGE_CITY_CODE_SET} from '../../actions/jobPage'
 import {SEARCH_END_SAVE} from '../../actions/search'
+
 
 export * from './location'
 
@@ -13,6 +14,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    
     case location$.location_load:
       return {
         ...state,
@@ -20,6 +22,13 @@ export default (state = initialState, action) => {
         address: {
           ...initialState.address,
           ...action.payload.address,
+        },
+      }
+      case JOB_PAGE_CITY_CODE_SET:
+      return {
+        ...state,
+        address: {
+          code: action.area,
         },
       }
     case JOB_SEARCH_SAVE:

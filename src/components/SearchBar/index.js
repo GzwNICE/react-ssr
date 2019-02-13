@@ -10,11 +10,12 @@ import { SearchBar, Carousel } from 'antd-mobile'
 import SimpleItem from '../../inputs/SimpleItem'
 import { createForm } from 'rc-form'
 import { Link } from 'react-router-dom'
-import Area from '../../inputs/Area'
+import Area from '../../inputs/Area1'
 import searchIocn from '../../static/searchIocn.png'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
+import { changeAllCity } from '../../actions/home'
 // const tiggerCity = '城市'
 const triggerFrom = '触发来源'
 
@@ -23,6 +24,7 @@ const triggerFrom = '触发来源'
   userStatus: state.userStatus,
   supers: state.supers,
   banner: state.banner,
+  query: state.search.query,
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -49,7 +51,9 @@ class MySearchBar extends PureComponent {
   }
 
   goRegister = () => {
-    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '首页个人中心icon' })
+    window.zhuge.track('注册页面打开', {
+      [`${triggerFrom}`]: '首页个人中心icon',
+    })
   }
 
   componentDidMount() {
@@ -64,23 +68,48 @@ class MySearchBar extends PureComponent {
         ? sessionStorage.getItem('photo')
         : '',
     })
+    const { supers } = this.props
+    // this.props.dispatch(changeAllCity([]))
+    // setTimeout(()=>{
+    //   console.log(supers.location.address.code)
+
+    // },500)
+      // this.props.dispatch({
+      //   type: 'HOME_CHANGE_CITY',
+      //   area: supers.location.address.code,
+      // })
+    // const { supers } = this.props // userStatus
   }
 
   componentWillReceiveProps(nextProps) {
+    // const { query } = this.props // userStatus
+    
+    // console.log(nextProps.supers.location.address.code)
+
+    // if (
+    //   query.area.length === 0 &&
+    //   nextProps.supers.location.address.code.length > 0
+    // ) {
+  
+    // }
+   
     this.props.form.validateFields((err, values) => {
       if (err) return
-      if (values.areas && nextProps.userStatus.code !== values.areas) {
+ 
+      if (values.areas && nextProps.userStatus.code[0] !== values.areas[0]) {
+      
         this.props.onChangeCity && this.props.onChangeCity(values)
         this.props.dispatch({
           type: 'SEARCH_AREA_SINGLE',
           payload: values.areas,
         })
       }
+   
     })
   }
 
   render() {
-    const { form, supers } = this.props // userStatus
+    const { form, supers, query } = this.props // userStatus
     const { getFieldProps } = form
     let {
       callback = function() {},
@@ -96,11 +125,13 @@ class MySearchBar extends PureComponent {
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
           <div className={style.leftContant}>
-            <div >
+            <div>
               <Area
                 {...getFieldProps('areas', {
                   initialValue: supers.location.address.code,
                 })} // 触发form，调用onChangeCity
+                extra=""
+                format={this.formatArea}
               >
                 <SimpleItem arrow="horizontal" />
               </Area>
@@ -156,7 +187,6 @@ class MySearchBar extends PureComponent {
               src={is_login ? (photo ? photo : Userdefault) : personal}
               alt="img"
               className={style.personal}
-              
             />
           </Link>
         ) : null}

@@ -94,7 +94,10 @@ class HomePage extends PureComponent {
         code: values.areas,
       })
     )
-
+    this.props.dispatch({
+      type: 'JOB_PAGE_CITY_CODE_SET',
+      area: values.areas,
+    })
     /* 改变工作页面及搜索页面的this.props.query , jobPage*/
     this.props.dispatch(
       saveQuery({

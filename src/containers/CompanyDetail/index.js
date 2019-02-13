@@ -162,6 +162,8 @@ class CompanyDetail extends PureComponent {
     
     const id = this.props.match.params.company_id
     const { from } = queryString.parse(window.location.search)
+    console.log(window.location.search);
+    console.log(this.props.location.search);
     const label = this.props.company.label
     if (label.length === 0) {
       this.props.dispatch(
