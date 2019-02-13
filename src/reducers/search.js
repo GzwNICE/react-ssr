@@ -67,7 +67,6 @@ export default (state = initState, action) => {
       areaCode: action.payload,
     }
     case SEARCH_EMPTY_ALL:
-    console.log(state)
     return {
       ...state,
       hot: [],
