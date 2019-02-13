@@ -39,8 +39,8 @@ export default (req, res, next) => {
     data = data.replace(/<title>.*?<\/title>/g, title)
     data = data.replace('</head>', `${meta}</head>`)
     data = data.replace('window.__INITIAL_STATE__.wxconfig', config)
-    data = data.replace(/window.__INITIAL_STATE__.wxconfig.share/g,share.toAll)
-    data = data.replace(/window.__INITIAL_STATE__.wxconfig.toPeople/g,share.toPeople)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig.share',share.toAll)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig.toPeople',share.toPeople)
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__INITIAL_STATE__ = ${state}</script>`
@@ -130,6 +130,10 @@ export default (req, res, next) => {
                 config: JSON.stringify(
                   store.getState().auth.wxconfig || {}
                 ).replace(/</g, '\\u003c'),
+                // share:{
+                //   toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare(url)).replace(/</g, '\\u003c'),
+                //   toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare(url) ).replace(/</g, '\\u003c'),
+                // },
                 share:{
                   toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare(url)).replace(/</g, '\\u003c'),
                   toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare(url) ).replace(/</g, '\\u003c'),
@@ -185,6 +189,7 @@ export default (req, res, next) => {
           store
             .dispatch(positiondetail({ job_id: job[2], company_id: job[1], user_ticket: req.cookies.ticket}))
             .then(res => {
+              console.log('收藏：',res.data.is_favorited);
               res.type=1
               store.dispatch(wxconfig({url})).then(() => {
                 serverRender(res.data)
