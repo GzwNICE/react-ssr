@@ -23,7 +23,8 @@ import education from '../../static/education@3x.png'
 import jobType from '../../static/jobType@3x.png'
 import finish from '../../static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
-import {shareWeixin} from '../../helper/tool'
+// import {shareWeixin} from '../../helper/tool'
+import { shareToPeople, shareToAll } from '../../actions/auth'
 const triggerFrom = '触发来源'
 
 @connect(state => ({
@@ -161,7 +162,15 @@ class PositionDetail extends PureComponent {
           const page = this.props.location.pathname
           const pageScroll = this.props.pageScroll
           this.page.scrollTop = pageScroll[page] || 0
-          shareWeixin(1,data)
+          // shareWeixin(1,data)
+          let info = data.data || {}
+          let { company_name, job_name = '' } = info
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(shareToAll(job_name, company_name, 1)) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople(job_name, company_name, 1)
+            ) // 分享给朋友
+          })
         })
     }
   }
