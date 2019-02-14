@@ -30,30 +30,16 @@ module.exports = router
 
 var config = {
   've.sso': {
-    url: 'http://sso.veryeast.cn',
+    url: 'https://sso.veryeast.cn',
     filter: [
       $regexp(/.*\.veryeast\.cn$/),
     ],
   },
   've.mobile.interface': {
-    url: 'http://mobile.interface.veryeast.cn',
+    url: 'https://mobile-interface.veryeast.cn',
     filter: [
       'localhost',
       'm.veryeast.cn',
-    ],
-  },
-  've.m': {
-    url: 'http://m.veryeast.cn',
-    filter: [
-      'localhost',
-      'm.veryeast.cn',
-    ],
-  },
-  've.my': {
-    url: 'http://my.veryeast.cn',
-    filter: [
-      'localhost',
-      'my.veryeast.cn',
     ],
   },
 }
