@@ -227,7 +227,7 @@ class Resume extends PureComponent {
       }
       this.props.history.push(path)
     } else {
-      this.props.history.push('/home')
+      this.props.history.push('/')
     }
   }
   componentWillReceiveProps(next) {

@@ -95,7 +95,7 @@ class SearchUser extends Component {
             <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
-            <Link rel="stylesheet" to={`/home`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
+            <Link rel="stylesheet" to={`/`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
             <Link

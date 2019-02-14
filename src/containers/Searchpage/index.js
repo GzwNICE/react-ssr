@@ -83,7 +83,7 @@ class SearchPage extends PureComponent {
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
