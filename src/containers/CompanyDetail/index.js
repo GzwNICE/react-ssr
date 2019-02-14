@@ -203,8 +203,8 @@ class CompanyDetail extends PureComponent {
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
     })
   }

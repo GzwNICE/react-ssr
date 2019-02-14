@@ -67,11 +67,11 @@ class SearchUser extends Component {
     //   this.autoFocusInst.onFocus()
     // }
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
-      photo: sessionStorage.getItem('photo')
-        ? sessionStorage.getItem('photo')
+      photo: localStorage.getItem('photo')
+        ? localStorage.getItem('photo')
         : '',
     })
   }

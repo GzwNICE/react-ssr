@@ -26,7 +26,7 @@ class SelectConcern extends PureComponent {
   }
 
   componentDidMount(){
-    if(!sessionStorage.getItem('is_login')){
+    if(!localStorage.getItem('is_login')){
       this.props.history.push(`/user/register`)
     }
   }

@@ -228,8 +228,8 @@ export default class CompanyArea extends Component {
         })
     }
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
     })
   }
