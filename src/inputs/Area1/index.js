@@ -205,7 +205,6 @@ class ComplexSelView extends ComplexFormField {
       hotData,
       selectedHight,
     } = this.state
-    // console.log(value)
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
         if (
