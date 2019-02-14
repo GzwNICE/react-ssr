@@ -494,7 +494,6 @@ class SearchEnd extends PureComponent {
         this.getQuery.area,
       ...queryMoreOnly,
     }
-    console.log(allQuery.area)
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -519,7 +518,7 @@ class SearchEnd extends PureComponent {
     // 记录地区
     const areas_index = option && option.areas_index ? option.areas_index : {}
     let areaVal = areas_index[query.area[0]]
-    areaVal = areaVal ? `${areaVal}-` : null
+    areaVal = areaVal ? `${areaVal}` : null
     const more = query.more ? query.more : {}
     let company_industry
     if (more.company_industry) {
@@ -528,9 +527,9 @@ class SearchEnd extends PureComponent {
       }`
     }
     const defaultValue = this.state.defaultValue
-      ? `-${this.state.defaultValue}`
+      ? `${this.state.defaultValue}`
       : null
-    let salary = this.props.salaryString ? `-${this.props.salaryString}` : null
+    let salary = this.props.salaryString ? `${this.props.salaryString}` : null
 
     if (salary && salary.indexOf('不限') !== -1) {
       salary = null
@@ -543,7 +542,20 @@ class SearchEnd extends PureComponent {
       }
     }
     const { initLoading } = this.state
-    console.log(initLoading)
+    let arr = []
+    if (areaVal) {
+      arr.push(areaVal)
+    }
+    if (company_industry) {
+      arr.push(company_industry)
+    }
+    if (defaultValue) {
+      arr.push(defaultValue)
+    }
+    if (salary) {
+      arr.push(salary)
+    }
+    let str = arr.join('-')
     if (initLoading) {
       return null
     } else {
@@ -551,10 +563,7 @@ class SearchEnd extends PureComponent {
         <div className={style.vacant}>
           <img src={vacantIcon} />
           <p>
-            【{areaVal}
-            {company_industry}
-            {defaultValue}
-            {salary}
+            【{str}
             {ellipsis}】
           </p>
           <p>暂无职位，可以切换条件试试哦~</p>
