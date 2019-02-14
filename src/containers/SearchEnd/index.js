@@ -98,7 +98,6 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    pageFirst = false
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -677,6 +676,7 @@ class SearchEnd extends PureComponent {
     if (areaParms&&pageFirst) {
       query.area = [areaParms]
     }
+    // console.log(query.area)
     query.more = { ...query.more, ...queryMore }
 
     delete query.keyword
