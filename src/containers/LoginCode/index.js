@@ -259,6 +259,7 @@ class LoginCode extends PureComponent {
               clear
               placeholder="请输入常用手机号"
               maxLength="11"
+              type="number"
             >
               <County setSet={this.setSst.bind(this)} />
             </InputItem>
@@ -271,6 +272,7 @@ class LoginCode extends PureComponent {
               className={`${style.inputHei} ${style.massageLeft}`}
               clear
               placeholder="请输入短信验证码"
+              type="number"
             />
             <div
               onClick={this.getCode}

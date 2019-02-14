@@ -221,7 +221,7 @@ class PositionDetail extends PureComponent {
                 {data.work_place ? (
                   <li
                     style={{
-                      background: `url(${area}) no-repeat left center/0.12rem`,
+                      background: `url(${area}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.work_place}
@@ -231,7 +231,7 @@ class PositionDetail extends PureComponent {
                 {data.exp ? (
                   <li
                     style={{
-                      background: `url(${experience}) no-repeat left center/0.14rem`,
+                      background: `url(${experience}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.exp}
@@ -241,7 +241,7 @@ class PositionDetail extends PureComponent {
                 {data.education ? (
                   <li
                     style={{
-                      background: `url(${education}) no-repeat left center/0.14rem`,
+                      background: `url(${education}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.education}
@@ -251,7 +251,7 @@ class PositionDetail extends PureComponent {
                 {data.room_board ? (
                   <li
                     style={{
-                      background: `url(${jobType}) no-repeat left center/0.14rem`,
+                      background: `url(${jobType}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.room_board}
