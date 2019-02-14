@@ -247,7 +247,7 @@ class SearchEnd extends PureComponent {
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -506,11 +506,12 @@ class SearchEnd extends PureComponent {
   noVacancies = query => {
     // 记录地区
     const areas_index = option && option.areas_index ? option.areas_index : {}
-    const areaVal = areas_index[query.area[0]]
+    let areaVal = areas_index[query.area[0]]
+    areaVal = areaVal ? `-${areaVal}` : null
     const more = query.more ? query.more : {}
     let company_industry
     if (more.company_industry) {
-      company_industry = `-${
+      company_industry = `${
         option.opts_company_industry_all_index[more.company_industry]
       }`
     }
@@ -591,9 +592,6 @@ class SearchEnd extends PureComponent {
     const scrollTop = nextProps.srearchData.scrollTop
     
     if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
-    //   console.log(this.props.supers.location.address.code[0])
-    // console.log(nextProps.supers.location.address.code[0])
-      // alert(11)
       const allQuery = this.handleSearchQuery()
       const params = {
         ...allQuery,

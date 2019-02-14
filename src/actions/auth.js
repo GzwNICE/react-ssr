@@ -1,12 +1,10 @@
 import store from 'store'
 import Cookies from 'js-cookie'
 import { pipeline, toRealUrl, parseBody } from '../helper/fetching'
-
-import axios from "axios"
+import axios from 'axios'
 import { singleApi } from '../helper/reduxFetch'
 
 export const WEIXIN_SHARE_INIT = 'WEIXIN_SHARE_INIT' // 微信分享config
-
 const SHAREURLPOST = ':ve.mobile.interface/h5-new/company-mobile-index/share'
 
 /**
@@ -19,7 +17,7 @@ const SHAREURLPOST = ':ve.mobile.interface/h5-new/company-mobile-index/share'
     })
  */
 // :ve.mobile.interface/user/login
-export const login = (params) => {
+export const login = params => {
   return pipeline(':ve.mobile.interface/user/login', params).then(payload => {
     if (payload.status !== 0) {
       store.set('m:auth', payload.data)
@@ -38,15 +36,17 @@ export const login = (params) => {
  platform: 2, 平台
  }
 * */
-export const loginCode = (params) => {
-  return pipeline(':ve.mobile.interface/user/code_login', params).then(payload => {
-    if (payload.status !== 0) {
-      store.set('m:auth', payload.data)
-      Cookies.set('ticket', payload.data.user_ticket)
-      return payload.data
+export const loginCode = params => {
+  return pipeline(':ve.mobile.interface/user/code_login', params).then(
+    payload => {
+      if (payload.status !== 0) {
+        store.set('m:auth', payload.data)
+        Cookies.set('ticket', payload.data.user_ticket)
+        return payload.data
+      }
+      throw payload
     }
-    throw payload
-  })
+  )
 }
 
 /*
@@ -57,7 +57,7 @@ export const loginCode = (params) => {
  code: '', 	短信验证码
  }
  * */
-export const findPassword = (params) => {
+export const findPassword = params => {
   return pipeline(':ve.mobile.interface/user/find', params).then(payload => {
     if (payload.status !== 0) {
       store.set('m:auth', payload.data)
@@ -68,11 +68,10 @@ export const findPassword = (params) => {
   })
 }
 
-
 /*
 登出
 */
-export const logout = (params) => {
+export const logout = params => {
   return pipeline(':ve.mobile.interface/user/logout', params).then(payload => {
     if (payload.status !== 0) {
       store.remove('m:auth')
@@ -91,34 +90,24 @@ export const logout = (params) => {
  return_type: 'json'
 */
 
-export const register = (params) => {
-  return pipeline(':ve.mobile.interface/user/register', params).then(payload => {
-    if (payload.status !== 0) {
-      store.set('m:auth', payload.data)
-      Cookies.set('ticket', payload.data.user_ticket)
-      return payload
+export const register = params => {
+  return pipeline(':ve.mobile.interface/user/register', params).then(
+    payload => {
+      if (payload.status !== 0) {
+        store.set('m:auth', payload.data)
+        Cookies.set('ticket', payload.data.user_ticket)
+        return payload
+      }
+      throw payload
     }
-    throw payload
-  })
+  )
 }
 
 /**
  * 获取手机验证码
  */
-export const mobile = (params) => {
+export const mobile = params => {
   const key = Cookies.get('captcha_key')
-  // return fetch(toRealUrl(':ve.sso/user/mobile_code'), {
-  //   method: 'post',
-  //   credentials: 'include',
-  //   body: parseBody({
-  //     appid: 1, // 1: 最佳东方；2：先之； sms_type: 1,  //	1：短信登录；2：手机注册；
-  //     return_type: 'json', // json/callback_json
-  //     captcha_key: key,
-  //     ...params,
-  //   }),
-  // }).then(res => {
-  //   console.log(res)
-  // })
   return axios({
     url: toRealUrl(':ve.sso/user/mobile_code'),
     credentials: 'include',
@@ -135,29 +124,22 @@ export const mobile = (params) => {
 /*
 重置手机密码
 */
-export const changePassword = (params) => {
-  return pipeline(':ve.mobile.interface/user/rest_password', params).then(payload => {
-    if (payload.status !== 0) {
-      return payload
+export const changePassword = params => {
+  return pipeline(':ve.mobile.interface/user/rest_password', params).then(
+    payload => {
+      if (payload.status !== 0) {
+        return payload
+      }
+      throw payload
     }
-    throw payload
-  })
+  )
 }
 
 /*
 绑定手机
 * */
 
-export const bindMobile = (params) => {
-  // return fetch(toRealUrl(':ve.m/client-service/api/mobile'), {
-  //   method: 'post',
-  //   body: parseBody({
-  //     ...params,
-  //   }),
-  // }).then(res => res.json())
-  // http://m.veryeast.cn/s/ve.mobile.interface/client-service/api/mobile
-  // :ve.m/client-service/api/mobile
-  // :ve.mobile.interface/client-service/api/mobile
+export const bindMobile = params => {
   return axios({
     url: toRealUrl(':ve.mobile.interface/client-service/api/mobile'),
     credentials: 'include',
@@ -172,51 +154,21 @@ export const bindMobile = (params) => {
 绑定邮箱
 */
 
-export const handleBindEmail = (params) => {
-  // return fetch(toRealUrl(':ve.sso/user/email_authenticate'), {
-  //   method: 'post',
-  //   body: parseBody({
-  //     return_type: 'json',
-  //     ...params,
-  //   }),
-  // }).then(res => res.json())
+export const handleBindEmail = params => {
   return axios({
     url: toRealUrl(':ve.sso/user/email_authenticate'),
     credentials: 'include',
     method: 'post',
-    data:  parseBody({
+    data: parseBody({
       return_type: 'json',
       ...params,
     }),
   }).then(res => res.data)
 }
 
-/**
- * 获取图片验证码
- */
-// export const captcha = () => {
-//   return fetch(toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`), {
-//     credentials: 'include',
-//   }).then(res => {
-//     return res.blob()
-//   }).then(blob => {
-//     return new Promise((resolve, reject) => {
-//       let s = new FileReader()
-//       s.onload = function() {
-//         resolve(s.result)
-//       }
-//       s.readAsDataURL(blob)
-//     })
-//   })
-  // return axios({
-  //   url: toRealUrl(`:ve.sso/user/captcha?m=client&t=${new Date().getTime()}`),
-  //   credentials: 'include',
-  // }).then(res => res.data)
-// }
-
 /*
-* 获取微信分享配置信息
-* */
+ * 获取微信分享配置信息
+ * */
 export const wxconfig = singleApi({
   url: SHAREURLPOST,
   action: (args, json) => {
@@ -228,47 +180,42 @@ export const wxconfig = singleApi({
   },
 })
 
-// export const wxconfig = (url) => {
-//   return fetch('https://activity.veryeast.cn/wechat/get-sign-package?url=${url}').then(res => {
-//     return res.json()
-//   }).then(data => {
-//     if(data.status === 1) {
-//       return data
-//     }
-//     throw  data
-//   })
-// }
-
-export const  shareToPeople = (job_name, company_name, type,link) => { // 给个人
+export const shareToPeople = (job_name, company_name, type, link) => {
+  // 给个人
   return {
     title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
-    desc: type === 1  ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~` : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
+    desc:
+      type === 1
+        ? `${company_name}正在招聘人才，机会特别好，推荐你去试试~`
+        : `我们正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
     link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
+    imgUrl: 'https://f3-v.veimg.cn/m/v3/logo.jpg',
   }
 }
 
-export const  shareToAll = (job_name, company_name, type,link) => { //所有人
+export const shareToAll = (job_name, company_name, type, link) => {
+  //所有人
   return {
-    title: type === 1 ? `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~` : `${company_name}正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
+    title:
+      type === 1
+        ? `职位推荐：${company_name}正在招聘${job_name}，推荐你去试试~`
+        : `${company_name}正在最佳东方上招募人才，不要错过哦，赶快进来看看吧！`,
     link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
+    imgUrl: 'https://f3-v.veimg.cn/m/v3/logo.jpg',
   }
 }
 
-export const  appShare = (link) => { //全站分享
+export const appShare = link => {
+  //全站分享
   return {
     title: `【最佳东方】旅游服务业的招聘求职平台`,
     desc: `平台入驻企业已累计达6w+家，涵盖酒店、餐饮、公寓、海外、邮轮、物业、航空、景区、养老、地产等领域。`,
     link: link || window.location.href,
-    imgUrl: "https://f3-v.veimg.cn/m/v3/logo.jpg",
+    imgUrl: 'https://f3-v.veimg.cn/m/v3/logo.jpg',
   }
 }
 
-
-
-
-export const wx_config = (wechat_config) => {
+export const wx_config = wechat_config => {
   return {
     debug: false,
     appId: wechat_config.appId,
