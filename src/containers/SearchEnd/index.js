@@ -191,6 +191,7 @@ class SearchEnd extends PureComponent {
       this.setState({
         showSelectP: false,
       })
+      pageFirst = false // 页面首次进入或者加载
     }, 2500)
     this.setState({
       is_login: sessionStorage.getItem('is_login')
@@ -674,8 +675,10 @@ class SearchEnd extends PureComponent {
     }
     const { areaParms } = queryString.parse(this.props.history.location.search)
     if (areaParms&&pageFirst) {
+      console.log(1111)
       query.area = [areaParms]
     }
+    console.log(query.area)
     query.more = { ...queryMore, ...query.more }
 
     delete query.keyword
