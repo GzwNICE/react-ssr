@@ -171,7 +171,7 @@ export default (req, res, next) => {
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
-
+      
       let com = {
         key: '',
         value: ''
@@ -241,6 +241,7 @@ export default (req, res, next) => {
             })
         }
       }
+      
       if (homePage.exec(req.url)) {
         // 首页
         render = false
