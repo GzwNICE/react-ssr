@@ -180,7 +180,7 @@ export const wxconfig = singleApi({
   },
 })
 
-export const shareToPeople = (job_name, company_name, type, link) => {
+·export const shareToPeople = (job_name, company_name, type, link) => {
   // 给个人
   return {
     title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
@@ -217,7 +217,7 @@ export const appShare = link => {
 
 export const wx_config = wechat_config => {
   return {
-    debug: true,
+    debug: false,
     appId: wechat_config.appId,
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
