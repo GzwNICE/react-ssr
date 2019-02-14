@@ -16,6 +16,7 @@ import {
   SEARCH_SALARYRANGE,
   SEARCH_EMPTY_ALL,
   SEARCH_AREA_SINGLE,
+  SEARCH_AREA_SELECTED_CITY,
 } from '../actions/search'
 
 import {
@@ -57,10 +58,16 @@ const initState = {
   searchKeyword: '',
   areaCode: [],  // searchPage页city code
   toogleSet: false,
+  selectProjectFirst: true,
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case SEARCH_AREA_SELECTED_CITY:
+    return {
+      ...state,
+      selectProjectFirst: action.payload,
+    }
     case SEARCH_AREA_SINGLE:
     return {
       ...state,
@@ -97,6 +104,7 @@ export default (state = initState, action) => {
         rangeTitle: '薪资',
       },
       searchState: false,
+      selectProjectFirst: true,
     }
     case SEARCH_SALARYRANGE:
     return {
@@ -260,6 +268,7 @@ export default (state = initState, action) => {
           rangeTitle: '薪资',
         },
         searchState: false,
+        selectProjectFirst: true,
       }
     default:
       return state

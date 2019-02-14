@@ -30,7 +30,7 @@ class CompanyList extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
-
+    console.log(this.props.list)
     this.state = {
       dataSource: this.props.searchEnd
         ? dataSource.cloneWithRows(this.props.searchList)

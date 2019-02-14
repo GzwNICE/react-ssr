@@ -1,6 +1,10 @@
 /*!
  * ****************************************
+<<<<<<< HEAD:build/static/js/54.3b52d07d.chunk.js
  * hash       : 9a72a32db890da9ff91e
+=======
+ * hash       : f4dab89c2791db0b1c1e
+>>>>>>> test:build/static/js/54.840f82e8.chunk.js
  * name       : 54
  * file       : static/js/54.3b52d07d.chunk.js
  * author     : 张骥-Tom,高志文-Remady

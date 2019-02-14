@@ -119,7 +119,7 @@ class UserPage extends PureComponent {
       this.props.history.push(url)
     } else {
       this.props.history.push(
-        '/register?redirect=' + this.props.history.location.pathname,
+        '/user/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }
       )
     }
@@ -167,7 +167,7 @@ class UserPage extends PureComponent {
       this.props.dispatch(getUserStatus()).then(json => {
         if (json.errCode === 2002) {
           this.props.history.push(
-            '/register?redirect=' + this.props.history.location.pathname,
+            '/user/register?redirect=' + this.props.history.location.pathname,
             { key: '我的' }
           )
         }
