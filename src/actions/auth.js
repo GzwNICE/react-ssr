@@ -180,7 +180,7 @@ export const wxconfig = singleApi({
   },
 })
 
-export const shareToPeople = (job_name, company_name, type, link) => {
+export const shareToAll = (job_name, company_name, type, link) => {
   // 给个人
   return {
     title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
@@ -193,7 +193,7 @@ export const shareToPeople = (job_name, company_name, type, link) => {
   }
 }
 
-export const shareToAll = (job_name, company_name, type, link) => {
+export const shareToPeople = (job_name, company_name, type, link) => {
   //所有人
   return {
     title:
@@ -223,5 +223,6 @@ export const wx_config = wechat_config => {
     nonceStr: wechat_config.nonceStr,
     signature: wechat_config.signature,
     jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'],
+    
   }
 }
