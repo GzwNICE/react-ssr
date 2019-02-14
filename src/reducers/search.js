@@ -64,8 +64,6 @@ const initState = {
 export default (state = initState, action) => {
   switch (action.type) {
     case SEARCH_AREA_SELECTED_CITY:
-    // alert(1111)
-    console.log(action)
     return {
       ...state,
       selectProjectFirst: action.payload,
