@@ -13,7 +13,7 @@ import CompanyDuce from './CompanyDuce'
 import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
-import missing from '@static/missing.png'
+import missing from '../../static/missing.png'
 import {
   companydetail,
   companyList,
@@ -21,7 +21,7 @@ import {
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
 import { shareToPeople, shareToAll } from '../../actions/auth'
-import detailLogo from '@static/detailLogo.png'
+import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
 const triggerFrom = '触发来源'
@@ -184,10 +184,10 @@ class CompanyDetail extends PureComponent {
           let info = data.data || {}
           let { company_name, job_name = '' } = info
           window.wx.ready(() => {
-            window.wx.updateTimelineShareData(
+            window.wx.onMenuShareTimeline(
               shareToAll(job_name, company_name, 2)
             ) // 分享到朋友圈
-            window.wx.updateAppMessageShareData(
+            window.wx.onMenuShareAppMessage(
               shareToPeople(job_name, company_name, 2)
             ) // 分享给朋友
           })

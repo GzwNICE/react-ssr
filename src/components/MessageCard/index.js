@@ -1,7 +1,7 @@
 import React,{PureComponent} from 'react'
 import style from './style.less'
 import PropTypes from 'prop-types'
-import headimg from '@static/headimg@3x.png'
+import headimg from '../../static/headimg@3x.png'
 
 class MessageCard extends PureComponent {
   static propTypes = {

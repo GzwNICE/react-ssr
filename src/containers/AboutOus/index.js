@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 // import {connect} from 'react-redux'
 import { NavBar } from 'antd-mobile'
 import style from './style.less'
-import logo from '@static/logo.png'
+import logo from '../../static/logo.png'
 // import LisetItem from '../../components/ListItem'
 // import { NavBar, Toast } from 'antd-mobile'
 
