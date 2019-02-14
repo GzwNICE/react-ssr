@@ -1,7 +1,7 @@
 import React from 'react'
 import style from '../style.less'
-import Rectangle from '@static/Rectangle@3x.png'
-import share from '@static/share@3x.png'
+import Rectangle from '../../../static/Rectangle@3x.png'
+import share from '../../../static/share@3x.png'
 
 const HotelEntry = (props) => {
   const company = (props.position && props.position.company_detail )? props.position.company_detail : {}

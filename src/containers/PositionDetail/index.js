@@ -8,18 +8,18 @@ import queryString from 'query-string'
 import ShowArticle from './ShowArticle'
 import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
-import site from '@static/area@3x.png'
-import dim from '@static/dim.png'
+import site from '../../static/area@3x.png'
+import dim from '../../static/dim.png'
 import { Helmet } from 'react-helmet'
 import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
 import SearchUser from '../../components/SearchBar/SearchUser'
-import area from '@static/area@3x.png'
-import experience from '@static/experience@3x.png'
-import education from '@static/education@3x.png'
-import jobType from '@static/jobType@3x.png'
-import finish from '@static/finish.png'
+import area from '../../static/area@3x.png'
+import experience from '../../static/experience@3x.png'
+import education from '../../static/education@3x.png'
+import jobType from '../../static/jobType@3x.png'
+import finish from '../../static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
 import { shareToPeople, shareToAll } from '../../actions/auth'
 const triggerFrom = '触发来源'
@@ -134,10 +134,10 @@ class PositionDetail extends PureComponent {
           let info = data.data || {}
           let { company_name, job_name = '' } = info
           window.wx.ready(() => {
-            window.wx.updateTimelineShareData(
+            window.wx.onMenuShareTimeline(
               shareToAll(job_name, company_name, 1)
             ) // 分享到朋友圈
-            window.wx.updateAppMessageShareData(
+            window.wx.onMenuShareAppMessage(
               shareToPeople(job_name, company_name, 1)
             ) // 分享给朋友
           })

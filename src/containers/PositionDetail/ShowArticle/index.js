@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import selesct from '@static/select.png'
+// import selesct from '../../static/select.png'
 import style from '../style.less'
 
 class ShowArticle extends PureComponent {

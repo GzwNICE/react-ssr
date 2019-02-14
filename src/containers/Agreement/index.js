@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import back from '@static/back.png'
+import back from '../../static/back.png'
 import style from './style.less'
 
 export default class Agreement extends Component {
