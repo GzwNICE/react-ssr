@@ -17,6 +17,8 @@ import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
 import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
+import BorderBottomLine from '../../components/BorderBottomLine'
+
 const triggerType = '类型'
 const triggerFrom = '触发来源'
 
@@ -275,7 +277,7 @@ class Register extends PureComponent {
         <div className={style.registerCent}>
           <div className={style.title}>注册最佳东方</div>
           <div className={style.forms}>
-            <div className={style.phoneCode}>
+            <div>
               <InputItem
                 {...getFieldProps('number', { onChange: this.onPhoneNumber })}
                 className={style.inputHei}
@@ -286,6 +288,7 @@ class Register extends PureComponent {
               >
                 <County setSet={this.setSst.bind(this)} />
               </InputItem>
+              <BorderBottomLine/>
             </div>
 
             <div className={style.massageCode}>
@@ -310,6 +313,8 @@ class Register extends PureComponent {
                 {this.state.tipFont}
               </div>
             </div>
+            <BorderBottomLine/>
+
           </div>
           <div onClick={this.onRegister} className={style.subBtn}>
             <a className={this.state.disabled ? null : `${style.disabled}`}>

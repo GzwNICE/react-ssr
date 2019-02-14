@@ -98,7 +98,6 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    pageFirst = false
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -192,6 +191,7 @@ class SearchEnd extends PureComponent {
       this.setState({
         showSelectP: false,
       })
+      pageFirst = false // 页面首次进入或者加载
     }, 2500)
     this.setState({
       is_login: sessionStorage.getItem('is_login')
@@ -238,19 +238,9 @@ class SearchEnd extends PureComponent {
     }
   }
   goBack = () => {
-    // const { redirect } = queryString.parse(this.props.history.location.search)
-    // // console.log(redirect)
-    // this.props.dispatch(deleteList())
-
-    // if (redirect) {
-    //   // window.location.href = redirect
-    //   this.props.history.push(redirect)
-    // }
     this.props.dispatch(deleteList())
     this.scrollTop = 0
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    // // this.props.history.replace('/search')
-    // this.props.history.goBack()
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
@@ -340,7 +330,6 @@ class SearchEnd extends PureComponent {
         val += positions_index[item] + ';'
         return null
       })
-      // console.log(value.position)
       window.zhuge.track('搜索无结果', { [`${triggerPost}`]: val })
     }
     if (value.area) {
@@ -351,15 +340,6 @@ class SearchEnd extends PureComponent {
         type: 'JOB_PAGE_CITY_CODE_SET',
         area: value.area,
       })
-      // const cityPayload = value.area[0] ? [value.area[0]] : ['']
-      // this.props.dispatch({
-      //   type: 'HOME_CHANGE_CITY',
-      //   area:  cityPayload,
-      // })
-      // setTimeout(() => {
-
-      // }, 1500)
-
       window.zhuge.track('城市筛选', { [`${tiggerCity}`]: val })
     }
     if (value.salary) {
@@ -695,9 +675,11 @@ class SearchEnd extends PureComponent {
     }
     const { areaParms } = queryString.parse(this.props.history.location.search)
     if (areaParms&&pageFirst) {
+      console.log(1111)
       query.area = [areaParms]
     }
-    query.more = { ...query.more, ...queryMore }
+    console.log(query.area)
+    query.more = { ...queryMore, ...query.more }
 
     delete query.keyword
     delete query.isUsed
