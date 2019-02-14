@@ -15,8 +15,6 @@ import searchIocn from '../../static/searchIocn.png'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
-import { changeAllCity } from '../../actions/home'
-// const tiggerCity = '城市'
 const triggerFrom = '触发来源'
 
 @withRouter

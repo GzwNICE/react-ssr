@@ -2,8 +2,6 @@
  * Created by huangchao on 2017/10/10.
  */
 import React, { PureComponent } from 'react'
-import { Modal } from 'antd-mobile'
-import Clipboard from 'clipboard'
 import { connect } from 'react-redux'
 import style from './style.less'
 import queryString from 'query-string'
@@ -23,7 +21,6 @@ import education from '../../static/education@3x.png'
 import jobType from '../../static/jobType@3x.png'
 import finish from '../../static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
-// import {shareWeixin} from '../../helper/tool'
 import { shareToPeople, shareToAll } from '../../actions/auth'
 const triggerFrom = '触发来源'
 
@@ -40,29 +37,7 @@ class PositionDetail extends PureComponent {
       searchShow: false, //顶部搜索框默认隐藏
     }
   }
-  share = () => {
-    const shareLink = window.location.href
-    // const shareImg = this.props.user.portrait_url
-    if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) {
-      // uc  浏览器
-      const shareArgs = [
-        '简历分享',
-        '快来看看我的简历吧',
-        shareLink,
-        '',
-        '',
-        '\n@' + window.location.host,
-        '',
-      ]
-      return window.ucbrowser.web_share(...shareArgs)
-    }
-    Modal.alert(
-      Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
-      <p style={{ wordWrap: 'break-word' }}>{shareLink}</p>,
-      [{ text: '确定', style: 'default' }]
-    )
-    // window.zhuge.track('分享')
-  }
+  
 
   nextPost = (job_id, c_userid) => {
     // window.zhuge.track('其他职位推荐')
@@ -79,19 +54,11 @@ class PositionDetail extends PureComponent {
 
   //返回上一页，没有上一页返回到首页
   whereWillIGo = () => {
-    // const { pathSearch } = queryString.parse(window.location.search)
-    // if (pathSearch) {
-    //   this.props.history.go(-1)
-    // } else {
-    //   this.props.history.length === 2 || this.props.history.length === 1
-    //     ? this.props.history.push('/home')
-    //     : this.props.history.go(-1)
-    // }
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -162,11 +129,13 @@ class PositionDetail extends PureComponent {
           const page = this.props.location.pathname
           const pageScroll = this.props.pageScroll
           this.page.scrollTop = pageScroll[page] || 0
-          // shareWeixin(1,data)
+
           let info = data.data || {}
           let { company_name, job_name = '' } = info
           window.wx.ready(() => {
-            window.wx.updateTimelineShareData(shareToAll(job_name, company_name, 1)) // 分享到朋友圈
+            window.wx.updateTimelineShareData(
+              shareToAll(job_name, company_name, 1)
+            ) // 分享到朋友圈
             window.wx.updateAppMessageShareData(
               shareToPeople(job_name, company_name, 1)
             ) // 分享给朋友

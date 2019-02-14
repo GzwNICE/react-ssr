@@ -96,7 +96,7 @@ class HotTrade extends Component {
                       rel="stylesheet"
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
-                      }`}
+                      }&areaParms=${this.props.supers.location.address.code}`}
                       onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}

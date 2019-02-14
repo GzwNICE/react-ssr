@@ -1,7 +1,7 @@
 import Loadable from "react-loadable";
 import React from 'react'
 // import path from 'path'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 const styleObj = {
   height: '100%',
   width: '100%',
@@ -20,10 +20,6 @@ const BindExistAccount = Loadable({
 });
 const ActivityRegister = Loadable({
   loader: () => import("./containers/ActivityRegister"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
-const Home = Loadable({
-  loader: () => import("./containers/HomePage"),
   loading: () => loading, // 自定义的Loading动画组件
 });
 const JobPage = Loadable({
@@ -260,7 +256,7 @@ const routes = [
     component: BindExistAccount,
   },
   {
-    path: '/bloc/:c_userid',
+    path: '/bloc/:c_userid(\\d+)',
     exact: true,
     component: BlocPage,
   },
@@ -268,11 +264,6 @@ const routes = [
     path: '/activityRegister',
     exact: true,
     component: ActivityRegister,
-  },
-  {
-    path: '/home',
-    exact: true,
-    component: Home,
   },
   {
     path: '/job',
@@ -531,12 +522,12 @@ const routes = [
     component: EmailBind,
   },
   {
-    path: '/:company_id/:job_id',
+    path: '/:company_id(\\d+)/:job_id(\\d+)',
     exact: true,
     component: PositionDetail,
   },
   {
-    path: '/:company_id',
+    path: '/:company_id(\\d+)',
     exact: true,
     component: CompanyDetail,
   },
@@ -545,15 +536,14 @@ const routes = [
     exact: true,
     component: HomePage,
   },
-  
 ]
 export default (
   <Switch>
-    <Redirect exact from="/" to="/home" />
     {routes.map(({ path, exact, component: Component, ...rest }) => (
       <Route key={path} path={path} exact={exact} render={(props) => (
         <Component {...props} {...rest} />
       )} />
     ))}
+    <Route component={HomePage}/>
   </Switch>
 )
