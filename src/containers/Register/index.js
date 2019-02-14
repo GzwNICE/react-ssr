@@ -252,7 +252,7 @@ class Register extends PureComponent {
     //     触发来源: key || '其他来源',
     //   })
     // }
-    const login = sessionStorage.getItem('is_login')
+    const login = localStorage.getItem('is_login')
     if (login) {
       this.props.history.push('/user')
     }

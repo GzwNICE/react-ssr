@@ -48,6 +48,7 @@ class ComplexSelView extends ComplexFormField {
     this.setState({
       optionsSubChil: hot,
       hotData,
+      value: this.props.value,
     })
   }
   format(value = []) {

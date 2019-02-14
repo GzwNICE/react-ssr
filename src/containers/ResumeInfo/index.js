@@ -217,7 +217,6 @@ class ResumeInfo extends PureComponent {
     const { getFieldProps } = form
     const { goBackModalVisible } = this.state
     const { current_location } = this.props.form.getFieldsValue()
-    // console.log(this.props.form.getFieldsValue())
     const mobileStatus = _.toInteger(resume.is_phone_bind) ? (
       <span>
         <span className={style.bind} style={{ color: '#FF4F00' }}>

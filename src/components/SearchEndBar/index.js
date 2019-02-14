@@ -21,11 +21,11 @@ class SearchEndBar extends PureComponent {
     photo: '',
   }
   componentDidMount() {
-    let is_login = sessionStorage.getItem('is_login')
-      ? sessionStorage.getItem('is_login')
+    let is_login = localStorage.getItem('is_login')
+      ? localStorage.getItem('is_login')
       : ''
-    let photo = sessionStorage.getItem('photo')
-      ? sessionStorage.getItem('photo')
+    let photo = localStorage.getItem('photo')
+      ? localStorage.getItem('photo')
       : ''
     this.setState({
       is_login,
