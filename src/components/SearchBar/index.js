@@ -66,7 +66,7 @@ class MySearchBar extends PureComponent {
         ? sessionStorage.getItem('photo')
         : '',
     })
-    const { supers } = this.props
+    // const { supers } = this.props
     // this.props.dispatch(changeAllCity([]))
     // setTimeout(()=>{
     //   console.log(supers.location.address.code)
@@ -94,7 +94,7 @@ class MySearchBar extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
  
-      if (values.areas && nextProps.userStatus.code[0] !== values.areas[0]) {
+      if (values.areas && nextProps.userStatus.code && nextProps.userStatus.code[0] !== values.areas[0]) {
       
         this.props.onChangeCity && this.props.onChangeCity(values)
         this.props.dispatch({
