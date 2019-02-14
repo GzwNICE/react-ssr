@@ -217,7 +217,7 @@ export const appShare = link => {
 
 export const wx_config = wechat_config => {
   return {
-    debug: false,
+    debug: true,
     appId: wechat_config.appId,
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
