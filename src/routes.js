@@ -22,10 +22,6 @@ const ActivityRegister = Loadable({
   loader: () => import("./containers/ActivityRegister"),
   loading: () => loading, // 自定义的Loading动画组件
 });
-const Home = Loadable({
-  loader: () => import("./containers/HomePage"),
-  loading: () => loading, // 自定义的Loading动画组件
-});
 const JobPage = Loadable({
   loader: () => import("./containers/JobPage"),
   loading: () => loading, // 自定义的Loading动画组件
@@ -268,11 +264,6 @@ const routes = [
     path: '/activityRegister',
     exact: true,
     component: ActivityRegister,
-  },
-  {
-    path: '/home',
-    exact: true,
-    component: Home,
   },
   {
     path: '/job',
@@ -549,7 +540,7 @@ const routes = [
 ]
 export default (
   <Switch>
-    <Redirect exact from="/" to="/home" />
+    <Redirect exact from="/" to="/" />
     {routes.map(({ path, exact, component: Component, ...rest }) => (
       <Route key={path} path={path} exact={exact} render={(props) => (
         <Component {...props} {...rest} />

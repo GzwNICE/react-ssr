@@ -7,14 +7,10 @@ import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { Frontload, frontloadServerRender } from 'react-frontload'
-// import { LocaleProvider } from 'antd'
-// import zh_CN from 'antd/lib/locale-provider/zh_CN'
-import Cookies from 'js-cookie'
 import '../src/style/theme.less'
 import '../src/style/style.less'
 import createStore from '../src/store'
 import routes from '../src/routes'
-// import Root from '../src/pages/Root'
 import manifest from '../build/asset-manifest.json'
 import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
@@ -28,12 +24,11 @@ import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
 import { blocList, blocCategory } from '../src/actions/bloc'
 import pathToRegexp from 'path-to-regexp'
-import { getSearchListInit } from '../src/actions/search'
-// import * as option from '../src/actions/option'
-// import * as supersLocation from '../src/actions/supers/location'
+import {
+  getSearchListInit,
+} from '../src/actions/search'
 
 export default (req, res, next) => {
-  console.log(req.url)
   const injectHTML = (
     data,
     { html, title, meta, body, scripts, state, config, share }
@@ -117,11 +112,9 @@ export default (req, res, next) => {
 
               // NOTE: Disable if you desire
               // Let's output the title, just to see SSR is working as intended
-              // console.log('THE TITLE', helmet.title.toString())
 
               // Pass all this nonsense into our HTML formatting function above
 
-              // console.log(helmet.htmlAttributes.toString())
 
               const html = injectHTML(htmlData, {
                 html: helmet.htmlAttributes.toString(),
@@ -136,10 +129,7 @@ export default (req, res, next) => {
                 config: JSON.stringify(
                   store.getState().auth.wxconfig || {}
                 ).replace(/</g, '\\u003c'),
-                // share:{
-                //   toAll:JSON.stringify(share ? shareToAll(share.job_name,share.company_name,share.type,url) : appShare(url)).replace(/</g, '\\u003c'),
-                //   toPeople:JSON.stringify(share ? shareToPeople(share.job_name,share.company_name,share.type,url) :appShare(url) ).replace(/</g, '\\u003c'),
-                // },
+
                 share: {
                   toAll: JSON.stringify(
                     share
@@ -161,7 +151,6 @@ export default (req, res, next) => {
                         )
                       : appShare(url)
                   ).replace(/</g, '\\u003c')
-                }
               })
 
               // We have all the final HTML, let's send it to the user already!
@@ -175,7 +164,7 @@ export default (req, res, next) => {
       const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
       const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
       const companyUrl = pathToRegexp('/:company_id(\\d+)\\?(.*)')
-      const homePage = pathToRegexp('/home') || pathToRegexp('/')
+      const homePage = pathToRegexp('/')
       const blocPage = pathToRegexp('/bloc/:c_userid(\\d+)(.*)')
 
       let job = jobUrl.exec(req.url)
@@ -219,9 +208,8 @@ export default (req, res, next) => {
               })
             )
             .then(res => {
-              console.log('收藏：', res.data.is_favorited)
-              res.type = 1
-              store.dispatch(wxconfig({ url })).then(() => {
+              res.type=1
+              store.dispatch(wxconfig({url})).then(() => {
                 serverRender(res.data)
               })
             })

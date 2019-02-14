@@ -1,7 +1,6 @@
 /**
  * Created by huangchao on 2017/10/20.
  */
-import { shareToPeople, shareToAll } from '../actions/auth'
 
 const ArrayDelRepetition = function(data) {
   let tmp = {},
@@ -113,16 +112,16 @@ const sortObj = obj => {
   return newobj
 }
 
-const shareWeixin = (type, data = {}) => {
-  let info = data.data || {}
-  let { company_name, job_name = '' } = info
-  window.wx.ready(() => {
-    window.wx.updateTimelineShareData(shareToAll(job_name, company_name, type)) // 分享到朋友圈
-    window.wx.updateAppMessageShareData(
-      shareToPeople(job_name, company_name, type)
-    ) // 分享给朋友
-  })
-}
+// const shareWeixin = (type, data = {}) => {
+//   let info = data.data || {}
+//   let { company_name, job_name = '' } = info
+//   window.wx.ready(() => {
+//     window.wx.updateTimelineShareData(shareToAll(job_name, company_name, type)) // 分享到朋友圈
+//     window.wx.updateAppMessageShareData(
+//       shareToPeople(job_name, company_name, type)
+//     ) // 分享给朋友
+//   })
+// }
 
 export default {
   ArrayDelRepetition,
@@ -135,5 +134,5 @@ export default {
   hidden_mobile,
   hidden_email,
   sortObj,
-  shareWeixin,
+  // shareWeixin,
 }
