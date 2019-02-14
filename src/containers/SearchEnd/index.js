@@ -2,7 +2,6 @@
  * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
-// import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
@@ -16,11 +15,11 @@ import { withRouter } from 'react-router-dom'
 import {
   getSearchListInit,
   getSearchListadd,
-  changeQuery,
   saveScrollTop,
   saveQuery,
   deleteList,
 } from '../../actions/search'
+import { appShare } from '../../actions/auth'
 import F from '../../helper/tool'
 import vacantIcon from '@static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
@@ -166,7 +165,10 @@ class SearchEnd extends PureComponent {
           })
         }
       })
-
+      window.wx.ready(() => {
+        window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+        window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+      })
     }
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
