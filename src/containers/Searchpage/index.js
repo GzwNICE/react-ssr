@@ -41,7 +41,7 @@ class SearchPage extends PureComponent {
   componentWillReceiveProps(next) {
     const { supers, areaCode, query } = this.props // userStatus
     let area = supers.location.address.code[0]
-    console.log(areaCode[0])
+    // console.log(areaCode[0])
     // if (areaCode.length > 0) {
       area = areaCode[0] ? areaCode[0] : ''
     // }
