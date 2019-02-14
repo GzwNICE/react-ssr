@@ -54,6 +54,7 @@ let filterChange = false
     supers: state.supers,
     salaryString: state.search.salaryString,
     homeDate: state.home,
+    selectProjectFirst: state.search.selectProjectFirst,
   }
 })
 @withRouter
@@ -90,7 +91,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-   
+
      /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -281,6 +282,10 @@ class SearchEnd extends PureComponent {
   goPosition = () => {
     window.zhuge.track('职位详情页打开', {
       [`${triggerFrom}`]: '搜索职位列表页',
+    })
+    this.props.dispatch({
+      type: 'SEARCH_AREA_SELECTED_CITY',
+      payload: false,
     })
   }
 
@@ -550,6 +555,7 @@ class SearchEnd extends PureComponent {
     }
   }
   selectProjectRender = query => {
+    const {selectProjectFirst}=this.props
     const areas_index = option && option.areas_index ? option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     const { keyword } = queryString.parse(this.props.history.location.search)
@@ -564,8 +570,10 @@ class SearchEnd extends PureComponent {
       showKeyword = '养老'
     }
     let symbol = areaVal && showKeyword ? '、' : null
+
+    console.log(selectProjectFirst)
     return (
-      areaVal||symbol||showKeyword ?
+      (areaVal||symbol||showKeyword)&&selectProjectFirst ?
       <div className={style.selectproject}>
         已选项： {areaVal}
         {symbol}

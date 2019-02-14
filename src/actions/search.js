@@ -16,6 +16,7 @@ export const SEARCH_SALARYSTRING = 'SEARCH_SALARYSTRING' // 薪资显示的strin
 export const SEARCH_SALARYRANGE = 'SEARCH_SALARYRANGE' // 薪资range
 export const SEARCH_EMPTY_ALL = 'SEARCH_EMPTY_ALL' // 所有内容恢复为初始值
 export const SEARCH_AREA_SINGLE = 'SEARCH_AREA_SINGLE' // searchPage页的city code
+export const SEARCH_AREA_SELECTED_CITY = 'SEARCH_AREA_SELECTED_CITY' // 已选项只有在首页或者搜索页过来时才显示
 
 const URLHOT = ':ve.mobile.interface/job/hotword'
 const URLTIP = ':ve.mobile.interface/job/searchtips'
