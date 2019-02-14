@@ -151,6 +151,7 @@ export default (req, res, next) => {
                         )
                       : appShare(url)
                   ).replace(/</g, '\\u003c')
+                }
               })
 
               // We have all the final HTML, let's send it to the user already!

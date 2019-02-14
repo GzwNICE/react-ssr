@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { NavBar, List, InputItem, Toast, Modal, Icon, Tabs } from 'antd-mobile'
+import { NavBar, List, InputItem, Toast, Icon, Tabs } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
