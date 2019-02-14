@@ -180,7 +180,7 @@ export const wxconfig = singleApi({
   },
 })
 
-·export const shareToPeople = (job_name, company_name, type, link) => {
+export const shareToPeople = (job_name, company_name, type, link) => {
   // 给个人
   return {
     title: type === 1 ? `职位推荐：${job_name}` : `${company_name}`,
