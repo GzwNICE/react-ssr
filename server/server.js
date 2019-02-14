@@ -23,7 +23,7 @@ app.use(cookieParser())
 // })
 
 app.use(express.Router().get('/', loader))
-app.use(express.Router().get('/s', require('./routes/interface')))
+// app.use(express.Router().get('/s', require('./routes/interface')))
 app.use(express.static(path.resolve(__dirname, '../build')))
 console.log('loader')
 app.use(loader)

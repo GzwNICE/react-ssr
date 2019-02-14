@@ -130,7 +130,9 @@ class CompanyDetail extends PureComponent {
   whereWillIGo = () => {
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      this.props.history.replace(redirect)
+      // this.props.history.replace(redirect)
+      this.props.history.goBack()
+
     } else {
       this.props.history.replace('/')
     }
