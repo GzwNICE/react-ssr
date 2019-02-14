@@ -16,7 +16,7 @@ import {
   Toast,
 } from 'antd-mobile'
 import style from './style.less'
-import tickImg from '../../static/tick.png'
+import tickImg from '@static/tick.png'
 // import { edit as languageEdit } from '../../actions/languages'
 import { lanSkills } from '../../actions/languages'
 import { setLanSkills } from '../../actions/languages'

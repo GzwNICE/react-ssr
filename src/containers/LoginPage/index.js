@@ -4,7 +4,7 @@ import { Tabs, Badge } from 'antd-mobile'
 import Login from '../Login'
 import LoginCode from '../LoginCode'
 import style from './style.less'
-import Rectangle from '../../static/back.png'
+import Rectangle from '@static/back.png'
 import { appShare } from '../../actions/auth'
 import queryString from 'query-string'
 const triggerFrom = "触发来源"

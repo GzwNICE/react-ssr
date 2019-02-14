@@ -15,9 +15,9 @@ import {
 import BitmapMin from 'bitmap-min'
 import style from '../Resume/style.less'
 import style2 from './style.less'
-import portraitIcon from '../../static/portrait@3x.png'
-import circleIcon from '../../static/circle.png'
-import overSeaIcon from '../../static/icon_studay.png'
+import portraitIcon from '@static/portrait@3x.png'
+import circleIcon from '@static/circle.png'
+import overSeaIcon from '@static/icon_studay.png'
 import { Toast } from 'antd-mobile/lib/index'
 
 const Pla = props => (

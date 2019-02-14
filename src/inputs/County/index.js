@@ -6,8 +6,8 @@ import {
 } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
-import checkeIcon from '../../static/circleSelected.png'
-import Rectangle from '../../static/back.png'
+import checkeIcon from '@static/circleSelected.png'
+import Rectangle from '@static/back.png'
 
 @connect(state => {
   return {

@@ -13,7 +13,7 @@ import CompanyDuce from './CompanyDuce'
 import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
-import missing from '../../static/missing.png'
+import missing from '@static/missing.png'
 import {
   companydetail,
   companyList,
@@ -21,7 +21,7 @@ import {
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
 import { shareToPeople, shareToAll } from '../../actions/auth'
-import detailLogo from '../../static/detailLogo.png'
+import detailLogo from '@static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
 const triggerFrom = '触发来源'

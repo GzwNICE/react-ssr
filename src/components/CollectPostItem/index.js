@@ -3,9 +3,9 @@
  * 仅用于收藏的职位ITEM
  */
 import React from 'react'
-import end from '../../static/icon_deliver_stop.png'
+import end from '@static/icon_deliver_stop.png'
 import style from './style.less'
-// import text from '../../static/icon_feedback_im.png'
+// import text from '@static/icon_feedback_im.png'
 
 const CollectPostItem = (props) => {
   const {company_name, is_stop,salary, job_name, job_area, favorite_date} = props
