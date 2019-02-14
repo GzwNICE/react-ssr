@@ -257,8 +257,8 @@ class Register extends PureComponent {
       this.props.history.push('/user')
     }
     window.wx.ready(() => {
-      window.wx.onMenuShareTimeline(appShare()) // 分享到朋友圈
-      window.wx.onMenuShareAppMessage(appShare()) // 分享给朋友
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
   }
 

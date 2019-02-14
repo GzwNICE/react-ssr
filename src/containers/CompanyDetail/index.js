@@ -184,10 +184,10 @@ class CompanyDetail extends PureComponent {
           let info = data.data || {}
           let { company_name, job_name = '' } = info
           window.wx.ready(() => {
-            window.wx.onMenuShareTimeline(
+            window.wx.updateTimelineShareData(
               shareToAll(job_name, company_name, 2)
             ) // 分享到朋友圈
-            window.wx.onMenuShareAppMessage(
+            window.wx.updateAppMessageShareData(
               shareToPeople(job_name, company_name, 2)
             ) // 分享给朋友
           })

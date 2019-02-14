@@ -220,8 +220,8 @@ export default class CompanyArea extends Component {
             hasList: true,
           })
           window.wx.ready(() => {
-            window.wx.onMenuShareTimeline(shareToAll('', res.data.group_company_name, 2)) // 分享到朋友圈
-            window.wx.onMenuShareAppMessage(
+            window.wx.updateTimelineShareData(shareToAll('', res.data.group_company_name, 2)) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
               shareToPeople('', res.data.group_company_name, 2)
             ) // 分享给朋友
           })
