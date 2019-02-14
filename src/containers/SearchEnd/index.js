@@ -21,7 +21,7 @@ import {
 } from '../../actions/search'
 import { appShare } from '../../actions/auth'
 import F from '../../helper/tool'
-import vacantIcon from '@static/vacant@3x.png'
+import vacantIcon from '../../static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
 import BorderBottomLine from '../../components/BorderBottomLine'
@@ -172,8 +172,8 @@ class SearchEnd extends PureComponent {
         }
       })
       window.wx.ready(() => {
-        window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
-        window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+        window.wx.onMenuShareTimeline(appShare()) // 分享到朋友圈
+        window.wx.onMenuShareAppMessage(appShare()) // 分享给朋友
       })
     }
     this.setState({

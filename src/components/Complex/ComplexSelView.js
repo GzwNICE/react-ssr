@@ -2,10 +2,10 @@ import React from 'react'
 import ComplexFormField from './ComplexFormField'
 import { NavBar, Toast, Accordion, List, Icon } from 'antd-mobile'
 import style from './style.less'
-import xialaIcon from '@static/xiala@3x.png'
-import okIcon from '@static/ok@3x.png'
-import unsetIcon from '@static/unset@3x.png'
-import rightIcon from '@static/right@3x.png'
+import xialaIcon from '../../static/xiala@3x.png'
+import okIcon from '../../static/ok@3x.png'
+import unsetIcon from '../../static/unset@3x.png'
+import rightIcon from '../../static/right@3x.png'
 
 export { style }
 class ComplexSelView extends ComplexFormField {

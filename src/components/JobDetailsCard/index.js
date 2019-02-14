@@ -1,10 +1,10 @@
 import React from 'react'
 import { Card } from 'antd-mobile'
 import style from './style.less'
-import area from '@static/area@3x.png'
-import experience from '@static/experience@3x.png'
-import education from '@static/education@3x.png'
-import jobType from '@static/jobType@3x.png'
+import area from '../../static/area@3x.png'
+import experience from '../../static/experience@3x.png'
+import education from '../../static/education@3x.png'
+import jobType from '../../static/jobType@3x.png'
 import F from '../../helper/tool'
 
 const JobDetailsCard = (props) => {

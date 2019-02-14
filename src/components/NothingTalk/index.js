@@ -3,8 +3,8 @@
  */
 import React from 'react'
 import style from './style.less'
-import nothingImg from '@static/messagelist@3x.png'
-import nothingloke from '@static/lokemelist@3x.png'
+import nothingImg from '../../static/messagelist@3x.png'
+import nothingloke from '../../static/lokemelist@3x.png'
 
 const NothingMessageList = (props) => {
   return (

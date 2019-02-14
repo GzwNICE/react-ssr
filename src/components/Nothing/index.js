@@ -4,7 +4,7 @@
 import React from 'react'
 import style from './style.less'
 import { Link } from 'react-router-dom'
-import nothingImg from '@static/missing.png'
+import nothingImg from '../../static/missing.png'
 
 const Nothing = props => {
   const { font, botton, link ,title, height} = props

@@ -3,9 +3,9 @@
  */
 import React from 'react'
 import style from './style.less'
-import qq from '@static/QQ@3x.png'
-// import weixin from '@static/weixin@3x.png'
-import weibo from '@static/weibo@3x.png'
+import qq from '../../static/QQ@3x.png'
+// import weixin from '../../static/weixin@3x.png'
+import weibo from '../../static/weibo@3x.png'
 
 const LOGIN_QQ = 'https://graph.qq.com/oauth/show?' +
   'which=Login&' +
