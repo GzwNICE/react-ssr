@@ -116,8 +116,8 @@ const sortObj = obj => {
 //   let info = data.data || {}
 //   let { company_name, job_name = '' } = info
 //   window.wx.ready(() => {
-//     window.wx.onMenuShareTimeline(shareToAll(job_name, company_name, type)) // 分享到朋友圈
-//     window.wx.onMenuShareAppMessage(
+//     window.wx.updateTimelineShareData(shareToAll(job_name, company_name, type)) // 分享到朋友圈
+//     window.wx.updateAppMessageShareData(
 //       shareToPeople(job_name, company_name, type)
 //     ) // 分享给朋友
 //   })

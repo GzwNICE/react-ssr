@@ -222,6 +222,6 @@ export const wx_config = wechat_config => {
     timestamp: wechat_config.timestamp,
     nonceStr: wechat_config.nonceStr,
     signature: wechat_config.signature,
-    jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'],
+    jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'],
   }
 }

@@ -84,12 +84,12 @@
     </script>
     <script src="https://api.map.baidu.com/api?v=2.0&ak=a4izOFN6pDpKi5ni1chTavgsv8rN6aMa&s=1"></script>
     <!--微信share-->
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script>
         wx.config(window.__INITIAL_STATE__.wxconfig)
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
-          wx.onMenuShareAppMessage(window.__INITIAL_STATE__.wxconfig.share)
-          wx.onMenuShareTimeline(window.__INITIAL_STATE__.wxconfig.toPeople)
+          wx.updateAppMessageShareData(window.__INITIAL_STATE__.wxconfig.share)
+          wx.updateTimelineShareData(window.__INITIAL_STATE__.wxconfig.toPeople)
       });
     </script>
   </body>
