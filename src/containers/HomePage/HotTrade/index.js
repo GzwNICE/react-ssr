@@ -39,15 +39,15 @@ class HotTrade extends Component {
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
     if(key === "礼宾/前台"){
-      return `/search/礼宾前台?keyword=${key}`
+      return `/search/礼宾前台?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
     }
     if(key === '美容/SPA'){
-      return `/search/美容SPA?keyword=${key}`
+      return `/search/美容SPA?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
     }
     if(key === '健身中心'){
-      return `/search/${key}?keyword=健身`
+      return `/search/${key}?keyword=健身&areaParms=${this.props.supers.location.address.code}`
     }
-    return `/search/${key}?keyword=${key}`
+    return `/search/${key}?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
   }
 
   componentDidMount() {
@@ -152,7 +152,7 @@ class HotTrade extends Component {
                     return (
                       <Link
                         rel="stylesheet"
-                        to={`/search/${item}?keyword=${item}`}
+                        to={`/search/${item}?keyword=${item}&areaParms=${this.props.supers.location.address.code}`}
                         key={index}
                         onClick={()=>this.goHotPost(item)}
                       >
