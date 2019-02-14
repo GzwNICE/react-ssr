@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less' //
-import AngleRight from '@static/Rectangle@3x.png'
+import AngleRight from '../../static/Rectangle@3x.png'
 
 const ListItem = (props) => {
   let {underline, titleleft, righttitle, rightcontant, rightangle} = props

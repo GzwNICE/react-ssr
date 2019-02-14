@@ -4,8 +4,8 @@
 import React, { Component } from 'react'
 import LisetItem from '../../components/ListItem'
 import ForMassageWrap from '../../components/ForMassage'
-import Resume from '@static/resume@3x.png'
-import company from '@static/attentioncompany@3x.png'
+import Resume from '../../static/resume@3x.png'
+import company from '../../static/attentioncompany@3x.png'
 
 let contant = `您好，非常荣幸收到你的简历，经过审慎评估，我们认为你与该职位的条件不太匹配，无法进入面试
 阶段。 相信更好的机会一定还在翘首期盼着你，赶快调整心态，做好充足的准备重新出发吧！相信更好的机会一定还在翘首期盼着你，赶

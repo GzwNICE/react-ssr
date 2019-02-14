@@ -4,7 +4,7 @@
 import React from 'react'
 import style from './style.less'
 import PropTypes from 'prop-types'
-import deleteimg from '@static/delete@3x.png'
+import deleteimg from '../../static/delete@3x.png'
 
 const ShowItem = (props) => {
   let {comtant, callback, id} = props

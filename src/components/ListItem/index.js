@@ -4,7 +4,7 @@
 // 用于list列表的单个元素
 import React from 'react'
 import PropTypes from 'prop-types'
-import AngleRight from '@static/Rectangle@3x.png'
+import AngleRight from '../../static/Rectangle@3x.png'
 import style from './style.less'
 
 const ListItem = props => {

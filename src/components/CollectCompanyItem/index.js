@@ -5,7 +5,7 @@
 
 import React from 'react'
 import style from './style.less'
-import text from '@static/icon_feedback_im.png'
+import text from '../../static/icon_feedback_im.png'
 
 const CollectCompanyItem = (props) => {
   const {company_logo, company_name, current_location, industry_star,employees_number,new_job_name, jobs_num, myfollowed_job_new } = props

@@ -4,9 +4,9 @@
 // 用于投递记录中的企业来信 不合适or面试邀约
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import angleDown from '@static/angleDownGray@3x.png'
+import angleDown from '../../static/angleDownGray@3x.png'
 import style from './style.less'
-// import angleUp from '@static/angleUp@3x.png'
+// import angleUp from '../../static/angleUp@3x.png'
 
 class ListItem extends PureComponent {
   state = {
