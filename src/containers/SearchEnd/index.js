@@ -22,7 +22,7 @@ import {
   deleteList,
 } from '../../actions/search'
 import F from '../../helper/tool'
-import vacantIcon from '../../static/vacant@3x.png'
+import vacantIcon from '@static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
 import BorderBottomLine from '../../components/BorderBottomLine'

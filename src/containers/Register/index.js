@@ -4,7 +4,7 @@
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import { Link } from 'react-router-dom'
-import Rectangle from '../../static/back.png'
+import Rectangle from '@static/back.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import style from './style.less'

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { SearchBar } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import personal from '../../../static/personal.png'
-import back from '../../../static/back.png'
-import Userdefault from '../../../static/portrait@3x.png'
+import personal from '@static/personal.png'
+import back from '@static/back.png'
+import Userdefault from '@static/portrait@3x.png'
 import style from './style.less'
 
 @connect(state => ({}))

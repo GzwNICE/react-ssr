@@ -1,7 +1,7 @@
 import React,{PureComponent} from 'react'
 import style from './style.less'
 import { Link } from 'react-router-dom'
-import headimg from '../../static/headimg@3x.png'
+import headimg from '@static/headimg@3x.png'
 
 class ConnectCard extends PureComponent {
 

@@ -3,10 +3,10 @@
  */
 import React from 'react'
 import style from './style.less'
-import abc from '../../static/bac.png'
-import close from '../../static/close.png'
-import logo from '../../static/downloadlogo.png'
-import downbg from '../../static/downbg.png'
+import abc from '@static/bac.png'
+import close from '@static/close.png'
+import logo from '@static/downloadlogo.png'
+import downbg from '@static/downbg.png'
 
 const AdWindow = props => {
   return (

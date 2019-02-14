@@ -2,8 +2,8 @@ import React, {PureComponent} from 'react'
 import {companyCollect, companyUnCollect} from '../../actions/company'
 import { Toast } from 'antd-mobile'
 import style from './style.less'
-import guanzhu from '../../static/guanzhu.png'
-import has_guanzhu from '../../static/has_guanzhu.png'
+import guanzhu from '@static/guanzhu.png'
+import has_guanzhu from '@static/has_guanzhu.png'
 
 class ComInfor extends PureComponent {
 
