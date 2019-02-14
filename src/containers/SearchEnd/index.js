@@ -685,7 +685,7 @@ class SearchEnd extends PureComponent {
       // query.area = area
     }
     const { areaParms } = queryString.parse(this.props.history.location.search)
-    if (areaParms) {
+    if (areaParms&&pageFirst) {
       query.area = [areaParms]
     }
     query.more = { ...query.more, ...queryMore }
