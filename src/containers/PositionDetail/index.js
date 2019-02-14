@@ -310,12 +310,15 @@ class PositionDetail extends PureComponent {
             </div>
           ) : null}
 
-          <RestPosition
+          {
+            list.length > 0 ? (<RestPosition
             callback={this.nextPost}
             title={is_valid === 0 ? '为你推荐以下相似职位' : '相似职位推荐'}
             data={list}
             history={this.props.history}
-          />
+          />) : null
+          }
+          
 
           {is_valid === 1 ? <HotTopic data={hotData} /> : null}
           {is_valid === 0 ? (
