@@ -676,8 +676,7 @@ class SearchEnd extends PureComponent {
     if (areaParms&&pageFirst) {
       query.area = [areaParms]
     }
-    // console.log(query.area)
-    query.more = { ...query.more, ...queryMore }
+    query.more = { ...queryMore, ...query.more }
 
     delete query.keyword
     delete query.isUsed
