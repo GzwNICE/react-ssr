@@ -9,14 +9,14 @@ import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
-import delivce from '../../static/delivce@3x.png'
-import collectpost from '../../static/collectpost@3x.png'
-import Resume from '../../static/resume@3x.png'
-import systemMassage from '../../static/systemMassage@3x.png'
-import headimg from '../../static/portrait@3x.png'
-import refresh from '../../static/refresh@3x.png'
-import inform from '../../static/inform.png'
-import back from '../../static/back.png'
+import delivce from '@static/delivce@3x.png'
+import collectpost from '@static/collectpost@3x.png'
+import Resume from '@static/resume@3x.png'
+import systemMassage from '@static/systemMassage@3x.png'
+import headimg from '@static/portrait@3x.png'
+import refresh from '@static/refresh@3x.png'
+import inform from '@static/inform.png'
+import back from '@static/back.png'
 import style from './style.less'
 const triggerFrom = '触发来源'
 
@@ -119,7 +119,7 @@ class UserPage extends PureComponent {
       this.props.history.push(url)
     } else {
       this.props.history.push(
-        '/register?redirect=' + this.props.history.location.pathname,
+        '/user/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }
       )
     }
@@ -154,7 +154,7 @@ class UserPage extends PureComponent {
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -167,7 +167,7 @@ class UserPage extends PureComponent {
       this.props.dispatch(getUserStatus()).then(json => {
         if (json.errCode === 2002) {
           this.props.history.push(
-            '/register?redirect=' + this.props.history.location.pathname,
+            '/user/register?redirect=' + this.props.history.location.pathname,
             { key: '我的' }
           )
         }

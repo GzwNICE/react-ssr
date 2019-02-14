@@ -2,6 +2,7 @@
  * Created by gaozhiwen on 2019/01/13.
  */
 import React, { PureComponent } from 'react'
+// import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import style from './style.less'
 import store from 'store'
@@ -12,7 +13,6 @@ import SearchEndBar from '../../components/SearchEndBar'
 import JobCard from '../../components/JobCard'
 import FilterSearch from '../../components/FilterSearch'
 import { withRouter } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
 import {
   getSearchListInit,
   getSearchListadd,
@@ -22,9 +22,11 @@ import {
   deleteList,
 } from '../../actions/search'
 import F from '../../helper/tool'
-import vacantIcon from '../../static/vacant@3x.png'
+import vacantIcon from '@static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
+import BorderBottomLine from '../../components/BorderBottomLine'
+
 const option = store.get('m:option')
 const triggerPost = '职位'
 const triggerFrom = '触发来源'
@@ -38,8 +40,11 @@ const tiggerWorkMode = '职位性质'
 const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
+let filterChange = false
+let pageFirst = true // 页面首次进入或者加载
+// let reloadInit = 1  // 页面刷新后请求数据
 @connect(state => {
-  console.log(state.search.list)
+  // console.log(state.search.list)
   return {
     isLoading: state.search.isLoading,
     searchLIst: state.search.list,
@@ -50,16 +55,19 @@ let queryMoreOnly = {}
     supers: state.supers,
     salaryString: state.search.salaryString,
     homeDate: state.home,
+    selectProjectFirst: state.search.selectProjectFirst,
   }
 })
 @withRouter
 class SearchEnd extends PureComponent {
   constructor(props) {
     super(props)
-    const dataSource = new ListView.DataSource({
+    let dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
     this.initData = []
+    const searchLIst = this.props.searchLIst
+
     this.state = {
       init: {
         company_industry: 0,
@@ -74,7 +82,10 @@ class SearchEnd extends PureComponent {
         is_login: '',
       },
       stareSearch: false,
-      dataSource,
+      dataSource: searchLIst&&searchLIst.length > 0
+        ? dataSource.cloneWithRows(searchLIst)
+        : dataSource,
+      // dataSource,
       page: this.props.srearchData.pager.cur,
       Loaded: 'Loading',
       searchCondition: {},
@@ -82,12 +93,13 @@ class SearchEnd extends PureComponent {
       showRegWrap: true, //是否显示引导注册
       initLoading: true, // 页面初始化时loading
       queryMore: {}, // 跳转过来展示的行业 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）
+      height: 0,
+      
     }
   }
   componentDidMount() {
-     /* 初始化this.scrollTop */
+    /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
-
     const {
       // keyword,
       position,
@@ -98,6 +110,7 @@ class SearchEnd extends PureComponent {
       education,
       room_board,
       work_mode,
+      areaParms,
     } = queryString.parse(this.props.history.location.search)
     this.getQuery = {
       isUsed: 1,
@@ -113,33 +126,46 @@ class SearchEnd extends PureComponent {
     if (education) this.getQuery.more.education = parseInt(education, 10)
     if (room_board) this.getQuery.more.room_board = parseInt(room_board, 10)
     if (work_mode) this.getQuery.more.work_mode = parseInt(work_mode, 10)
-    console.log(this.getQuery)
+    // console.log(this.getQuery)
 
     const data = this.props.location.state || {}
     const { keyword } = queryString.parse(this.props.history.location.search)
     if (keyword) this.getQuery.keyword = keyword
     this.setQueryMore(keyword)
-    const allQuery = this.handleSearchQuery()
+    let allQuery = this.handleSearchQuery()
     if (data.keyword || keyword) {
       let key = data.keyword || keyword
-      let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
-    arr2.forEach(item => {
-      if (item === key) {
-        key = ''
-      }
-    })
+      let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养', '房地产']
+      arr2.forEach(item => {
+        if (item === key) {
+          key = ''
+        }
+      })
       this.setState({
         defaultValue: key,
       })
     }
-   
-    Toast.loading('Loading...')
+
     if (this.props.searchLIst.length < 1) {
+      Toast.loading('Loading...')
+      // console.log(allQuery)
+      // console.log(areaParms)
+      // 保证刷新时地区选择正确
+      if (areaParms) {
+        allQuery.area = [areaParms]
+        this.props.dispatch({
+          type: 'JOB_PAGE_CITY_CODE_SET',
+          area: [areaParms],
+        })
+        this.props.dispatch({
+          type: 'HOME_CHANGE_CITY',
+          area: [areaParms],
+        })
+      }
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
-        this.setState({
-          initLoading: false,
-        })
+  
+        
         if (res.data.count === 0) {
           window.zhuge.track('搜索无结果', {
             [`${tiggerKeyWord}`]: allQuery.keyword,
@@ -147,6 +173,9 @@ class SearchEnd extends PureComponent {
         }
       })
     }
+    this.setState({
+      initLoading: false,
+    })
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
     /*
@@ -156,12 +185,13 @@ class SearchEnd extends PureComponent {
     if (Object.keys(this.getQuery.more).length === 0) {
       delete this.getQuery.more
     }
-    console.log(this.getQuery)
+    // console.log(this.getQuery)
     this.props.dispatch(saveQuery(F.filterUndefindToString(this.getQuery)))
     this.timer = setTimeout(() => {
       this.setState({
         showSelectP: false,
       })
+      pageFirst = false // 页面首次进入或者加载
     }, 2500)
     this.setState({
       is_login: sessionStorage.getItem('is_login')
@@ -170,11 +200,11 @@ class SearchEnd extends PureComponent {
     })
   }
 
-  componentDidUpdate(){
-    if(Number(this.props.pager.allPage) > 0){
-      this.listBox.scrollTo(0, this.props.srearchData.scrollTop)
-    }
-  }
+  // componentDidUpdate(){
+  //   if(Number(this.props.pager.allPage) > 0){
+  //     this.listBox.scrollTo(0, this.props.srearchData.scrollTop)
+  //   }
+  // }
   // 从首页点击 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）这几个时在筛选上有选项
   setQueryMore = keyword => {
     let select = ''
@@ -198,37 +228,31 @@ class SearchEnd extends PureComponent {
     }
     if (select) {
       const obj = {
-      company_industry: select,
+        company_industry: select,
       }
       queryMoreOnly = obj
-      
+
       this.setState({
         queryMore: obj,
       })
     }
   }
   goBack = () => {
-    // const { redirect } = queryString.parse(this.props.history.location.search)
-    // // console.log(redirect)
-    // this.props.dispatch(deleteList())
-
-    // if (redirect) {
-    //   // window.location.href = redirect
-    //   this.props.history.push(redirect)
-    // }
-    // this.scrollTop = 0
-    // // this.props.history.replace('/search')
-    // this.props.history.goBack()
+    this.props.dispatch(deleteList())
+    this.scrollTop = 0
+    document.body.scrollTop = document.documentElement.scrollTop = 0
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
   goSerch = () => {
     this.props.dispatch(deleteList())
+    this.scrollTop = 0
+    document.body.scrollTop = document.documentElement.scrollTop = 0
     this.props.history.push(`/search`)
     // const { redirect, sss } = queryString.parse(
     //   this.props.history.location.search
@@ -256,6 +280,10 @@ class SearchEnd extends PureComponent {
     window.zhuge.track('职位详情页打开', {
       [`${triggerFrom}`]: '搜索职位列表页',
     })
+    this.props.dispatch({
+      type: 'SEARCH_AREA_SELECTED_CITY',
+      payload: false,
+    })
   }
 
   onEndReached = () => {
@@ -266,6 +294,7 @@ class SearchEnd extends PureComponent {
     this.setState({
       page: page,
     })
+    // console.log(this.props.query.area)
     if (page <= allPage) {
       const allQuery = this.handleSearchQuery()
       const params = {
@@ -291,7 +320,7 @@ class SearchEnd extends PureComponent {
   }
 
   filterSearch = (value = {}) => {
-    // console.log(value.more)
+    filterChange = true
     //zhuge统计
     let val = ''
     if (value.position) {
@@ -301,13 +330,16 @@ class SearchEnd extends PureComponent {
         val += positions_index[item] + ';'
         return null
       })
-      // console.log(value.position)
       window.zhuge.track('搜索无结果', { [`${triggerPost}`]: val })
     }
     if (value.area) {
       // 城市选择
       const areas_index = option.areas_index || {}
       val = areas_index[value.area[0]]
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: value.area,
+      })
       window.zhuge.track('城市筛选', { [`${tiggerCity}`]: val })
     }
     if (value.salary) {
@@ -324,7 +356,10 @@ class SearchEnd extends PureComponent {
           option.opts_company_industry_all_index) ||
         {}
       const industry = industry_index[value.more.company_industry] || ''
-
+      const obj = {
+        company_industry: value.more.company_industry || 0,
+      }
+      queryMoreOnly = obj
       // 发布日期
       const update_time_index =
         (option.opts_update_time && option.opts_update_time_index) || {}
@@ -363,6 +398,7 @@ class SearchEnd extends PureComponent {
       type: 'SEARCH_SALARYSHOW',
       payload: false,
     })
+    // console.log(F.filterUndefindToString(value))
     this.props.dispatch(saveQuery(F.filterUndefindToString(value)))
     this.setState(
       {
@@ -370,22 +406,27 @@ class SearchEnd extends PureComponent {
       },
       () => {
         const allQuery = this.handleSearchQuery()
-        
+
         // let obj = {...allQuery}
         // delete obj.keywords
-        // console.log(obj)
-        this.props.dispatch(getSearchListInit(allQuery))
+
+        this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+          this.scrollTop = 0
+          document.body.scrollTop = document.documentElement.scrollTop = 0
+        })
       }
     )
     this.getQuery.isUsed = 0
   }
 
   onScroll = () => {
-    let top = this.listBox.scrollTop
+    let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
   }
 
   handleSearchQuery = () => {
+    // console.log(this.props.query)
+
     const data = this.props.location.state || {}
     const more = this.props.query && this.props.query.more
     const salary_min =
@@ -397,15 +438,15 @@ class SearchEnd extends PureComponent {
         ? this.props.query.salary[1]
         : 100000
     const { keyword } = queryString.parse(this.props.history.location.search)
-    
+
     let path = this.props.history.location.pathname
     let arr1 = path.split('search/')
-    
-    let key = data.keyword || keyword || arr1[1]
-   
 
-   
-    console.log(queryMoreOnly)
+    let key = data.keyword || keyword || arr1[1]
+
+    // console.log(queryMoreOnly)
+    // console.log(more.company_industry)
+
     const code =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
@@ -433,8 +474,6 @@ class SearchEnd extends PureComponent {
         this.getQuery.area,
       ...queryMoreOnly,
     }
-
-
     if (this.getQuery.isUsed) {
       allQuery = {
         ...allQuery,
@@ -443,14 +482,14 @@ class SearchEnd extends PureComponent {
         more: '',
       }
     }
-    console.log(allQuery)
-    let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养']
+    // console.log(allQuery)
+    let arr2 = ['酒店', '餐饮', '休闲娱乐', '康养', '房地产']
     arr2.forEach(item => {
       if (item === allQuery.keyword) {
         allQuery.keyword = ''
       }
     })
- 
+
     // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
@@ -458,18 +497,19 @@ class SearchEnd extends PureComponent {
   noVacancies = query => {
     // 记录地区
     const areas_index = option && option.areas_index ? option.areas_index : {}
-    const areaVal = areas_index[query.area[0]]
+    let areaVal = areas_index[query.area[0]]
+    areaVal = areaVal ? `${areaVal}` : null
     const more = query.more ? query.more : {}
     let company_industry
     if (more.company_industry) {
-      company_industry = `-${
+      company_industry = `${
         option.opts_company_industry_all_index[more.company_industry]
       }`
     }
     const defaultValue = this.state.defaultValue
-      ? `-${this.state.defaultValue}`
+      ? `${this.state.defaultValue}`
       : null
-    let salary = this.props.salaryString ? `-${this.props.salaryString}` : null
+    let salary = this.props.salaryString ? `${this.props.salaryString}` : null
 
     if (salary && salary.indexOf('不限') !== -1) {
       salary = null
@@ -482,6 +522,20 @@ class SearchEnd extends PureComponent {
       }
     }
     const { initLoading } = this.state
+    let arr = []
+    if (areaVal) {
+      arr.push(areaVal)
+    }
+    if (company_industry) {
+      arr.push(company_industry)
+    }
+    if (defaultValue) {
+      arr.push(defaultValue)
+    }
+    if (salary) {
+      arr.push(salary)
+    }
+    let str = arr.join('-')
     if (initLoading) {
       return null
     } else {
@@ -489,10 +543,7 @@ class SearchEnd extends PureComponent {
         <div className={style.vacant}>
           <img src={vacantIcon} />
           <p>
-            【{areaVal}
-            {company_industry}
-            {defaultValue}
-            {salary}
+            【{str}
             {ellipsis}】
           </p>
           <p>暂无职位，可以切换条件试试哦~</p>
@@ -501,6 +552,7 @@ class SearchEnd extends PureComponent {
     }
   }
   selectProjectRender = query => {
+    const { selectProjectFirst } = this.props
     const areas_index = option && option.areas_index ? option.areas_index : {}
     const areaVal = areas_index[query.area[0]]
     const { keyword } = queryString.parse(this.props.history.location.search)
@@ -516,13 +568,13 @@ class SearchEnd extends PureComponent {
     }
     let symbol = areaVal && showKeyword ? '、' : null
 
-    return (
+    return (areaVal || symbol || showKeyword) && selectProjectFirst ? (
       <div className={style.selectproject}>
         已选项： {areaVal}
         {symbol}
         {showKeyword}
       </div>
-    )
+    ) : null
   }
 
   /* 下载或者打开app */
@@ -531,51 +583,61 @@ class SearchEnd extends PureComponent {
     const triggerFrom = '触发来源'
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位列表页顶部推荐' })
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h504'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h504'
     }, 2000)
   }
 
-
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.searchLIst
-    const thisList = this.props.searchLIst
+    // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
-    if (nextList !== thisList) {
-      this.setState(
-        {
-          dataSource: this.state.dataSource.cloneWithRows(nextList),
-        },
-        () => {
-          if (scrollTop !== 0) {
-            document.body.scrollTop = document.documentElement.scrollTop = scrollTop
-          }
+
+    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
+    //   const allQuery = this.handleSearchQuery()
+    //   const params = {
+    //     ...allQuery,
+    //     area:
+    //       this.props.query.area ||
+    //       (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
+    //     ...this.state.searchCondition,
+    //   }
+    //   this.props.dispatch(getSearchListInit(params))
+    // }
+    // if (nextList !== thisList) {
+    this.setState(
+      {
+        dataSource: this.state.dataSource.cloneWithRows(nextList),
+      },
+      () => {
+        if (scrollTop !== 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = scrollTop
         }
-      )
-      this.listBox.scrollTo(0, this.scrollTop)
-    }
-    
+      }
+    )
+    // }
     if (nextList.length < 20) {
       this.setState({
         Loaded: '没有更多了',
       })
     }
 
-    if (this.props.location.state !== nextProps.location.state) {
-      const data = nextProps.location.state || {}
-      const allQuery = this.handleSearchQuery()
-      if (data !== {}) {
-        setTimeout(() => {
-          this.props.dispatch(changeQuery(allQuery)).then(data => {
-            document.body.scrollTop = document.documentElement.scrollTop = 0
-            if (data.data.count === 0) {
-              this.setState({
-                Loaded: '没有更多了',
-              })
-            }
-          })
-        })
-      }
-    }
+    // if (this.props.location.state !== nextProps.location.state) {
+    //   const data = nextProps.location.state || {}
+    //   const allQuery = this.handleSearchQuery()
+    //   if (data !== {}) {
+    //     setTimeout(() => {
+    //       this.props.dispatch(changeQuery(allQuery)).then(data => {
+    //         document.body.scrollTop = document.documentElement.scrollTop = 0
+    //         if (data.data.count === 0) {
+    //           this.setState({
+    //             Loaded: '没有更多了',
+    //           })
+    //         }
+    //       })
+    //     })
+    //   }
+    // }
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
@@ -591,26 +653,31 @@ class SearchEnd extends PureComponent {
   componentWillUnmount() {
     this.getQuery.isUsed = 0
     this.props.dispatch(saveScrollTop(this.scrollTop))
-
-    this.props.dispatch({
-      type: 'SEARCH_EMPTY_ALL',
-    })
+    // reloadInit = 0
+    // this.props.dispatch({
+    //   type: 'SEARCH_EMPTY_ALL',
+    // })
+    filterChange = false
     clearTimeout(this.timer)
     queryMoreOnly = {}
+    pageFirst = true
   }
 
   render() {
-    const {queryMore} = this.state
+    const { queryMore } = this.state
     let query = this.props.query
     const area =
       this.props.userStatus.code && this.props.userStatus.code.length > 0
         ? this.props.userStatus.code
         : this.props.supers.location.address.code
-    if (query.area.length === 0) {
-      query.area = area
+    if (query.area.length === 0 && !filterChange) {
+      // query.area = area
     }
-    query.more = {...query.more, ...queryMore}
-
+    const { areaParms } = queryString.parse(this.props.history.location.search)
+    if (areaParms&&pageFirst) {
+      query.area = [areaParms]
+    }
+    query.more = { ...queryMore, ...query.more }
 
     delete query.keyword
     delete query.isUsed
@@ -618,9 +685,15 @@ class SearchEnd extends PureComponent {
     const Row = d => {
       return (
         <div className={style.listItem}>
-          <Link to={`/${d.company_id}/${d.job_id}?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`} onClick={this.goPosition}>
+          <Link
+            to={`/${d.company_id}/${d.job_id}?redirect=${
+              this.props.history.location.pathname
+            }${this.props.history.location.search}`}
+            onClick={this.goPosition}
+          >
             <JobCard data={d} />
           </Link>
+          <BorderBottomLine />
         </div>
       )
     }
@@ -633,19 +706,9 @@ class SearchEnd extends PureComponent {
         paddingBottom: 0,
       }
     }
+    // console.log(this.state.dataSource)
     return (
       <div className={style.SearchEndWrap} style={styleObj}>
-        <Helmet>
-          <title>最佳东方 - 旅游服务业专业的招聘平台</title>
-          <meta
-            name="description"
-            content="最佳东方专为个人提供全面的酒店,餐饮,物业,海外,高尔夫,游轮职位招聘信息，为企业提供校园招聘,猎头,培训,测评和人事外包在内的全方位的人力资源服务，帮助个人求职者与企业搭建最佳的人才招募和人才培养渠道。"
-          />
-          <meta
-            name="keywords"
-            content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
-          />
-        </Helmet>
         <div className={style.top}>
           <Ad.AdTop downLoadAd={this.downLoadAd} />
           <SearchEndBar
@@ -661,9 +724,13 @@ class SearchEnd extends PureComponent {
           {this.state.showSelectP ? this.selectProjectRender(query) : null}
         </div>
 
-        <div className={style.listBox} ref={(el) => { this.listBox = el }} onScroll={this.onScroll}>
+        <div className={style.listBox}>
           {allPage > 0 ? (
             <ListView
+              ref={el => {
+                this.listBox = el
+              }}
+              onScroll={this.onScroll}
               className={style.listView}
               dataSource={this.state.dataSource}
               renderRow={Row}
@@ -688,7 +755,9 @@ class SearchEnd extends PureComponent {
           <div className={style.registerwrap}>
             <RegisterWrap
               onCloseReg={this.handleCloseReg.bind(this)}
-              location={`${this.props.history.location.pathname}${this.props.history.location.search}`}
+              location={`${this.props.history.location.pathname}${
+                this.props.history.location.search
+              }`}
               zhugeFrom="职位列表页底部推荐注册"
             />
           </div>

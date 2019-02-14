@@ -2,7 +2,7 @@ import React from 'react'
 // import F from '../../helper/tool'
 import style from './style.less'
 // import { Card } from 'antd-mobile'
-import jizhaoIcon from '../../static/jizhao@3x.png'
+import jizhaoIcon from '@static/jizhao@3x.png'
 
 const JobCard = (props) => {
   const data = props.data || {}
@@ -46,28 +46,3 @@ const JobCard = (props) => {
 }
 export default JobCard
 
-/*
- <Card className={style.jobCard}>
- <Card.Header
- className={style.cardHeader}
- title={
- <div className={style.cardTiele}>
- {data.job_name}
- {data.is_urgent === '1'
- ? <span className={style.hot}>热招</span> : null }
- </div>
- }
- extra={<span className={style.salary}></span>}
- />
- <Card.Body className={style.cardCenter}>
- <div className={style.inner}>
- <div className={style.hotelName}>{data.company_name}</div>
- <div className={style.dataTime}>{F.procesTime(data.update_time)}</div>
- </div>
- </Card.Body >
- <Card.Footer
- className={style.cardFooter}
- content={data.work_place || data.job_area}
- />
- </Card>
-*/

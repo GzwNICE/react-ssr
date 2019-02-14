@@ -13,18 +13,18 @@ import CompanyDuce from './CompanyDuce'
 import { Helmet } from 'react-helmet'
 import JobList from '../../components/JobList'
 import Album from './PhotoAlbum'
-import missing from '../../static/missing.png'
+import missing from '@static/missing.png'
 import {
   companydetail,
   companyList,
   companydetailClear,
   saveScrollTop,
 } from '../../actions/company' // emptyInfo
-import detailLogo from '../../static/detailLogo.png'
+import { shareToPeople, shareToAll } from '../../actions/auth'
+import detailLogo from '@static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
 const triggerFrom = '触发来源'
-
 
 @connect(state => {
   return {
@@ -96,7 +96,9 @@ class CompanyDetail extends PureComponent {
             const msg = data.errMsg
             if (msg === '未登陆') {
               this.goLogin()
-              window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '关注企业' })
+              window.zhuge.track('注册页面打开', {
+                [`${triggerFrom}`]: '关注企业',
+              })
             }
           } else {
             Toast.success('关注成功', 2)
@@ -128,9 +130,11 @@ class CompanyDetail extends PureComponent {
   whereWillIGo = () => {
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      this.props.history.replace(redirect)
+      // this.props.history.replace(redirect)
+      this.props.history.goBack()
+
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -141,19 +145,16 @@ class CompanyDetail extends PureComponent {
   }
 
   goLogin = () => {
-    // const search = this.props.history.location.search
-    //   ? this.props.history.location.search
-    //   : '?'
     const pathname = this.props.history.location.pathname
-    // const url = search
-    //   ? `/user/register${search}${search === '?' ? '' : '&'}redirect=${pathname}`
-    //   : `/user/register?redirect=${pathname}`
-    // this.props.history.replace(url, )
-    this.props.history.replace(`/user/register?redirect=${pathname}`, { key: '关注' })
+    this.props.history.replace(`/user/register?redirect=${pathname}`, {
+      key: '关注',
+    })
   }
 
   searchFocus = () => {
-    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
+    this.props.history.push(
+      `/search?redirect=${this.props.history.location.pathname}`
+    )
   }
 
   /* 下载或者打开app */
@@ -165,26 +166,39 @@ class CompanyDetail extends PureComponent {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.company.scrollTop
     this.detailWrap.scrollTo(0, this.scrollTop)
-    
+
     const id = this.props.match.params.company_id
     const { from } = queryString.parse(window.location.search)
     const label = this.props.company.label
     if (label.length === 0) {
-      this.props.dispatch(
-        companydetail({
-          // 企业详细信息
-          company_id: id,
-          from: from,
-        })
-      )
       this.props
         .dispatch(
-          companyList({
-            // 该企业其他职位
+          companydetail({
+            // 企业详细信息
             company_id: id,
-            appchannel: 'web',
+            from: from,
           })
         )
+        .then(data => {
+          // shareWeixin(2,data)
+          let info = data.data || {}
+          let { company_name, job_name = '' } = info
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(
+              shareToAll(job_name, company_name, 2)
+            ) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople(job_name, company_name, 2)
+            ) // 分享给朋友
+          })
+        })
+      this.props.dispatch(
+        companyList({
+          // 该企业其他职位
+          company_id: id,
+          appchannel: 'web',
+        })
+      )
     }
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
@@ -194,8 +208,6 @@ class CompanyDetail extends PureComponent {
         : '',
     })
   }
-
-
 
   componentWillUnmount() {
     this.props.handleSavePageScroll(this.key)
@@ -219,14 +231,26 @@ class CompanyDetail extends PureComponent {
     return (
       <div className={style.CompanyDetailWrap}>
         <Helmet>
-          <title>{`${this.props.company.company_name}招聘信息，招工求职信息_最佳东方`}</title>
+          <title>{`${
+            this.props.company.company_name
+          }招聘信息，招工求职信息_最佳东方`}</title>
           <meta
             name="description"
-            content={`最佳东方提供全面${this.props.company.company_name}招聘职位信息,${this.props.company.company_name}招工求职信息,帮助您成功入职${this.props.company.company_name},与众多${this.props.company.company_name}精英们一起开启一段崭新的职业生涯。`}
+            content={`最佳东方提供全面${
+              this.props.company.company_name
+            }招聘职位信息,${
+              this.props.company.company_name
+            }招工求职信息,帮助您成功入职${
+              this.props.company.company_name
+            },与众多${
+              this.props.company.company_name
+            }精英们一起开启一段崭新的职业生涯。`}
           />
           <meta
             name="keywords"
-            content={`${this.props.company.company_name}招聘信息,${this.props.company.company_name}求职信息,${this.props.company.company_name}招工信息`}
+            content={`${this.props.company.company_name}招聘信息,${
+              this.props.company.company_name
+            }求职信息,${this.props.company.company_name}招工信息`}
           />
         </Helmet>
         <SearchUser
@@ -237,7 +261,13 @@ class CompanyDetail extends PureComponent {
           zhugeFrom={1}
         />
 
-        <div className={style.DetailWrap} onScroll={this.onScroll} ref={(el) => { this.detailWrap = el }}>
+        <div
+          className={style.DetailWrap}
+          onScroll={this.onScroll}
+          ref={el => {
+            this.detailWrap = el
+          }}
+        >
           <div className={style.DetailHead}>
             <div className={style.Detaillayout}>
               <div className={style.DetailNaLo}>
@@ -290,7 +320,10 @@ class CompanyDetail extends PureComponent {
               </div>
               <div className={style.PostList}>
                 {this.props.list.length ? (
-                  <JobList.PostList data={this.props.list}  zhugeFrom="企业详情页-在招职位"/>
+                  <JobList.PostList
+                    data={this.props.list}
+                    zhugeFrom="企业详情页-在招职位"
+                  />
                 ) : (
                   <div className={style.noMore}>
                     <img src={missing} alt="" />

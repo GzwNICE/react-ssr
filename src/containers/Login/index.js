@@ -6,8 +6,8 @@ import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import style from './style.less'
-import passwordno from '../../static/paswordno@3x.png'
-import paswordimg from '../../static/pasword@3x.png'
+import passwordno from '@static/paswordno@3x.png'
+import paswordimg from '@static/pasword@3x.png'
 import { createForm } from 'rc-form'
 import * as auth from '../../actions/auth'
 import { withRouter } from 'react-router-dom'
@@ -161,6 +161,7 @@ class Login extends PureComponent {
             className={`${style.inputHei} ${style.name}`}
             clear
             placeholder="手机号/邮箱/用户名"
+            type="text"
           />
           <div className={style.passwordBox}>
             <InputItem

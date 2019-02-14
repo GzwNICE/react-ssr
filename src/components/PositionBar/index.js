@@ -8,10 +8,10 @@ import { Toast } from 'antd-mobile'
 import Alert from '../Alert'
 import style from './style.less'
 import { connect } from 'react-redux'
-import select from '../../static/select@3x.png'
-import unselect from '../../static/unselect@3x.png'
-import validselect from '../../static/validselect.png'
-import deliver from '../../static/deliverSuccess@3x.png'
+import select from '@static/select@3x.png'
+import unselect from '@static/unselect@3x.png'
+import validselect from '@static/validselect.png'
+import deliver from '@static/deliverSuccess@3x.png'
 import {
   positionCollect,
   positionUnColiect,

@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import style from './style.less'
-import xiala from '../../static/xiala@3x.png'
-import shangla from '../../static/shangla@3x.png'
+import xiala from '@static/xiala@3x.png'
+import shangla from '@static/shangla@3x.png'
 
 class JobIntroduce extends PureComponent {
   static propTypes = {

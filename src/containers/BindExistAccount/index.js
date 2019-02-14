@@ -5,7 +5,7 @@ import { loggingStatus } from '../../actions/userStatus'
 import { Button, Icon, Toast } from 'antd-mobile'
 import queryString from 'query-string'
 import * as auth from '../../actions/auth'
-import Rectangle from '../../static/back.png'
+import Rectangle from '@static/back.png'
 
 @connect(state => {
   return {

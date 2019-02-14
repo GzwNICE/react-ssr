@@ -3,7 +3,7 @@ import { Flex } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { hotTrade } from '../../../actions/home'
 import { withRouter, Link } from 'react-router-dom'
-import hotjobs from '../../../static/hotJobs@3x.png'
+import hotjobs from '@static/hotJobs@3x.png'
 import style from '../style.less'
 const tiggerModule = '模块'
 const tiggerCompany = '企业'
@@ -96,7 +96,7 @@ class HotTrade extends Component {
                       rel="stylesheet"
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
-                      }`}
+                      }&areaParms=${this.props.supers.location.address.code}`}
                       onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}

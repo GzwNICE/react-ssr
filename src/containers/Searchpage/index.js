@@ -11,9 +11,9 @@ import { changeAllCity } from '../../actions/home'
 import SearchHot from '../../components/SearchHot'
 import SearchHistory from '../../components/SearchHistory'
 import F from '../../helper/tool'
-import resume from '../../static/sresume@3x.png'
+import resume from '@static/sresume@3x.png'
 import queryString from 'query-string'
-import welfares from '../../static/sfuli@3x.png'
+import welfares from '@static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
 import { Helmet } from 'react-helmet'
@@ -26,6 +26,7 @@ const tiggerSearchKeyWord = '搜索词'
     tips: state.search.tips,
     supers: state.supers,
     areaCode: state.search.areaCode,
+    query: state.search.query,
   }
 })
 class SearchPage extends PureComponent {
@@ -38,10 +39,14 @@ class SearchPage extends PureComponent {
   }
 
   componentWillReceiveProps(next) {
-    const { supers, areaCode } = this.props // userStatus
+    const { supers, areaCode, query } = this.props // userStatus
     let area = supers.location.address.code[0]
-    if (areaCode.length > 0) {
-      area = areaCode[0]
+    // console.log(areaCode[0])
+    // if (areaCode.length > 0) {
+      area = areaCode[0] ? areaCode[0] : ''
+    // }
+    if (query.area.length > 0) {
+      area = query.area[0]
     }
     this.setState({
       areaParms: area,
@@ -50,9 +55,14 @@ class SearchPage extends PureComponent {
   onChangeCity = value => {
     // const Area = option.areas_index
     const code = value.areas
-    if (value.areas.length > 0) {
+    console.log(code)
+    // if (value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
-    }
+    // }
+       this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: code,
+      })
   }
 
   change = keyWord => {
@@ -73,7 +83,7 @@ class SearchPage extends PureComponent {
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 

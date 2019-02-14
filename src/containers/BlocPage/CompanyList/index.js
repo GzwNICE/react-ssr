@@ -5,8 +5,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { ListView } from 'antd-mobile'
 import { saveScrollTop,blocList, blocCategory, blocSearch } from '../../../actions/bloc'
 import JobList from '../../../components/JobList'
-import companyLogo from '../../../static/detailLogo.png'
-import missing from '../../../static/missing.png'
+import companyLogo from '@static/detailLogo.png'
+import missing from '@static/missing.png'
 import {  } from '../../../actions/home'
 import style from '../style.less'
 const triggerFrom = '触发来源'
@@ -30,7 +30,7 @@ class CompanyList extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
-
+    console.log(this.props.list)
     this.state = {
       dataSource: this.props.searchEnd
         ? dataSource.cloneWithRows(this.props.searchList)

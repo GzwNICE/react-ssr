@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { famCompany } from '../../../actions/home'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import companyLogo from '../../../static/detailLogo.png'
+import companyLogo from '@static/detailLogo.png'
 import style from '../style.less'
 const tiggerCompany = '企业'
 

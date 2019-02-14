@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import detailLogo from '../../static/detailLogo.png'
+import detailLogo from '@static/detailLogo.png'
 import { withRouter, Link } from 'react-router-dom'
 import style from './style.less'
 const triggerFrom = '触发来源'

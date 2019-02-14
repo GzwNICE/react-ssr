@@ -4,7 +4,7 @@
 import React, { PureComponent } from 'react'
 import { InputItem, Toast } from 'antd-mobile'
 import { Link } from 'react-router-dom'
-import Rectangle from '../../static/back.png'
+import Rectangle from '@static/back.png'
 import { createForm } from 'rc-form'
 import queryString from 'query-string'
 import style from './style.less'
@@ -15,7 +15,10 @@ import { connect } from 'react-redux'
 import Alert from '../../components/Alert'
 import County from '../../inputs/County'
 import { loggingStatus } from '../../actions/userStatus'
+import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
+import BorderBottomLine from '../../components/BorderBottomLine'
+
 const triggerType = '类型'
 const triggerFrom = '触发来源'
 
@@ -253,6 +256,10 @@ class Register extends PureComponent {
     if (login) {
       this.props.history.push('/user')
     }
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+    })
   }
 
   componentWillUnmount() {
@@ -270,16 +277,18 @@ class Register extends PureComponent {
         <div className={style.registerCent}>
           <div className={style.title}>注册最佳东方</div>
           <div className={style.forms}>
-            <div className={style.phoneCode}>
+            <div>
               <InputItem
                 {...getFieldProps('number', { onChange: this.onPhoneNumber })}
                 className={style.inputHei}
                 clear
                 placeholder="请输入常用手机号"
                 maxLength="11"
+                type="number"
               >
                 <County setSet={this.setSst.bind(this)} />
               </InputItem>
+              <BorderBottomLine/>
             </div>
 
             <div className={style.massageCode}>
@@ -290,6 +299,7 @@ class Register extends PureComponent {
                 className={`${style.inputHei} ${style.massageLeft}`}
                 clear
                 placeholder="请输入短信验证码"
+                type="number"
               />
               <div
                 onClick={this.getCode}
@@ -303,6 +313,8 @@ class Register extends PureComponent {
                 {this.state.tipFont}
               </div>
             </div>
+            <BorderBottomLine/>
+
           </div>
           <div onClick={this.onRegister} className={style.subBtn}>
             <a className={this.state.disabled ? null : `${style.disabled}`}>

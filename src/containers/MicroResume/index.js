@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import style from './style.less'
-import { NavBar, List, InputItem, Toast, Modal, Icon, Tabs } from 'antd-mobile'
+import { NavBar, List, InputItem, Toast, Icon, Tabs } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
@@ -60,16 +60,16 @@ class MicroResume extends PureComponent {
     this.props.history.replace(
       '/user/register?redirect=' + this.props.history.location.pathname
     )
-    return Modal.alert('', '请先登录', [
-      { text: '稍后', style: 'default' },
-      {
-        text: '登录',
-        onPress: () =>
-          this.props.history.replace(
-            '/user/register?redirect=' + this.props.history.location.pathname
-          ),
-      },
-    ])
+    // return Modal.alert('', '请先登录', [
+    //   { text: '稍后', style: 'default' },
+    //   {
+    //     text: '登录',
+    //     onPress: () =>
+    //       this.props.history.replace(
+    //         '/user/register?redirect=' + this.props.history.location.pathname
+    //       ),
+    //   },
+    // ])
   }
 
   componentDidMount() {

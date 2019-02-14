@@ -4,10 +4,10 @@
 import React,{PureComponent, Component} from 'react'
 import style from '../style.less'
 import { createForm } from 'rc-form'
-import Area from '../../../inputs/Area'
+import Area from '../../../inputs/Area1'
 import Brand from '../../../inputs/Brand'
 import SimpleItem from '../../../inputs/SimpleItem'
-import Down from '../../../static/angleDownGray@3x.png'
+import Down from '@static/angleDownGray@3x.png'
 import { connect } from 'react-redux'
 
 const querys ={

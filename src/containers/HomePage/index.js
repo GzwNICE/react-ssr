@@ -13,6 +13,8 @@ import { saveScrollTop } from '../../actions/home'
 import { saveCityCode } from '../../actions/userStatus'
 import { saveQuery } from '../../actions/jobPage'
 import { ListView } from 'antd-mobile'
+// import sharedefulatWeixin from '../../helper/tool'
+import { appShare } from '../../actions/auth'
 import RegisterWrap from '../../components/RegisterWrap'
 
 /*
@@ -92,7 +94,10 @@ class HomePage extends PureComponent {
         code: values.areas,
       })
     )
-
+    this.props.dispatch({
+      type: 'JOB_PAGE_CITY_CODE_SET',
+      area: values.areas,
+    })
     /* 改变工作页面及搜索页面的this.props.query , jobPage*/
     this.props.dispatch(
       saveQuery({
@@ -148,6 +153,11 @@ class HomePage extends PureComponent {
     //     })
     //   )
     // }
+
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+    })
 
     this.setState({
       show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',

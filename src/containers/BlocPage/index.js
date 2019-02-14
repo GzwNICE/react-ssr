@@ -10,7 +10,8 @@ import {
   blocSearchClear,
   blocListClear,
 } from '../../actions/bloc'
-
+// import {shareWeixin} from '../../helper/tool'
+import { shareToPeople, shareToAll } from '../../actions/auth'
 import { saveBlocQuery, saveSearch } from '../../actions/bloc'
 import CompanyList from './CompanyList'
 import FilterList from './FilterList'
@@ -72,8 +73,11 @@ export default class CompanyArea extends Component {
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
       const triggerFrom = '触发来源'
-      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '名企列表页顶部推荐' })
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
+      window.zhuge.track('下载APP', {
+        [`${triggerFrom}`]: '名企列表页顶部推荐',
+      })
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h503'
     }, 2000)
   }
 
@@ -121,7 +125,7 @@ export default class CompanyArea extends Component {
     if (redirect) {
       this.props.history.replace(redirect)
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -215,6 +219,12 @@ export default class CompanyArea extends Component {
           this.setState({
             hasList: true,
           })
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(shareToAll('', res.data.group_company_name, 2)) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople('', res.data.group_company_name, 2)
+            ) // 分享给朋友
+          })
         })
     }
     this.setState({
@@ -244,7 +254,7 @@ export default class CompanyArea extends Component {
       nextProps.searchKeyword !== this.props.searchKeyword ||
       nextProps.searchState !== this.props.searchState
     ) {
-      Toast.loading('Loading...',1)
+      Toast.loading('Loading...', 1)
       if (nextProps.searchState) {
         this.props
           .dispatch(
@@ -265,16 +275,18 @@ export default class CompanyArea extends Component {
             Toast.hide()
           })
       } else {
-        Toast.loading('Loading...',1)
-        this.props.dispatch(
-          blocList({
-            c_userid: c_userid,
-            local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
-            c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+        Toast.loading('Loading...', 1)
+        this.props
+          .dispatch(
+            blocList({
+              c_userid: c_userid,
+              local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
+              c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
+            })
+          )
+          .then(() => {
+            Toast.hide()
           })
-        ).then(()=>{
-          Toast.hide()
-        })
       }
     }
   }
@@ -287,8 +299,9 @@ export default class CompanyArea extends Component {
 
   render() {
     const { show, showRegWrap, is_login } = this.state
-    const category = this.props.list
-    const categoryName = category.length > 0 ? category[0].category_name : ''
+    // const category = this.props.list
+    // const categoryName = category.length > 0 ? category[0].category_name : ''
+    const categoryName = this.props.bloc.group_company_name
     return (
       <div className={style.CompanyArea}>
         <Helmet>
@@ -307,11 +320,12 @@ export default class CompanyArea extends Component {
           <Search
             searchValue={this.state.searchValue}
             goBack={this.whereWillIGo}
-            Search={this.onSubmit}
-            Cancel={this.onCancel}
-            Change={this.onChange}
-            Clear={this.onClear}
-            visable={this.state.isVisable}
+            // Search={this.onSubmit}
+            // Cancel={this.onCancel}
+            // Change={this.onChange}
+            // Clear={this.onClear}
+            // visable={this.state.isVisable}  //名企专区搜索功能暂时关闭
+            title={categoryName}
           />
           <FilterList
             // wrappedComponentRef={inst => (this.formRef = inst)}
@@ -324,7 +338,7 @@ export default class CompanyArea extends Component {
           onScroll={this.onScroll}
         >
           <CompanyList
-            searchEnd={this.state.search}
+            // searchEnd={this.state.search} //名企专区搜索功能暂时关闭
             hasList={this.state.hasList}
           />
         </div>

@@ -7,39 +7,46 @@ import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { Frontload, frontloadServerRender } from 'react-frontload'
-// import { LocaleProvider } from 'antd'
-// import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import '../src/style/theme.less'
 import '../src/style/style.less'
 import createStore from '../src/store'
 import routes from '../src/routes'
-// import Root from '../src/pages/Root'
 import manifest from '../build/asset-manifest.json'
 import { getPostInit, famCompany, hotTrade } from '../src/actions/home'
 import { companydetail, companyList } from '../src/actions/company'
+import {
+  wxconfig,
+  appShare,
+  shareToPeople,
+  shareToAll
+} from '../src/actions/auth'
 import { positiondetail } from '../src/actions/position'
 import { getBanner } from '../src/actions/banner'
-import { blocList, blocCategory} from '../src/actions/company'
+import { blocList, blocCategory } from '../src/actions/bloc'
 import pathToRegexp from 'path-to-regexp'
 import {
   getSearchListInit,
 } from '../src/actions/search'
-// import * as option from '../src/actions/option'
-// import * as supersLocation from '../src/actions/supers/location'
 
 export default (req, res, next) => {
-  console.log(444444444444444444444 )
-  console.log(req.url)
-  const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
+  const injectHTML = (
+    data,
+    { html, title, meta, body, scripts, state, config, share }
+  ) => {
     data = data.replace('<html>', `<html ${html}>`)
     data = data.replace(/<title>.*?<\/title>/g, title)
     data = data.replace('</head>', `${meta}</head>`)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig', config)
+    data = data.replace('window.__INITIAL_STATE__.wxconfig.share', share.toAll)
+    data = data.replace(
+      'window.__INITIAL_STATE__.wxconfig.toPeople',
+      share.toPeople
+    )
     data = data.replace(
       '<div id="root"></div>',
       `<div id="root">${body}</div><script>window.__INITIAL_STATE__ = ${state}</script>`
     )
     data = data.replace('</body>', scripts.join('') + '</body>')
-
     return data
   }
 
@@ -58,14 +65,15 @@ export default (req, res, next) => {
 
       const isNumber = num => {
         if (typeof num === 'number') {
-          return num - num === 0;
+          return num - num === 0
         }
         if (typeof num === 'string' && num.trim() !== '') {
-          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
+          return Number.isFinite ? Number.isFinite(+num) : isFinite(+num)
         }
-        return false;
+        return false
       }
-      const serverRender = () => {
+      let url = `https://m.veryeast.cn${req.url}`
+      const serverRender = (share = null) => {
         frontloadServerRender(() =>
           renderToString(
             <Provider store={store}>
@@ -104,11 +112,9 @@ export default (req, res, next) => {
 
               // NOTE: Disable if you desire
               // Let's output the title, just to see SSR is working as intended
-              // console.log('THE TITLE', helmet.title.toString())
 
               // Pass all this nonsense into our HTML formatting function above
-              
-              // console.log(helmet.htmlAttributes.toString())
+
 
               const html = injectHTML(htmlData, {
                 html: helmet.htmlAttributes.toString(),
@@ -116,7 +122,36 @@ export default (req, res, next) => {
                 meta: helmet.meta.toString(),
                 body: routeMarkup,
                 scripts: extraChunks,
-                state: JSON.stringify(store.getState()).replace(/</g, '\\u003c')
+                state: JSON.stringify(store.getState()).replace(
+                  /</g,
+                  '\\u003c'
+                ),
+                config: JSON.stringify(
+                  store.getState().auth.wxconfig || {}
+                ).replace(/</g, '\\u003c'),
+
+                share: {
+                  toAll: JSON.stringify(
+                    share
+                      ? shareToAll(
+                          share.job_name,
+                          share.company_name,
+                          share.type,
+                          url
+                        )
+                      : appShare(url)
+                  ).replace(/</g, '\\u003c'),
+                  toPeople: JSON.stringify(
+                    share
+                      ? shareToPeople(
+                          share.job_name,
+                          share.company_name,
+                          share.type,
+                          url
+                        )
+                      : appShare(url)
+                  ).replace(/</g, '\\u003c')
+                }
               })
 
               // We have all the final HTML, let's send it to the user already!
@@ -127,16 +162,16 @@ export default (req, res, next) => {
             console.log('error: ' + error)
           })
       }
-
       const jobUrl = pathToRegexp('/:company_id(\\d+)/:job_id(\\d+)(.*)')
       const companyUrl2 = pathToRegexp('/:company_id(\\d+)')
       const companyUrl = pathToRegexp('/:company_id(\\d+)\\?(.*)')
-      const homePage = pathToRegexp('/home')
+      const homePage = pathToRegexp('/')
       const blocPage = pathToRegexp('/bloc/:c_userid(\\d+)(.*)')
 
       let job = jobUrl.exec(req.url)
       let com2 = companyUrl2.exec(req.url)
       let com1 = companyUrl.exec(req.url)
+      
       let com = {
         key: '',
         value: ''
@@ -160,45 +195,95 @@ export default (req, res, next) => {
           value: com1[1]
         }
       }
+
       if (isNumber(com.value)) {
-        if (com.key === 1) { // 职位详情页
+        if (com.key === 1) {
+          // 职位详情页
           render = false
-          store.dispatch(positiondetail({job_id: job[2],company_id: job[1]})).then(() => {
-            serverRender()
-          })
-        } else {   // 企业详情页
-          render = false
-          store.dispatch(companydetail({company_id: com.value})).then(() => {
-            store.dispatch(companyList({company_id: com.value})).then(() => {
-              serverRender()
+          store
+            .dispatch(
+              positiondetail({
+                job_id: job[2],
+                company_id: job[1],
+                user_ticket: req.cookies.ticket
+              })
+            )
+            .then(res => {
+              res.type=1
+              store.dispatch(wxconfig({url})).then(() => {
+                serverRender(res.data)
+              })
             })
-          })
+        } else {
+          // 企业详情页
+          render = false
+          store
+            .dispatch(
+              companydetail({
+                company_id: com.value,
+                user_ticket: req.cookies.ticket
+              })
+            )
+            .then(res => {
+              res.type = 2
+              store
+                .dispatch(
+                  companyList({
+                    company_id: com.value,
+                    user_ticket: req.cookies.ticket
+                  })
+                )
+                .then(() => {
+                  store.dispatch(wxconfig({ url })).then(() => {
+                    serverRender(res.data)
+                  })
+                })
+            })
         }
       }
-      if (homePage.exec(req.url)) { // 首页
+      
+      if (homePage.exec(req.url)) {
+        // 首页
         render = false
         store.dispatch(getPostInit()).then(() => {
           store.dispatch(getBanner()).then(() => {
             store.dispatch(famCompany()).then(() => {
               store.dispatch(hotTrade()).then(() => {
-                serverRender()
+                store.dispatch(wxconfig({ url })).then(() => {
+                  serverRender()
+                })
               })
             })
           })
         })
       }
-      if (blocPage.exec(req.url)) { // 名企专区列表
+      if (blocPage.exec(req.url)) {
+        // 名企专区列表
         render = false
-        store.dispatch(blocList({c_userid: blocPage.exec(req.url)[1]})).then(() => {
-          store.dispatch(blocCategory({c_userid: blocPage.exec(req.url)[1]})).then(() => {
-            serverRender()
+        store
+          .dispatch(blocList({ c_userid: blocPage.exec(req.url)[1] }))
+          .then(res => {
+            store
+              .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
+              .then(() => {
+                store.dispatch(wxconfig({ url })).then(() => {
+                  serverRender({
+                    type: 2,
+                    company_name: res.data.group_company_name,
+                    job_name: ''
+                  })
+                })
+              })
           })
-        })
       }
-    
-      if (req.url.indexOf('search/') !== -1 && req.url.indexOf('keyword') !== -1 && req.url.indexOf('areaParms') !== -1) {
+
+      if (
+        req.url.indexOf('search/') !== -1 &&
+        req.url.indexOf('keyword') !== -1 &&
+        req.url.indexOf('areaParms') !== -1
+      ) {
         let arr = req.url.split('&')
-        console.log(arr)
+        render = false
         let params = {
           keyword: '',
           area: '',
@@ -212,80 +297,29 @@ export default (req, res, next) => {
           update_time: '-1',
           work_mode: '0',
           page: '1',
-          size: '20',
+          size: '20'
         }
         arr.forEach(item => {
           let arr2 = item.split('=')
           if (arr2[0].indexOf('keyword') !== -1) {
-            params.keyword = arr2[1]
+            params.keyword = decodeURI(arr2[1])
           }
           if (arr2[0].indexOf('areaParms') !== -1) {
             params.area = arr2[1]
           }
         })
-        console.log(params)
-        store.dispatch(getSearchListInit(params)).then(() => {
-          // console.log('2222222222221111111')
-
-          // console.log(res.data.count)   decodeURI(%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E9%83%A8)
-          serverRender()
+        store.dispatch(getSearchListInit(params)).then(data => {
+          store.dispatch(wxconfig({ url })).then(() => {
+            serverRender()
+          })
         })
       }
 
-      if(render){
-        serverRender()
+      if (render) {
+        store.dispatch(wxconfig({ url })).then(() => {
+          serverRender()
+        })
       }
-
-
-
-
-
-
-
-
-
-      // const urlExcel = () => {
-        
-      // }
-
-
-
-      // let cityCode = []
-      // function _optIndex(sublist, city) {
-      //   (sublist || []).forEach(item => {
-      //     if (new RegExp(item.value).test(city)) {
-      //       cityCode.push(item.code)
-      //     }
-      //     _optIndex(item.sublist, city)
-      //   })
-      // }
-      // store.dispatch(option.load()).then(option => {
-      //   supersLocation.getCoords().then(payload => {
-      //     _optIndex(option.data.areas, payload.address.city)
-      //     store.dispatch({
-      //       type: supersLocation.$.location_load,
-      //       payload: {
-      //         ...payload,
-      //         address: {
-      //           ...payload.address,
-      //           code: cityCode,
-      //         },
-      //       },
-      //     })
-      //     urlExcel()
-      //   })
-      // })
-
-
-      // if (req.url.indexOf('tabs/home') !== -1) {  // 首页
-      //   store.dispatch(getPostInit()).then(() => {
-      //     store.dispatch(getBanner()).then(() => {
-      //       serverRender()
-      //     })
-      //   })
-      // } else {
-      //   serverRender()
-      // }
     }
   )
 }

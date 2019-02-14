@@ -16,6 +16,7 @@ import {
   SEARCH_SALARYRANGE,
   SEARCH_EMPTY_ALL,
   SEARCH_AREA_SINGLE,
+  SEARCH_AREA_SELECTED_CITY,
 } from '../actions/search'
 
 import {
@@ -57,17 +58,22 @@ const initState = {
   searchKeyword: '',
   areaCode: [],  // searchPage页city code
   toogleSet: false,
+  selectProjectFirst: true,
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case SEARCH_AREA_SELECTED_CITY:
+    return {
+      ...state,
+      selectProjectFirst: action.payload,
+    }
     case SEARCH_AREA_SINGLE:
     return {
       ...state,
       areaCode: action.payload,
     }
     case SEARCH_EMPTY_ALL:
-    console.log(state)
     return {
       ...state,
       hot: [],
@@ -98,6 +104,7 @@ export default (state = initState, action) => {
         rangeTitle: '薪资',
       },
       searchState: false,
+      selectProjectFirst: true,
     }
     case SEARCH_SALARYRANGE:
     return {
@@ -232,14 +239,36 @@ export default (state = initState, action) => {
     case SEAND_PAGE_GOBACK:
       return {
         ...state,
-        list: [],
+        hot: [],
+        tips: {},
         scrollTop: 0,
+        refreshing: false,
+        isLoading: false,
+        list: [],
         query: {
-          area:[],
+          ...state.query,
+          // area:[],
           more: {},
           brand: [],
           keywords: '',
+          salary: [0, 1000000],
         },
+        pager: {
+          cur:1,
+          count: '',
+          allPage: '',
+          size: 20,
+        },
+        company: {},
+        salaryShow: false, // 薪资下拉框显示隐藏
+        salaryString: '',
+        searchEndSalary: {
+          defaultRange: [0, 20],
+          rangeString: '不限',
+          rangeTitle: '薪资',
+        },
+        searchState: false,
+        selectProjectFirst: true,
       }
     default:
       return state

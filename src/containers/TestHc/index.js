@@ -7,9 +7,9 @@ import SearchHot from '../../components/SearchHot'
 import SearchHistory from '../../components/SearchHistory'
 import SearchClassify from '../../components/SearchClassify'
 import MySearchBar from '../../components/SearchBar'
-import resume from '../../static/resume@3x.png'
-// import compant from '../../static/company@3x.png'
-// import welfare from '../../static/welfare@3x.png'
+import resume from '@static/resume@3x.png'
+// import compant from '@static/company@3x.png'
+// import welfare from '@static/welfare@3x.png'
 let searchClassify = {
   position: ['酒店餐厅管理', '酒店经理酒店', '五星级酒店前台'],
   company: ['东方大酒店', '杭州大酒店', '北京大酒店'],

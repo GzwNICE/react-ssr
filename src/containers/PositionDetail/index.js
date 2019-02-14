@@ -2,33 +2,26 @@
  * Created by huangchao on 2017/10/10.
  */
 import React, { PureComponent } from 'react'
-import { Modal } from 'antd-mobile'
-import Clipboard from 'clipboard'
 import { connect } from 'react-redux'
 import style from './style.less'
 import queryString from 'query-string'
 import ShowArticle from './ShowArticle'
 import RestPosition from '../../components/RestPosition'
 import PositionBar from '../../components/PositionBar'
-import site from '../../static/area@3x.png'
-import dim from '../../static/dim.png'
+import site from '@static/area@3x.png'
+import dim from '@static/dim.png'
 import { Helmet } from 'react-helmet'
 import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
 import SearchUser from '../../components/SearchBar/SearchUser'
-import area from '../../static/area@3x.png'
-import experience from '../../static/experience@3x.png'
-import education from '../../static/education@3x.png'
-import jobType from '../../static/jobType@3x.png'
-import finish from '../../static/finish.png'
+import area from '@static/area@3x.png'
+import experience from '@static/experience@3x.png'
+import education from '@static/education@3x.png'
+import jobType from '@static/jobType@3x.png'
+import finish from '@static/finish.png'
 import { positiondetail, emptyInfo } from '../../actions/position'
-import {
-  wxconfig,
-  wx_config,
-  shareToPeople,
-  shareToAll,
-} from '../../actions/auth'
+import { shareToPeople, shareToAll } from '../../actions/auth'
 const triggerFrom = '触发来源'
 
 @connect(state => ({
@@ -44,29 +37,7 @@ class PositionDetail extends PureComponent {
       searchShow: false, //顶部搜索框默认隐藏
     }
   }
-  share = () => {
-    const shareLink = window.location.href
-    // const shareImg = this.props.user.portrait_url
-    if (navigator.userAgent.indexOf('UCBrowser') > -1 && window.ucbrowser) {
-      // uc  浏览器
-      const shareArgs = [
-        '简历分享',
-        '快来看看我的简历吧',
-        shareLink,
-        '',
-        '',
-        '\n@' + window.location.host,
-        '',
-      ]
-      return window.ucbrowser.web_share(...shareArgs)
-    }
-    Modal.alert(
-      Clipboard.isSupported() ? '链接已经复制到剪贴板' : '长按分享此链接',
-      <p style={{ wordWrap: 'break-word' }}>{shareLink}</p>,
-      [{ text: '确定', style: 'default' }]
-    )
-    // window.zhuge.track('分享')
-  }
+  
 
   nextPost = (job_id, c_userid) => {
     // window.zhuge.track('其他职位推荐')
@@ -76,37 +47,19 @@ class PositionDetail extends PureComponent {
 
   goCompany = c_userid => {
     window.zhuge.track('企业详情页打开', { [`${triggerFrom}`]: '职位详情页' })
-    this.props.history.push(`/${c_userid}?redirect=${this.props.history.location.pathname}`)
-  }
-
-  shareWeixin = data => {
-    let info = data.data || {}
-    let { job_name, company_name } = info
-    wxconfig().then(data => {
-      let wechat_config = data
-      window.wx.config(wx_config(wechat_config)) // 配置信息
-      window.wx.ready(function() {
-        window.wx.onMenuShareTimeline(shareToAll(job_name, company_name)) // 分享到朋友圈
-        window.wx.onMenuShareAppMessage(shareToPeople(job_name, company_name)) // 分享给朋友
-      })
-    })
+    this.props.history.push(
+      `/${c_userid}?redirect=${this.props.history.location.pathname}`
+    )
   }
 
   //返回上一页，没有上一页返回到首页
   whereWillIGo = () => {
-    // const { pathSearch } = queryString.parse(window.location.search)
-    // if (pathSearch) {
-    //   this.props.history.go(-1)
-    // } else {
-    //   this.props.history.length === 2 || this.props.history.length === 1
-    //     ? this.props.history.push('/home')
-    //     : this.props.history.go(-1)
-    // }
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      this.props.history.replace(redirect)
+      // this.props.history.replace(redirect)
+      this.props.history.goBack()
     } else {
-      this.props.history.replace('/home')
+      this.props.history.replace('/')
     }
   }
 
@@ -123,12 +76,13 @@ class PositionDetail extends PureComponent {
         })
       }
     }, 100)
-    
   }
 
   // 搜索框点击进入搜索页
   searchFocus = () => {
-    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}`)
+    this.props.history.push(
+      `/search?redirect=${this.props.history.location.pathname}`
+    )
   }
 
   // 跳转到职位详情
@@ -139,7 +93,8 @@ class PositionDetail extends PureComponent {
     const jobId = this.props.match.params.job_id
     window.location.href = `share2js://app?type=6&job_id=${jobId}`
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h507'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h507'
     }, 2000)
   }
 
@@ -148,7 +103,8 @@ class PositionDetail extends PureComponent {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '没有想要的职位' })
     window.location.href = 'share2js://app?type=1'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h509'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h509'
     }, 2000)
   }
 
@@ -174,7 +130,17 @@ class PositionDetail extends PureComponent {
           const page = this.props.location.pathname
           const pageScroll = this.props.pageScroll
           this.page.scrollTop = pageScroll[page] || 0
-          this.shareWeixin(data)
+
+          let info = data.data || {}
+          let { company_name, job_name = '' } = info
+          window.wx.ready(() => {
+            window.wx.updateTimelineShareData(
+              shareToAll(job_name, company_name, 1)
+            ) // 分享到朋友圈
+            window.wx.updateAppMessageShareData(
+              shareToPeople(job_name, company_name, 1)
+            ) // 分享给朋友
+          })
         })
     }
   }
@@ -199,7 +165,6 @@ class PositionDetail extends PureComponent {
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
           this.shareWeixin(data)
-          
         })
     }
   }
@@ -221,7 +186,7 @@ class PositionDetail extends PureComponent {
     const is_valid = this.props.position.is_valid //职位是否有效
     const hotData = this.props.position.hotData || {}
     return (
-      <div className={style.PositionDetailWrap} >
+      <div className={style.PositionDetailWrap}>
         <Helmet>
           <title>{`招聘${job_name}_${company.company_name}-最佳东方`}</title>
           <meta
@@ -230,7 +195,9 @@ class PositionDetail extends PureComponent {
           />
           <meta
             name="keywords"
-            content={`${company.company_name}${job_name}相关的招聘职位信息，帮助求职者早日找到测试职位相关工作`}
+            content={`${
+              company.company_name
+            }${job_name}相关的招聘职位信息，帮助求职者早日找到测试职位相关工作`}
           />
         </Helmet>
         <SearchUser
@@ -241,7 +208,7 @@ class PositionDetail extends PureComponent {
           zhugeFrom={2}
         />
 
-        <div id="page" className={style.connent} onScroll={this.onScroll} >
+        <div id="page" className={style.connent} onScroll={this.onScroll}>
           <div className={style.jobCard}>
             <div className={style.cardHeader}>
               <h1 className={style.name}>{job_name}</h1>
@@ -255,7 +222,7 @@ class PositionDetail extends PureComponent {
                 {data.work_place ? (
                   <li
                     style={{
-                      background: `url(${area}) no-repeat left center/0.12rem`,
+                      background: `url(${area}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.work_place}
@@ -265,7 +232,7 @@ class PositionDetail extends PureComponent {
                 {data.exp ? (
                   <li
                     style={{
-                      background: `url(${experience}) no-repeat left center/0.14rem`,
+                      background: `url(${experience}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.exp}
@@ -275,7 +242,7 @@ class PositionDetail extends PureComponent {
                 {data.education ? (
                   <li
                     style={{
-                      background: `url(${education}) no-repeat left center/0.14rem`,
+                      background: `url(${education}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.education}
@@ -285,7 +252,7 @@ class PositionDetail extends PureComponent {
                 {data.room_board ? (
                   <li
                     style={{
-                      background: `url(${jobType}) no-repeat left center/0.14rem`,
+                      background: `url(${jobType}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.room_board}
@@ -343,12 +310,15 @@ class PositionDetail extends PureComponent {
             </div>
           ) : null}
 
-          <RestPosition
+          {
+            list.length > 0 ? (<RestPosition
             callback={this.nextPost}
             title={is_valid === 0 ? '为你推荐以下相似职位' : '相似职位推荐'}
             data={list}
             history={this.props.history}
-          />
+          />) : null
+          }
+          
 
           {is_valid === 1 ? <HotTopic data={hotData} /> : null}
           {is_valid === 0 ? (

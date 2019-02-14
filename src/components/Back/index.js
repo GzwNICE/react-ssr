@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import { withRouter } from 'react-router-dom'
-import Rectangle from '../../static/back.png'
+import Rectangle from '@static/back.png'
 import style from './style.less'
 
 @withRouter

@@ -3,10 +3,10 @@ import { SearchBar } from 'antd-mobile'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as Ad from '../../Ad'
-import back from '../../../static/back.png'
-import unHome from '../../../static/unHome@3x.png'
-import personal from '../../../static/personal.png'
-import Userdefault from '../../../static/portrait@3x.png'
+import back from '@static/back.png'
+import unHome from '@static/unHome@3x.png'
+import personal from '@static/personal.png'
+import Userdefault from '@static/portrait@3x.png'
 import PropTypes from 'prop-types'
 import style from '../style.less'
 // import { loggingStatus } from '../../../actions/userStatus'
@@ -95,7 +95,7 @@ class SearchUser extends Component {
             <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
-            <Link rel="stylesheet" to={`/home`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
+            <Link rel="stylesheet" to={`/`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
             <Link
