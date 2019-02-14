@@ -1,10 +1,6 @@
 /*!
  * ****************************************
-<<<<<<< HEAD:build/static/js/22.6bd3d0d5.chunk.js
- * hash       : 9a72a32db890da9ff91e
-=======
- * hash       : f4dab89c2791db0b1c1e
->>>>>>> test:build/static/js/22.5b38991d.chunk.js
+ * hash       : 64b4068586af1e6ae2ed
  * name       : 22
  * file       : static/js/22.6bd3d0d5.chunk.js
  * author     : 张骥-Tom,高志文-Remady
