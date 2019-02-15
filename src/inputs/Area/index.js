@@ -289,7 +289,7 @@ class ComplexSelView extends ComplexFormField {
               {optionsSubChil
                 ? optionsSubChil.map((item, index) => {
                     let isChecked = false
-                    value.map((item2, index2) => {
+                    value.map((item2) => {
                       if (item.code === item2) {
                         isChecked = true
                       }

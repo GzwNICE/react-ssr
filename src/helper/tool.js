@@ -2,13 +2,13 @@
  * Created by huangchao on 2017/10/20.
  */
 import Cookies from 'js-cookie'
-
+// localStorage.getItem('photo')
 const getUserInfo = function() {
   const ticket = Cookies.get('ticket')
   if (ticket) {
     return {
       is_login: 1,
-      photo: localStorage.getItem('photo'),
+      photo: Cookies.get('photo'),
     }
   } else {
     return {

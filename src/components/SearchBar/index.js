@@ -116,6 +116,7 @@ class MySearchBar extends PureComponent {
       onChange = function() {},
     } = this.props
     const { is_login, photo } = this.state
+
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (

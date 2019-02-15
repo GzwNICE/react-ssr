@@ -37,7 +37,6 @@ class SearchEndBar extends PureComponent {
       location,
     } = this.props
     const { is_login, photo } = this.state
-
     return (
       <div className={style.SearchEndBarWrap}>
         <div onClick={() => goBack()} className={style.left}>

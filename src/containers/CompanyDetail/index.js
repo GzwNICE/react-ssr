@@ -75,45 +75,47 @@ class CompanyDetail extends PureComponent {
     const {is_login} = this.state
     if (is_login !== 1) {
       this.goLogin()
-    }
-    if (isFollowed === 1) {
-      this.props
-        .dispatch(
-          companyUnCollect({
-            company_id: companyId,
-          })
-        )
-        .then(data => {
-          Toast.success('取消关注', 2)
-          this.setState({
-            attention: '关注',
-          })
-        })
     } else {
-      this.props
-        .dispatch(
-          companyCollect({
-            company_id: companyId,
-          })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin()
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '关注企业',
-              })
-            }
-          } else {
-            Toast.success('关注成功', 2)
-            this.setState({
-              attention: '已关注',
+      if (isFollowed === 1) {
+        this.props
+          .dispatch(
+            companyUnCollect({
+              company_id: companyId,
             })
-            window.zhuge.track('关注企业')
-          }
-        })
+          )
+          .then(data => {
+            Toast.success('取消关注', 2)
+            this.setState({
+              attention: '关注',
+            })
+          })
+      } else {
+        this.props
+          .dispatch(
+            companyCollect({
+              company_id: companyId,
+            })
+          )
+          .then(data => {
+            if (data.status === 0) {
+              const msg = data.errMsg
+              if (msg === '未登陆') {
+                this.goLogin()
+                window.zhuge.track('注册页面打开', {
+                  [`${triggerFrom}`]: '关注企业',
+                })
+              }
+            } else {
+              Toast.success('关注成功', 2)
+              this.setState({
+                attention: '已关注',
+              })
+              window.zhuge.track('关注企业')
+            }
+          })
+      }
     }
+
   }
 
   onScroll = () => {
@@ -151,6 +153,7 @@ class CompanyDetail extends PureComponent {
 
   goLogin = () => {
     const pathname = this.props.history.location.pathname
+    // console.log(`/user/register?redirect=${pathname}`)
     this.props.history.replace(`/user/register?redirect=${pathname}`, {
       key: '关注',
     })
