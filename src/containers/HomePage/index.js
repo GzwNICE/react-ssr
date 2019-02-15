@@ -138,7 +138,11 @@ class HomePage extends PureComponent {
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
-    this.homecentent.scrollTo(0, this.scrollTop)
+    this.homecentent.scrollTop=this.scrollTop
+    // setTimeout(()=>{
+    //   this.homecentent.scrollTo(0, this.scrollTop)
+    // },10)
+    
     // const { userStatus, supers } = this.props
     // const location =
     //   userStatus.code && userStatus.code[0]

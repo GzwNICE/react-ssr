@@ -173,7 +173,7 @@ class CompanyDetail extends PureComponent {
   componentDidMount() {
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.company.scrollTop
-    this.detailWrap.scrollTo(0, this.scrollTop)
+    this.detailWrap.scrollTop =this.scrollTop
 
     const id = this.props.match.params.company_id
     const { from } = queryString.parse(window.location.search)
