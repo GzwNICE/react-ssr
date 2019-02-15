@@ -136,8 +136,9 @@ class PositionBar extends PureComponent {
         resume_complete < 0.8 // 40 <简历完整度 < 80
       ) {
         mostPerfect()
+        let  perc = parseInt(resume_complete*100, 10)
         this.setState({
-          percentage: `parseInt(${resume_complete * 100})%`,
+          percentage: `${perc}%`,
         })
         return
       } else {
