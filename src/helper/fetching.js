@@ -85,6 +85,12 @@ export function pipeline(uri, params, opt = {}) {
     // loading停止
     // Toast.hide()
     if (res.status >= 400) throw res
+    if (res.data.status===0 && res.data.errCode===2002) {
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      Cookies.remove('photo')
+      window.location.href='/user/login'
+    }
     return res.data
   })
 }

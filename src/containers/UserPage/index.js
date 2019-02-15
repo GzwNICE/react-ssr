@@ -5,7 +5,7 @@ import * as auth from '../../actions/auth'
 import { login_out } from '../../actions/userStatus'
 import { Link } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
@@ -18,13 +18,14 @@ import refresh from '../../static/refresh@3x.png'
 import inform from '../../static/inform.png'
 import back from '../../static/back.png'
 import style from './style.less'
+import F from '../../helper/tool'
+
 const triggerFrom = '触发来源'
 
 @connect(state => {
   return {
     user: state.auth,
     userStatus: state.userStatus,
-    
   }
 })
 class UserPage extends PureComponent {
@@ -60,7 +61,7 @@ class UserPage extends PureComponent {
       })
   }
 
-  showModal = (key,val) => e => {
+  showModal = (key, val) => e => {
     window.zhuge.track(val)
     if (e) e.preventDefault() // 修复 Android 上点击穿透
     this.setState({
@@ -102,14 +103,15 @@ class UserPage extends PureComponent {
   }
 
   // 跳转app消息列表
-  openApp = () =>{
+  openApp = () => {
     window.zhuge.track('下载APP', { [`${triggerFrom}`]: '您有未读消息' })
     this.setState({
       messageQueue: false,
     })
     window.location.href = 'share2js://app?type=2'
     setTimeout(() => {
-      window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h510'
+      window.location.href =
+        'https://m.veryeast.cn/mobile/ariadownload?utm_source=h510'
     }, 2000)
   }
 
@@ -139,10 +141,7 @@ class UserPage extends PureComponent {
           }, 1000)
           setTimeout(() => {
             this.props.history.replace('/')
-          }, 2000)
-          localStorage.removeItem('is_login')
-          localStorage.removeItem('photo')
-          Cookies.remove('photo')
+          }, 2000) 
         }
       })
       .catch(err => {
@@ -151,8 +150,11 @@ class UserPage extends PureComponent {
   }
 
   whereWillIGo = () => {
-    const  {redirect}  = queryString.parse(this.props.history.location.search)
-    if (redirect) {
+    // const { redirect } = queryString.parse(this.props.history.location.search)
+    let search = this.props.history.location.search
+    if (search.indexOf('?redirect=') !== -1) {
+      let redirect = search.split('?redirect=')[1]
+      // console.log(redirect)
       this.props.history.replace(redirect)
     } else {
       this.props.history.replace('/')
@@ -164,15 +166,17 @@ class UserPage extends PureComponent {
     // text: () => window.location.href,
     // })
     // 获取用户状态
-    if (this.props.user) {
+    const is_login = F.getUserInfo().is_login
+    if (is_login) {
       this.props.dispatch(getUserStatus()).then(json => {
-        if (json.errCode === 2002) {
-          this.props.history.push(
-            '/user/register?redirect=' + this.props.history.location.pathname,
-            { key: '我的' }
-          )
-        }
+        // if (json.errCode === 2002) {
+        // }
       })
+    } else {
+      this.props.history.push(
+        '/user/register?redirect=' + this.props.history.location.pathname,
+        { key: '我的' }
+      )
     }
   }
 
@@ -199,9 +203,7 @@ class UserPage extends PureComponent {
                     <img
                       src={inform}
                       alt="inform"
-                      onClick={
-                        this.showModal('messageQueue','消息')
-                      }
+                      onClick={this.showModal('messageQueue', '消息')}
                     />
                     {this.props.userStatus.unread_message_num ? (
                       <span>{this.props.userStatus.unread_message_num}</span>
@@ -211,7 +213,9 @@ class UserPage extends PureComponent {
               </div>
             </div>
             <div className={style.left} onClick={this.goLogin}>
-              <Link to={`/resume?source=/user${this.props.history.location.search}`}>
+              <Link
+                to={`/resume?source=/user${this.props.history.location.search}`}
+              >
                 <img
                   className={style.imgBox}
                   src={this.props.userStatus.avatar || headimg}
@@ -219,8 +223,12 @@ class UserPage extends PureComponent {
               </Link>
             </div>
             <div className={style.username}>
-              <Link to={`/resume?source=/user${this.props.history.location.search}`}>
-                {this.props.userStatus.true_name ? this.props.userStatus.true_name : '暂无'}
+              <Link
+                to={`/resume?source=/user${this.props.history.location.search}`}
+              >
+                {this.props.userStatus.true_name
+                  ? this.props.userStatus.true_name
+                  : '暂无'}
               </Link>
             </div>
           </div>
@@ -255,7 +263,9 @@ class UserPage extends PureComponent {
                 `/resume?source=/user${this.props.history.location.search}`,
                 '我的简历'
               )
-              window.zhuge.track('简历页面打开', {[`${triggerFrom}`]: '我的简历'})
+              window.zhuge.track('简历页面打开', {
+                [`${triggerFrom}`]: '我的简历',
+              })
             }}
           >
             <LisetItem img={Resume} titleleft="我的简历" />
@@ -297,7 +307,10 @@ class UserPage extends PureComponent {
           </div>
         </div>
         <div className={style.bottom}>
-          <div className={style.quit} onClick={this.showModal('loginOutAlert','退出登录')}>
+          <div
+            className={style.quit}
+            onClick={this.showModal('loginOutAlert', '退出登录')}
+          >
             退出登录
           </div>
           <div className={style.contactWay}>

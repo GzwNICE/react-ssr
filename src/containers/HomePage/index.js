@@ -17,6 +17,9 @@ import { ListView } from 'antd-mobile'
 import { appShare } from '../../actions/auth'
 import RegisterWrap from '../../components/RegisterWrap'
 import F from '../../helper/tool'
+import {
+  deleteList,
+} from '../../actions/search'
 /*
 关于地点的逻辑梳理
 首页和搜索页的地点来着SearchBar组件，引用地点来自定位地点
@@ -136,6 +139,7 @@ class HomePage extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.dispatch(deleteList())
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
     this.homecentent.scrollTop=this.scrollTop

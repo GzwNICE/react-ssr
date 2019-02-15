@@ -150,17 +150,21 @@ class LoginCode extends PureComponent {
   }
 
   login = () => {
+    let search = this.props.history.location.search
+
     if (this.state.disabled) {
       this.props.form.validateFields((err, value) => {
         if (err) return
-        const parsed = queryString.parse(window.location.search)
-        let _url = `${parsed.redirect}?`
-        Object.keys(parsed).map(k => {
-          if (k !== 'redirect') {
-            _url += `${k}=${parsed[k]}&`
-          }
-          return null
-        })
+        // const parsed = queryString.parse(window.location.search)
+        // let _url = `${parsed.redirect}?`
+        // Object.keys(parsed).map(k => {
+        //   if (k !== 'redirect') {
+        //     _url += `${k}=${parsed[k]}&`
+        //   }
+        //   return null
+        // })
+        
+
         loginCode({
           username: value.number,
           password: value.massageCode,
@@ -174,8 +178,15 @@ class LoginCode extends PureComponent {
               window.zhuge.track('验证码登录')
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
-                  if (parsed.redirect) {
-                    this.props.history.replace(_url)
+                  // if (parsed.redirect) {
+                  //   this.props.history.replace(_url)
+                  // } else {
+                  //   this.props.history.replace('/user')
+                  // }
+
+                  if (search.indexOf('?redirect=') !== -1) {
+                    let redirect = search.split('?redirect=')[1]
+                    this.props.history.replace(redirect)
                   } else {
                     this.props.history.replace('/user')
                   }
