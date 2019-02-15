@@ -60,7 +60,6 @@ class ResumeInfo extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
 
       function isNull(str) {
         if (str === '') return true
@@ -118,7 +117,6 @@ class ResumeInfo extends PureComponent {
         birthday,
         // graduation_time: '', // values.graduation_time.join('-')
       }
-      console.log(parmas)
       this.props.dispatch(resumeEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)
@@ -151,7 +149,6 @@ class ResumeInfo extends PureComponent {
         birthday,
         // graduation_time: '', // graduation_time  毕业时间
       }
-      console.log(payloaded)
       this.props.dispatch({
         type: 'TEMPORARY_SAVE',
         payload: payloaded,

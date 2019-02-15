@@ -69,7 +69,6 @@ class TextareaField extends ComplexFormField {
   }
   modelRender = () => {
     const { getWorkExample } = this.props
-    console.log(getWorkExample)
     // const arr = getWorkExample.content_cn.split('。')
     // console.log(arr) autoHeight
     return (

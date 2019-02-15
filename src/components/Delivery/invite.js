@@ -46,7 +46,6 @@ class DeliveryInvite extends PureComponent {
   onScroll = () => {
     let scrollTop = this.refs['invitepage'].listviewRef.scrollProperties.offset
     this.scrollTop = scrollTop
-    console.log(scrollTop)
   }
 
   componentDidMount() {

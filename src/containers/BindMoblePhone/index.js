@@ -282,3 +282,4 @@ class BindMoblePhone extends PureComponent {
 }
 
 export default BindMoblePhone
+

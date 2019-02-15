@@ -72,6 +72,10 @@ class CompanyDetail extends PureComponent {
   handleAttention() {
     const isFollowed = this.props.company.is_followed
     const companyId = this.props.company.company_id
+    const {is_login} = this.state
+    if (is_login !== 1) {
+      this.goLogin()
+    }
     if (isFollowed === 1) {
       this.props
         .dispatch(

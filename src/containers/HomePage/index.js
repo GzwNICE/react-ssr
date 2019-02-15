@@ -158,7 +158,6 @@ class HomePage extends PureComponent {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
-    console.log(F.getUserInfo().is_login)
     this.setState({
       show: localStorage.getItem('ad') ? localStorage.getItem('ad') : '',
       is_login: F.getUserInfo().is_login,

@@ -41,6 +41,10 @@ class PositionBar extends PureComponent {
   collect = () => {
     const jobId = this.props.position.job_id
     const isFavorited = this.props.position.is_favorited
+    const is_login = F.getUserInfo().is_login
+    if (is_login !== 1) {
+      this.goLogin()
+    }
     if (isFavorited) {
       // 已经收藏
       this.props

@@ -29,7 +29,6 @@ class Salary extends PureComponent {
     this.setState({
       defaultRange: this.state.range,
     })
-    console.log(this.props)
   }
   valNum = value => {
     let newVal = 0
