@@ -20,7 +20,7 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
     const hash = md5File.sync(filename).slice(0, 8)
     const bn = path.basename(filename).replace(/(\.\w{3})$/, `.${hash}$1`)
 
-    mod.exports = `/static/media/${bn}`
+    mod.exports = `//f3-v.veimg.cn/m/v3/static/media/${bn}`
   }
 })
 // require('whatwg-fetch');
