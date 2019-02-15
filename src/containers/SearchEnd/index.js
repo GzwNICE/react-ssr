@@ -644,10 +644,10 @@ class SearchEnd extends PureComponent {
   render() {
     const { queryMore } = this.state
     let query = this.props.query
-    const area =
-      this.props.userStatus.code && this.props.userStatus.code.length > 0
-        ? this.props.userStatus.code
-        : this.props.supers.location.address.code
+    // const area =
+    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
+    //     ? this.props.userStatus.code
+    //     : this.props.supers.location.address.code
     if (query.area.length === 0 && !filterChange) {
       // query.area = area
     }

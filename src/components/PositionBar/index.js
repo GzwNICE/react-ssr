@@ -44,43 +44,45 @@ class PositionBar extends PureComponent {
     const is_login = F.getUserInfo().is_login
     if (is_login !== 1) {
       this.goLogin()
-    }
-    if (isFavorited) {
-      // 已经收藏
-      this.props
-        .dispatch(
-          positionUnColiect({
-            job_id: jobId,
-          })
-        )
-        .then(data => {
-          Toast.success('取消收藏', 2)
-        })
     } else {
-      // 去收藏
-      this.props
-        .dispatch(
-          positionCollect({
-            job_id: jobId,
+      if (isFavorited) {
+        // 已经收藏
+        this.props
+          .dispatch(
+            positionUnColiect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            Toast.success('取消收藏', 2)
           })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin('收藏')
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '职位收藏',
+      } else {
+        // 去收藏
+        this.props
+          .dispatch(
+            positionCollect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            if (data.status === 0) {
+              const msg = data.errMsg
+              if (msg === '未登陆') {
+                this.goLogin('收藏')
+                window.zhuge.track('注册页面打开', {
+                  [`${triggerFrom}`]: '职位收藏',
+                })
+              }
+            } else {
+              Toast.success('收藏成功', 2)
+              window.zhuge.track('收藏', {
+                [`${triggerPost}`]: this.props.position.job_name,
               })
             }
-          } else {
-            Toast.success('收藏成功', 2)
-            window.zhuge.track('收藏', {
-              [`${triggerPost}`]: this.props.position.job_name,
-            })
-          }
-        })
+          })
+      }
     }
+   
   }
   showModal = key => e => {
     if (e) e.preventDefault() // 修复 Android 上点击穿透
