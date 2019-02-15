@@ -246,7 +246,10 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    // console.log(1111)
+    window.wx.ready(() => {
+      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
+      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
+    })
     
     // console.log(!!Cookies.get('ticket'))
       Cookies.remove('ticket')
@@ -259,10 +262,7 @@ class Register extends PureComponent {
     // if (login === 1) {
     //   this.props.history.push('/user')
     // }
-    window.wx.ready(() => {
-      window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
-      window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
-    })
+ 
   }
 
   componentWillUnmount() {

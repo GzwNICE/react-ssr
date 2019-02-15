@@ -36,16 +36,16 @@ class LoginPage extends PureComponent {
     // if(login === 1){
     //   this.props.history.push('/user')
     // }
-    Cookies.remove('ticket')
-    Cookies.remove('user_ticket')
-    localStorage.removeItem('is_login')
-    localStorage.removeItem('photo')
-    Cookies.remove('photo')
-
     window.wx.ready(() => {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
+
+    Cookies.remove('ticket')
+    Cookies.remove('user_ticket')
+    localStorage.removeItem('is_login')
+    localStorage.removeItem('photo')
+    Cookies.remove('photo') 
   }
 
   render() {

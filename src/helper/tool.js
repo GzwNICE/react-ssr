@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 // localStorage.getItem('photo')
 const getUserInfo = function() {
   const ticket = Cookies.get('ticket')
+  alert(ticket)
   if (ticket) {
     return {
       is_login: 1,
