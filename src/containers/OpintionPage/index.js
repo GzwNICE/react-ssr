@@ -67,7 +67,7 @@ class OpintionPage extends PureComponent {
             {issuesList ? issuesList.map(i =>{
               return (
                 <div className={style.issueSingle} onClick={() => {
-                  this.goNextpage(`/problem/${i.id}`, 2, i.title)
+                  this.goNextpage(`/problem/${i.id}?redirect=${this.props.history.location.pathname}`, 2, i.title)
                 }} key={i.id}>
                   <span>{i.title}</span>
                   <img src={Rectangle} alt="" />
