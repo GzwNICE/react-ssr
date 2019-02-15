@@ -45,6 +45,11 @@ class Login extends PureComponent {
       }
     })
   }
+
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   goRegister = (url, key) => {
     const search = window.location.search
     const triggerFrom = '触发来源'
@@ -162,6 +167,7 @@ class Login extends PureComponent {
             clear
             placeholder="手机号/邮箱/用户名"
             type="text"
+            onBlur={this.onBlurInput}
           />
           <div className={style.passwordBox}>
             <InputItem
@@ -170,6 +176,7 @@ class Login extends PureComponent {
               clear
               type={this.state.password ? 'password' : 'text'}
               placeholder="请输入登录密码"
+              onBlur={this.onBlurInput}
             />
             <div className={style.changeType} onClick={this.changePasswordType}>
               <img
