@@ -89,7 +89,7 @@ export function pipeline(uri, params, opt = {}) {
       Cookies.remove('ticket')
       Cookies.remove('user_ticket')
       Cookies.remove('photo')
-      window.location.href='/user/login'
+      window.location.href='/user/register'
     }
     return res.data
   })
