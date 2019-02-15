@@ -33,6 +33,10 @@ class ChangePasswprd extends PureComponent {
     if(type === 'type3') {this.setState({type3: !this.state.type3})}
   }
 
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   passworOnchange = () => {
     const oldPassword = this.refs.oldPassword.value
     const password = this.refs.password.value
@@ -109,7 +113,9 @@ class ChangePasswprd extends PureComponent {
               onChange={this.passworOnchange}
               ref="oldPassword"
               placeholder="请输入原始密码"
-              type={this.state.type1 ? 'text' : 'password'} />
+              type={this.state.type1 ? 'text' : 'password'}
+              onBlur={this.onBlurInput}
+              />
             <div onClick={() => this.changeType('type1')} className={style.changeimg}>
               <img src={this.state.type1 ? pasword : paswordno} alt="" />
             </div>
@@ -120,6 +126,7 @@ class ChangePasswprd extends PureComponent {
               ref="password"
               placeholder="新密码（6-20个字母或数字）"
               maxLength="20"
+              onBlur={this.onBlurInput}
               type={this.state.type2 ? 'text' : 'password'} />
             <div onClick={() => this.changeType('type2')} className={style.changeimg}>
               <img src={this.state.type2 ? pasword : paswordno} alt="" />
@@ -131,7 +138,9 @@ class ChangePasswprd extends PureComponent {
               ref="NewPassword"
               placeholder="再次输入新密码"
               maxLength="20"
-              type={this.state.type3 ? 'text' : 'password'} />
+              type={this.state.type3 ? 'text' : 'password'}
+              onBlur={this.onBlurInput}
+              />
             <div onClick={() => this.changeType('type3')} className={style.changeimg}>
               <img src={this.state.type3 ? pasword : paswordno} alt="" />
             </div>

@@ -1,7 +1,6 @@
 const md5File = require('md5-file')
 const path = require('path')
 const lessParser = require('postcss-less').parse
-
 // CSS styles will be imported on load and that complicates matters... ignore those bad boys!
 const ignoreStyles = require('ignore-styles')
 const register = ignoreStyles.default

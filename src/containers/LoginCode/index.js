@@ -80,6 +80,10 @@ class LoginCode extends PureComponent {
     })
   }
 
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   getCode = () => {
     const upperLimit = this.showModal('upperLimit')
     this.props.form.validateFields((err, value) => {
@@ -260,6 +264,7 @@ class LoginCode extends PureComponent {
               placeholder="请输入常用手机号"
               maxLength="11"
               type="number"
+              onBlur={this.onBlurInput}
             >
               <County setSet={this.setSst.bind(this)} />
             </InputItem>
@@ -273,6 +278,7 @@ class LoginCode extends PureComponent {
               clear
               placeholder="请输入短信验证码"
               type="number"
+              onBlur={this.onBlurInput}
             />
             <div
               onClick={this.getCode}

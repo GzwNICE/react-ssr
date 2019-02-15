@@ -150,6 +150,9 @@ class ForgetPassword extends PureComponent {
       this.props.history.push('/')
     }
   }
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
 
   componentDidMount() {
     window.wx.ready(() => {
@@ -177,6 +180,8 @@ class ForgetPassword extends PureComponent {
             clear
             placeholder="手机号"
             maxLength="11"
+            type="number"
+            onBlur={this.onBlurInput}
           />
           <div className={style.massageCode}>
             <InputItem
@@ -186,6 +191,8 @@ class ForgetPassword extends PureComponent {
               className={`${style.inputHei} ${style.massageLeft}`}
               clear
               placeholder="短信验证码"
+              type="number"
+              onBlur={this.onBlurInput}
             />
             <div
               onClick={this.getCode}
@@ -208,6 +215,7 @@ class ForgetPassword extends PureComponent {
               type={this.state.password ? 'password' : 'text'}
               clear
               placeholder="请设置新密码"
+              onBlur={this.onBlurInput}
             />
             <div className={style.password} onClick={this.changePasswordType}>
               <img
