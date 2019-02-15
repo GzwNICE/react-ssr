@@ -184,7 +184,7 @@ class PositionDetail extends PureComponent {
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
     const is_valid = this.props.position.is_valid //职位是否有效
-    const hotData = this.props.position.hotData || {}
+    // const hotData = this.props.position.hotData || {}
     return (
       <div className={style.PositionDetailWrap}>
         <Helmet>
