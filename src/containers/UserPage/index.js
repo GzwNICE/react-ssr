@@ -138,6 +138,7 @@ class UserPage extends PureComponent {
           setTimeout(() => {
             Toast.info('退出成功', 2)
             this.props.dispatch(login_out)
+            F.removeAllCookie()
           }, 1000)
           setTimeout(() => {
             this.props.history.replace('/')

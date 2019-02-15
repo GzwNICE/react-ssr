@@ -18,6 +18,13 @@ const getUserInfo = function() {
     }
   }
 }
+const removeAllCookie = function() {
+  Cookies.remove('ticket')
+  Cookies.remove('user_ticket')
+  localStorage.removeItem('is_login')
+  localStorage.removeItem('photo')
+  Cookies.remove('photo')
+}
 const ArrayDelRepetition = function(data) {
   let tmp = {},
     arr = []
@@ -151,5 +158,6 @@ export default {
   hidden_email,
   sortObj,
   getUserInfo,
+  removeAllCookie,
   // shareWeixin,
 }
