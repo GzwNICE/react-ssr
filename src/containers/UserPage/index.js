@@ -167,8 +167,12 @@ class UserPage extends PureComponent {
     // })
     // 获取用户状态
     const is_login = F.getUserInfo().is_login
+    alert('user')
+    alert(is_login)
+
     if (is_login) {
-      this.props.dispatch(getUserStatus()).then(json => {
+      this.props.dispatch(getUserStatus()).then(data => {
+        console.log(data)
         // if (json.errCode === 2002) {
         // }
       })
