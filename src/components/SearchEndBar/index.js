@@ -37,7 +37,7 @@ class SearchEndBar extends PureComponent {
       location,
     } = this.props
     // ${this.props.history.location.search}`
-    console.log(location.search)
+    // console.log(location.search)
     const { is_login, photo } = this.state
     return (
       <div className={style.SearchEndBarWrap}>
@@ -58,7 +58,7 @@ class SearchEndBar extends PureComponent {
           to={
             is_login
               ? `/user?redirect=${location.pathname}${location.search}`
-              : `/user/register?redirect=${location.pathname}`
+              : `/user/register?redirect=${location.pathname}${location.search}`
           }
           onClick={() => {
             const triggerFrom = '触发来源'

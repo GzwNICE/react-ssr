@@ -5,7 +5,7 @@ import * as auth from '../../actions/auth'
 import { login_out } from '../../actions/userStatus'
 import { Link } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import LisetItem from '../../components/ListItem'
 import { getUserStatus, userRefResume } from '../../actions/userStatus'
 import Alert from '../../components/Alert'
@@ -152,12 +152,9 @@ class UserPage extends PureComponent {
   whereWillIGo = () => {
     // const { redirect } = queryString.parse(this.props.history.location.search)
     let search = this.props.history.location.search
-    
-   
-
     if (search.indexOf('?redirect=') !== -1) {
       let redirect = search.split('?redirect=')[1]
-      console.log(redirect)
+      // console.log(redirect)
       this.props.history.replace(redirect)
     } else {
       this.props.history.replace('/')

@@ -84,6 +84,8 @@ class Login extends PureComponent {
 
   handleLogin = () => {
     // window.zhuge.track('登录')
+    let search = this.props.history.location.search
+
     this.props.form.validateFields((err, value) => {
       if (err) return
       const parsed = queryString.parse(window.location.search)
@@ -126,14 +128,20 @@ class Login extends PureComponent {
               Cookies.set('reigsterMobile', data.phone)
               this.props.dispatch(loggingStatus()).then(() => {
                 setTimeout(() => {
-                  if (parsed.redirect) {
-                    if (_url.indexOf('service') > -1) {
-                      window.location.replace(_url)
-                    } else {
-                      this.props.history.replace(_url)
-                    }
+                  // if (parsed.redirect) {
+                  //   if (_url.indexOf('service') > -1) {
+                  //     window.location.replace(_url)
+                  //   } else {
+                  //     this.props.history.replace(_url)
+                  //   }
+                  // } else {
+                  //   this.props.history.push('/user')
+                  // }
+                  if (search.indexOf('?redirect=') !== -1) {
+                    let redirect = search.split('?redirect=')[1]
+                    this.props.history.replace(redirect)
                   } else {
-                    this.props.history.push('/user')
+                    this.props.history.replace('/user')
                   }
                 }, 999)
               })

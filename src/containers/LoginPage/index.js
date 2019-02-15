@@ -14,11 +14,18 @@ const triggerFrom = "触发来源"
 class LoginPage extends PureComponent {
 
   goBack = () => {
-    const {redirect} = queryString.parse(window.location.search)
-    if(redirect){
-      this.props.history.push(redirect)
-    }else {
-      this.props.history.push('/')
+    // const {redirect} = queryString.parse(window.location.search)
+    // if(redirect){
+    //   this.props.history.push(redirect)
+    // }else {
+    //   this.props.history.push('/')
+    // }
+    let search = this.props.history.location.search
+    if (search.indexOf('?redirect=') !== -1) {
+      let redirect = search.split('?redirect=')[1]
+      this.props.history.replace(redirect)
+    } else {
+      this.props.history.replace('/')
     }
   }
 
