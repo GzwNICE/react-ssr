@@ -77,6 +77,9 @@ export const logout = params => {
       store.remove('m:auth')
       Cookies.remove('ticket')
       Cookies.remove('user_ticket')
+      localStorage.removeItem('is_login')
+      localStorage.removeItem('photo')
+      Cookies.remove('photo')
       return payload.data
     }
     throw payload

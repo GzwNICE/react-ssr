@@ -85,6 +85,11 @@ export function pipeline(uri, params, opt = {}) {
     // loading停止
     // Toast.hide()
     if (res.status >= 400) throw res
+    if (res.data.errMsg && res.data.errMsg==='未登陆') {
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      Cookies.remove('photo')
+    }
     return res.data
   })
 }
