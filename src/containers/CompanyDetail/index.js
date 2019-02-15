@@ -307,7 +307,7 @@ class CompanyDetail extends PureComponent {
                   className={style.attention}
                   onClick={this.handleAttention.bind(this)}
                 >
-                  {is_followed === 1 ? '已关注' : attention}
+                  {is_login === 1  && is_followed === 1 ? '已关注' : attention}
                 </div>
               </div>
             </div>
