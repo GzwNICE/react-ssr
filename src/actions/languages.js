@@ -36,7 +36,6 @@ export const setLanSkills = transport({
   url: ':ve.mobile.interface/resume/set_lan_skills',
   type: $.setLanSkills,
   done(payload, params, getState) {
-    console.log(params)
     return {
       params,
       payload: payload.data,

@@ -51,7 +51,6 @@ class DeliveryNo extends PureComponent {
   onScroll = () => {
     let scrollTop = this.refs['rejectpage'].listviewRef.scrollProperties.offset
     this.scrollTop = scrollTop
-    console.log(scrollTop)
   }
 
   componentDidMount() {

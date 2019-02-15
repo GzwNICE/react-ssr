@@ -7,7 +7,7 @@ import NavBack from '../../components/Back'
 import SelectPost from '../SelectPost'
 import SelectCompany from '../SelectCompany'
 import style from './style.less'
-
+import F from '../../helper/tool'
 
 @connect(state => ({}))
 class SelectConcern extends PureComponent {
@@ -26,7 +26,8 @@ class SelectConcern extends PureComponent {
   }
 
   componentDidMount(){
-    if(!localStorage.getItem('is_login')){
+    const is_login = F.getUserInfo().is_login
+    if(is_login !== 1){
       this.props.history.push(`/user/register`)
     }
   }

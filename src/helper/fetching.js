@@ -146,14 +146,18 @@ export function parseBody(params = {}) {
   if (isServer) {
     return qs.stringify(params)
   } else {
-    const auth = store.get('m:auth') || {}
-    if(Cookies.get('ticket') || auth.user_ticket) {
-      Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
-    }
+    // const auth = store.get('m:auth') || {}
+    // if(Cookies.get('ticket') || auth.user_ticket) {
+    //   Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
+    // }
+    // if(Cookies.get('ticket')) {
+    //   Cookies.set('ticket', Cookies.get('ticket'))
+    // }
     params = {
       ...params,
-      user_ticket: auth.user_ticket || Cookies.get('ticket'),
+      user_ticket: Cookies.get('ticket'),
     }
+       
     const formData = new FormData()
     Object.keys(params).forEach((key) => {
       formData.append(key, params[key] instanceof Blob ? params[key] : (String(params[key]) || ''))

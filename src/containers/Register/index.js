@@ -18,7 +18,7 @@ import { loggingStatus } from '../../actions/userStatus'
 import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
 import BorderBottomLine from '../../components/BorderBottomLine'
-
+// import F from '../../helper/tool'
 const triggerType = '类型'
 const triggerFrom = '触发来源'
 

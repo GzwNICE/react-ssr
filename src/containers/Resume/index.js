@@ -20,6 +20,7 @@ import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
 import { Helmet } from 'react-helmet'
 import BorderBottomLine from '../../components/BorderBottomLine'
+import Cookies from 'js-cookie'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -160,13 +161,24 @@ class Resume extends PureComponent {
             avatar: blob,
           })
         )
-        .then(() => {
-          Toast.info('上传头像成功', 2)
-          this.props.dispatch(
-            getAllInfo({
-              appchannel: 'web',
+        .then((data) => {
+          if(data.status === 1) {
+            Toast.info('上传头像成功', 2)
+            this.props.dispatch(
+              getAllInfo({
+                appchannel: 'web',
+              })
+            ).then(data => {
+              const photo = data.data.get_base.photo
+                if(photo) {
+                  localStorage.setItem('photo', photo)
+                  Cookies.set('photo', photo)
+                }
             })
-          )
+          } else {
+            Toast.info(data.errMsg, 2)
+          }
+          
         })
     })
   }
@@ -257,10 +269,6 @@ class Resume extends PureComponent {
       languagesArr,
       skillsArr,
     } = this.state
-    // console.log(other_exps)
-    // console.log(
-    //   toogle || (languages.length === 0 && skills.length === 0)
-    // )
     let desiredSalary = '暂无'
     if (DesiredJob.desired_salary && DesiredJob.desired_salary !== '0') {
       desiredSalary =

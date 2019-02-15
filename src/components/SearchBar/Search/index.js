@@ -6,7 +6,7 @@ import personal from '../../../static/personal.png'
 import back from '../../../static/back.png'
 import Userdefault from '../../../static/portrait@3x.png'
 import style from './style.less'
-
+import F from '../../../helper/tool'
 @connect(state => ({}))
 class Search extends Component {
   constructor(props) {
@@ -24,12 +24,8 @@ class Search extends Component {
 
   componentDidMount() {
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
-      photo: localStorage.getItem('photo')
-        ? localStorage.getItem('photo')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      photo: F.getUserInfo().photo,
     })
   }
 

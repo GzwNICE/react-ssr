@@ -52,7 +52,6 @@ class CompanyBar extends PureComponent {
     const search = this.props.history.location.search ? this.props.history.location.search : '?'
     const pathname = this.props.history.location.pathname
     const url = `${search}${search === '?' ? '' : '&'}redirect=${pathname}`
-    console.log(url)
     Modal.alert('', '请先登录', [
       { text: '稍后', style: 'default' },
       { text: '登录', onPress: () => this.props.history.replace(url, {key: '关注'}) },

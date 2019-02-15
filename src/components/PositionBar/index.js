@@ -19,6 +19,8 @@ import {
 } from '../../actions/position'
 // import { getUserStatus } from '../../actions/userStatus'
 import { withRouter } from 'react-router-dom'
+import F from '../../helper/tool'
+
 const triggerFrom = '触发来源'
 const triggerPost = '岗位'
 
@@ -39,42 +41,48 @@ class PositionBar extends PureComponent {
   collect = () => {
     const jobId = this.props.position.job_id
     const isFavorited = this.props.position.is_favorited
-    if (isFavorited) {
-      // 已经收藏
-      this.props
-        .dispatch(
-          positionUnColiect({
-            job_id: jobId,
-          })
-        )
-        .then(data => {
-          Toast.success('取消收藏', 2)
-        })
+    const is_login = F.getUserInfo().is_login
+    if (is_login !== 1) {
+      this.goLogin()
     } else {
-      // 去收藏
-      this.props
-        .dispatch(
-          positionCollect({
-            job_id: jobId,
+      if (isFavorited) {
+        // 已经收藏
+        this.props
+          .dispatch(
+            positionUnColiect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            Toast.success('取消收藏', 2)
           })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin('收藏')
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '职位收藏',
+      } else {
+        // 去收藏
+        this.props
+          .dispatch(
+            positionCollect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            if (data.status === 0) {
+              const msg = data.errMsg
+              if (msg === '未登陆') {
+                this.goLogin('收藏')
+                window.zhuge.track('注册页面打开', {
+                  [`${triggerFrom}`]: '职位收藏',
+                })
+              }
+            } else {
+              Toast.success('收藏成功', 2)
+              window.zhuge.track('收藏', {
+                [`${triggerPost}`]: this.props.position.job_name,
               })
             }
-          } else {
-            Toast.success('收藏成功', 2)
-            window.zhuge.track('收藏', {
-              [`${triggerPost}`]: this.props.position.job_name,
-            })
-          }
-        })
+          })
+      }
     }
+   
   }
   showModal = key => e => {
     if (e) e.preventDefault() // 修复 Android 上点击穿透
@@ -95,9 +103,7 @@ class PositionBar extends PureComponent {
     const resume_complete = this.props.position.resume_complete
     const true_name = this.props.position.true_name_cn
     const mobile = this.props.position.mobile
-    const is_login = localStorage.getItem('is_login')
-      ? localStorage.getItem('is_login')
-      : ''
+    const is_login = F.getUserInfo().is_login
     const toPerfect = this.showModal('toPerfect')
     const mostPerfect = this.showModal('mostPerfect')
     if (!isApplied) {

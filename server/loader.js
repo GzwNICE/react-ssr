@@ -29,6 +29,12 @@ import {
 } from '../src/actions/search'
 
 export default (req, res, next) => {
+  // console.log(2222221111111111122222222222233333)
+  let ticket = {
+    user_ticket: req.cookies.ticket || '',
+  }
+  // console.log(req.cookies.ticket)
+
   const injectHTML = (
     data,
     { html, title, meta, body, scripts, state, config, share }
@@ -245,10 +251,10 @@ export default (req, res, next) => {
       if (homePage.exec(req.url)) {
         // 首页
         render = false
-        store.dispatch(getPostInit()).then(() => {
-          store.dispatch(getBanner()).then(() => {
-            store.dispatch(famCompany()).then(() => {
-              store.dispatch(hotTrade()).then(() => {
+        store.dispatch(getPostInit(ticket)).then(() => {
+          store.dispatch(getBanner(ticket)).then(() => {
+            store.dispatch(famCompany(ticket)).then(() => {
+              store.dispatch(hotTrade(ticket)).then(() => {
                 store.dispatch(wxconfig({ url })).then(() => {
                   serverRender()
                 })
@@ -260,11 +266,15 @@ export default (req, res, next) => {
       if (blocPage.exec(req.url)) {
         // 名企专区列表
         render = false
+        const parmas = {
+          c_userid: blocPage.exec(req.url)[1],
+          ...ticket,
+        }
         store
-          .dispatch(blocList({ c_userid: blocPage.exec(req.url)[1] }))
+          .dispatch(blocList(parmas))
           .then(res => {
             store
-              .dispatch(blocCategory({ c_userid: blocPage.exec(req.url)[1] }))
+              .dispatch(blocCategory(parmas))
               .then(() => {
                 store.dispatch(wxconfig({ url })).then(() => {
                   serverRender({
@@ -297,7 +307,8 @@ export default (req, res, next) => {
           update_time: '-1',
           work_mode: '0',
           page: '1',
-          size: '20'
+          size: '20',
+          ...ticket,
         }
         arr.forEach(item => {
           let arr2 = item.split('=')

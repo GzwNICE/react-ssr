@@ -1,7 +1,22 @@
 /**
  * Created by huangchao on 2017/10/20.
  */
-
+import Cookies from 'js-cookie'
+// localStorage.getItem('photo')
+const getUserInfo = function() {
+  const ticket = Cookies.get('ticket')
+  if (ticket) {
+    return {
+      is_login: 1,
+      photo: Cookies.get('photo'),
+    }
+  } else {
+    return {
+      is_login: 0,
+      photo: null,
+    }
+  }
+}
 const ArrayDelRepetition = function(data) {
   let tmp = {},
     arr = []
@@ -134,5 +149,6 @@ export default {
   hidden_mobile,
   hidden_email,
   sortObj,
+  getUserInfo,
   // shareWeixin,
 }

@@ -24,6 +24,7 @@ import { shareToPeople, shareToAll } from '../../actions/auth'
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
+import F from '../../helper/tool'
 const triggerFrom = '触发来源'
 
 @connect(state => {
@@ -71,44 +72,50 @@ class CompanyDetail extends PureComponent {
   handleAttention() {
     const isFollowed = this.props.company.is_followed
     const companyId = this.props.company.company_id
-    if (isFollowed === 1) {
-      this.props
-        .dispatch(
-          companyUnCollect({
-            company_id: companyId,
-          })
-        )
-        .then(data => {
-          Toast.success('取消关注', 2)
-          this.setState({
-            attention: '关注',
-          })
-        })
+    const {is_login} = this.state
+    if (is_login !== 1) {
+      this.goLogin()
     } else {
-      this.props
-        .dispatch(
-          companyCollect({
-            company_id: companyId,
-          })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin()
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '关注企业',
-              })
-            }
-          } else {
-            Toast.success('关注成功', 2)
-            this.setState({
-              attention: '已关注',
+      if (isFollowed === 1) {
+        this.props
+          .dispatch(
+            companyUnCollect({
+              company_id: companyId,
             })
-            window.zhuge.track('关注企业')
-          }
-        })
+          )
+          .then(data => {
+            Toast.success('取消关注', 2)
+            this.setState({
+              attention: '关注',
+            })
+          })
+      } else {
+        this.props
+          .dispatch(
+            companyCollect({
+              company_id: companyId,
+            })
+          )
+          .then(data => {
+            if (data.status === 0) {
+              const msg = data.errMsg
+              if (msg === '未登陆') {
+                this.goLogin()
+                window.zhuge.track('注册页面打开', {
+                  [`${triggerFrom}`]: '关注企业',
+                })
+              }
+            } else {
+              Toast.success('关注成功', 2)
+              this.setState({
+                attention: '已关注',
+              })
+              window.zhuge.track('关注企业')
+            }
+          })
+      }
     }
+
   }
 
   onScroll = () => {
@@ -146,6 +153,7 @@ class CompanyDetail extends PureComponent {
 
   goLogin = () => {
     const pathname = this.props.history.location.pathname
+    // console.log(`/user/register?redirect=${pathname}`)
     this.props.history.replace(`/user/register?redirect=${pathname}`, {
       key: '关注',
     })
@@ -203,9 +211,8 @@ class CompanyDetail extends PureComponent {
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      // photo: F.getUserInfo().photo,
     })
   }
 

@@ -18,6 +18,7 @@ import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
 import { Helmet } from 'react-helmet'
 import style from './style.less'
+import F from '../../helper/tool'
 const tiggerKeyWord = '搜索词'
 const tiggerCity = '地区'
 const tiggerBrand = '品牌'
@@ -228,9 +229,8 @@ export default class CompanyArea extends Component {
         })
     }
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      // photo: F.getUserInfo().photo,
     })
   }
 

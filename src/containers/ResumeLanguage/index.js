@@ -408,7 +408,6 @@ class ResumeInfo extends PureComponent {
       }
       arr.push(obj)
       arr2.unshift(obj2)
-      console.log(arr2)
       this.setState(
         {
           skillArr: arr,

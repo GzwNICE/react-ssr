@@ -147,8 +147,6 @@ class SearchEnd extends PureComponent {
 
     if (this.props.searchLIst.length < 1) {
       Toast.loading('Loading...')
-      // console.log(allQuery)
-      // console.log(areaParms)
       // 保证刷新时地区选择正确
       if (areaParms) {
         allQuery.area = [areaParms]
@@ -197,9 +195,8 @@ class SearchEnd extends PureComponent {
       pageFirst = false // 页面首次进入或者加载
     }, 2500)
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      // photo: F.getUserInfo().photo,
     })
   }
 
@@ -257,26 +254,6 @@ class SearchEnd extends PureComponent {
     this.scrollTop = 0
     document.body.scrollTop = document.documentElement.scrollTop = 0
     this.props.history.push(`/search`)
-    // const { redirect, sss } = queryString.parse(
-    //   this.props.history.location.search
-    // )
-    // this.props.dispatch(deleteList())
-    // console.log(redirect)
-    // console.log(sss)
-
-    // if (redirect) {
-    //   this.props.history.push(redirect)
-    // }
-    // if (
-    //   this.props.history.length === 2 ||
-    //   this.props.history.length === 1 ||
-    //   sss
-    // ) {
-    //   this.props.history.push(`/search?sss=${sss}`)
-    // } else {
-    //   this.scrollTop = 0
-    //   this.props.history.go(-1)
-    // }
   }
 
   goPosition = () => {
@@ -492,8 +469,6 @@ class SearchEnd extends PureComponent {
         allQuery.keyword = ''
       }
     })
-
-    // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
@@ -669,10 +644,10 @@ class SearchEnd extends PureComponent {
   render() {
     const { queryMore } = this.state
     let query = this.props.query
-    const area =
-      this.props.userStatus.code && this.props.userStatus.code.length > 0
-        ? this.props.userStatus.code
-        : this.props.supers.location.address.code
+    // const area =
+    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
+    //     ? this.props.userStatus.code
+    //     : this.props.supers.location.address.code
     if (query.area.length === 0 && !filterChange) {
       // query.area = area
     }
