@@ -46,7 +46,7 @@ class LoginPage extends PureComponent {
     // localStorage.removeItem('is_login')
     // localStorage.removeItem('photo')
     // Cookies.remove('photo')
-    alert(Cookies.get('ticket'))
+    // alert(Cookies.get('ticket'))
   }
 
   render() {
