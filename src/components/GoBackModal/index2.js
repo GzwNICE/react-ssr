@@ -9,7 +9,6 @@ class GoBackModal2 extends (PureComponent || Component) {
     if (search.indexOf('?redirect=') !== -1) {
       path = '?redirect=' + search.split('?redirect=')[1]
       path = `/resume/micro${path}`
-      console.log(path)
     }
     this.props.history.push(path)
   }
