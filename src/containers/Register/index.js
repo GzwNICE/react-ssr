@@ -251,9 +251,6 @@ class Register extends PureComponent {
     // Cookies.remove('photo')
     // const login = localStorage.getItem('is_login')
     const login = F.getUserInfo().is_login
-    alert('login')
-    alert(login)
-
     if (login) {
       this.props.history.push('/user')
     }
