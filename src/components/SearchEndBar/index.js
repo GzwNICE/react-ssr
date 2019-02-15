@@ -10,6 +10,10 @@ import { Link } from 'react-router-dom'
 import Userdefault from '../../static/portrait@3x.png'
 import personal from '../../static/personal.png'
 import F from '../../helper/tool'
+import { connect } from 'react-redux'
+
+@connect(state => {
+})
 class SearchEndBar extends PureComponent {
   static propTypes = {
     keyword: PropTypes.string,
@@ -19,6 +23,12 @@ class SearchEndBar extends PureComponent {
   state = {
     is_login: '',
     photo: '',
+  }
+  imgClick = () => {
+    this.props.dispatch({
+      type: 'SEARCH_AREA_SELECTED_CITY',
+      payload: false,
+    })
   }
   componentDidMount() {
     this.setState({
@@ -71,6 +81,7 @@ class SearchEndBar extends PureComponent {
             src={is_login ? (photo ? photo : Userdefault) : personal}
             alt="img"
             className={style.personal}
+            onClick={this.imgClick}
           />
         </Link>
       </div>
