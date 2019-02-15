@@ -58,11 +58,15 @@ class BindEmail extends PureComponent {
     clearInterval(this.timer)
   }
 
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   getCode = () => {
     if (!F.changeEmail(this.state.email))
       return Toast.info('请输入正确的邮箱', 2)
     if (this.state.disableCode) {
-      let send = (res) => {
+      let send = res => {
         email_verify_code({
           email: this.state.email,
           tx_ticket: res.ticket,
@@ -90,7 +94,7 @@ class BindEmail extends PureComponent {
       }
 
       let captcha1 = new window.TencentCaptcha('2096087700', function(res) {
-        if(res.ret === 0){
+        if (res.ret === 0) {
           send(res)
         }
       })
@@ -120,8 +124,8 @@ class BindEmail extends PureComponent {
               }
             } else {
               Toast.success('绑定成功', 2, () => {
-                store.set('m:auth', {...this.props.auth, email}) 
-                this.props.dispatch({type: 'CHANGE_BIND_EMAIL'})
+                store.set('m:auth', { ...this.props.auth, email })
+                this.props.dispatch({ type: 'CHANGE_BIND_EMAIL' })
                 this.props.history.goBack()
               })
             }
@@ -141,7 +145,10 @@ class BindEmail extends PureComponent {
       <div>请绑定常用邮箱，绑定后，可用于接收投递简历反馈通知，找回密码等</div>
     ) : (
       <div>
-        <p>当前绑定邮箱：{F.hidden_email(email)}，更改后，请用新邮箱接收投递简历反馈通知、找回密码等</p>
+        <p>
+          当前绑定邮箱：{F.hidden_email(email)}
+          ，更改后，请用新邮箱接收投递简历反馈通知、找回密码等
+        </p>
       </div>
     )
     return (
@@ -163,6 +170,7 @@ class BindEmail extends PureComponent {
                 ref="email"
                 placeholder="请输入邮箱"
                 type="text"
+                onBlur={this.onBlurInput}
               />
             </div>
           </div>
@@ -173,11 +181,14 @@ class BindEmail extends PureComponent {
                 ref="code"
                 placeholder="请输入邮箱验证码"
                 type="text"
+                onBlur={this.onBlurInput}
               />
             </div>
             <div
               onClick={this.getCode}
-              id="TencentCaptcha" data-appid="2096087700" data-cbfn="callbackdfws"
+              id="TencentCaptcha"
+              data-appid="2096087700"
+              data-cbfn="callbackdfws"
               className={`${style.clickBox} ${
                 this.state.disableCode ? null : style.disabledCode
               }`}
@@ -185,8 +196,7 @@ class BindEmail extends PureComponent {
               {this.state.tipFont}
             </div>
           </div>
-        
-          </div>
+        </div>
         <div
           onClick={this.bindEmail}
           className={`${style.btn} ${

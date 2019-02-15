@@ -194,6 +194,10 @@ class EmailBind extends PureComponent {
     clearInterval(this.timer)
   }
 
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   render() {
     const { form } = this.props
     const {
@@ -248,6 +252,7 @@ class EmailBind extends PureComponent {
                   })}
                   clear
                   placeholder={emailPlacehold}
+                  onBlur={this.onBlurInput}
                 />
                 <BorderBottomLine />
                 <div className={style.tip}>
@@ -265,6 +270,7 @@ class EmailBind extends PureComponent {
                     clear
                     className={style.authCode}
                     placeholder="请输入验证码"
+                    onBlur={this.onBlurInput}
                   />
                 </div>
                 <div

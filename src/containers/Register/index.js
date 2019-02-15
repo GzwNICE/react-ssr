@@ -87,6 +87,10 @@ class Register extends PureComponent {
     })
   }
 
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
+  }
+
   getCode = () => {
     // 获取验证码
     const upperLimit = this.showModal('upperLimit')
@@ -241,17 +245,6 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    // const { key } = this.props.location.state || {}
-    // const { sss } = queryString.parse(window.location.search)
-    // if (sss) {
-    //   window.zhuge.track('注册页面打开', {
-    //     触发来源: '首页浮窗',
-    //   })
-    // } else {
-    //   window.zhuge.track('注册页面打开', {
-    //     触发来源: key || '其他来源',
-    //   })
-    // }
     const login = localStorage.getItem('is_login')
     if (login) {
       this.props.history.push('/user')
@@ -285,6 +278,7 @@ class Register extends PureComponent {
                 placeholder="请输入常用手机号"
                 maxLength="11"
                 type="number"
+                onBlur={this.onBlurInput}
               >
                 <County setSet={this.setSst.bind(this)} />
               </InputItem>
@@ -300,6 +294,7 @@ class Register extends PureComponent {
                 clear
                 placeholder="请输入短信验证码"
                 type="number"
+                onBlur={this.onBlurInput}
               />
               <div
                 onClick={this.getCode}
