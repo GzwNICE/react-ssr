@@ -147,8 +147,6 @@ class SearchEnd extends PureComponent {
 
     if (this.props.searchLIst.length < 1) {
       Toast.loading('Loading...')
-      // console.log(allQuery)
-      // console.log(areaParms)
       // 保证刷新时地区选择正确
       if (areaParms) {
         allQuery.area = [areaParms]
@@ -256,26 +254,6 @@ class SearchEnd extends PureComponent {
     this.scrollTop = 0
     document.body.scrollTop = document.documentElement.scrollTop = 0
     this.props.history.push(`/search`)
-    // const { redirect, sss } = queryString.parse(
-    //   this.props.history.location.search
-    // )
-    // this.props.dispatch(deleteList())
-    // console.log(redirect)
-    // console.log(sss)
-
-    // if (redirect) {
-    //   this.props.history.push(redirect)
-    // }
-    // if (
-    //   this.props.history.length === 2 ||
-    //   this.props.history.length === 1 ||
-    //   sss
-    // ) {
-    //   this.props.history.push(`/search?sss=${sss}`)
-    // } else {
-    //   this.scrollTop = 0
-    //   this.props.history.go(-1)
-    // }
   }
 
   goPosition = () => {
@@ -491,8 +469,6 @@ class SearchEnd extends PureComponent {
         allQuery.keyword = ''
       }
     })
-
-    // console.log(allQuery)
     //this.props.dispatch(getSearchListInit(allQuery))
     return allQuery
   }
