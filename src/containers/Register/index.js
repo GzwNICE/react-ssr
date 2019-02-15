@@ -248,17 +248,17 @@ class Register extends PureComponent {
   componentDidMount() {
     // console.log(1111)
     
-    // console.log(Cookies.get('ticket'))
-      // Cookies.remove('ticket')
-      // Cookies.remove('user_ticket')
-      // localStorage.removeItem('is_login')
-      // localStorage.removeItem('photo')
-      // Cookies.remove('photo')
+    // console.log(!!Cookies.get('ticket'))
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      localStorage.removeItem('is_login')
+      localStorage.removeItem('photo')
+      Cookies.remove('photo')
     // const login = localStorage.getItem('is_login')
-    const login = F.getUserInfo().is_login
-    if (login === 1) {
-      this.props.history.push('/user')
-    }
+    // const login = F.getUserInfo().is_login
+    // if (login === 1) {
+    //   this.props.history.push('/user')
+    // }
     window.wx.ready(() => {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
