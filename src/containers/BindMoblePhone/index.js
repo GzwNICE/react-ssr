@@ -169,7 +169,6 @@ class BindMoblePhone extends PureComponent {
         version: '9.9.9',
       })
         .then(data => {
-          console.log(data)
           if (data.status === 1) {
             store.set('m:auth', {
               ...this.props.auth,

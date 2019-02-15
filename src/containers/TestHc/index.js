@@ -16,18 +16,11 @@ let searchClassify = {
   welfare: ['酒店供应', '酒店前台'],
 }
 class TestHc extends Component {
-  touchHot = (item) => {
-    console.log(item)
-  }
-  touchSearchItem = (d) => {
-    console.log(d)
-  }
+  
   item = () => {
     return ['五险 1 金', '五险 2 金', '五险 3 金', '体检', '包吃住']
   }
-  search = (val) => {
-    console.log(val)
-  }
+  
   render() {
     return (
       <div>
