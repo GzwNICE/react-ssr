@@ -24,11 +24,11 @@ class Search extends Component {
 
   componentDidMount() {
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
-      photo: sessionStorage.getItem('photo')
-        ? sessionStorage.getItem('photo')
+      photo: localStorage.getItem('photo')
+        ? localStorage.getItem('photo')
         : '',
     })
   }

@@ -109,7 +109,7 @@ class HomePage extends PureComponent {
 
   /* 关闭广告 */
   onCloseAd = () => {
-    sessionStorage.setItem('ad', true)
+    localStorage.setItem('ad', true)
     // Cookies.set('ad', true)
     this.setState({ show: true })
   }
@@ -160,9 +160,9 @@ class HomePage extends PureComponent {
     })
 
     this.setState({
-      show: sessionStorage.getItem('ad') ? sessionStorage.getItem('ad') : '',
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      show: localStorage.getItem('ad') ? localStorage.getItem('ad') : '',
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
     })
   }

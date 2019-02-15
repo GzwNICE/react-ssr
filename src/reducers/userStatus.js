@@ -70,8 +70,8 @@ export default (state = initState, action) => {
         ...action.data,
       }
     case GET_USER_LOGIN:
-      sessionStorage.setItem('is_login', action.data.is_login)
-      sessionStorage.setItem('photo', action.data.photo)
+      localStorage.setItem('is_login', action.data.is_login)
+      localStorage.setItem('photo', action.data.photo)
       return {
         ...state,
         // ...action.data,

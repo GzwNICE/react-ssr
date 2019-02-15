@@ -119,7 +119,7 @@ class UserPage extends PureComponent {
       this.props.history.push(url)
     } else {
       this.props.history.push(
-        '/register?redirect=' + this.props.history.location.pathname,
+        '/user/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }
       )
     }
@@ -140,8 +140,8 @@ class UserPage extends PureComponent {
           setTimeout(() => {
             this.props.history.replace('/')
           }, 2000)
-          sessionStorage.removeItem('is_login')
-          sessionStorage.removeItem('photo')
+          localStorage.removeItem('is_login')
+          localStorage.removeItem('photo')
         }
       })
       .catch(err => {
@@ -167,7 +167,7 @@ class UserPage extends PureComponent {
       this.props.dispatch(getUserStatus()).then(json => {
         if (json.errCode === 2002) {
           this.props.history.push(
-            '/register?redirect=' + this.props.history.location.pathname,
+            '/user/register?redirect=' + this.props.history.location.pathname,
             { key: '我的' }
           )
         }

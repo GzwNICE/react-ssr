@@ -161,6 +161,7 @@ class Login extends PureComponent {
             className={`${style.inputHei} ${style.name}`}
             clear
             placeholder="手机号/邮箱/用户名"
+            type="text"
           />
           <div className={style.passwordBox}>
             <InputItem

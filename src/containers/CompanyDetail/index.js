@@ -130,7 +130,9 @@ class CompanyDetail extends PureComponent {
   whereWillIGo = () => {
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      this.props.history.replace(redirect)
+      // this.props.history.replace(redirect)
+      this.props.history.goBack()
+
     } else {
       this.props.history.replace('/')
     }
@@ -201,8 +203,8 @@ class CompanyDetail extends PureComponent {
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
     })
   }

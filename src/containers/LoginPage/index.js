@@ -23,7 +23,7 @@ class LoginPage extends PureComponent {
 
   componentDidMount(){
     window.zhuge.track('登录页面打开', { [`${triggerFrom}`]: '登录链接直接打开' })
-    const login = sessionStorage.getItem('is_login')
+    const login = localStorage.getItem('is_login')
     if(login){
       this.props.history.push('/user')
     }

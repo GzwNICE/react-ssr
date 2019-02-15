@@ -59,14 +59,14 @@ class MySearchBar extends PureComponent {
       this.autoFocusInst.focus()
     }
     this.setState({
-      is_login: sessionStorage.getItem('is_login')
-        ? sessionStorage.getItem('is_login')
+      is_login: localStorage.getItem('is_login')
+        ? localStorage.getItem('is_login')
         : '',
-      photo: sessionStorage.getItem('photo')
-        ? sessionStorage.getItem('photo')
+      photo: localStorage.getItem('photo')
+        ? localStorage.getItem('photo')
         : '',
     })
-    const { supers } = this.props
+    // const { supers } = this.props
     // this.props.dispatch(changeAllCity([]))
     // setTimeout(()=>{
     //   console.log(supers.location.address.code)
@@ -94,7 +94,7 @@ class MySearchBar extends PureComponent {
     this.props.form.validateFields((err, values) => {
       if (err) return
  
-      if (values.areas && nextProps.userStatus.code[0] !== values.areas[0]) {
+      if (values.areas && nextProps.userStatus.code && nextProps.userStatus.code[0] !== values.areas[0]) {
       
         this.props.onChangeCity && this.props.onChangeCity(values)
         this.props.dispatch({

@@ -56,7 +56,8 @@ class PositionDetail extends PureComponent {
   whereWillIGo = () => {
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
-      this.props.history.replace(redirect)
+      // this.props.history.replace(redirect)
+      this.props.history.goBack()
     } else {
       this.props.history.replace('/')
     }
@@ -221,7 +222,7 @@ class PositionDetail extends PureComponent {
                 {data.work_place ? (
                   <li
                     style={{
-                      background: `url(${area}) no-repeat left center/0.12rem`,
+                      background: `url(${area}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.work_place}
@@ -231,7 +232,7 @@ class PositionDetail extends PureComponent {
                 {data.exp ? (
                   <li
                     style={{
-                      background: `url(${experience}) no-repeat left center/0.14rem`,
+                      background: `url(${experience}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.exp}
@@ -241,7 +242,7 @@ class PositionDetail extends PureComponent {
                 {data.education ? (
                   <li
                     style={{
-                      background: `url(${education}) no-repeat left center/0.14rem`,
+                      background: `url(${education}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.education}
@@ -251,7 +252,7 @@ class PositionDetail extends PureComponent {
                 {data.room_board ? (
                   <li
                     style={{
-                      background: `url(${jobType}) no-repeat left center/0.14rem`,
+                      background: `url(${jobType}) no-repeat left center/0.16rem`,
                     }}
                   >
                     {data.room_board}
@@ -309,12 +310,15 @@ class PositionDetail extends PureComponent {
             </div>
           ) : null}
 
-          <RestPosition
+          {
+            list.length > 0 ? (<RestPosition
             callback={this.nextPost}
             title={is_valid === 0 ? '为你推荐以下相似职位' : '相似职位推荐'}
             data={list}
             history={this.props.history}
-          />
+          />) : null
+          }
+          
 
           {is_valid === 1 ? <HotTopic data={hotData} /> : null}
           {is_valid === 0 ? (
