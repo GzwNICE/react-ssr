@@ -150,8 +150,14 @@ class UserPage extends PureComponent {
   }
 
   whereWillIGo = () => {
-    const { redirect } = queryString.parse(this.props.history.location.search)
-    if (redirect) {
+    // const { redirect } = queryString.parse(this.props.history.location.search)
+    let search = this.props.history.location.search
+    
+   
+
+    if (search.indexOf('?redirect=') !== -1) {
+      let redirect = search.split('?redirect=')[1]
+      console.log(redirect)
       this.props.history.replace(redirect)
     } else {
       this.props.history.replace('/')
