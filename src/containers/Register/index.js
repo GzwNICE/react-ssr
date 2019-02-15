@@ -18,6 +18,7 @@ import { loggingStatus } from '../../actions/userStatus'
 import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
 import BorderBottomLine from '../../components/BorderBottomLine'
+import F from '../../helper/tool'
 // import F from '../../helper/tool'
 const triggerType = '类型'
 const triggerFrom = '触发来源'
@@ -245,10 +246,11 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    Cookies.remove('ticket')
-    Cookies.remove('user_ticket')
-    Cookies.remove('photo')
-    const login = localStorage.getItem('is_login')
+    // Cookies.remove('ticket')
+    // Cookies.remove('user_ticket')
+    // Cookies.remove('photo')
+    // const login = localStorage.getItem('is_login')
+    const login = F.getUserInfo().is_login
     if (login) {
       this.props.history.push('/user')
     }
