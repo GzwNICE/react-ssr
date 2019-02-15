@@ -24,6 +24,7 @@ import { shareToPeople, shareToAll } from '../../actions/auth'
 import detailLogo from '../../static/detailLogo.png'
 import { companyCollect, companyUnCollect } from '../../actions/company'
 import style from './style.less'
+import F from '../../helper/tool'
 const triggerFrom = '触发来源'
 
 @connect(state => {
@@ -203,9 +204,8 @@ class CompanyDetail extends PureComponent {
 
     window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      // photo: F.getUserInfo().photo,
     })
   }
 

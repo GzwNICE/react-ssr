@@ -19,6 +19,8 @@ import {
 } from '../../actions/position'
 // import { getUserStatus } from '../../actions/userStatus'
 import { withRouter } from 'react-router-dom'
+import F from '../../helper/tool'
+
 const triggerFrom = '触发来源'
 const triggerPost = '岗位'
 
@@ -95,9 +97,7 @@ class PositionBar extends PureComponent {
     const resume_complete = this.props.position.resume_complete
     const true_name = this.props.position.true_name_cn
     const mobile = this.props.position.mobile
-    const is_login = localStorage.getItem('is_login')
-      ? localStorage.getItem('is_login')
-      : ''
+    const is_login = F.getUserInfo().is_login
     const toPerfect = this.showModal('toPerfect')
     const mostPerfect = this.showModal('mostPerfect')
     if (!isApplied) {

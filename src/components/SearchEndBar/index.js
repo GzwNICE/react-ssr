@@ -9,7 +9,7 @@ import search from '../../static/serach2@3x.png'
 import { Link } from 'react-router-dom'
 import Userdefault from '../../static/portrait@3x.png'
 import personal from '../../static/personal.png'
-
+import F from '../../helper/tool'
 class SearchEndBar extends PureComponent {
   static propTypes = {
     keyword: PropTypes.string,
@@ -21,16 +21,11 @@ class SearchEndBar extends PureComponent {
     photo: '',
   }
   componentDidMount() {
-    let is_login = localStorage.getItem('is_login')
-      ? localStorage.getItem('is_login')
-      : ''
-    let photo = localStorage.getItem('photo')
-      ? localStorage.getItem('photo')
-      : ''
     this.setState({
-      is_login,
-      photo,
+      is_login: F.getUserInfo().is_login,
+      photo: F.getUserInfo().photo,
     })
+    
   }
 
   render() {

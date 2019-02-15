@@ -197,9 +197,8 @@ class SearchEnd extends PureComponent {
       pageFirst = false // 页面首次进入或者加载
     }, 2500)
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      // photo: F.getUserInfo().photo,
     })
   }
 

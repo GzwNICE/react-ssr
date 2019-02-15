@@ -9,6 +9,7 @@ import personal from '../../../static/personal.png'
 import Userdefault from '../../../static/portrait@3x.png'
 import PropTypes from 'prop-types'
 import style from '../style.less'
+import F from '../../../helper/tool'
 // import { loggingStatus } from '../../../actions/userStatus'
 const triggerFrom = '触发来源'
 
@@ -67,12 +68,8 @@ class SearchUser extends Component {
     //   this.autoFocusInst.onFocus()
     // }
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
-      photo: localStorage.getItem('photo')
-        ? localStorage.getItem('photo')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      photo: F.getUserInfo().photo,
     })
   }
 

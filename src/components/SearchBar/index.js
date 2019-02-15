@@ -15,6 +15,7 @@ import searchIocn from '../../static/searchIocn.png'
 import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
+import F from '../../helper/tool'
 const triggerFrom = '触发来源'
 
 @withRouter
@@ -59,12 +60,8 @@ class MySearchBar extends PureComponent {
       this.autoFocusInst.focus()
     }
     this.setState({
-      is_login: localStorage.getItem('is_login')
-        ? localStorage.getItem('is_login')
-        : '',
-      photo: localStorage.getItem('photo')
-        ? localStorage.getItem('photo')
-        : '',
+      is_login: F.getUserInfo().is_login,
+      photo: F.getUserInfo().photo,
     })
     // const { supers } = this.props
     // this.props.dispatch(changeAllCity([]))

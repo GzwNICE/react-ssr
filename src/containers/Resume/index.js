@@ -160,13 +160,23 @@ class Resume extends PureComponent {
             avatar: blob,
           })
         )
-        .then(() => {
-          Toast.info('上传头像成功', 2)
-          this.props.dispatch(
-            getAllInfo({
-              appchannel: 'web',
+        .then((data) => {
+          if(data.status === 1) {
+            Toast.info('上传头像成功', 2)
+            this.props.dispatch(
+              getAllInfo({
+                appchannel: 'web',
+              })
+            ).then(data => {
+              const photo = data.data.get_base.photo
+                if(photo) {
+                  localStorage.setItem('photo', photo)
+                }
             })
-          )
+          } else {
+            Toast.info(data.errMsg, 2)
+          }
+          
         })
     })
   }

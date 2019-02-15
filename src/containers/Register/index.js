@@ -18,7 +18,7 @@ import { loggingStatus } from '../../actions/userStatus'
 import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
 import BorderBottomLine from '../../components/BorderBottomLine'
-
+import F from '../../helper/tool'
 const triggerType = '类型'
 const triggerFrom = '触发来源'
 
@@ -252,7 +252,7 @@ class Register extends PureComponent {
     //     触发来源: key || '其他来源',
     //   })
     // }
-    const login = localStorage.getItem('is_login')
+    const login = F.getUserInfo().is_login
     if (login) {
       this.props.history.push('/user')
     }
