@@ -11,7 +11,7 @@ import PositionBar from '../../components/PositionBar'
 import site from '../../static/area@3x.png'
 import dim from '../../static/dim.png'
 import { Helmet } from 'react-helmet'
-import HotTopic from './HotTopic'
+// import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
 import SearchUser from '../../components/SearchBar/SearchUser'
@@ -320,7 +320,7 @@ class PositionDetail extends PureComponent {
           }
           
 
-          {is_valid === 1 ? <HotTopic data={hotData} /> : null}
+          {/*{is_valid === 1 ? <HotTopic data={hotData} /> : null}*/}
           {is_valid === 0 ? (
             <div className={style.guidance}>
               <div className={style.finishApp} onClick={this.openAppHome}>
