@@ -328,18 +328,18 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
-      {
-        test: /\.png$/,
-        use: [
-          {
-            loader: require.resolve('file-loader'),
-            options: {
-              name: 'static/media/[name].[hash:8].[ext]',
-            },
-          },
-        ],
-        include: paths.appSrc,
-      },
+      // {
+      //   test: /\.png$/,
+      //   use: [
+      //     {
+      //       loader: require.resolve('file-loader'),
+      //       options: {
+      //         name: 'static/media/[name].[hash:8].[ext]',
+      //       },
+      //     },
+      //   ],
+      //   include: paths.appSrc,
+      // },
     ],
   },
   plugins: [
