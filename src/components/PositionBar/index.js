@@ -137,7 +137,7 @@ class PositionBar extends PureComponent {
       ) {
         mostPerfect()
         this.setState({
-          percentage: `${resume_complete * 100}%`,
+          percentage: `parseInt(${resume_complete * 100})%`,
         })
         return
       } else {
