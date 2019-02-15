@@ -95,11 +95,14 @@ export function pipeline(uri, params, opt = {}) {
     if (res.status >= 400) throw res
 
     if (res.data.status===0 && res.data.errCode===2002) {
-      loginOut()
-      // Cookies.remove('ticket')
-      // Cookies.remove('user_ticket')
-      // Cookies.remove('photo')
-      // window.location.href='/user/register'
+      // loginOut()
+      store.remove('m:auth')
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      localStorage.removeItem('is_login')
+      localStorage.removeItem('photo')
+      Cookies.remove('photo')
+      window.location.href='/user/register'
     }
     return res.data
   })
@@ -123,7 +126,7 @@ const loginOut = () => {
       localStorage.removeItem('is_login')
       localStorage.removeItem('photo')
       Cookies.remove('photo')
-      window.location.href='/user/register'
+      // window.location.href='/user/register'
     }  
   })
     
