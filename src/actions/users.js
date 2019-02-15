@@ -13,7 +13,6 @@ export const load = transport({
   url: '/users.json',
   type: $.load,
   should(params, getState) {
-    console.log(params, getState)
     return standard.cached(getState().users, params)
   },
   // begin(params, getState) {},

@@ -47,7 +47,6 @@ function highlight(text, words) {
 class ComplexSelView extends ComplexFormField {
   constructor(props) {
     super(props)
-    // console.log(this.props)
     this.state = {
       value: '',
       show: false,

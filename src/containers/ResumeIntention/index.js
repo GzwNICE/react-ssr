@@ -23,7 +23,6 @@ import { Helmet } from 'react-helmet'
     state.DesiredPositions.list.map(item => item.position)
   )
   DesiredLocations = [...DesiredLocations]
-  console.log(state.resume)
   return {
     option: state.option,
     DesiredJob: state.DesiredJob,
@@ -56,7 +55,6 @@ class ResumeIntention extends PureComponent {
   }
   changeValue() {
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (err) return
 
       if (values.desired_positions.length === 0) {
@@ -100,7 +98,6 @@ class ResumeIntention extends PureComponent {
         }),
         job_status: `${values.job_status}`,
       }
-      console.log(parmas)
       this.props.dispatch(intentionEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)
@@ -136,7 +133,6 @@ class ResumeIntention extends PureComponent {
       work_mode,
       job_status,
     } = this.props.form.getFieldsValue()
-console.log(work_mode)
     // console.log(DesiredPositions && DesiredPositions.length > 0 ? DesiredPositions : [])
     return (
       <Flex direction="column" align="stretch" className={style.root}>
