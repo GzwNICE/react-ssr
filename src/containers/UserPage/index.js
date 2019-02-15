@@ -142,6 +142,7 @@ class UserPage extends PureComponent {
           }, 2000)
           localStorage.removeItem('is_login')
           localStorage.removeItem('photo')
+          Cookies.remove('photo')
         }
       })
       .catch(err => {

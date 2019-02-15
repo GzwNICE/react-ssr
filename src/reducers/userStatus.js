@@ -1,6 +1,7 @@
 /**
  * Created by huangchao on 2017/10/30.
  */
+import Cookies from 'js-cookie'
 import {
   GET_USER_STATUS,
   LOGIN_OUT,
@@ -72,6 +73,7 @@ export default (state = initState, action) => {
     case GET_USER_LOGIN:
       // localStorage.setItem('is_login', action.data.is_login)
       localStorage.setItem('photo', action.data.photo)
+      Cookies.set('photo', action.data.photo)
       return {
         ...state,
         // ...action.data,
