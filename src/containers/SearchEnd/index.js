@@ -253,7 +253,7 @@ class SearchEnd extends PureComponent {
     this.props.dispatch(deleteList())
     this.scrollTop = 0
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    this.props.history.push(`/search`)
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`)
   }
 
   goPosition = () => {
