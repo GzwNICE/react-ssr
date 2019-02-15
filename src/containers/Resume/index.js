@@ -267,10 +267,6 @@ class Resume extends PureComponent {
       languagesArr,
       skillsArr,
     } = this.state
-    // console.log(other_exps)
-    // console.log(
-    //   toogle || (languages.length === 0 && skills.length === 0)
-    // )
     let desiredSalary = '暂无'
     if (DesiredJob.desired_salary && DesiredJob.desired_salary !== '0') {
       desiredSalary =
