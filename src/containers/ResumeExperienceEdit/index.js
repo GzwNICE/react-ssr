@@ -99,8 +99,8 @@ class ResumeExperienceEdit extends PureComponent {
 
       // window.zhuge.track('我的简历', { '模块': '工作经历' })
 
-      const end_year = values.end === 0 ? 0 : moment(values.end).format('YYYY')
-      const end_month = values.end === 0 ? 0 : moment(values.end).format('M')
+      const end_year = String(values.end) === '0' ? '0' : moment(values.end).format('YYYY')
+      const end_month = String(values.end) === '0' ? '0' : moment(values.end).format('M')
 
       const parmas = {
         ...values,

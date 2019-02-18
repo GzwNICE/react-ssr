@@ -118,15 +118,11 @@ const loginOut = () => {
     data: parseBody({}),
   }).then(payload => {
     if (payload.status !== 0) {
-    console.log(payload)
-
       store.remove('m:auth')
       Cookies.remove('ticket')
       Cookies.remove('user_ticket')
-      localStorage.removeItem('is_login')
-      localStorage.removeItem('photo')
       Cookies.remove('photo')
-      // window.location.href='/user/register'
+      window.location.href='/user/register'
     }  
   })
     
@@ -151,33 +147,6 @@ export function toRealUrl(uri) {
     url = uri
   }
   return url
-  // if (/^:ve.sso/.test(uri)) {
-  //   return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
-  // } else if (/^:ve.mobile.interface/.test(uri)){
-  //   return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
-  // } else if (/^:ve.m/.test(uri)){
-  //   return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
-  // } else if (/^:ve.my/.test(uri)){
-  //   return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
-  // } else {
-  //   return uri
-  // }
-  // if (uri.indexOf('h5-new') === -1) {
-  //   if (/^:ve.sso/.test(uri)) {
-  //     return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
-  //   } else if (/^:ve.mobile.interface/.test(uri)){
-  //     return `http://mobile.interface.veryeast.cn/client${uri.replace(':ve.mobile.interface', '')}`
-  //   } else if (/^:ve.m/.test(uri)){
-  //     return `http://m.veryeast.cn/client${uri.replace(':ve.m', '')}`
-  //   } else if (/^:ve.my/.test(uri)){
-  //     return `http://my.veryeast.cn/client${uri.replace(':ve.my', '')}`
-  //   } else {
-  //     return uri
-  //   }
-  // } else {
-  //
-  // }
-  // return /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
 }
 
 /**
@@ -188,13 +157,10 @@ export function parseBody(params = {}) {
   if (isServer) {
     return qs.stringify(params)
   } else {
-    // const auth = store.get('m:auth') || {}
-    // if(Cookies.get('ticket') || auth.user_ticket) {
-    //   Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
-    // }
-    // if(Cookies.get('ticket')) {
-    //   Cookies.set('ticket', Cookies.get('ticket'))
-    // }
+    const auth = store.get('m:auth') || {}
+    if(Cookies.get('ticket') || auth.user_ticket) {
+      Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
+    }
     params = {
       ...params,
       user_ticket: Cookies.get('ticket'),

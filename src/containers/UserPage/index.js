@@ -177,6 +177,7 @@ class UserPage extends PureComponent {
         // }
       })
     } else {
+      F.removeAllCookie()
       this.props.history.push(
         '/user/register?redirect=' + this.props.history.location.pathname,
         { key: '我的' }

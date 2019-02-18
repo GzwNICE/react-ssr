@@ -171,7 +171,7 @@ class Resume extends PureComponent {
             ).then(data => {
               const photo = data.data.get_base.photo
                 if(photo) {
-                  localStorage.setItem('photo', photo)
+                  // localStorage.setItem('photo', photo)
                   Cookies.set('photo', photo)
                 }
             })

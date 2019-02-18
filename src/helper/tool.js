@@ -2,7 +2,6 @@
  * Created by huangchao on 2017/10/20.
  */
 import Cookies from 'js-cookie'
-// localStorage.getItem('photo')
 const getUserInfo = function() {
   const ticket = Cookies.get('ticket')
   // alert(ticket)
@@ -21,8 +20,6 @@ const getUserInfo = function() {
 const removeAllCookie = function() {
   Cookies.remove('ticket')
   Cookies.remove('user_ticket')
-  localStorage.removeItem('is_login')
-  localStorage.removeItem('photo')
   Cookies.remove('photo')
 }
 const ArrayDelRepetition = function(data) {
