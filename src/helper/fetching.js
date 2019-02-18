@@ -99,8 +99,6 @@ export function pipeline(uri, params, opt = {}) {
       store.remove('m:auth')
       Cookies.remove('ticket')
       Cookies.remove('user_ticket')
-      localStorage.removeItem('is_login')
-      localStorage.removeItem('photo')
       Cookies.remove('photo')
       window.location.href='/user/register'
     }

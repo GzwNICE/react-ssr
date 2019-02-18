@@ -40,13 +40,6 @@ class LoginPage extends PureComponent {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
-
-    // Cookies.remove('ticket')
-    // Cookies.remove('user_ticket')
-    // localStorage.removeItem('is_login')
-    // localStorage.removeItem('photo')
-    // Cookies.remove('photo')
-    // alert(Cookies.get('ticket'))
   }
 
   render() {
