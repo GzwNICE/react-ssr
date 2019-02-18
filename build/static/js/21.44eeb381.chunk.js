@@ -1,8 +1,8 @@
 /*!
  * ****************************************
- * hash       : 5c946a30a7799dbe0e05
+ * hash       : 86c897f8985ac762d51e
  * name       : 21
- * file       : static/js/21.417c1369.chunk.js
+ * file       : static/js/21.44eeb381.chunk.js
  * author     : 张骥-Tom,高志文-Remady
  * repository : https://gitee.com/veryeast/ve_m_ssr.git
  * ****************************************
