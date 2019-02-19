@@ -89,8 +89,8 @@ class CompanyList extends Component {
   onScroll = () => {
     let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
-    console.log(1111111111);
-    console.log(top);
+    // console.log(1111111111);
+    // console.log(top);
   }
 
   goPostion = () => {
@@ -126,7 +126,7 @@ class CompanyList extends Component {
 
   componentWillReceiveProps(nextProps) {
     const scrollTop = nextProps.blocDate.scrollTop
-    console.log(scrollTop)
+    // console.log(scrollTop)
     if (nextProps.searchEnd) {
       if (this.props.searchList !== nextProps.searchList) {
         this.setState({
