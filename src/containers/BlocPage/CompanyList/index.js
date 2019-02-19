@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { ListView } from 'antd-mobile'
-import { saveScrollTop,blocList, blocCategory, blocSearch } from '../../../actions/bloc'
+import {
+  saveScrollTop,
+  blocList,
+  blocCategory,
+  blocSearch,
+} from '../../../actions/bloc'
 import JobList from '../../../components/JobList'
 import companyLogo from '../../../static/detailLogo.png'
 import missing from '../../../static/missing.png'
-import {  } from '../../../actions/home'
+import {} from '../../../actions/home'
 import style from '../style.less'
 const triggerFrom = '触发来源'
 
@@ -82,26 +87,28 @@ class CompanyList extends Component {
   }
 
   onScroll = () => {
-    const top = ReactDOM.findDOMNode(this.lv).scrollTop
+    let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
+    console.log(1111111111);
+    console.log(top);
   }
 
-  goPostion = () =>{
+  goPostion = () => {
     window.zhuge.track('职位详情页打开', {
       [`${triggerFrom}`]: '名企搜索列表页',
     })
   }
 
-  goCompany = () =>{
+  goCompany = () => {
     window.zhuge.track('企业详情页打开', {
       [`${triggerFrom}`]: '名企列表页',
     })
   }
 
   componentDidMount() {
-     /* 初始化this.scrollTop */
+    /* 初始化this.scrollTop */
     this.scrollTop = this.props.blocDate.scrollTop
-    ReactDOM.findDOMNode(this.lv).scrollTo(0, this.scrollTop)
+    // ReactDOM.findDOMNode(this.lv).scrollToP = this.scrollTop
     const c_userid = this.props.match.params.c_userid
     const height =
       document.documentElement.clientHeight -
@@ -119,6 +126,7 @@ class CompanyList extends Component {
 
   componentWillReceiveProps(nextProps) {
     const scrollTop = nextProps.blocDate.scrollTop
+    console.log(scrollTop)
     if (nextProps.searchEnd) {
       if (this.props.searchList !== nextProps.searchList) {
         this.setState({
@@ -132,7 +140,10 @@ class CompanyList extends Component {
             isLoading: false,
           })
         }
-        ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
+        // ReactDOM.findDOMNode(this.lv).scrollToP = scrollTop
+        if (scrollTop !== 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+        }
       }
     } else {
       if (
@@ -147,12 +158,16 @@ class CompanyList extends Component {
             isLoading: false,
           })
         }
+        if (scrollTop !== 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+        }
       }
-      ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
+      // ReactDOM.findDOMNode(this.lv).scrollToP  = scrollTop
+      
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.dispatch(saveScrollTop(this.scrollTop))
   }
 
@@ -185,8 +200,8 @@ class CompanyList extends Component {
               <h1>{d.company_name}</h1>
               <div className={style.scale}>
                 {d.current_location ? <span>{d.current_location}</span> : null}
-                {d.company_type ? <span>{d.company_type}</span> : null}
-                {d.employees_number ? <span>{d.employees_number}</span> : null}
+                {d.company_type ? <span><span className={style.rule}>|</span>{d.company_type}</span> : null}
+                {d.employees_number ? <span><span className={style.rule}>|</span>{d.employees_number}</span> : null}
               </div>
               <div className={style.inRecruit}>
                 <span>{d.jobNum}</span>个在招职位
@@ -209,38 +224,27 @@ class CompanyList extends Component {
           initialListSize={20}
           pageSize={20}
           onScroll={this.onScroll}
-          style={{
-            height: this.state.height,
-            overflow: 'auto',
-          }}
-          renderHeader={() =>
-            this.props.searchEnd ? null : (
-              <div
-                className={style.individuation}
-                style={{
-                  backgroundImage: `url(${this.props.listPhoto.company_file})`,
-                }}
-              />
-            )
-          }
+          useBodyScroll
+          renderHeader={() => (
+            <div
+              className={style.individuation}
+              style={{
+                backgroundImage: `url(${this.props.listPhoto.company_file})`,
+              }}
+            />
+          )}
           onEndReached={this.onEndReached} // 上拉加载
           renderFooter={() =>
-            this.props.hasList ? (
-              this.state.dataSource._cachedRowCount ? (
-                <div style={{ padding: 5, textAlign: 'center' }}>
-                  {this.state.isLoading ? 'Loading...' : '没有更多了'}
-                </div>
-              ) : this.props.searchEnd ? (
-                <div className={style.missJob}>
-                  <img src={missing} alt="" />
-                  <p>暂无职位，可以切换条件试试哦~</p>
-                </div>
-              ) : (
-                <div className={style.missing}>
-                  <p>当前条件下暂无公司，可以切换条件试试哦~</p>
-                </div>
-              )
-            ) : null
+            this.state.dataSource._cachedRowCount ? (
+              <div style={{ padding: 5, textAlign: 'center' }}>
+                {this.state.isLoading ? 'Loading...' : '没有更多了'}
+              </div>
+            ) : (
+              <div className={style.missJob}>
+                <img src={missing} alt="" />
+                <p>暂无职位，可以切换条件试试哦~</p>
+              </div>
+            )
           }
         />
       </div>
