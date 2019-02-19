@@ -405,6 +405,8 @@ class SearchEnd extends PureComponent {
             let newSearch = params.join('&')
             this.props.history.replace(`${pathname}${newSearch}`)
             // console.log(newSearch)
+            sessionStorage.setItem('searchCity', area)
+
           }
           this.scrollTop = 0
           document.body.scrollTop = document.documentElement.scrollTop = 0
@@ -681,7 +683,6 @@ class SearchEnd extends PureComponent {
     // 当页面刷新时用定位的城市 pageFirst
     if (areaParms&&searchEndFirst === '1') {
       query.area = [areaParms]
-      sessionStorage.setItem('searchCity', areaParms)
     }
     // console.log(query.area)
     query.more = { ...queryMore, ...query.more }

@@ -100,6 +100,7 @@ class ComplexSelView extends ComplexFormField {
     } else {
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
+        sessionStorage.removeItem('searchCity')
       } else {
         this.setState({ value: [code] }, () => this.changeValue())
 
