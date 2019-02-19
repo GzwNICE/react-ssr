@@ -44,6 +44,7 @@ class ComplexSelView extends ComplexFormField {
       code: 'hot',
       sublist: hot,
     }
+    // console.log(hotData)
     this.setState({
       optionsSubChil: hot,
       hotData,
@@ -102,6 +103,7 @@ class ComplexSelView extends ComplexFormField {
         this.setState({ value: [] }, () => this.changeValue())
         sessionStorage.removeItem('searchCity')
       } else {
+        sessionStorage.setItem('searchCity', code)
         this.setState({ value: [code] }, () => this.changeValue())
 
       }  

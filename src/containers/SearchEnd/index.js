@@ -405,8 +405,6 @@ class SearchEnd extends PureComponent {
             let newSearch = params.join('&')
             this.props.history.replace(`${pathname}${newSearch}`)
             // console.log(newSearch)
-            sessionStorage.setItem('searchCity', area)
-
           }
           this.scrollTop = 0
           document.body.scrollTop = document.documentElement.scrollTop = 0
