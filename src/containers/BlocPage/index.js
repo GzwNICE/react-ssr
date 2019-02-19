@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as Ad from '../../components/Ad'
+import ReactDOM from 'react-dom'
 import Search from '../../components/SearchBar/Search'
 import { Toast } from 'antd-mobile'
 import { connect } from 'react-redux'
@@ -9,19 +10,27 @@ import {
   blocSearch,
   blocSearchClear,
   blocListClear,
+  saveScrollTop,
+  blocCategory,
 } from '../../actions/bloc'
+import { Link } from 'react-router-dom'
+import { ListView } from 'antd-mobile'
 // import {shareWeixin} from '../../helper/tool'
+import JobList from '../../components/JobList'
 import { shareToPeople, shareToAll } from '../../actions/auth'
 import { saveBlocQuery, saveSearch } from '../../actions/bloc'
-import CompanyList from './CompanyList'
+// import CompanyList from './CompanyList'
 import FilterList from './FilterList'
 import RegisterWrap from '../../components/RegisterWrap'
 import { Helmet } from 'react-helmet'
 import style from './style.less'
+import companyLogo from '../../static/detailLogo.png'
+import missing from '../../static/missing.png'
 import F from '../../helper/tool'
 const tiggerKeyWord = '搜索词'
 const tiggerCity = '地区'
 const tiggerBrand = '品牌'
+const triggerFrom = '触发来源'
 
 // const querys = {
 //   area: [],
@@ -54,19 +63,26 @@ const tiggerBrand = '品牌'
   company: state.company,
   homeDate: state.home,
   bloc: state.bloc,
+  blocDate: state.bloc,
 }))
 export default class CompanyArea extends Component {
-  state = {
-    show: true,
-    showRegWrap: true,
-    search: false,
-    keyWords: '',
-    local: '',
-    c_id: '',
-    is_login: '',
-    isVisable: false,
-    searchValue: '',
-    hasList: false,
+  constructor(props) {
+    super(props)
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    })
+    this.state = {
+      show: true,
+      showRegWrap: true,
+      search: false,
+      keyWords: '',
+      local: '',
+      c_id: '',
+      is_login: '',
+      isVisable: false,
+      searchValue: '',
+      dataSource: dataSource.cloneWithRows(this.props.list),
+    }
   }
 
   /* 下载或者打开app */
@@ -116,12 +132,16 @@ export default class CompanyArea extends Component {
     )
   }
   /* 记录滚动条的位置 */
-  // onScroll = () => {
-  //   const top = this.refs['blocCentent'].scrollTop
-  //   this.scrollTop = top
-  // }
+  onScroll = () => {
+    let top = document.body.scrollTop || document.documentElement.scrollTop
+    this.scrollTop = top
+    console.log(1111111111)
+    console.log(top)
+  }
 
   whereWillIGo = () => {
+    this.scrollTop = 0;
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
@@ -152,6 +172,18 @@ export default class CompanyArea extends Component {
         })
       )
     }
+  }
+
+  goPostion = () => {
+    window.zhuge.track('职位详情页打开', {
+      [`${triggerFrom}`]: '名企搜索列表页',
+    })
+  }
+
+  goCompany = () => {
+    window.zhuge.track('企业详情页打开', {
+      [`${triggerFrom}`]: '名企列表页',
+    })
   }
 
   onCancel = () => {
@@ -198,12 +230,36 @@ export default class CompanyArea extends Component {
     )
   }
 
+  /* 上拉加载 */
+  onEndReached = () => {
+    const c_userid = this.props.match.params.c_userid
+    const page = this.props.pagers.cur + 1
+    const allPage = this.props.pagers.allPage
+    if (page <= allPage) {
+      this.props.dispatch(
+        blocList({
+          c_userid: c_userid,
+          page: page,
+        })
+      )
+    } else {
+      this.setState({
+        isLoading: false,
+      })
+    }
+  }
+
   componentDidMount() {
     /* 初始化this.scrollTop */
-    // this.scrollTop = this.props.homeDate.scrollTop
-    // this.refs['blocCentent'].scrollTo(0, this.scrollTop)
-
+    this.scrollTop = this.props.blocDate.scrollTop
     const c_userid = this.props.match.params.c_userid
+    // 请求名企品牌分类
+    this.props.dispatch(
+      blocCategory({
+        c_userid: c_userid,
+      })
+    )
+    // 请求名企专区子公司
     const { listPhoto } = this.props
     if (JSON.stringify(listPhoto) === '{}') {
       Toast.loading('Loading...')
@@ -217,11 +273,10 @@ export default class CompanyArea extends Component {
         )
         .then(res => {
           Toast.hide()
-          this.setState({
-            hasList: true,
-          })
           window.wx.ready(() => {
-            window.wx.updateTimelineShareData(shareToAll('', res.data.group_company_name, 2)) // 分享到朋友圈
+            window.wx.updateTimelineShareData(
+              shareToAll('', res.data.group_company_name, 2)
+            ) // 分享到朋友圈
             window.wx.updateAppMessageShareData(
               shareToPeople('', res.data.group_company_name, 2)
             ) // 分享给朋友
@@ -235,15 +290,20 @@ export default class CompanyArea extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // this.props.form.validateFields((err, values) => {
-    //   if (err) return
-    //   if (values.areas && nextProps.userStatus.code !== values.areas) {
-    //     this.onChangeCity && this.onChangeCity(values)
-    //   }
-    //   if (values.brand) {
-    //     this.props.onChangBrand && this.props.onChangeBrand(values)
-    //   }
-    // })
+    const scrollTop = nextProps.blocDate.scrollTop
+    if (nextProps.list.length > 0 || this.props.list !== nextProps.list) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
+      })
+      if (nextProps.list.length <= 20 && nextProps.pagers.allPage === 1) {
+        this.setState({
+          isLoading: false,
+        })
+      }
+      if (scrollTop !== 0) {
+        document.body.scrollTop = document.documentElement.scrollTop = scrollTop
+      }
+    }
 
     // 选择城市和品牌筛选数据
     const c_userid = this.props.match.params.c_userid
@@ -294,16 +354,60 @@ export default class CompanyArea extends Component {
   componentWillUnmount() {
     this.props.dispatch(blocListClear())
     /*组建卸载，存储滚动条的位置*/
-    // this.props.dispatch(saveScrollTop(this.scrollTop))
+    this.props.dispatch(saveScrollTop(this.scrollTop))
   }
 
   render() {
     const { show, showRegWrap, is_login } = this.state
-    // const category = this.props.list
-    // const categoryName = category.length > 0 ? category[0].category_name : ''
     const categoryName = this.props.bloc.group_company_name
+    const allPage = Number(this.props.pagers.allPage)
+    const Row = d => {
+      return (
+        <Link
+          rel="stylesheet"
+          to={`/${d.c_userid}?redirect=${this.props.location.pathname}`}
+          key={d.c_userid}
+          onClick={this.goCompany}
+        >
+          <div className={style.ContentModule}>
+            <img
+              src={d.company_logo ? d.company_logo : companyLogo}
+              alt="img"
+            />
+            <div className={style.inviteInfo}>
+              <h1>{d.company_name}</h1>
+              <div className={style.scale}>
+                {d.current_location ? <span>{d.current_location}</span> : null}
+                {d.company_type ? (
+                  <span>
+                    <span className={style.rule}>|</span>
+                    {d.company_type}
+                  </span>
+                ) : null}
+                {d.employees_number ? (
+                  <span>
+                    <span className={style.rule}>|</span>
+                    {d.employees_number}
+                  </span>
+                ) : null}
+              </div>
+              <div className={style.inRecruit}>
+                <span>{d.jobNum}</span>个在招职位
+              </div>
+            </div>
+          </div>
+        </Link>
+      )
+    }
+    let styleObj = {}
+
+    if (is_login !== 1 && showRegWrap === false) {
+      styleObj = {
+        paddingBottom: 0,
+      }
+    }
     return (
-      <div className={style.CompanyArea}>
+      <div className={style.CompanyArea} style={styleObj}>
         <Helmet>
           <title>{`${categoryName}招聘信息,招工求职信息_最佳东方`}</title>
           <meta
@@ -332,22 +436,56 @@ export default class CompanyArea extends Component {
             filterList={this.handleFilerSearch}
           />
         </div>
-        <div
-          className={style.blocCentent}
-          ref="blocCentent"
-          onScroll={this.onScroll}
-        >
-          <CompanyList
+
+        {/*<CompanyList
             // searchEnd={this.state.search} //名企专区搜索功能暂时关闭
-            hasList={this.state.hasList}
+          />*/}
+        <div className={style.companyList}>
+          <ListView
+            ref={el => (this.lv = el)}
+            className={style['override-am-list-view-scrollview-content']}
+            dataSource={this.state.dataSource}
+            renderRow={Row}
+            scrollRenderAheadDistance={100}
+            onEndReachedThreshold={10}
+            scrollEventThrottle={100}
+            initialListSize={1000}
+            pageSize={2000}
+            onScroll={this.onScroll}
+            useBodyScroll
+            renderHeader={() => (
+              <div
+                className={style.individuation}
+                style={{
+                  backgroundImage: `url(${this.props.listPhoto.company_file})`,
+                }}
+              />
+            )}
+            onEndReached={this.onEndReached} // 上拉加载
+            renderFooter={() =>
+              allPage > 0 ? (
+                <div style={{ padding: 5, textAlign: 'center' }}>
+                  {this.state.isLoading ? 'Loading...' : '没有更多了'}
+                </div>
+              ) : (
+                <div className={style.missJob}>
+                  <img src={missing} alt="" />
+                  <p>暂无职位，可以切换条件试试哦~</p>
+                </div>
+              )
+            }
           />
         </div>
         {is_login ? null : showRegWrap ? (
-          <RegisterWrap
-            onCloseReg={this.handleCloseReg.bind(this)}
-            location={this.props.history.location.pathname}
-            zhugeFrom="名企页底部推荐注册"
-          />
+          <div className={style.registerwrap}>
+            <RegisterWrap
+              onCloseReg={this.handleCloseReg.bind(this)}
+              location={`${this.props.history.location.pathname}${
+                this.props.history.location.search
+              }`}
+              zhugeFrom="职位列表页底部推荐注册"
+            />
+          </div>
         ) : null}
       </div>
     )
