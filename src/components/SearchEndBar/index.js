@@ -13,6 +13,7 @@ import F from '../../helper/tool'
 import { connect } from 'react-redux'
 
 @connect(state => {
+  return {}
 })
 class SearchEndBar extends PureComponent {
   static propTypes = {

@@ -104,8 +104,13 @@ class MySearchBar extends PureComponent {
   }
 
   render() {
-    const { form, supers, query } = this.props // userStatus
+    const { form, supers } = this.props // userStatus
     const { getFieldProps } = form
+    const searchCity = sessionStorage.getItem('searchCity')
+    let searchCityArr
+    if (searchCity) {
+      searchCityArr = [searchCity]
+    }
     let {
       callback = function() {},
       defaultValue,
@@ -124,7 +129,7 @@ class MySearchBar extends PureComponent {
             <div>
               <Area
                 {...getFieldProps('areas', {
-                  initialValue: supers.location.address.code,
+                  initialValue: searchCityArr ? searchCityArr:supers.location.address.code,
                 })} // 触发form，调用onChangeCity
                 extra=""
                 format={this.formatArea}

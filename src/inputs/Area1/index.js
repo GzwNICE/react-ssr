@@ -8,6 +8,7 @@ import { Toast } from 'antd-mobile/lib/index'
 const triggerCity = "城市"
 
 @connect(state => {
+  // console.log(state.option.opts_hot_area)
   return {
     options: state.option.areas,
     optIndex: state.option.areas_index || {},
@@ -205,15 +206,19 @@ class ComplexSelView extends ComplexFormField {
       hotData,
       selectedHight,
     } = this.state
+  
+    // console.log(this.props.coord.address.code[0])
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (
-          new RegExp(this.props.optIndex[key]).test(
-            this.props.coord.address.city
-          )
-        ) {
-          this.myCity = key
+        if (this.props.coord.address.code && this.props.coord.address.code[0]) {
+          if (key === this.props.coord.address.code[0]) {
+            this.myCity = key
+          }
         }
+        // if (new RegExp(this.props.optIndex[key]).test(this.props.coord.address.city)) {
+        //   console.log(key)
+        //   this.myCity = key
+        // }
       })
     }
     let styleObj = {

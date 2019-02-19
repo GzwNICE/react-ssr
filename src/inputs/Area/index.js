@@ -209,13 +209,15 @@ class ComplexSelView extends ComplexFormField {
     } = this.state
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (
-          new RegExp(this.props.optIndex[key]).test(
-            this.props.coord.address.city
-          )
-        ) {
-          this.myCity = key
+        if (this.props.coord.address.code && this.props.coord.address.code[0]) {
+          if (key === this.props.coord.address.code[0]) {
+            this.myCity = key
+          }
         }
+        // if (new RegExp(this.props.optIndex[key]).test(this.props.coord.address.city)) {
+        //   console.log(key)
+        //   this.myCity = key
+        // }
       })
     }
     let styleObj = {
