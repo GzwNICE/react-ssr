@@ -1,7 +1,6 @@
 const md5File = require('md5-file')
 const path = require('path')
 const lessParser = require('postcss-less').parse
-
 // CSS styles will be imported on load and that complicates matters... ignore those bad boys!
 const ignoreStyles = require('ignore-styles')
 const register = ignoreStyles.default
@@ -21,7 +20,7 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
     const hash = md5File.sync(filename).slice(0, 8)
     const bn = path.basename(filename).replace(/(\.\w{3})$/, `.${hash}$1`)
 
-    mod.exports = `/static/media/${bn}`
+    mod.exports = `//f3-v.veimg.cn/m/v3/static/media/${bn}`
   }
 })
 // require('whatwg-fetch');

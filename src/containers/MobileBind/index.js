@@ -90,7 +90,6 @@ class MobileBind extends PureComponent {
     }
   }
   setSst = obj => {
-    console.log(obj)
     this.setState({
       phoneCounty: obj.country,
     })
@@ -143,7 +142,6 @@ class MobileBind extends PureComponent {
           this.props.form.setFieldsValue({
             code: '',
           })
-          console.log(errMsg)
           if (errMsg || msg) {
             Toast.fail(errMsg || msg, 2)
           }

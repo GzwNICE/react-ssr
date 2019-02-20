@@ -40,7 +40,6 @@ class DeliveryAll extends PureComponent {
 
   remind = (e, job_id, company_id) => {
     e.stopPropagation()
-    console.log('提醒企业' + company_id)
     this.props
       .dispatch(
         remindHr({
@@ -73,7 +72,6 @@ class DeliveryAll extends PureComponent {
   /*去聊天吧*/
   goChat = (e, job_id, company_id) => {
     e.stopPropagation()
-    console.log('聊天' + company_id)
     this.props.history.push(`/chat/${company_id}`)
   }
 

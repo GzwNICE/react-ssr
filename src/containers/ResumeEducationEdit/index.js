@@ -49,7 +49,6 @@ class ResumeEducationEdit extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
       if (!values.school_cn) {
         return Toast.info('请填写学校', 2)
       }
@@ -81,7 +80,6 @@ class ResumeEducationEdit extends PureComponent {
         end_month: moment(values.end).format('MM'),
         // detail_cn: '', // values.detail_cn || ''
       }
-      console.log(parmas)
       this.props.dispatch(educationalsEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)

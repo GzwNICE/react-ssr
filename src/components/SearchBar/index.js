@@ -42,6 +42,7 @@ class MySearchBar extends PureComponent {
     this.state = {
       is_login: '',
       photo: '',
+      searchCityArr: [],
     }
   }
 
@@ -63,6 +64,14 @@ class MySearchBar extends PureComponent {
       is_login: F.getUserInfo().is_login,
       photo: F.getUserInfo().photo,
     })
+    const searchCity = sessionStorage.getItem('searchCity')
+    if (searchCity) {
+      let searchCityArr = [searchCity]
+      this.setState({
+        searchCityArr,
+      })
+
+    }
     // const { supers } = this.props
     // this.props.dispatch(changeAllCity([]))
     // setTimeout(()=>{
@@ -104,8 +113,9 @@ class MySearchBar extends PureComponent {
   }
 
   render() {
-    const { form, supers, query } = this.props // userStatus
+    const { form, supers } = this.props // userStatus
     const { getFieldProps } = form
+    const {searchCityArr} = this.state
     let {
       callback = function() {},
       defaultValue,
@@ -116,6 +126,7 @@ class MySearchBar extends PureComponent {
       onChange = function() {},
     } = this.props
     const { is_login, photo } = this.state
+
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
@@ -123,7 +134,7 @@ class MySearchBar extends PureComponent {
             <div>
               <Area
                 {...getFieldProps('areas', {
-                  initialValue: supers.location.address.code,
+                  initialValue: searchCityArr.length>0 ? searchCityArr:supers.location.address.code,
                 })} // 触发form，调用onChangeCity
                 extra=""
                 format={this.formatArea}

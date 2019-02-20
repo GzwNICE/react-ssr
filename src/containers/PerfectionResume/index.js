@@ -73,7 +73,6 @@ class MicroResume extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
 
       if (values.person_desired_position === undefined) {
         return Toast.info('请输入期望职位', 2)
@@ -94,7 +93,6 @@ class MicroResume extends PureComponent {
         ...values,
         person_desired_industry,
       }
-      console.log(params)
       this.props
         .dispatch(
           microDone({

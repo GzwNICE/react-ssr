@@ -119,8 +119,6 @@ class MicroResume extends PureComponent {
   jobSaveChange = () => {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
-
       if (!values.true_name_cn) {
         return Toast.info('请填写姓名', 2)
       }
@@ -187,7 +185,6 @@ class MicroResume extends PureComponent {
         end_month,
         mobile: Cookies.get('reigsterMobile'),
       }
-      console.log(params)
       this.handleSave(params)
       // this.setState({
       //   jobParams: params,
@@ -200,7 +197,6 @@ class MicroResume extends PureComponent {
   schoolSaveChange = () => {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
       if (!values.true_name_cn) {
         return Toast.info('请填写姓名', 2)
       }
@@ -238,7 +234,6 @@ class MicroResume extends PureComponent {
         school_cn: values.school_cn,
         mobile: Cookies.get('reigsterMobile'),
       }
-      console.log(params)
       this.handleSave(params)
       // this.setState({
       //   schoolParmas: params,

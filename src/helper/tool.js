@@ -2,13 +2,13 @@
  * Created by huangchao on 2017/10/20.
  */
 import Cookies from 'js-cookie'
-
 const getUserInfo = function() {
   const ticket = Cookies.get('ticket')
+  // alert(ticket)
   if (ticket) {
     return {
       is_login: 1,
-      photo: localStorage.getItem('photo'),
+      photo: Cookies.get('photo'),
     }
   } else {
     return {
@@ -16,6 +16,11 @@ const getUserInfo = function() {
       photo: null,
     }
   }
+}
+const removeAllCookie = function() {
+  Cookies.remove('ticket')
+  Cookies.remove('user_ticket')
+  Cookies.remove('photo')
 }
 const ArrayDelRepetition = function(data) {
   let tmp = {},
@@ -150,5 +155,6 @@ export default {
   hidden_email,
   sortObj,
   getUserInfo,
+  removeAllCookie,
   // shareWeixin,
 }

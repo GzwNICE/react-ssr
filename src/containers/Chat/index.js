@@ -98,7 +98,6 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.msglist )
     this.getHeadPhoto()
     this.timer = setInterval(() => {
       this.getMes()

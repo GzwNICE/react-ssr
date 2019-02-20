@@ -25,6 +25,7 @@ import vacantIcon from '../../static/vacant@3x.png'
 import * as Ad from '../../components/Ad'
 import RegisterWrap from '../../components/RegisterWrap'
 import BorderBottomLine from '../../components/BorderBottomLine'
+import Cookies from 'js-cookie'
 
 const option = store.get('m:option')
 const triggerPost = '职位'
@@ -40,7 +41,7 @@ const tiggerKeyWord = '搜索词'
 
 let queryMoreOnly = {}
 let filterChange = false
-let pageFirst = true // 页面首次进入或者加载
+// let pageFirst = true // 页面首次进入或者加载
 // let reloadInit = 1  // 页面刷新后请求数据
 @connect(state => {
   // console.log(state.search.list)
@@ -97,6 +98,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+    // alert(11)
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -161,8 +163,6 @@ class SearchEnd extends PureComponent {
       }
       this.props.dispatch(getSearchListInit(allQuery)).then(res => {
         Toast.hide()
-  
-        
         if (res.data.count === 0) {
           window.zhuge.track('搜索无结果', {
             [`${tiggerKeyWord}`]: allQuery.keyword,
@@ -192,8 +192,8 @@ class SearchEnd extends PureComponent {
       this.setState({
         showSelectP: false,
       })
-      pageFirst = false // 页面首次进入或者加载
-    }, 2500)
+      // pageFirst = false // 页面首次进入或者加载
+    }, 3000)
     this.setState({
       is_login: F.getUserInfo().is_login,
       // photo: F.getUserInfo().photo,
@@ -253,7 +253,7 @@ class SearchEnd extends PureComponent {
     this.props.dispatch(deleteList())
     this.scrollTop = 0
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    this.props.history.push(`/search`)
+    this.props.history.push(`/search?redirect=${this.props.history.location.pathname}${this.props.history.location.search}`)
   }
 
   goPosition = () => {
@@ -389,11 +389,27 @@ class SearchEnd extends PureComponent {
 
         // let obj = {...allQuery}
         // delete obj.keywords
-
+     
         this.props.dispatch(getSearchListInit(allQuery)).then(() => {
+          const pathname = this.props.history.location.pathname
+          let search = this.props.history.location.search
+          const area = allQuery.area[0]
+          if (search && search.indexOf('areaParms=') !== -1 && area) {
+            let params = search.split('&')
+            params = params.map(item => {
+              if (item.indexOf('areaParms=') !== -1) {
+                item = `areaParms=${area}`
+              }
+              return item
+            })
+            let newSearch = params.join('&')
+            this.props.history.replace(`${pathname}${newSearch}`)
+            // console.log(newSearch)
+          }
           this.scrollTop = 0
           document.body.scrollTop = document.documentElement.scrollTop = 0
         })
+
       }
     )
     this.getQuery.isUsed = 0
@@ -619,6 +635,12 @@ class SearchEnd extends PureComponent {
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
+
+    window.onbeforeunload = function(e){
+      // console.log(queryString.parse(this.props.history.location.search))
+      // alert(1111)
+      Cookies.set('searchEndFirst', 1)
+    }
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
@@ -638,23 +660,29 @@ class SearchEnd extends PureComponent {
     filterChange = false
     clearTimeout(this.timer)
     queryMoreOnly = {}
-    pageFirst = true
+    // pageFirst = true
+    Cookies.set('searchEndFirst', 0)
+
   }
 
   render() {
     const { queryMore } = this.state
     let query = this.props.query
-    const area =
-      this.props.userStatus.code && this.props.userStatus.code.length > 0
-        ? this.props.userStatus.code
-        : this.props.supers.location.address.code
+    // const area =
+    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
+    //     ? this.props.userStatus.code
+    //     : this.props.supers.location.address.code
     if (query.area.length === 0 && !filterChange) {
       // query.area = area
     }
     const { areaParms } = queryString.parse(this.props.history.location.search)
-    if (areaParms&&pageFirst) {
+    const searchEndFirst = Cookies.get('searchEndFirst')
+ 
+    // 当页面刷新时用定位的城市 pageFirst
+    if (areaParms&&searchEndFirst === '1') {
       query.area = [areaParms]
     }
+    // console.log(query.area)
     query.more = { ...queryMore, ...query.more }
 
     delete query.keyword

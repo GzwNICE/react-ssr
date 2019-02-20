@@ -20,6 +20,7 @@ import { getUserStatus } from '../../actions/userStatus'
 import { userRefResume } from '../../actions/userStatus'
 import { Helmet } from 'react-helmet'
 import BorderBottomLine from '../../components/BorderBottomLine'
+import Cookies from 'js-cookie'
 
 const Pla = props => (
   <i style={{ display: 'inline-block', width: props.w + 'em' }} />
@@ -170,7 +171,7 @@ class Resume extends PureComponent {
             ).then(data => {
               const photo = data.data.get_base.photo
                 if(photo) {
-                  localStorage.setItem('photo', photo)
+                  Cookies.set('photo', photo)
                 }
             })
           } else {

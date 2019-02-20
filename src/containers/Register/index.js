@@ -19,6 +19,7 @@ import { appShare } from '../../actions/auth'
 import Cookies from 'js-cookie'
 import BorderBottomLine from '../../components/BorderBottomLine'
 import F from '../../helper/tool'
+// import F from '../../helper/tool'
 const triggerType = '类型'
 const triggerFrom = '触发来源'
 
@@ -85,6 +86,10 @@ class Register extends PureComponent {
     this.setState({
       [key]: false,
     })
+  }
+
+  onBlurInput = ()=>{
+    document.body.scrollTop=0
   }
 
   getCode = () => {
@@ -241,25 +246,15 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    // const { key } = this.props.location.state || {}
-    // const { sss } = queryString.parse(window.location.search)
-    // if (sss) {
-    //   window.zhuge.track('注册页面打开', {
-    //     触发来源: '首页浮窗',
-    //   })
-    // } else {
-    //   window.zhuge.track('注册页面打开', {
-    //     触发来源: key || '其他来源',
-    //   })
-    // }
-    const login = F.getUserInfo().is_login
-    if (login) {
-      this.props.history.push('/user')
-    }
     window.wx.ready(() => {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
+    const login = F.getUserInfo().is_login
+    if (login === 1) {
+      this.props.history.push('/user')
+    }
+ 
   }
 
   componentWillUnmount() {
@@ -285,6 +280,7 @@ class Register extends PureComponent {
                 placeholder="请输入常用手机号"
                 maxLength="11"
                 type="number"
+                onBlur={this.onBlurInput}
               >
                 <County setSet={this.setSst.bind(this)} />
               </InputItem>
@@ -300,6 +296,7 @@ class Register extends PureComponent {
                 clear
                 placeholder="请输入短信验证码"
                 type="number"
+                onBlur={this.onBlurInput}
               />
               <div
                 onClick={this.getCode}

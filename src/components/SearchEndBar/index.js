@@ -10,6 +10,11 @@ import { Link } from 'react-router-dom'
 import Userdefault from '../../static/portrait@3x.png'
 import personal from '../../static/personal.png'
 import F from '../../helper/tool'
+import { connect } from 'react-redux'
+
+@connect(state => {
+  return {}
+})
 class SearchEndBar extends PureComponent {
   static propTypes = {
     keyword: PropTypes.string,
@@ -19,6 +24,12 @@ class SearchEndBar extends PureComponent {
   state = {
     is_login: '',
     photo: '',
+  }
+  imgClick = () => {
+    this.props.dispatch({
+      type: 'SEARCH_AREA_SELECTED_CITY',
+      payload: false,
+    })
   }
   componentDidMount() {
     this.setState({
@@ -36,8 +47,9 @@ class SearchEndBar extends PureComponent {
       // number,
       location,
     } = this.props
+    // ${this.props.history.location.search}`
+    // console.log(location.search)
     const { is_login, photo } = this.state
-
     return (
       <div className={style.SearchEndBarWrap}>
         <div onClick={() => goBack()} className={style.left}>
@@ -49,15 +61,15 @@ class SearchEndBar extends PureComponent {
         >
           <div className={style.conleft}>
             <img src={search} alt="放大镜" />
-            <div className={style.keyWord}>{keyword}</div>
+            {keyword ? <div className={style.keyWord}>{keyword}</div>:<div className={style.keyWord2}>搜索职位/公司</div>}
           </div>
         </div>
         <Link
           rel="stylesheet"
           to={
             is_login
-              ? `/user?redirect=${location.pathname}`
-              : `/user/register?redirect=${location.pathname}`
+              ? `/user?redirect=${location.pathname}${location.search}`
+              : `/user/register?redirect=${location.pathname}${location.search}`
           }
           onClick={() => {
             const triggerFrom = '触发来源'
@@ -70,6 +82,7 @@ class SearchEndBar extends PureComponent {
             src={is_login ? (photo ? photo : Userdefault) : personal}
             alt="img"
             className={style.personal}
+            onClick={this.imgClick}
           />
         </Link>
       </div>

@@ -408,7 +408,6 @@ class ResumeInfo extends PureComponent {
       }
       arr.push(obj)
       arr2.unshift(obj2)
-      console.log(arr2)
       this.setState(
         {
           skillArr: arr,
@@ -451,12 +450,6 @@ class ResumeInfo extends PureComponent {
         <Tabs
           tabs={tabs}
           initialPage={0}
-          onChange={(tab, index) => {
-            console.log('onChange', index, tab)
-          }}
-          onTabClick={(tab, index) => {
-            console.log('onTabClick', index, tab)
-          }}
         >
           <div className={style.wraper}>
             <div className={style.underline}>

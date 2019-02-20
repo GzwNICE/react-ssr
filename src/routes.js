@@ -341,11 +341,6 @@ const routes = [
     component: UserPage,
   },
   {
-    path: '/tabs/user',
-    exact: true,
-    component: UserPage,
-  },
-  {
     path: '/user/changePassword',
     exact: true,
     component: ChangePassword,

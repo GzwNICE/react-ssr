@@ -11,7 +11,7 @@ import PositionBar from '../../components/PositionBar'
 import site from '../../static/area@3x.png'
 import dim from '../../static/dim.png'
 import { Helmet } from 'react-helmet'
-import HotTopic from './HotTopic'
+// import HotTopic from './HotTopic'
 import HotelEntry from './HotelEntry/index'
 import PageScroll from '../../components/PageScroll'
 import SearchUser from '../../components/SearchBar/SearchUser'
@@ -184,7 +184,7 @@ class PositionDetail extends PureComponent {
     const job_name = data.job_name && data.job_name.replace(/&amp;/g, '&')
     const datalabel = this.props.position.company_detail || {}
     const is_valid = this.props.position.is_valid //职位是否有效
-    const hotData = this.props.position.hotData || {}
+    // const hotData = this.props.position.hotData || {}
     return (
       <div className={style.PositionDetailWrap}>
         <Helmet>
@@ -320,7 +320,7 @@ class PositionDetail extends PureComponent {
           }
           
 
-          {is_valid === 1 ? <HotTopic data={hotData} /> : null}
+          {/*{is_valid === 1 ? <HotTopic data={hotData} /> : null}*/}
           {is_valid === 0 ? (
             <div className={style.guidance}>
               <div className={style.finishApp} onClick={this.openAppHome}>

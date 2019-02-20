@@ -3,6 +3,9 @@ import Cookies from 'js-cookie'
 import axios from "axios"
 import isServer from './isServer'
 import qs from 'query-string'
+// import { login_out } from '../../../actions/userStatus'
+import { login_out } from '../actions/userStatus'
+
 // import { Toast} from 'antd-mobile';
 // import { Modal } from 'antd-mobile'
 // import { createBrowserHistory, createMemoryHistory } from 'history'
@@ -84,11 +87,44 @@ export function pipeline(uri, params, opt = {}) {
   }).then(res => {
     // loading停止
     // Toast.hide()
+    // alert(11)
+    // store.dispatch(login_out).then(data => {
+    //   console.log(data)
+    // })
+
     if (res.status >= 400) throw res
+
+    if (res.data.status===0 && res.data.errCode===2002) {
+      // loginOut()
+      store.remove('m:auth')
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      Cookies.remove('photo')
+      window.location.href='/user/register'
+    }
     return res.data
   })
 }
-
+const loginOut = () => {
+  const sUrl = toRealUrl(':ve.mobile.interface/user/logout')
+  // loading 加载
+  // Toast.loading('Loading...');
+  return axios({
+    url: sUrl,
+    credentials: "include",
+    method: "post",
+    data: parseBody({}),
+  }).then(payload => {
+    if (payload.status !== 0) {
+      store.remove('m:auth')
+      Cookies.remove('ticket')
+      Cookies.remove('user_ticket')
+      Cookies.remove('photo')
+      window.location.href='/user/register'
+    }  
+  })
+    
+}
 /**
  * uri 转 url
  * @param {*} uri
@@ -109,33 +145,6 @@ export function toRealUrl(uri) {
     url = uri
   }
   return url
-  // if (/^:ve.sso/.test(uri)) {
-  //   return `http://sso.veryeast.cn${uri.replace(':ve.sso', '')}`
-  // } else if (/^:ve.mobile.interface/.test(uri)){
-  //   return `http://mobile.interface.veryeast.cn${uri.replace(':ve.mobile.interface', '')}`
-  // } else if (/^:ve.m/.test(uri)){
-  //   return `http://m.veryeast.cn${uri.replace(':ve.m', '')}`
-  // } else if (/^:ve.my/.test(uri)){
-  //   return `http://my.veryeast.cn${uri.replace(':ve.my', '')}`
-  // } else {
-  //   return uri
-  // }
-  // if (uri.indexOf('h5-new') === -1) {
-  //   if (/^:ve.sso/.test(uri)) {
-  //     return `http://sso.veryeast.cn/client${uri.replace(':ve.sso', '')}`
-  //   } else if (/^:ve.mobile.interface/.test(uri)){
-  //     return `http://mobile.interface.veryeast.cn/client${uri.replace(':ve.mobile.interface', '')}`
-  //   } else if (/^:ve.m/.test(uri)){
-  //     return `http://m.veryeast.cn/client${uri.replace(':ve.m', '')}`
-  //   } else if (/^:ve.my/.test(uri)){
-  //     return `http://my.veryeast.cn/client${uri.replace(':ve.my', '')}`
-  //   } else {
-  //     return uri
-  //   }
-  // } else {
-  //
-  // }
-  // return /^:/.test(uri) ? `${baseUrl}/${uri.replace(':', '')}` : uri
 }
 
 /**
@@ -146,13 +155,10 @@ export function parseBody(params = {}) {
   if (isServer) {
     return qs.stringify(params)
   } else {
-    // const auth = store.get('m:auth') || {}
-    // if(Cookies.get('ticket') || auth.user_ticket) {
-    //   Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
-    // }
-    // if(Cookies.get('ticket')) {
-    //   Cookies.set('ticket', Cookies.get('ticket'))
-    // }
+    const auth = store.get('m:auth') || {}
+    if(Cookies.get('ticket') || auth.user_ticket) {
+      Cookies.set('ticket', Cookies.get('ticket') || auth.user_ticket)
+    }
     params = {
       ...params,
       user_ticket: Cookies.get('ticket'),

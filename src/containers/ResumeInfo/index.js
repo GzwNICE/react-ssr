@@ -60,8 +60,6 @@ class ResumeInfo extends PureComponent {
   changeValue() {
     this.props.form.validateFields((err, values) => {
       if (err) return
-      console.log(values)
-
       function isNull(str) {
         if (str === '') return true
         var regu = '^[ ]+$'
@@ -108,9 +106,10 @@ class ResumeInfo extends PureComponent {
         return Toast.info('请绑定邮箱', 2)
       }
       const work_date =
-        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+      String(values.work_date) === '0' ? '0' : moment(values.work_date).format('YYYY-M')
       const birthday = moment(values.birthday).format('YYYY-M')
       // window.zhuge.track('我的简历', { '模块': '基本信息' })
+      // console.log(work_date)
       const parmas = {
         ...values,
         appchannel: 'web',
@@ -118,7 +117,6 @@ class ResumeInfo extends PureComponent {
         birthday,
         // graduation_time: '', // values.graduation_time.join('-')
       }
-      console.log(parmas)
       this.props.dispatch(resumeEdit(parmas)).then(data => {
         if (data.status === 0) {
           return Toast.info(data.errMsg, 2)
@@ -141,7 +139,7 @@ class ResumeInfo extends PureComponent {
       })
 
       const work_date =
-        values.work_date === 0 ? 0 : moment(values.work_date).format('YYYY-M')
+      String(values.work_date) === '0' ? '0' : moment(values.work_date).format('YYYY-M')
       const birthday = moment(values.birthday).format('YYYY-M')
 
       const payloaded = {
@@ -151,7 +149,6 @@ class ResumeInfo extends PureComponent {
         birthday,
         // graduation_time: '', // graduation_time  毕业时间
       }
-      console.log(payloaded)
       this.props.dispatch({
         type: 'TEMPORARY_SAVE',
         payload: payloaded,

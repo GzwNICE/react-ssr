@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom'
 @withRouter
 class GoBackModal extends (PureComponent || Component) {
   componentDidMount() {
-    // console.log(this.props)
   }
   handleContinue = () => {
     const obj = {

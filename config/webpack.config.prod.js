@@ -166,6 +166,7 @@ module.exports = {
             options: {
               limit: 10000,
               name: 'static/media/[name].[hash:8].[ext]',
+              publicPath: publicPath
             },
           },
           {
@@ -310,6 +311,7 @@ module.exports = {
             exclude: [/\.js$/, /\.html$/, /\.json$/],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
+              publicPath: publicPath
             },
           },
           // ** STOP ** Are you adding a new loader?
@@ -326,6 +328,18 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
+      // {
+      //   test: /\.png$/,
+      //   use: [
+      //     {
+      //       loader: require.resolve('file-loader'),
+      //       options: {
+      //         name: 'static/media/[name].[hash:8].[ext]',
+      //       },
+      //     },
+      //   ],
+      //   include: paths.appSrc,
+      // },
     ],
   },
   plugins: [

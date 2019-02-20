@@ -17,6 +17,9 @@ import { ListView } from 'antd-mobile'
 import { appShare } from '../../actions/auth'
 import RegisterWrap from '../../components/RegisterWrap'
 import F from '../../helper/tool'
+import {
+  deleteList,
+} from '../../actions/search'
 /*
 关于地点的逻辑梳理
 首页和搜索页的地点来着SearchBar组件，引用地点来自定位地点
@@ -136,9 +139,14 @@ class HomePage extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.dispatch(deleteList())
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.homeDate.scrollTop
-    this.homecentent.scrollTo(0, this.scrollTop)
+    this.homecentent.scrollTop=this.scrollTop
+    // setTimeout(()=>{
+    //   this.homecentent.scrollTo(0, this.scrollTop)
+    // },10)
+    
     // const { userStatus, supers } = this.props
     // const location =
     //   userStatus.code && userStatus.code[0]
@@ -158,7 +166,6 @@ class HomePage extends PureComponent {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友
     })
-    console.log(F.getUserInfo().is_login)
     this.setState({
       show: localStorage.getItem('ad') ? localStorage.getItem('ad') : '',
       is_login: F.getUserInfo().is_login,

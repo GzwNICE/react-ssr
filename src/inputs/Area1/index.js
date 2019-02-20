@@ -35,7 +35,7 @@ class ComplexSelView extends ComplexFormField {
         sublist: [],
       }, // 热门城市
       selectedHight: 60, // 顶部被选中城市框的高度
-    
+
     }
     this.saveRef = ref => {
       this.refDom = ref
@@ -104,7 +104,9 @@ class ComplexSelView extends ComplexFormField {
     } else {
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
+        sessionStorage.removeItem('searchCity')
       } else {
+        sessionStorage.setItem('searchCity', code)
         this.setState({ value: [code] }, () => this.changeValue())
 
       }  
@@ -222,15 +224,19 @@ class ComplexSelView extends ComplexFormField {
       hotData,
       selectedHight,
     } = this.state
+
+    // console.log(this.props.coord.address.code[0])
     if (this.props.coord && this.props.coord.address) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (
-          new RegExp(this.props.optIndex[key]).test(
-            this.props.coord.address.city
-          )
-        ) {
-          this.myCity = key
+        if (this.props.coord.address.code && this.props.coord.address.code[0]) {
+          if (key === this.props.coord.address.code[0]) {
+            this.myCity = key
+          }
         }
+        // if (new RegExp(this.props.optIndex[key]).test(this.props.coord.address.city)) {
+        //   console.log(key)
+        //   this.myCity = key
+        // }
       })
     }
     let styleObj = {

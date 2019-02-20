@@ -55,7 +55,6 @@ class SearchPage extends PureComponent {
   onChangeCity = value => {
     // const Area = option.areas_index
     const code = value.areas
-    console.log(code)
     // if (value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
     // }

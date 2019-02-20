@@ -41,42 +41,48 @@ class PositionBar extends PureComponent {
   collect = () => {
     const jobId = this.props.position.job_id
     const isFavorited = this.props.position.is_favorited
-    if (isFavorited) {
-      // 已经收藏
-      this.props
-        .dispatch(
-          positionUnColiect({
-            job_id: jobId,
-          })
-        )
-        .then(data => {
-          Toast.success('取消收藏', 2)
-        })
+    const is_login = F.getUserInfo().is_login
+    if (is_login !== 1) {
+      this.goLogin()
     } else {
-      // 去收藏
-      this.props
-        .dispatch(
-          positionCollect({
-            job_id: jobId,
+      if (isFavorited) {
+        // 已经收藏
+        this.props
+          .dispatch(
+            positionUnColiect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            Toast.success('取消收藏', 2)
           })
-        )
-        .then(data => {
-          if (data.status === 0) {
-            const msg = data.errMsg
-            if (msg === '未登陆') {
-              this.goLogin('收藏')
-              window.zhuge.track('注册页面打开', {
-                [`${triggerFrom}`]: '职位收藏',
+      } else {
+        // 去收藏
+        this.props
+          .dispatch(
+            positionCollect({
+              job_id: jobId,
+            })
+          )
+          .then(data => {
+            if (data.status === 0) {
+              const msg = data.errMsg
+              if (msg === '未登陆') {
+                this.goLogin('收藏')
+                window.zhuge.track('注册页面打开', {
+                  [`${triggerFrom}`]: '职位收藏',
+                })
+              }
+            } else {
+              Toast.success('收藏成功', 2)
+              window.zhuge.track('收藏', {
+                [`${triggerPost}`]: this.props.position.job_name,
               })
             }
-          } else {
-            Toast.success('收藏成功', 2)
-            window.zhuge.track('收藏', {
-              [`${triggerPost}`]: this.props.position.job_name,
-            })
-          }
-        })
+          })
+      }
     }
+   
   }
   showModal = key => e => {
     if (e) e.preventDefault() // 修复 Android 上点击穿透
@@ -136,8 +142,9 @@ class PositionBar extends PureComponent {
         resume_complete < 0.8 // 40 <简历完整度 < 80
       ) {
         mostPerfect()
+        let  perc = parseInt(resume_complete*100, 10)
         this.setState({
-          percentage: `parseInt(${resume_complete * 100})%`,
+          percentage: `${perc}%`,
         })
         return
       } else {
