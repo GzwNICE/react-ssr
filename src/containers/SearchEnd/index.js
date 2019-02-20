@@ -98,6 +98,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+    Cookies.set('searchEndFirst', '1')
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -634,11 +635,9 @@ class SearchEnd extends PureComponent {
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
-
-    window.onbeforeunload = function(e){
-      // console.log(queryString.parse(this.props.history.location.search))
-      Cookies.set('searchEndFirst', 1)
-    }
+    // window.onbeforeunload = function(e){
+    //   Cookies.set('searchEndFirst', '1')
+    // }
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
