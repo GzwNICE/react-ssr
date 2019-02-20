@@ -38,16 +38,17 @@ class HotTrade extends Component {
   
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
+    const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
     if(key === "礼宾/前台"){
-      return `/search/礼宾前台?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+      return `/search/礼宾前台?keyword=${key}&areaParms=${areaParms}`
     }
     if(key === '美容/SPA'){
-      return `/search/美容SPA?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+      return `/search/美容SPA?keyword=${key}&areaParms=${areaParms}`
     }
     if(key === '健身中心'){
-      return `/search/${key}?keyword=健身&areaParms=${this.props.supers.location.address.code}`
+      return `/search/${key}?keyword=健身&areaParms=${areaParms}`
     }
-    return `/search/${key}?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+    return `/search/${key}?keyword=${key}&areaParms=${areaParms}`
   }
 
   componentDidMount() {
@@ -93,6 +94,7 @@ class HotTrade extends Component {
 
   render() {
     const imgData = this.props.tradeDtata
+    const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
     return (
       <div className={style.Hottrade}>
         {imgData.list
@@ -104,7 +106,7 @@ class HotTrade extends Component {
                       rel="stylesheet"
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
-                      }&areaParms=${this.props.supers.location.address.code}`}
+                      }&areaParms=${areaParms}`}
                       onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}
@@ -160,7 +162,7 @@ class HotTrade extends Component {
                     return (
                       <Link
                         rel="stylesheet"
-                        to={`/search/${item}?keyword=${item}&areaParms=${this.props.supers.location.address.code}`}
+                        to={`/search/${item}?keyword=${item}&areaParms=${areaParms}`}
                         key={index}
                         onClick={()=>this.goHotPost(item)}
                       >
