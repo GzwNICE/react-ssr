@@ -34,7 +34,7 @@ class SearchPage extends PureComponent {
   static propTypes = {}
   state = {
     stareSearch: false,
-    areaParms: [], // url传递的area code
+    areaParms: '', // url传递的area code
   }
 
   componentWillReceiveProps(next) {
@@ -61,7 +61,7 @@ class SearchPage extends PureComponent {
       })
       
     }
-    if (this.props.supers.location.address.code[0] !== this.state.areaParms[0]) {
+    if (this.props.supers.location.address.code[0] !== this.state.areaParms) {
       this.setState({
         areaParms: this.props.supers.location.address.code[0],
       })

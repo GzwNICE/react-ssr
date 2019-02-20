@@ -18,7 +18,9 @@ const tiggerPost = '职位'
 class HotTrade extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      areaParms: '', // url传递的area code
+    }
   }
 
   goClassify = (key)=>{
@@ -39,7 +41,9 @@ class HotTrade extends Component {
   
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
-    const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    const {areaParms} = this.state
+    
     if(key === "礼宾/前台"){
       return `/search/礼宾前台?keyword=${key}&areaParms=${areaParms}`
     }
@@ -91,12 +95,17 @@ class HotTrade extends Component {
         area: [searchCity],
       })
     }
-   
+    if (this.props.supers.location.address.code[0] !== this.state.areaParms[0]) {
+      this.setState({
+        areaParms: this.props.supers.location.address.code[0],
+      })
+    }
   }
 
   render() {
     const imgData = this.props.tradeDtata
-    const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    const {areaParms} = this.state
     return (
       <div className={style.Hottrade}>
         {imgData.list
