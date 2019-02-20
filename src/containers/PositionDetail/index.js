@@ -54,6 +54,7 @@ class PositionDetail extends PureComponent {
 
   //返回上一页，没有上一页返回到首页
   whereWillIGo = () => {
+
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       // this.props.history.replace(redirect)
@@ -164,7 +165,7 @@ class PositionDetail extends PureComponent {
           const pathname = this.props.location.pathname
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
-          this.shareWeixin(data)
+          // this.shareWeixin(data)
         })
     }
   }

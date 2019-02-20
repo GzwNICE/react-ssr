@@ -135,6 +135,7 @@ class CompanyDetail extends PureComponent {
   }
 
   whereWillIGo = () => {
+    this.scrollTop = 0
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       // this.props.history.replace(redirect)
@@ -283,9 +284,9 @@ class CompanyDetail extends PureComponent {
                   {data.industry_star ? (
                     <span>{data.industry_star}</span>
                   ) : null}
-                  {data.company_size ? <span>{data.company_size}</span> : null}
+                  {data.company_size ? <span><span className={style.rule}>|</span>{data.company_size}</span> : null}
                   {data.company_nature ? (
-                    <span>{data.company_nature}</span>
+                    <span><span className={style.rule}>|</span>{data.company_nature}</span>
                   ) : null}
                 </div>
                 <div className={style.Detailweat}>
