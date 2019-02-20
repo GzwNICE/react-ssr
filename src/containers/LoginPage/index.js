@@ -6,9 +6,9 @@ import LoginCode from '../LoginCode'
 import style from './style.less'
 import Rectangle from '../../static/back.png'
 import { appShare } from '../../actions/auth'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import F from '../../helper/tool'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 const triggerFrom = "触发来源"
 
 @connect(state => ({}))

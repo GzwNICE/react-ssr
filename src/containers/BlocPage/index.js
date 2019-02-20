@@ -127,7 +127,7 @@ export default class CompanyArea extends Component {
       saveBlocQuery({
         area: value.area ? value.area : [],
         brand: value.brand ? value.brand : [],
-        keywords: this.state.keyWords,
+        // keywords: this.state.keyWords,
       })
     )
   }
@@ -135,8 +135,6 @@ export default class CompanyArea extends Component {
   onScroll = () => {
     let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
-    console.log(1111111111)
-    console.log(top)
   }
 
   whereWillIGo = () => {
@@ -322,7 +320,7 @@ export default class CompanyArea extends Component {
               c_userid: c_userid,
               local: nextProps.query.area[0] ? nextProps.query.area[0] : '',
               c_id: nextProps.query.brand[0] ? nextProps.query.brand[0] : '',
-              key_words: nextProps.query.keywords && nextProps.query.keywords,
+              // key_words: nextProps.query.keywords && nextProps.query.keywords,
             })
           )
           .then(res => {
