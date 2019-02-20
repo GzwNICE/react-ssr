@@ -110,6 +110,14 @@ class MySearchBar extends PureComponent {
       }
    
     })
+
+    const searchCity = sessionStorage.getItem('searchCity')
+    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: [searchCity],
+      })
+    }
   }
 
   render() {

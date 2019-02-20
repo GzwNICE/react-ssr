@@ -27,6 +27,7 @@ const tiggerSearchKeyWord = '搜索词'
     supers: state.supers,
     areaCode: state.search.areaCode,
     query: state.search.query,
+
   }
 })
 class SearchPage extends PureComponent {
@@ -48,9 +49,16 @@ class SearchPage extends PureComponent {
     if (query.area.length > 0) {
       area = query.area[0]
     }
-    this.setState({
-      areaParms: area,
-    })
+    // this.setState({
+    //   areaParms: area,
+    // })
+    const searchCity = sessionStorage.getItem('searchCity')
+    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: [searchCity],
+      })
+    }
   }
   onChangeCity = value => {
     // const Area = option.areas_index
@@ -58,10 +66,10 @@ class SearchPage extends PureComponent {
     // if (value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
     // }
-       this.props.dispatch({
-        type: 'JOB_PAGE_CITY_CODE_SET',
-        area: code,
-      })
+      //  this.props.dispatch({
+      //   type: 'JOB_PAGE_CITY_CODE_SET',
+      //   area: code,
+      // })
   }
 
   change = keyWord => {
@@ -104,18 +112,18 @@ class SearchPage extends PureComponent {
     // if (areaCode.length > 0) {
     //   area = areaCode[0]
     // }
-    const {areaParms} = this.state
+    // const {areaParms} = this.state
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
 
       this.props.history.push(
-        `/job/?keyword=${item}&areaParms=${areaParms}`,
+        `/job/?keyword=${item}&areaParms=${this.props.supers.location.address.code}`,
         { keyword: item }
       )
     } else {
       this.props.history.push(
-        `/search/${item}?keyword=${item}&areaParms=${areaParms}`,
+        `/search/${item}?keyword=${item}&areaParms=${this.props.supers.location.address.code}`,
         { keyword: item }
       )
     }
@@ -133,14 +141,14 @@ class SearchPage extends PureComponent {
       JSON.stringify(F.ArrayDelRepetition(newHis))
     )
     const state = this.props.location.state || {}
-    const {areaParms} = this.state
+    // const {areaParms} = this.state
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/job/?keyword=${val}&areaParms=${areaParms}`, { keyword: val })
+      this.props.history.push(`/job/?keyword=${val}&areaParms=${this.props.supers.location.address.code}`, { keyword: val })
     } else {
-      this.props.history.push(`/search/${val}?keyword=${val}&areaParms=${areaParms}`, { keyword: val })
+      this.props.history.push(`/search/${val}?keyword=${val}&areaParms=${this.props.supers.location.address.code}`, { keyword: val })
     }
   }
 
@@ -159,13 +167,13 @@ class SearchPage extends PureComponent {
       JSON.stringify(F.ArrayDelRepetition(newHis))
     )
     const state = this.props.location.state || {}
-    const {areaParms} = this.state
+    // const {areaParms} = this.state
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/job/?keyword=${val.keyword}&areaParms=${areaParms}`, { ...val })
+      this.props.history.push(`/job/?keyword=${val.keyword}&areaParms=${this.props.supers.location.address.code}`, { ...val })
     } else {
-      this.props.history.push(`/search/${val.keyword}?keyword=${val.keyword}&areaParms=${areaParms}`, {
+      this.props.history.push(`/search/${val.keyword}?keyword=${val.keyword}&areaParms=${this.props.supers.location.address.code}`, {
         ...val,
       })
     }
@@ -184,14 +192,14 @@ class SearchPage extends PureComponent {
       JSON.stringify(F.ArrayDelRepetition(newHis))
     )
     const state = this.props.location.state || {}
-    const {areaParms} = this.state
+    // const {areaParms} = this.state
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
-      this.props.history.push(`/job/?keyword=${keyWord}&areaParms=${areaParms}`, { keyword: keyWord })
+      this.props.history.push(`/job/?keyword=${keyWord}&areaParms=${this.props.supers.location.address.code}`, { keyword: keyWord })
     } else {
-      this.props.history.push(`/search/${keyWord}?keyword=${keyWord}&areaParms=${areaParms}`, {
+      this.props.history.push(`/search/${keyWord}?keyword=${keyWord}&areaParms=${this.props.supers.location.address.code}`, {
         keyword: keyWord,
       })
     }

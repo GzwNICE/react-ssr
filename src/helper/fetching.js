@@ -87,7 +87,6 @@ export function pipeline(uri, params, opt = {}) {
   }).then(res => {
     // loading停止
     // Toast.hide()
-    // alert(11)
     // store.dispatch(login_out).then(data => {
     //   console.log(data)
     // })
