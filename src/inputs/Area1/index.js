@@ -29,23 +29,28 @@ class ComplexSelView extends ComplexFormField {
       root: true,
       optionsSubChil: [], // 右侧数据
       clickCode: 'hot', // 右侧点击省份的code
-      hotData: [], // 热门城市
+      hotData: {
+        value: '热门城市',
+        code: 'hot',
+        sublist: [],
+      }, // 热门城市
       selectedHight: 60, // 顶部被选中城市框的高度
+    
     }
     this.saveRef = ref => {
       this.refDom = ref
     }
   }
   componentDidMount() {
-    const { hot } = this.props
-    let hotData = {
-      value: '热门城市',
-      code: 'hot',
-      sublist: hot,
-    }
+    // const { hot } = this.props
+    // let hotData = {
+    //   value: '热门城市',
+    //   code: 'hot',
+    //   sublist: [],
+    // }
     this.setState({
-      optionsSubChil: hot,
-      hotData,
+      // optionsSubChil: hot,
+      // hotData,
       value: this.props.value,
     })
   }
@@ -127,6 +132,18 @@ class ComplexSelView extends ComplexFormField {
     ) {
       this.setState({ value: nextProps.value })
     }
+    if(nextProps.hot && this.state.hotData.sublist.length===0) {
+      this.setState({
+        optionsSubChil: nextProps.hot,
+        hotData: {
+          value: '热门城市',
+          code: 'hot',
+          sublist: nextProps.hot,
+        },
+      })
+    }
+
+
   }
 
   getValue() {
