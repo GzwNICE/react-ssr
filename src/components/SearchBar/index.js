@@ -16,6 +16,7 @@ import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
 import F from '../../helper/tool'
+import Cookies from 'js-cookie'
 const triggerFrom = '触发来源'
 
 @withRouter
@@ -64,7 +65,8 @@ class MySearchBar extends PureComponent {
       is_login: F.getUserInfo().is_login,
       photo: F.getUserInfo().photo,
     })
-    const searchCity = sessionStorage.getItem('searchCity')
+    // const searchCity = sessionStorage.getItem('searchCity')
+    const searchCity = Cookies.get('searchCity')
     if (searchCity) {
       let searchCityArr = [searchCity]
       this.setState({
@@ -111,7 +113,8 @@ class MySearchBar extends PureComponent {
    
     })
 
-    const searchCity = sessionStorage.getItem('searchCity')
+    // const searchCity = sessionStorage.getItem('searchCity')
+    const searchCity = Cookies.get('searchCity')
     if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
