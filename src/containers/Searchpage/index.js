@@ -17,7 +17,7 @@ import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
 import { Helmet } from 'react-helmet'
-
+import Cookies from 'js-cookie'
 const tiggerSearchKeyWord = '搜索词'
 
 @connect(state => {
@@ -50,8 +50,8 @@ class SearchPage extends PureComponent {
     // this.setState({
     //   areaParms: area,
     // })
-    const searchCity = sessionStorage.getItem('searchCity')
-   
+    // const searchCity = sessionStorage.getItem('searchCity')
+    const searchCity = Cookies.get('searchCity')
     // console.log('searchCity',searchCity)
     // console.log(this.props.supers.location.address.code[0])
     if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {

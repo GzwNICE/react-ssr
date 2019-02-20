@@ -5,6 +5,7 @@ import { hotTrade } from '../../../actions/home'
 import { withRouter, Link } from 'react-router-dom'
 import hotjobs from '../../../static/hotJobs@3x.png'
 import style from '../style.less'
+import Cookies from 'js-cookie'
 const tiggerModule = '模块'
 const tiggerCompany = '企业'
 const tiggerPost = '职位'
@@ -82,7 +83,8 @@ class HotTrade extends Component {
         })
       )
     }
-    const searchCity = sessionStorage.getItem('searchCity')
+    // const searchCity = sessionStorage.getItem('searchCity')
+    const searchCity = Cookies.get('searchCity')
     if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
