@@ -89,15 +89,18 @@ class HotTrade extends Component {
     }
     // const searchCity = sessionStorage.getItem('searchCity')
     const searchCity = Cookies.get('searchCity')
-    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
+    const address1Code = this.props.supers.location.address1.code
+    if (searchCity && address1Code && address1Code.length>0 && address1Code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
         area: [searchCity],
       })
     }
-    if (this.props.supers.location.address1.code[0] !== this.state.areaParms[0]) {
+    console.log(address1Code)
+
+    if (address1Code&& address1Code.length>0 && address1Code[0] !== this.state.areaParms[0]) {
       this.setState({
-        areaParms: this.props.supers.location.address1.code[0],
+        areaParms: address1Code[0],
       })
     }
   }
