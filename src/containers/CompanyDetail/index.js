@@ -48,18 +48,12 @@ class CompanyDetail extends PureComponent {
     is_login: '',
   }
 
-  nextPost = (job_id, c_userid) => {
-    // window.zhuge.track('职位详情页打开', { 触发来源: '企业招聘职位' })
-    this.props.history.push(`/${c_userid}/${job_id}`)
-    this.props.handleSavePageScroll(this.key)
-  }
-
   onChangeTab = key => {
     let keys = key.title.key
     if (keys === '1') {
-      // window.zhuge.track('企业信息')
+      window.zhuge.track('企业详情页-企业信息')
     } else if (keys === '2') {
-      // window.zhuge.track('在招职位')
+      window.zhuge.track('企业详情页-在招职位')
     }
   }
 
@@ -173,6 +167,7 @@ class CompanyDetail extends PureComponent {
 
   componentDidMount() {
     window.zhuge.track('公司详情页打开', { [`${triggerFrom}`]: '公司详情页链接直接打开' })
+    window.zhuge.track('企业详情页-企业信息')
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.company.scrollTop
     this.detailWrap.scrollTop =this.scrollTop
@@ -317,7 +312,6 @@ class CompanyDetail extends PureComponent {
           <div className={style.connent}>
             <Tabs
               tabs={tabs}
-              initialPage={1}
               swipeable={false}
               onChange={this.onChangeTab}
             >
