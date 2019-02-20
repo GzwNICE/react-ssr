@@ -4,6 +4,7 @@ import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { Toast } from 'antd-mobile/lib/index'
+import Cookies from 'js-cookie'
 // import guanbiIcon from '../../static/guanbi@2x.png'
 const triggerCity = "城市"
 
@@ -104,9 +105,11 @@ class ComplexSelView extends ComplexFormField {
     } else {
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
-        sessionStorage.removeItem('searchCity')
+        // sessionStorage.removeItem('searchCity')
+        Cookies.remove('searchCity')
       } else {
-        sessionStorage.setItem('searchCity', code)
+        // sessionStorage.setItem('searchCity', code)
+        Cookies.set('searchCity', code)
         this.setState({ value: [code] }, () => this.changeValue())
 
       }  

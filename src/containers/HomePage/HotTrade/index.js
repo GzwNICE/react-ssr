@@ -5,6 +5,7 @@ import { hotTrade } from '../../../actions/home'
 import { withRouter, Link } from 'react-router-dom'
 import hotjobs from '../../../static/hotJobs@3x.png'
 import style from '../style.less'
+import Cookies from 'js-cookie'
 const tiggerModule = '模块'
 const tiggerCompany = '企业'
 const tiggerPost = '职位'
@@ -17,7 +18,9 @@ const tiggerPost = '职位'
 class HotTrade extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      areaParms: '',
+    }
   }
 
   goClassify = (key)=>{
@@ -38,16 +41,18 @@ class HotTrade extends Component {
   
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
+    const {areaParms} = this.state
+
     if(key === "礼宾/前台"){
-      return `/search/礼宾前台?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+      return `/search/礼宾前台?keyword=${key}&areaParms=${areaParms}`
     }
     if(key === '美容/SPA'){
-      return `/search/美容SPA?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+      return `/search/美容SPA?keyword=${key}&areaParms=${areaParms}`
     }
     if(key === '健身中心'){
-      return `/search/${key}?keyword=健身&areaParms=${this.props.supers.location.address.code}`
+      return `/search/${key}?keyword=健身&areaParms=${areaParms}`
     }
-    return `/search/${key}?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
+    return `/search/${key}?keyword=${key}&areaParms=${areaParms}`
   }
 
   componentDidMount() {
@@ -81,9 +86,25 @@ class HotTrade extends Component {
         })
       )
     }
+
+    const searchCity = Cookies.get('searchCity')
+    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: [searchCity],
+      })
+      
+    }
+    if (this.props.supers.location.address.code[0] !== this.state.areaParms) {
+      this.setState({
+        areaParms: this.props.supers.location.address.code[0],
+      })
+    }
   }
 
   render() {
+    const {areaParms} = this.state
+
     const imgData = this.props.tradeDtata
     return (
       <div className={style.Hottrade}>
@@ -96,7 +117,7 @@ class HotTrade extends Component {
                       rel="stylesheet"
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
-                      }&areaParms=${this.props.supers.location.address.code}`}
+                      }&areaParms=${areaParms}`}
                       onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}
@@ -152,7 +173,7 @@ class HotTrade extends Component {
                     return (
                       <Link
                         rel="stylesheet"
-                        to={`/search/${item}?keyword=${item}&areaParms=${this.props.supers.location.address.code}`}
+                        to={`/search/${item}?keyword=${item}&areaParms=${areaParms}`}
                         key={index}
                         onClick={()=>this.goHotPost(item)}
                       >

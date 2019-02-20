@@ -17,6 +17,7 @@ import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
 import { Helmet } from 'react-helmet'
+import Cookies from 'js-cookie'
 
 const tiggerSearchKeyWord = '搜索词'
 
@@ -39,18 +40,31 @@ class SearchPage extends PureComponent {
   }
 
   componentWillReceiveProps(next) {
-    const { supers, areaCode, query } = this.props // userStatus
-    let area = supers.location.address.code[0]
+    // const { supers, areaCode, query } = this.props // userStatus
+    // let area = supers.location.address.code[0]
     // console.log(areaCode[0])
     // if (areaCode.length > 0) {
-      area = areaCode[0] ? areaCode[0] : ''
+      // area = areaCode[0] ? areaCode[0] : ''
     // }
-    if (query.area.length > 0) {
-      area = query.area[0]
+    // if (query.area.length > 0) {
+    //   area = query.area[0]
+    // }
+    // this.setState({
+    //   areaParms: area,
+    // })
+    const searchCity = Cookies.get('searchCity')
+    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: [searchCity],
+      })
+      
     }
-    this.setState({
-      areaParms: area,
-    })
+    if (this.props.supers.location.address.code[0] !== this.state.areaParms) {
+      this.setState({
+        areaParms: this.props.supers.location.address.code[0],
+      })
+    }
   }
   onChangeCity = value => {
     // const Area = option.areas_index

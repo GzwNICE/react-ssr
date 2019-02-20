@@ -98,6 +98,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
+    Cookies.set('searchEndFirst', 1)
     // alert(11)
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
@@ -635,12 +636,18 @@ class SearchEnd extends PureComponent {
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
-
-    window.onbeforeunload = function(e){
-      // console.log(queryString.parse(this.props.history.location.search))
-      // alert(1111)
-      Cookies.set('searchEndFirst', 1)
+    const searchCity = Cookies.get('searchCity')
+    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+      this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: [searchCity],
+      })
     }
+    // window.onbeforeunload = function(e){
+    //   // console.log(queryString.parse(this.props.history.location.search))
+    //   // alert(1111)
+    //   Cookies.set('searchEndFirst', 1)
+    // }
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
