@@ -15,9 +15,9 @@ class JobList extends Component {
         <div className={style.benefits}>
           <div className={style.scale}>
             {d.work_place ? <span>{d.work_place}</span> : null}
-            {d.exp ? <span><span className={style.rule}>|</span>{d.exp}</span> : null}
-            {d.education ? <span><span className={style.rule}>|</span>{d.education}</span> : null}
-            {d.room_board ? <span><span className={style.rule}>|</span>{d.room_board}</span> : null}
+            {d.exp ? <span>{d.exp}</span> : null}
+            {d.education ? <span>{d.education}</span> : null}
+            {d.room_board ? <span>{d.room_board}</span> : null}
           </div>
           <span className={style.time}>{d.update_time}</span>
         </div>
@@ -75,10 +75,10 @@ class PostList extends Component {
                         {item.work_place ? (
                           <span>{item.work_place}</span>
                         ) : null}
-                        {item.exp ? <span><span className={style.rule}>|</span>{item.exp}</span> : null}
-                        {item.education ? <span><span className={style.rule}>|</span>{item.education}</span> : null}
+                        {item.exp ? <span>{item.exp}</span> : null}
+                        {item.education ? <span>{item.education}</span> : null}
                         {item.room_board ? (
-                          <span><span className={style.rule}>|</span>{item.room_board}</span>
+                          <span>{item.room_board}</span>
                         ) : null}
                       </div>
                       <span className={style.day}>{item.update_time}</span>

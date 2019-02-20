@@ -21,10 +21,12 @@ class SendMessage extends PureComponent {
     this.props.send(inf)
   }
   scrollBto = () => {
+    // alert(document.body.scrollTop)
     setTimeout(function(){
       document.body.scrollTop = document.documentElement.scrollTop = document.body.scrollHeight + 200
     },800)
     this.props.scrollBto()
+    // alert(document.body.scrollHeight);
   }
   render() {
     return (

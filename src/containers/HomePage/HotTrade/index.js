@@ -5,7 +5,6 @@ import { hotTrade } from '../../../actions/home'
 import { withRouter, Link } from 'react-router-dom'
 import hotjobs from '../../../static/hotJobs@3x.png'
 import style from '../style.less'
-import Cookies from 'js-cookie'
 const tiggerModule = '模块'
 const tiggerCompany = '企业'
 const tiggerPost = '职位'
@@ -18,9 +17,7 @@ const tiggerPost = '职位'
 class HotTrade extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      areaParms: '', // url传递的area code
-    }
+    this.state = {}
   }
 
   goClassify = (key)=>{
@@ -41,19 +38,16 @@ class HotTrade extends Component {
   
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
-    const {areaParms} = this.state
-    
     if(key === "礼宾/前台"){
-      return `/search/礼宾前台?keyword=${key}&areaParms=${areaParms}`
+      return `/search/礼宾前台?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
     }
     if(key === '美容/SPA'){
-      return `/search/美容SPA?keyword=${key}&areaParms=${areaParms}`
+      return `/search/美容SPA?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
     }
     if(key === '健身中心'){
-      return `/search/${key}?keyword=健身&areaParms=${areaParms}`
+      return `/search/${key}?keyword=健身&areaParms=${this.props.supers.location.address.code}`
     }
-    return `/search/${key}?keyword=${key}&areaParms=${areaParms}`
+    return `/search/${key}?keyword=${key}&areaParms=${this.props.supers.location.address.code}`
   }
 
   componentDidMount() {
@@ -87,28 +81,10 @@ class HotTrade extends Component {
         })
       )
     }
-    // const searchCity = sessionStorage.getItem('searchCity')
-    const searchCity = Cookies.get('searchCity')
-    const address1Code = this.props.supers.location.address1.code
-    if (searchCity && address1Code && address1Code.length>0 && address1Code[0] !== searchCity) {
-      this.props.dispatch({
-        type: 'JOB_PAGE_CITY_CODE_SET',
-        area: [searchCity],
-      })
-    }
-    console.log(address1Code)
-
-    if (address1Code&& address1Code.length>0 && address1Code[0] !== this.state.areaParms[0]) {
-      this.setState({
-        areaParms: address1Code[0],
-      })
-    }
   }
 
   render() {
     const imgData = this.props.tradeDtata
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
-    const {areaParms} = this.state
     return (
       <div className={style.Hottrade}>
         {imgData.list
@@ -120,7 +96,7 @@ class HotTrade extends Component {
                       rel="stylesheet"
                       to={`/search/${item.keyArray.industry}?keyword=${
                         item.keyArray.industry
-                      }&areaParms=${areaParms}`}
+                      }&areaParms=${this.props.supers.location.address.code}`}
                       onClick={()=>this.goClassify(item.keyArray.industry)}
                     >
                       {item.keyArray.industry}
@@ -176,7 +152,7 @@ class HotTrade extends Component {
                     return (
                       <Link
                         rel="stylesheet"
-                        to={`/search/${item}?keyword=${item}&areaParms=${areaParms}`}
+                        to={`/search/${item}?keyword=${item}&areaParms=${this.props.supers.location.address.code}`}
                         key={index}
                         onClick={()=>this.goHotPost(item)}
                       >

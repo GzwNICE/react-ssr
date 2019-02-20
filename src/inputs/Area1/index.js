@@ -4,7 +4,6 @@ import { NavBar, Icon } from 'antd-mobile'
 import style from './style.less'
 import { connect } from 'react-redux'
 import { Toast } from 'antd-mobile/lib/index'
-import Cookies from 'js-cookie'
 // import guanbiIcon from '../../static/guanbi@2x.png'
 const triggerCity = "城市"
 
@@ -105,11 +104,9 @@ class ComplexSelView extends ComplexFormField {
     } else {
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
-        // sessionStorage.removeItem('searchCity')
-        Cookies.remove('searchCity')
+        sessionStorage.removeItem('searchCity')
       } else {
-        // sessionStorage.setItem('searchCity', code)
-        Cookies.set('searchCity', code)
+        sessionStorage.setItem('searchCity', code)
         this.setState({ value: [code] }, () => this.changeValue())
 
       }  
@@ -229,10 +226,10 @@ class ComplexSelView extends ComplexFormField {
     } = this.state
 
     // console.log(this.props.coord.address.code[0])
-    if (this.props.coord && this.props.coord.address) {
+    if (this.props.coord && this.props.coord.address2) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (this.props.coord.address.code && this.props.coord.address.code[0]) {
-          if (key === this.props.coord.address.code[0]) {
+        if (this.props.coord.address2.code && this.props.coord.address2.code[0]) {
+          if (key === this.props.coord.address2.code[0]) {
             this.myCity = key
           }
         }

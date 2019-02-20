@@ -246,7 +246,6 @@ class Register extends PureComponent {
   }
 
   componentDidMount() {
-    window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '注册链接直接打开' })
     window.wx.ready(() => {
       window.wx.updateTimelineShareData(appShare()) // 分享到朋友圈
       window.wx.updateAppMessageShareData(appShare()) // 分享给朋友

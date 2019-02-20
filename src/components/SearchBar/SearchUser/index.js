@@ -31,45 +31,35 @@ class SearchUser extends Component {
   }
 
   /* 诸葛 下载或者打开app */
-  downLoadAd = key => {
+  downLoadAd = (key) => {
     window.location.href = 'share2js://app?type=1'
-    if (key === 1) {
-      window.zhuge.track('下载APP', {
-        [`${triggerFrom}`]: '企业详情页顶部推荐',
-      })
+    if(key === 1){
+      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '企业详情页顶部推荐' })
       setTimeout(() => {
-        window.location.href =
-          'https://m.veryeast.cn/mobile/ariadownload?utm_source=h506'
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h506'
       }, 2000)
-    } else {
-      window.zhuge.track('下载APP', {
-        [`${triggerFrom}`]: '职位详情页顶部推荐',
-      })
+    }else {
+      window.zhuge.track('下载APP', { [`${triggerFrom}`]: '职位详情页顶部推荐' })
       setTimeout(() => {
-        window.location.href =
-          'https://m.veryeast.cn/mobile/ariadownload?utm_source=h505'
+        window.location.href = 'https://m.veryeast.cn/mobile/ariadownload?utm_source=h505'
       }, 2000)
     }
   }
 
-  goHome = key => {
-    if (key === 1) {
+  goHome=(key)=>{
+    if(key === 1){
       window.zhuge.track('企业详情页点击首页icon')
-    } else {
+    }else {
       window.zhuge.track('职位详情页点击首页icon')
     }
   }
 
   /* 诸葛  注册页面打开 */
-  goRegister = key => {
-    if (key === 1) {
-      window.zhuge.track('注册页面打开', {
-        [`${triggerFrom}`]: '企业详情页个人中心icon',
-      })
-    } else {
-      window.zhuge.track('注册页面打开', {
-        [`${triggerFrom}`]: '职位详情页个人中心icon',
-      })
+  goRegister = (key) => {
+    if(key === 1){
+      window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '企业详情页个人中心icon' })
+    }else {
+      window.zhuge.track('注册页面打开', { [`${triggerFrom}`]: '职位详情页个人中心icon' })
     }
   }
 
@@ -88,10 +78,7 @@ class SearchUser extends Component {
     const { searchShow } = this.props
     return (
       <div className={searchShow ? style.headScoll : style.positionHead}>
-        <Ad.AdTop
-          show={show}
-          downLoadAd={() => this.downLoadAd(this.props.zhugeFrom)}
-        />
+        <Ad.AdTop show={show} downLoadAd={()=>this.downLoadAd(this.props.zhugeFrom)} />
         <div className={style.searchbar}>
           <div className={style.goBack} onClick={this.props.goBack}>
             <img src={back} alt="bank" />
@@ -105,11 +92,7 @@ class SearchUser extends Component {
             <div className={style.companyTitle}>{this.props.title}</div>
           )}
           <div className={style.navLink}>
-            <Link
-              rel="stylesheet"
-              to={`/`}
-              onClick={() => this.goHome(this.props.zhugeFrom)}
-            >
+            <Link rel="stylesheet" to={`/`} onClick={()=>this.goHome(this.props.zhugeFrom)}>
               <img src={unHome} alt="img" className={style.searcHome} />
             </Link>
             <Link
@@ -119,18 +102,13 @@ class SearchUser extends Component {
                   ? `/user?redirect=${this.props.location.pathname}`
                   : `/user/register?redirect=${this.props.location.pathname}`
               }
-              onClick={() => this.goRegister(this.props.zhugeFrom)}
+              onClick={()=>this.goRegister(this.props.zhugeFrom)}
             >
-              {is_login ? (
-                <img
-                  src={photo ? photo : Userdefault}
-                  alt=""
-                  className={style.personalUser}
-                  style={{marginTop: `0.03rem`}}
-                />
-              ) : (
-                <img src={personal} alt="" className={style.personal}/>
-              )}
+              <img
+                src={is_login ? (photo ? photo : Userdefault) : personal}
+                alt=""
+                className={style.personal}
+              />
             </Link>
           </div>
         </div>

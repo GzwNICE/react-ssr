@@ -14,8 +14,8 @@ const HotelEntry = (props) => {
       <div className={style.center}>
         <h1 className={style.hotelName}>{company.company_name}</h1>
         <div className={style.hotelSize}>
-          {company.industry_star} {company.company_size ? <span className={style.rule}>|</span> : null}
-          {company.company_size} {company.company_nature ? <span className={style.rule}>|</span> : null}
+          {company.industry_star} {company.company_size ? " | " : null}
+          {company.company_size} {company.company_nature ? " | " : null}
           {company.company_nature}
         </div>
       </div>

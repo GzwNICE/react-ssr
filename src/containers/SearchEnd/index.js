@@ -98,7 +98,7 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    Cookies.set('searchEndFirst', '1')
+    // alert(11)
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -587,7 +587,7 @@ class SearchEnd extends PureComponent {
     // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
 
-    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address1.code[0]&&this.props.supers.location.address1.code[0] !== nextProps.supers.location.address1.code[0]) {
+    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
     //   const allQuery = this.handleSearchQuery()
     //   const params = {
     //     ...allQuery,
@@ -635,9 +635,12 @@ class SearchEnd extends PureComponent {
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
-    // window.onbeforeunload = function(e){
-    //   Cookies.set('searchEndFirst', '1')
-    // }
+
+    window.onbeforeunload = function(e){
+      // console.log(queryString.parse(this.props.history.location.search))
+      // alert(1111)
+      Cookies.set('searchEndFirst', 1)
+    }
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {

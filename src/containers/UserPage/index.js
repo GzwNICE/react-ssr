@@ -170,6 +170,8 @@ class UserPage extends PureComponent {
     const is_login = F.getUserInfo().is_login
     if (is_login) {
       this.props.dispatch(getUserStatus()).then(data => {
+        // alert(data.status)
+        // alert(is_login)
 
         // if (json.errCode === 2002) {
         // }

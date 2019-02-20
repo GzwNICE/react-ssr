@@ -1,3 +1,5 @@
+// .JobList {
+//   padding: 0 20px;
   .single {
     background-color: #ffffff;
     height: 126px;
@@ -79,21 +81,28 @@
       > span:last-child {
         padding: 0;
       }
+      > span:last-child::after {
+        display: none;
+      }
       span {
         position: relative;
-        padding-right: 5px;
+        padding-right: 10px;
       }
-      .rule {
-        color: #9B9B9B;
-        font-size: 10px;
-        position: relative;
-        top: -1px;
+      span::after {
+        content: '';
+        width: 1px;
+        height: 12px;
+        background-color: #dfdfdf;
+        position: absolute;
+        top: 3px;
+        right: 5px;
       }
     }
   }
   a:last-child .single{
     border-bottom: none;
   }
+// }
 
 .PostList {
   width: 100%;
@@ -142,17 +151,22 @@
         > span:last-child {
           padding: 0;
         }
+        > span:last-child::after {
+          display: none;
+        }
         span {
           position: relative;
-          padding-right: 5px;
+          padding-right: 10px;
         }
-        .rule {
-          color: #9B9B9B;
-          font-size: 10px;
-          position: relative;
-          top: -1px;
+        span::after {
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #dfdfdf;
+          position: absolute;
+          top: 3px;
+          right: 5px;
         }
-        
       }
       .day {
         font-family: PingFangSC-Regular;

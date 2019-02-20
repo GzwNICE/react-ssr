@@ -16,7 +16,6 @@ import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
 import F from '../../helper/tool'
-import Cookies from 'js-cookie'
 const triggerFrom = '触发来源'
 
 @withRouter
@@ -65,8 +64,7 @@ class MySearchBar extends PureComponent {
       is_login: F.getUserInfo().is_login,
       photo: F.getUserInfo().photo,
     })
-    // const searchCity = sessionStorage.getItem('searchCity')
-    const searchCity = Cookies.get('searchCity')
+    const searchCity = sessionStorage.getItem('searchCity')
     if (searchCity) {
       let searchCityArr = [searchCity]
       this.setState({
@@ -112,15 +110,6 @@ class MySearchBar extends PureComponent {
       }
    
     })
-
-    // const searchCity = sessionStorage.getItem('searchCity')
-    const searchCity = Cookies.get('searchCity')
-    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
-      this.props.dispatch({
-        type: 'JOB_PAGE_CITY_CODE_SET',
-        area: [searchCity],
-      })
-    }
   }
 
   render() {
@@ -200,15 +189,11 @@ class MySearchBar extends PureComponent {
             }
             onClick={this.goRegister}
           >
-            {is_login ? (
-              <img
-                src={photo ? photo : Userdefault}
-                alt=""
-                className={style.personalUser}
-              />
-            ) : (
-              <img src={personal} alt="" className={style.personal} />
-            )}
+            <img
+              src={is_login ? (photo ? photo : Userdefault) : personal}
+              alt="img"
+              className={style.personal}
+            />
           </Link>
         ) : null}
       </div>

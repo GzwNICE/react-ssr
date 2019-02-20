@@ -17,7 +17,7 @@ import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
 import { Helmet } from 'react-helmet'
-import Cookies from 'js-cookie'
+
 const tiggerSearchKeyWord = '搜索词'
 
 @connect(state => {
@@ -27,11 +27,12 @@ const tiggerSearchKeyWord = '搜索词'
     supers: state.supers,
     areaCode: state.search.areaCode,
     query: state.search.query,
-
   }
 })
 class SearchPage extends PureComponent {
   static propTypes = {}
+
+
   state = {
     stareSearch: false,
     areaParms: '', // url传递的area code
@@ -39,7 +40,7 @@ class SearchPage extends PureComponent {
 
   componentWillReceiveProps(next) {
     const { supers, areaCode, query } = this.props // userStatus
-    let area = supers.location.address1.code[0]
+    let area = supers.location.address.code[0]
     // console.log(areaCode[0])
     // if (areaCode.length > 0) {
       area = areaCode[0] ? areaCode[0] : ''
@@ -47,25 +48,9 @@ class SearchPage extends PureComponent {
     if (query.area.length > 0) {
       area = query.area[0]
     }
-    // this.setState({
-    //   areaParms: area,
-    // })
-    // const searchCity = sessionStorage.getItem('searchCity')
-    const searchCity = Cookies.get('searchCity')
-    // console.log('searchCity',searchCity)
-    // console.log(this.props.supers.location.address1.code[0])
-    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
-      this.props.dispatch({
-        type: 'JOB_PAGE_CITY_CODE_SET',
-        area: [searchCity],
-      })
-      
-    }
-    if (this.props.supers.location.address1.code[0] !== this.state.areaParms) {
-      this.setState({
-        areaParms: this.props.supers.location.address1.code[0],
-      })
-    }
+    this.setState({
+      areaParms: area,
+    })
   }
   onChangeCity = value => {
     // const Area = option.areas_index
@@ -73,10 +58,10 @@ class SearchPage extends PureComponent {
     // if (value.areas.length > 0) {
       this.props.dispatch(changeAllCity(code))
     // }
-      //  this.props.dispatch({
-      //   type: 'JOB_PAGE_CITY_CODE_SET',
-      //   area: code,
-      // })
+       this.props.dispatch({
+        type: 'JOB_PAGE_CITY_CODE_SET',
+        area: code,
+      })
   }
 
   change = keyWord => {
@@ -115,14 +100,11 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     // const { supers, areaCode } = this.props // userStatus
-    // let area = supers.location.address1.code[0]
+    // let area = supers.location.address.code[0]
     // if (areaCode.length > 0) {
     //   area = areaCode[0]
     // }
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
-    // console.log(areaParms)
-  //  alert(areaParms)
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
@@ -152,7 +134,6 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
@@ -179,8 +160,6 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
-    
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
       // console.log('从tab_job进入的'+state.form)
@@ -206,7 +185,6 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
