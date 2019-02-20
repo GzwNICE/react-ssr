@@ -78,12 +78,22 @@ class SearchEndBar extends PureComponent {
             })
           }}
         >
-          <img
+          {/*<img
             src={is_login ? (photo ? photo : Userdefault) : personal}
             alt="img"
             className={style.personal}
             onClick={this.imgClick}
-          />
+          />*/}
+          {is_login ? (
+            <img
+              src={photo ? photo : Userdefault}
+              alt=""
+              className={style.personalUser}
+              onClick={this.imgClick}
+            />
+          ) : (
+            <img src={personal} alt="" className={style.personal} onClick={this.imgClick}/>
+          )}
         </Link>
       </div>
     )

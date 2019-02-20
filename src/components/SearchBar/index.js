@@ -189,11 +189,15 @@ class MySearchBar extends PureComponent {
             }
             onClick={this.goRegister}
           >
-            <img
-              src={is_login ? (photo ? photo : Userdefault) : personal}
-              alt="img"
-              className={style.personal}
-            />
+            {is_login ? (
+              <img
+                src={photo ? photo : Userdefault}
+                alt=""
+                className={style.personalUser}
+              />
+            ) : (
+              <img src={personal} alt="" className={style.personal} />
+            )}
           </Link>
         ) : null}
       </div>
