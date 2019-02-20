@@ -115,7 +115,7 @@ class MySearchBar extends PureComponent {
 
     // const searchCity = sessionStorage.getItem('searchCity')
     const searchCity = Cookies.get('searchCity')
-    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
         area: [searchCity],

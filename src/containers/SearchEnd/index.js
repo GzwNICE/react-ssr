@@ -587,7 +587,7 @@ class SearchEnd extends PureComponent {
     // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
 
-    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
+    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address1.code[0]&&this.props.supers.location.address1.code[0] !== nextProps.supers.location.address1.code[0]) {
     //   const allQuery = this.handleSearchQuery()
     //   const params = {
     //     ...allQuery,

@@ -39,7 +39,7 @@ class SearchPage extends PureComponent {
 
   componentWillReceiveProps(next) {
     const { supers, areaCode, query } = this.props // userStatus
-    let area = supers.location.address.code[0]
+    let area = supers.location.address1.code[0]
     // console.log(areaCode[0])
     // if (areaCode.length > 0) {
       area = areaCode[0] ? areaCode[0] : ''
@@ -53,17 +53,17 @@ class SearchPage extends PureComponent {
     // const searchCity = sessionStorage.getItem('searchCity')
     const searchCity = Cookies.get('searchCity')
     // console.log('searchCity',searchCity)
-    // console.log(this.props.supers.location.address.code[0])
-    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+    // console.log(this.props.supers.location.address1.code[0])
+    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
         area: [searchCity],
       })
       
     }
-    if (this.props.supers.location.address.code[0] !== this.state.areaParms) {
+    if (this.props.supers.location.address1.code[0] !== this.state.areaParms) {
       this.setState({
-        areaParms: this.props.supers.location.address.code[0],
+        areaParms: this.props.supers.location.address1.code[0],
       })
     }
   }
@@ -115,12 +115,12 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     // const { supers, areaCode } = this.props // userStatus
-    // let area = supers.location.address.code[0]
+    // let area = supers.location.address1.code[0]
     // if (areaCode.length > 0) {
     //   area = areaCode[0]
     // }
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
     // console.log(areaParms)
   //  alert(areaParms)
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
@@ -152,7 +152,7 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
@@ -179,7 +179,7 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
     
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的
@@ -206,7 +206,7 @@ class SearchPage extends PureComponent {
     )
     const state = this.props.location.state || {}
     const {areaParms} = this.state
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
 
     if (state.hasOwnProperty('form') && state.form === 'tab:job') {
       // 页面是从tab：job页面进入的

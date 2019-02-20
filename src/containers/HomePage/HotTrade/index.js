@@ -41,7 +41,7 @@ class HotTrade extends Component {
   
   // ?redirect=${this.props.history.location.pathname}
   searchUrl =(key)=>{
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
     const {areaParms} = this.state
     
     if(key === "礼宾/前台"){
@@ -89,22 +89,22 @@ class HotTrade extends Component {
     }
     // const searchCity = sessionStorage.getItem('searchCity')
     const searchCity = Cookies.get('searchCity')
-    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
+    if (searchCity && this.props.supers.location.address1.code[0] !== searchCity) {
       this.props.dispatch({
         type: 'JOB_PAGE_CITY_CODE_SET',
         area: [searchCity],
       })
     }
-    if (this.props.supers.location.address.code[0] !== this.state.areaParms[0]) {
+    if (this.props.supers.location.address1.code[0] !== this.state.areaParms[0]) {
       this.setState({
-        areaParms: this.props.supers.location.address.code[0],
+        areaParms: this.props.supers.location.address1.code[0],
       })
     }
   }
 
   render() {
     const imgData = this.props.tradeDtata
-    // const areaParms = this.props.supers.location.address.code[0] ? this.props.supers.location.address.code[0] : ''
+    // const areaParms = this.props.supers.location.address1.code[0] ? this.props.supers.location.address1.code[0] : ''
     const {areaParms} = this.state
     return (
       <div className={style.Hottrade}>

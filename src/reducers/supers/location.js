@@ -8,7 +8,10 @@ export * from './location'
 
 const initialState = {
   address: {
-    code: [],
+    code: [], // 城市定位
+  },
+  address1: {
+    code: [], // 城市定位
   },
 }
 
@@ -16,6 +19,7 @@ export default (state = initialState, action) => {
   switch(action.type) {
     
     case location$.location_load:
+    // console.log(action.payload.address)
       return {
         ...state,
         ...action.payload,
@@ -23,44 +27,48 @@ export default (state = initialState, action) => {
           ...initialState.address,
           ...action.payload.address,
         },
+        address1: {
+          ...initialState.address,
+          ...action.payload.address,
+        },
       }
       case JOB_PAGE_CITY_CODE_SET:
       return {
         ...state,
-        address: {
+        address1: {
           code: action.area,
         },
       }
-    case JOB_SEARCH_SAVE:
-      if(action.args.area && action.args.area.length > 0) {
-        return {
-          ...state,
-          ...action.payload,
-          address: {
-            ...initialState.address,
-            code: action.args.area,
-          },
-        }
-      } else {
-        return {
-          ...state,
-        }
-      }
-    case SEARCH_END_SAVE:
-      if(action.args.area && action.args.area.length > 0) {
-        return {
-          ...state,
-          ...action.payload,
-          address: {
-            ...initialState.address,
-            code: action.args.area,
-          },
-        }
-      } else {
-        return{
-          ...state,
-        }
-      }
+    // case JOB_SEARCH_SAVE:
+    //   if(action.args.area && action.args.area.length > 0) {
+    //     return {
+    //       ...state,
+    //       ...action.payload,
+    //       address: {
+    //         ...initialState.address,
+    //         code: action.args.area,
+    //       },
+    //     }
+    //   } else {
+    //     return {
+    //       ...state,
+    //     }
+    //   }
+    // case SEARCH_END_SAVE:
+    //   if(action.args.area && action.args.area.length > 0) {
+    //     return {
+    //       ...state,
+    //       ...action.payload,
+    //       address: {
+    //         ...initialState.address,
+    //         code: action.args.area,
+    //       },
+    //     }
+    //   } else {
+    //     return{
+    //       ...state,
+    //     }
+    //   }
     case SAVE_USER_CITY_CODE:
       return {
         ...state,
