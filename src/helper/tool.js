@@ -4,7 +4,6 @@
 import Cookies from 'js-cookie'
 const getUserInfo = function() {
   const ticket = Cookies.get('ticket')
-  // alert(ticket)
   if (ticket) {
     return {
       is_login: 1,

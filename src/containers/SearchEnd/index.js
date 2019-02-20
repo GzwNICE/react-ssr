@@ -98,7 +98,6 @@ class SearchEnd extends PureComponent {
     }
   }
   componentDidMount() {
-    // alert(11)
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -638,7 +637,6 @@ class SearchEnd extends PureComponent {
 
     window.onbeforeunload = function(e){
       // console.log(queryString.parse(this.props.history.location.search))
-      // alert(1111)
       Cookies.set('searchEndFirst', 1)
     }
   }
