@@ -226,10 +226,10 @@ class ComplexSelView extends ComplexFormField {
     } = this.state
 
     // console.log(this.props.coord.address.code[0])
-    if (this.props.coord && this.props.coord.address) {
+    if (this.props.coord && this.props.coord.address2) {
       Object.keys(this.props.optIndex || {}).forEach(key => {
-        if (this.props.coord.address.code && this.props.coord.address.code[0]) {
-          if (key === this.props.coord.address.code[0]) {
+        if (this.props.coord.address2.code && this.props.coord.address2.code[0]) {
+          if (key === this.props.coord.address2.code[0]) {
             this.myCity = key
           }
         }

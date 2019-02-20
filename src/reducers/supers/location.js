@@ -1,8 +1,7 @@
 import { $ as location$ } from '../../actions/supers/location'
-import {SAVE_USER_CITY_CODE} from '../../actions/userStatus'
-import {JOB_SEARCH_SAVE,JOB_PAGE_CITY_CODE_SET} from '../../actions/jobPage'
-import {SEARCH_END_SAVE} from '../../actions/search'
-
+import { SAVE_USER_CITY_CODE } from '../../actions/userStatus'
+import { JOB_SEARCH_SAVE, JOB_PAGE_CITY_CODE_SET } from '../../actions/jobPage'
+import { SEARCH_END_SAVE } from '../../actions/search'
 
 export * from './location'
 
@@ -10,21 +9,23 @@ const initialState = {
   address: {
     code: [],
   },
+  address2: {
+    code: [],
+  },
 }
 
 export default (state = initialState, action) => {
-  switch(action.type) {
-    
+  switch (action.type) {
     case location$.location_load:
       return {
         ...state,
         ...action.payload,
-        address: {
+        address2: {
           ...initialState.address,
           ...action.payload.address,
         },
       }
-      case JOB_PAGE_CITY_CODE_SET:
+    case JOB_PAGE_CITY_CODE_SET:
       return {
         ...state,
         address: {
@@ -32,7 +33,7 @@ export default (state = initialState, action) => {
         },
       }
     case JOB_SEARCH_SAVE:
-      if(action.args.area && action.args.area.length > 0) {
+      if (action.args.area && action.args.area.length > 0) {
         return {
           ...state,
           ...action.payload,
@@ -47,7 +48,7 @@ export default (state = initialState, action) => {
         }
       }
     case SEARCH_END_SAVE:
-      if(action.args.area && action.args.area.length > 0) {
+      if (action.args.area && action.args.area.length > 0) {
         return {
           ...state,
           ...action.payload,
@@ -57,7 +58,7 @@ export default (state = initialState, action) => {
           },
         }
       } else {
-        return{
+        return {
           ...state,
         }
       }
