@@ -60,9 +60,9 @@ class SearchPage extends PureComponent {
       })
       
     }
-    if (this.props.supers.location.address.code[0] !== this.state.areaParms) {
+    if (searchCity && searchCity !== this.state.areaParms) {
       this.setState({
-        areaParms: this.props.supers.location.address.code[0],
+        areaParms: searchCity,
       })
     }
   }
