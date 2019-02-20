@@ -2,6 +2,7 @@ import { $ as location$ } from '../../actions/supers/location'
 import { SAVE_USER_CITY_CODE } from '../../actions/userStatus'
 import { JOB_SEARCH_SAVE, JOB_PAGE_CITY_CODE_SET } from '../../actions/jobPage'
 import { SEARCH_END_SAVE } from '../../actions/search'
+import Cookies from 'js-cookie'
 
 export * from './location'
 
@@ -17,6 +18,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case location$.location_load:
+      // Cookies.set('searchCity', code)
+      console.log(action.payload.address)
+      if (action.payload.address && action.payload.address.code.length>0) {
+        Cookies.set('searchCity', action.payload.address.code[0])
+      }
       return {
         ...state,
         ...action.payload,
