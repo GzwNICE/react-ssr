@@ -466,9 +466,8 @@ export default class CompanyArea extends Component {
                   {this.state.isLoading ? 'Loading...' : '没有更多了'}
                 </div>
               ) : (
-                <div className={style.missJob}>
-                  <img src={missing} alt="" />
-                  <p>暂无职位，可以切换条件试试哦~</p>
+                <div className={style.missing}>
+                  <p>当前条件下暂无公司，可以切换条件试试哦~</p>
                 </div>
               )
             }
