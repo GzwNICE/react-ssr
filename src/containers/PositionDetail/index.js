@@ -110,6 +110,7 @@ class PositionDetail extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '职位详情页链接直接打开' })
     // const href = window.location.href
     const companyId = this.props.match.params.company_id
     const jobId = this.props.match.params.job_id

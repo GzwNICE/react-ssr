@@ -172,6 +172,7 @@ class CompanyDetail extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('公司详情页打开', { [`${triggerFrom}`]: '公司详情页链接直接打开' })
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.company.scrollTop
     this.detailWrap.scrollTop =this.scrollTop
