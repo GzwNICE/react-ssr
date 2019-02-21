@@ -44,6 +44,7 @@ class SearchPage extends PureComponent {
     // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
     // 有定义时用定义的
     const searchCity = Cookies.get('searchCity')
+    console.log(this.props)
     console.log(1111,this.props.supers.location.address2)
     const address2Code = this.props.supers.location.address2.code
     console.log(22222,address2Code)
