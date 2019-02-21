@@ -297,6 +297,8 @@ class SearchPage extends PureComponent {
   }
 
   render() {
+    console.log(this.props)
+    console.log(222)
     return (
       <div className={style.SearchPageWrap}>
         <Helmet>
