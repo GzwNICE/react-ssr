@@ -56,6 +56,7 @@ let filterChange = false
     salaryString: state.search.salaryString,
     homeDate: state.home,
     selectProjectFirst: state.search.selectProjectFirst,
+    address2Code: state.supers.location.address2 ? state.supers.location.address2.code : [],
   }
 })
 @withRouter
@@ -202,8 +203,9 @@ class SearchEnd extends PureComponent {
       }
       
     } else {
+      const {address2Code} = this.props
       this.setState({
-        searchCityArr: this.props.supers.location.address2.code.length>0?this.props.supers.location.address2.code : [],
+        searchCityArr: address2Code.length>0?address2Code : [],
       })
     }
     /*
@@ -452,7 +454,7 @@ class SearchEnd extends PureComponent {
   }
   getCityCodeByCookie=()=> {
     const searchCity = Cookies.get('searchCity')
-    const address2Code = this.props.supers.location.address2.code
+    const {address2Code} = this.props
     let code = []
     if (searchCity !== undefined && searchCity !== 'undefined') {
       code = searchCity
@@ -658,7 +660,7 @@ class SearchEnd extends PureComponent {
     }
     const searchCity = Cookies.get('searchCity')
     const {searchCityArr} = this.state
-    const address2Code = this.props.supers.location.address2.code
+    const {address2Code} = this.props
     // 城市初始值设置当1.searchCityArr没有值  2.this.props.supers.location.address2.code有值 3.searchCity在cookie中没有设置过    时设置城市初始值
     if (searchCityArr.length === 0 && address2Code.length !== 0 && (searchCity === undefined || searchCity === 'undefined')) {
       Cookies.set('searchEndFirst', 1)

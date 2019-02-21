@@ -118,7 +118,6 @@ class SearchPage extends PureComponent {
   }
   getCityCodeByCookie=()=> {
     const searchCity = Cookies.get('searchCity')
-    // const address2Code = this.props.supers.location.address2.code
     const {address2Code} = this.props
     let code = ''
     if (searchCity !== undefined && searchCity !== 'undefined') {

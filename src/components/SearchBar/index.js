@@ -25,6 +25,7 @@ const triggerFrom = '触发来源'
   supers: state.supers,
   banner: state.banner,
   query: state.search.query,
+  address2Code: state.supers.location.address2 ? state.supers.location.address2.code : [],
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -80,8 +81,9 @@ class MySearchBar extends PureComponent {
       }
       
     } else {
+      const {address2Code} = this.props
       this.setState({
-        searchCityArr: this.props.supers.location.address2.code.length>0?this.props.supers.location.address2.code : [],
+        searchCityArr: address2Code.length>0?address2Code : [],
       })
     }
   }
@@ -89,7 +91,7 @@ class MySearchBar extends PureComponent {
   componentWillReceiveProps(nextProps) { 
     const searchCity = Cookies.get('searchCity')
     const {searchCityArr} = this.state
-    const address2Code = this.props.supers.location.address2.code
+    const {address2Code} = this.props
     this.props.form.validateFields((err, values) => {
       if (err) return
       // console.log(values.areas)
