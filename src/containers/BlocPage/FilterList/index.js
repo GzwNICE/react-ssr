@@ -32,7 +32,7 @@ class FilterList extends (PureComponent || Component) {
 
   formatBrand(value) {
     if (this.props.options.length > 0) {
-      return this.props.options.filter(x=>x.code.toString() === value[0])[0] ? this.props.options.filter(x=>x.code.toString() === value[0])[0]['value'] : '品牌'
+      return this.props.options.filter(x=>x.code.toString() === value[0])[0] ? this.props.options.filter(x=>x.code.toString() === value[0])[0]['value'] : '分类'
     } else {
       return null
     }
@@ -68,7 +68,7 @@ class FilterList extends (PureComponent || Component) {
                     ],
                   })} // 触发form，调用onChangeCity
                   format={this.formatBrand}
-                  title="选择品牌"
+                  title="选择分类"
                 >
                   <SimpleItem arrow="horizontal" />
                 </Brand>
