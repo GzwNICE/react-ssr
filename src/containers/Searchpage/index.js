@@ -45,29 +45,29 @@ class SearchPage extends PureComponent {
     // 有定义时用定义的
     const searchCity = Cookies.get('searchCity')
     console.log(this.props)
-    console.log(1111,this.props.supers.location.address2)
-    const address2Code = this.props.supers.location.address2.code
-    console.log(22222,address2Code)
+    console.log(1111)
+    // const address2Code = this.props.supers.location.address2.code
+    // console.log(22222,address2Code)
 
-    const { areaParms } = this.state
-    if (searchCity === undefined || searchCity === 'undefined') {
-      if (address2Code.length > 0) {
-        // console.log(address2Code[0])
-        if (areaParms !== address2Code[0]) {
-          this.setState({
-            areaParms: address2Code[0],
-          })
-        }
-      } else {
-        this.setState({
-          areaParms: '',
-        })
-      }
-    } else {
-      this.setState({
-        areaParms: searchCity,
-      })
-    }
+    // const { areaParms } = this.state
+    // if (searchCity === undefined || searchCity === 'undefined') {
+    //   if (address2Code.length > 0) {
+    //     // console.log(address2Code[0])
+    //     if (areaParms !== address2Code[0]) {
+    //       this.setState({
+    //         areaParms: address2Code[0],
+    //       })
+    //     }
+    //   } else {
+    //     this.setState({
+    //       areaParms: '',
+    //     })
+    //   }
+    // } else {
+    //   this.setState({
+    //     areaParms: searchCity,
+    //   })
+    // }
   }
   onChangeCity = value => {
     // const Area = option.areas_index
