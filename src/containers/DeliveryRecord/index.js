@@ -54,11 +54,12 @@ class DeliveryRecord extends PureComponent {
   }
 
   componentWillMount(){
-    const parsed = queryString.parse(window.location.search)
+    const parsed = queryString.parse(this.props.history.location.search)
     this.setState({
       key: parsed.key-1 || 0,
     })
   }
+  
 
   render() {
     const tabs = [

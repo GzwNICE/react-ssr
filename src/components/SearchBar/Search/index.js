@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SearchBar } from 'antd-mobile'
+// import { SearchBar } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import personal from '../../../static/personal.png'
@@ -55,11 +55,15 @@ class Search extends Component {
           }
           onClick={this.goRegister}
         >
-          <img
-            src={is_login ? (photo ? photo : Userdefault) : personal}
-            alt="img"
-            className={style.personal}
-          />
+          {is_login ? (
+            <img
+              src={photo ? photo : Userdefault}
+              alt=""
+              className={style.personalUser}
+            />
+          ) : (
+            <img src={personal} alt="" className={style.personal} />
+          )}
         </Link>
       </div>
     )

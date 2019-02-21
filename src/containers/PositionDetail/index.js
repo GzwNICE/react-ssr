@@ -54,6 +54,7 @@ class PositionDetail extends PureComponent {
 
   //返回上一页，没有上一页返回到首页
   whereWillIGo = () => {
+
     const { redirect } = queryString.parse(window.location.search)
     if (redirect) {
       // this.props.history.replace(redirect)
@@ -109,6 +110,7 @@ class PositionDetail extends PureComponent {
   }
 
   componentDidMount() {
+    window.zhuge.track('职位详情页打开', { [`${triggerFrom}`]: '职位详情页链接直接打开' })
     // const href = window.location.href
     const companyId = this.props.match.params.company_id
     const jobId = this.props.match.params.job_id
@@ -164,7 +166,7 @@ class PositionDetail extends PureComponent {
           const pathname = this.props.location.pathname
           const pageScroll = this.props.pageScroll[pathname] || {}
           this.page.scrollTop = pageScroll['page'] || 0
-          this.shareWeixin(data)
+          // this.shareWeixin(data)
         })
     }
   }
