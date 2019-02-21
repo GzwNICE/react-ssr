@@ -43,7 +43,30 @@ class SearchPage extends PureComponent {
         // 根据cookie来设置跳转url城市的参数
     // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
     // 有定义时用定义的
-    
+    const searchCity = Cookies.get('searchCity')
+    console.log(1111,this.props.supers.location.address2)
+    const address2Code = this.props.supers.location.address2.code
+    console.log(22222,address2Code)
+
+    const { areaParms } = this.state
+    if (searchCity === undefined || searchCity === 'undefined') {
+      if (address2Code.length > 0) {
+        // console.log(address2Code[0])
+        if (areaParms !== address2Code[0]) {
+          this.setState({
+            areaParms: address2Code[0],
+          })
+        }
+      } else {
+        this.setState({
+          areaParms: '',
+        })
+      }
+    } else {
+      this.setState({
+        areaParms: searchCity,
+      })
+    }
   }
   onChangeCity = value => {
     // const Area = option.areas_index
