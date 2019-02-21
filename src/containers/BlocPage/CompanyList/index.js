@@ -101,7 +101,9 @@ class CompanyList extends Component {
   componentDidMount() {
      /* 初始化this.scrollTop */
     this.scrollTop = this.props.blocDate.scrollTop
-    ReactDOM.findDOMNode(this.lv).scrollTo(0, this.scrollTop)
+    if(ReactDOM.findDOMNode(this.lv)){
+      ReactDOM.findDOMNode(this.lv).scrollTop = this.scrollTop
+    }
     const c_userid = this.props.match.params.c_userid
     const height =
       document.documentElement.clientHeight -
@@ -132,7 +134,10 @@ class CompanyList extends Component {
             isLoading: false,
           })
         }
-        ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
+        if(ReactDOM.findDOMNode(this.lv)){
+          ReactDOM.findDOMNode(this.lv).scrollTop(0,scrollTop)
+        }
+        
       }
     } else {
       if (
@@ -148,7 +153,10 @@ class CompanyList extends Component {
           })
         }
       }
-      ReactDOM.findDOMNode(this.lv).scrollTo(0,scrollTop)
+      if(ReactDOM.findDOMNode(this.lv)){
+        ReactDOM.findDOMNode(this.lv).scrollTop=scrollTop
+      }
+      
     }
   }
 

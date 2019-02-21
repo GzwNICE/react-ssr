@@ -184,7 +184,9 @@ class HomePage extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            this.homecentent.scrollTo(0,scrollTop)
+            if(this.homecentent){
+              this.homecentent.scrollTop = scrollTop
+            }
           }
         }
       )

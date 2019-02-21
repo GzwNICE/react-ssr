@@ -1,15 +1,17 @@
 .CompanyArea {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
+  height: auto;
+  padding-top: 150px;
+  padding-bottom: 60px;
+  -webkit-overflow-scrolling: touch;
   .selHead {
     width: 100%;
     box-sizing: border-box;
     background-color: #fff;
     z-index: 2;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02);
+    position: fixed;
+    top: 0;
+    left: 0;
     .selectInfo {
       width: 100%;
       height: 40px;
@@ -53,268 +55,262 @@
       }
     }
   }
-  .blocCentent {
-    flex: 1 1;
-    height: 0;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    .Loaded {
+
+  .Loaded {
+    display: block;
+    width: 100%;
+    line-height: 30px;
+    text-align: center;
+    font-size: 0.14rem;
+    color: #888;
+  }
+  .individuation {
+    width: 100%;
+    height: 100px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    img {
       display: block;
       width: 100%;
-      line-height: 30px;
-      text-align: center;
-      font-size: 0.14rem;
-      color: #888;
-    }
-    .individuation {
-      width: 100%;
       height: 100px;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      img {
-        display: block;
-        width: 100%;
-        height: 100px;
-      }
     }
-    .companyList {
-      box-sizing: border-box;
-      a:last-child .ContentModule {
-        border-bottom: none;
-      }
-      a {
-        .ContentModule {
-          height: 100px;
-          width: 100%;
-          display: flex;
-          padding: 14px 10px 14px 0;
-          box-sizing: border-box;
-          border-bottom: 0.5Px solid rgba(200, 199, 204, 0.5);               
-          img {
-            width: 70px;
-            height: 70px;
-            border: 1px solid #f0f0f0;
-            border-radius: 2px;
-            // box-sizing: border-box;
-          }
-          .inviteInfo {
-            width: 230px;
-            height: 100%;
-            margin-left: 15px;
-            h1 {
-              width: 100%;
-              font-family: PingFangSC-Semibold;
-              font-size: 16px;
-              color: #333333;
-              letter-spacing: 0.8px;
-              font-weight: normal;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-            .scale {
-              width: 100%;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              font-family: PingFangSC-Regular;
-              font-size: 12px;
-              color: #777777;
-              line-height: 26px;
-              > span:last-child {
-                padding: 0;
-              }
-              > span:last-child::after {
-                display: none;
-              }
-              span {
-                position: relative;
-                padding-right: 10px;
-              }
-
-              span::after {
-                content: '';
-                width: 1px;
-                height: 12px;
-                background-color: #dfdfdf;
-                position: absolute;
-                top: 3px;
-                right: 5px;
-              }
-            }
-            .inRecruit {
-              font-family: PingFangSC-Regular;
-              font-size: 13px;
-              color: #4a4a4a;
-              span {
-                font-family: PingFangSC-Medium;
-                font-size: 15px;
-                color: #ff4f00;
-              }
-            }
-          }
-        }
-      }
-      .override-am-list-view-scrollview-content {
-        :global {
-          .am-list-header {
-            padding: 0 !important;
-            margin: 5px 0;
-          }
-          .am-list-view-scrollview-content {
-            position: inherit !important;
-          }
-          .am-list-body {
-            padding: 0 20px;
-          }
-          .am-list-body::before {
-            display: none;
-          }
-          .am-whitespace {
-            width: 100%;
-            background-color: #f0f0f0 !important;
-          }
-        }
-      }
-      .single {
-        background-color: #ffffff;
-        height: 126px;
+  }
+  .companyList {
+    box-sizing: border-box;
+    a:last-child .ContentModule {
+      border-bottom: none;
+    }
+    a {
+      .ContentModule {
+        height: 100px;
         width: 100%;
-        padding: 15px 0;
+        display: flex;
+        padding: 14px 10px 14px 0;
         box-sizing: border-box;
-        border-bottom: 1px solid #f0f0f0;
-        .payJob {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          .Job {
+        border-bottom: 0.5px solid rgba(200, 199, 204, 0.5);
+        img {
+          width: 70px;
+          height: 70px;
+          border: 1px solid #f0f0f0;
+          border-radius: 2px;
+          // box-sizing: border-box;
+        }
+        .inviteInfo {
+          width: 230px;
+          height: 100%;
+          margin-left: 15px;
+          h1 {
+            width: 100%;
+            font-family: PingFangSC-Semibold;
             font-size: 16px;
             color: #333333;
-            width: 75%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-weight: 200;
-            font-family: PingFangSC-Medium;
-          }
-          .Pay {
-            font-size: 14px;
-            color: #ff4f00;
-            width: 25%;
-            text-align: right;
-            font-weight: 600;
+            letter-spacing: 0.8px;
+            font-weight: normal;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
-        }
-        .benefits {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 12px;
-          margin-top: 4px;
-          .time {
-            color: #9b9b9b;
-          }
-        }
-        .hotelInfo {
-          width: 100%;
-          display: flex;
-          margin-top: 16px;
-          img {
-            width: 34px;
-            height: 34px;
-            border: 1px solid #f0f0f0;
-            border-radius: 1px;
-            margin-right: 15px;
-          }
-          .right {
-            width: 84%;
+          .scale {
+            width: 100%;
             overflow: hidden;
-            h1 {
-              font-family: PingFangSC-Regular;
-              font-size: 14px;
-              color: #555555;
-              font-weight: 200;
-              width: 100%;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #777777;
+            line-height: 26px;
+            > span:last-child {
+              padding: 0;
+            }
+            span {
+              position: relative;
+              padding-right: 5px;
+            }
+            .rule {
+              color: #9b9b9b;
+              font-size: 10px;
+              position: relative;
+              top: -1px;
+            }
+          }
+          .inRecruit {
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: #4a4a4a;
+            span {
+              font-family: PingFangSC-Medium;
+              font-size: 15px;
+              color: #ff4f00;
             }
           }
         }
-        .scale {
+      }
+    }
+    .override-am-list-view-scrollview-content {
+      :global {
+        .am-list-header {
+          padding: 0 !important;
+          margin: 5px 0;
+        }
+        .am-list-view-scrollview-content {
+          position: inherit !important;
+        }
+        .am-list-body {
+          padding: 0 20px;
+        }
+        .am-list-body::before {
+          display: none;
+        }
+        .am-whitespace {
+          width: 100%;
+          background-color: #f0f0f0 !important;
+        }
+      }
+    }
+    .single {
+      background-color: #ffffff;
+      height: 126px;
+      width: 100%;
+      padding: 15px 0;
+      box-sizing: border-box;
+      border-bottom: 1px solid #f0f0f0;
+      .payJob {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .Job {
+          font-size: 16px;
+          color: #333333;
+          width: 75%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-family: PingFangSC-Regular;
-          color: #777777;
-          > span:last-child {
-            padding: 0;
-          }
-          > span:last-child::after {
-            display: none;
-          }
-          span {
-            position: relative;
-            padding-right: 10px;
-          }
-          span::after {
-            content: '';
-            width: 1px;
-            height: 12px;
-            background-color: #dfdfdf;
-            position: absolute;
-            top: 3px;
-            right: 5px;
+          font-weight: 200;
+          font-family: PingFangSC-Medium;
+        }
+        .Pay {
+          font-size: 14px;
+          color: #ff4f00;
+          width: 25%;
+          text-align: right;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .benefits {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        margin-top: 4px;
+        .time {
+          color: #9b9b9b;
+        }
+      }
+      .hotelInfo {
+        width: 100%;
+        display: flex;
+        margin-top: 16px;
+        img {
+          width: 34px;
+          height: 34px;
+          border: 1px solid #f0f0f0;
+          border-radius: 1px;
+          margin-right: 15px;
+        }
+        .right {
+          width: 84%;
+          overflow: hidden;
+          h1 {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #555555;
+            font-weight: 200;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
-      a:last-child .single{
-        border-bottom: none;
+      .scale {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: PingFangSC-Regular;
+        color: #777777;
+        > span:last-child {
+          padding: 0;
+        }
+        > span:last-child::after {
+          display: none;
+        }
+        span {
+          position: relative;
+          padding-right: 10px;
+        }
+        span::after {
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #dfdfdf;
+          position: absolute;
+          top: 3px;
+          right: 5px;
+        }
       }
     }
-    .missJob {
-      height: 250px;
-      position: relative;
-      img {
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 54px;
-        width: 134px;
-        height: 114px;
-        transform: translateX(-50%);
-      }
-      p {
-        position: absolute;
-        left: 50%;
-        top: 180px;
-        transform: translateX(-50%);
-        display: block;
-        width: 100%;
-        text-align: center;
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #aaaaaa;
-      }
-    }
-    .missing {
-      position: relative;
-      p {
-        position: absolute;
-        left: 50%;
-        top: 60px;
-        transform: translateX(-50%);
-        display: block;
-        width: 100%;
-        text-align: center;
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #aaaaaa;
-      }
+    a:last-child .single {
+      border-bottom: none;
     }
   }
+  .missJob {
+    height: 250px;
+    position: relative;
+    img {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 54px;
+      width: 134px;
+      height: 114px;
+      transform: translateX(-50%);
+    }
+    p {
+      position: absolute;
+      left: 50%;
+      top: 180px;
+      transform: translateX(-50%);
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: #aaaaaa;
+    }
+  }
+  .missing {
+    position: relative;
+    p {
+      position: absolute;
+      left: 50%;
+      top: 60px;
+      transform: translateX(-50%);
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: #aaaaaa;
+    }
+  }
+}
+.registerwrap {
+  bottom: 0;
+  height: 0.6rem;
+  position: fixed;
+  left: 0;
+  right: 0;
 }

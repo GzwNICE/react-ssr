@@ -48,7 +48,9 @@ class SystemMessage extends PureComponent {
         dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
       }, () => {
         if(scrollTop !== 0) {
-          this.refs['page'].scrollTo(0,scrollTop)
+          if(this.refs['page']){
+            this.refs['page'].scrollTop = scrollTop
+          }
         }
       })
     }

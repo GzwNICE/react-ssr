@@ -67,7 +67,9 @@ class DeliveryLook extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            this.refs['havelook'].scrollTo(0, scrollTop)
+            if(this.refs['havelook']){
+              this.refs['havelook'].scrollTop = scrollTop
+            }
           }
         }
       )

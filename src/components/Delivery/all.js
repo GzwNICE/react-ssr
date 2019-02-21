@@ -105,7 +105,9 @@ class DeliveryAll extends PureComponent {
         },
         () => {
           if (scrollTop !== 0) {
-            this.refs['allpage'].scrollTo(0, scrollTop)
+            if(this.refs['allpage']){
+              this.refs['allpage'].scrollTop = scrollTop
+            }
           }
         }
       )
