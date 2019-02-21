@@ -43,52 +43,7 @@ class SearchPage extends PureComponent {
         // 根据cookie来设置跳转url城市的参数
     // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
     // 有定义时用定义的
-    const searchCity = Cookies.get('searchCity')
-    const address2Code = this.props.supers.location.address2.code
-    const { areaParms } = this.state
-    if (searchCity === undefined || searchCity === 'undefined') {
-      if (address2Code.length > 0) {
-        // console.log(address2Code[0])
-        if (areaParms !== address2Code[0]) {
-          this.setState({
-            areaParms: address2Code[0],
-          })
-        }
-      } else {
-        this.setState({
-          areaParms: '',
-        })
-      }
-    } else {
-      this.setState({
-        areaParms: searchCity,
-      })
-    }
-    // const { supers, areaCode, query } = this.props // userStatus
-    // let area = supers.location.address.code[0]
-    // console.log(areaCode[0])
-    // if (areaCode.length > 0) {
-      // area = areaCode[0] ? areaCode[0] : ''
-    // }
-    // if (query.area.length > 0) {
-    //   area = query.area[0]
-    // }
-    // this.setState({
-    //   areaParms: area,
-    // })
-    // const searchCity = Cookies.get('searchCity')
-    // if (searchCity !== undefined && searchCity !== 'undefined' && this.props.supers.location.address.code[0] !== searchCity) {
-    //   this.props.dispatch({
-    //     type: 'JOB_PAGE_CITY_CODE_SET',
-    //     area: [searchCity],
-    //   })
-      
-    // }
-    // if (searchCity && searchCity !== this.state.areaParms) {
-    //   this.setState({
-    //     areaParms: searchCity,
-    //   })
-    // }
+    
   }
   onChangeCity = value => {
     // const Area = option.areas_index
@@ -310,22 +265,6 @@ class SearchPage extends PureComponent {
     }
   }
   ShowSearchEnd = () => {
-    // if (this.state.stareSearch) {
-    //   return (
-    //     <div>
-    //       {this.ShowPost(this.props.tips.job)}
-    //       {this.ShowCompany(this.props.tips.company)}
-    //       {this.ShowWelfare(this.props.tips.welfare)}
-    //     </div>
-    //   )
-    // } else {
-    //   return (
-    //     <div>
-    //       <SearchHistory callback={this.searcHis} {...this.props} />
-    //       <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
-    //     </div>
-    //   )
-    // }
     return <div>111</div>
   }
 
