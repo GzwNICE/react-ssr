@@ -93,7 +93,9 @@ class RecommendList extends PureComponent {
           dataSource: this.state.dataSource.cloneWithRows(nextProps.list),
         }, () => {
           if(scrollTop !== 0) {
-            this.refs['Page'].scrollTo(0, scrollTop)
+            if(this.refs['Page']){
+              this.refs['Page'].scrollTo(0, scrollTop)
+            }
           }
         })
       }
