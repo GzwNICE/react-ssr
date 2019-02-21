@@ -17,8 +17,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case location$.location_load:
-    console.log(333)
-    console.log(initialState)
       return {
         ...state,
         // ...action.payload,

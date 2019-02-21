@@ -22,10 +22,12 @@ import Cookies from 'js-cookie'
 const tiggerSearchKeyWord = '搜索词'
 
 @connect(state => {
+  console.log(state.supers.location)
   return {
     hot: state.search.hot,
     tips: state.search.tips,
     supers: state.supers,
+    address2Code: state.supers.location.address2 ? state.supers.location.address2.code : [],
     areaCode: state.search.areaCode,
     query: state.search.query,
   }
@@ -44,26 +46,47 @@ class SearchPage extends PureComponent {
     // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
     // 有定义时用定义的
     const searchCity = Cookies.get('searchCity')
-    console.log(this.props)
-    console.log(1111)
-    // const address2Code = this.props.supers.location.address2.code
-    // console.log(22222,address2Code)
-
-    // const { areaParms } = this.state
-    // if (searchCity === undefined || searchCity === 'undefined') {
-    //   if (address2Code.length > 0) {
-    //     // console.log(address2Code[0])
-    //     if (areaParms !== address2Code[0]) {
-    //       this.setState({
-    //         areaParms: address2Code[0],
-    //       })
-    //     }
-    //   } else {
-    //     this.setState({
-    //       areaParms: '',
-    //     })
-    //   }
-    // } else {
+    const {address2Code} = this.props
+    const { areaParms } = this.state
+    if (searchCity === undefined || searchCity === 'undefined') {
+      if (address2Code.length > 0) {
+        // console.log(address2Code[0])
+        if (areaParms !== address2Code[0]) {
+          this.setState({
+            areaParms: address2Code[0],
+          })
+        }
+      } else {
+        this.setState({
+          areaParms: '',
+        })
+      }
+    } else {
+      this.setState({
+        areaParms: searchCity,
+      })
+    }
+    // const { supers, areaCode, query } = this.props // userStatus
+    // let area = supers.location.address.code[0]
+    // console.log(areaCode[0])
+    // if (areaCode.length > 0) {
+      // area = areaCode[0] ? areaCode[0] : ''
+    // }
+    // if (query.area.length > 0) {
+    //   area = query.area[0]
+    // }
+    // this.setState({
+    //   areaParms: area,
+    // })
+    // const searchCity = Cookies.get('searchCity')
+    // if (searchCity !== undefined && searchCity !== 'undefined' && this.props.supers.location.address.code[0] !== searchCity) {
+    //   this.props.dispatch({
+    //     type: 'JOB_PAGE_CITY_CODE_SET',
+    //     area: [searchCity],
+    //   })
+      
+    // }
+    // if (searchCity && searchCity !== this.state.areaParms) {
     //   this.setState({
     //     areaParms: searchCity,
     //   })
@@ -95,7 +118,8 @@ class SearchPage extends PureComponent {
   }
   getCityCodeByCookie=()=> {
     const searchCity = Cookies.get('searchCity')
-    const address2Code = this.props.supers.location.address2.code
+    // const address2Code = this.props.supers.location.address2.code
+    const {address2Code} = this.props
     let code = ''
     if (searchCity !== undefined && searchCity !== 'undefined') {
       code = searchCity
@@ -289,7 +313,22 @@ class SearchPage extends PureComponent {
     }
   }
   ShowSearchEnd = () => {
-    return <div>111</div>
+    if (this.state.stareSearch) {
+      return (
+        <div>
+          {this.ShowPost(this.props.tips.job)}
+          {this.ShowCompany(this.props.tips.company)}
+          {this.ShowWelfare(this.props.tips.welfare)}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <SearchHistory callback={this.searcHis} {...this.props} />
+          <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
+        </div>
+      )
+    }
   }
 
   componentDidMount() {
@@ -310,7 +349,17 @@ class SearchPage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-      
+        <MySearchBar
+          callback={this.search}
+          touchCancel={this.Cancel}
+          onChange={this.change}
+          onChangeCity={this.onChangeCity}
+          autoFocus
+          showCity="true"
+          defaultValue="" // 输入框的默认值
+          placeholder="请输入职位/公司名"
+          SearchUser={false}
+        />
         {this.ShowSearchEnd()}
       </div>
     )
