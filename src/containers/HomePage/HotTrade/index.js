@@ -91,7 +91,8 @@ class HotTrade extends Component {
     // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
     // 有定义时用定义的
     const searchCity = Cookies.get('searchCity')
-    const {address2Code} = this.props
+    // const {address2Code} = this.props
+    const {address2Code} = nextProps
     const { areaParms } = this.state
     if (searchCity === undefined || searchCity === 'undefined') {
       if (address2Code.length > 0) {

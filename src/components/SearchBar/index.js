@@ -91,7 +91,7 @@ class MySearchBar extends PureComponent {
   componentWillReceiveProps(nextProps) { 
     const searchCity = Cookies.get('searchCity')
     const {searchCityArr} = this.state
-    const {address2Code} = this.props
+    const {address2Code} = nextProps
     this.props.form.validateFields((err, values) => {
       if (err) return
       // console.log(values.areas)
@@ -105,7 +105,11 @@ class MySearchBar extends PureComponent {
       }
       // 当值city选择变化时
     })
+    
+
     // 城市初始值设置当1.searchCityArr没有值  2.this.props.supers.location.address2.code有值 3.searchCity在cookie中没有设置过    时设置城市初始值
+    // console.log(searchCityArr)
+    // console.log(searchCity)
     if (searchCityArr.length === 0 && address2Code.length !== 0 && (searchCity === undefined || searchCity === 'undefined')) {
       this.setState({
         searchCityArr: address2Code,
@@ -127,7 +131,6 @@ class MySearchBar extends PureComponent {
       onChange = function() {},
     } = this.props
     const { is_login, photo } = this.state
-
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
