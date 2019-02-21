@@ -197,7 +197,9 @@ class JobPage extends (PureComponent || Component) {
         dataSource: this.state.dataSource.cloneWithRows(nextList),
       }, () => {
         if(scrollTop !== 0) {
-          this.refs['jobPage'].scrollTo(0,scrollTop)
+          if(this.refs['jobPage']){
+            this.refs['jobPage'].scrollTo(0,scrollTop)
+          }
         }
       })
     }
@@ -219,7 +221,9 @@ class JobPage extends (PureComponent || Component) {
           // console.log(allQuery)
           this.props.dispatch(changeQuery(allQuery))
             .then(() => {
-              this.refs['jobPage'].scrollTo(0,0)
+              if(this.refs['jobPage']){
+                this.refs['jobPage'].scrollTo(0,0)
+              }
             })
         },100)
       }
