@@ -84,26 +84,12 @@ class MySearchBar extends PureComponent {
         searchCityArr: this.props.supers.location.address2.code.length>0?this.props.supers.location.address2.code : [],
       })
     }
-    // const { supers } = this.props
-    // this.props.dispatch(changeAllCity([]))
-    // setTimeout(()=>{
-    //   console.log(supers.location.address.code)
-
-    // },500)
-      // this.props.dispatch({
-      //   type: 'HOME_CHANGE_CITY',
-      //   area: supers.location.address.code,
-      // })
-    // const { supers } = this.props // userStatus
   }
 
   componentWillReceiveProps(nextProps) { 
     const searchCity = Cookies.get('searchCity')
     const {searchCityArr} = this.state
     const address2Code = this.props.supers.location.address2.code
-    // console.log(searchCity)
-    // console.log(address2Code)
-
     this.props.form.validateFields((err, values) => {
       if (err) return
       // console.log(values.areas)
@@ -122,57 +108,13 @@ class MySearchBar extends PureComponent {
       this.setState({
         searchCityArr: address2Code,
       })
-    }
-
-    
-     
-      // const {searchCityArr} = this.state.searchCityArr
-      // if (searchCityArr.length>0) {
-
-      // }
-      // if (searchCity !== undefined && searchCity !== 'undefined' &&  searchCityArr[0]!== searchCity) {
-      //   if (searchCity === '') {
-      //     // alert(111)
-      //     this.props.dispatch({
-      //       type: 'JOB_PAGE_CITY_CODE_SET',
-      //       area: [],
-      //     })
-      //     this.setState({
-      //       searchCityArr: [],
-      //     })
-      //   } else {
-      //     this.props.dispatch({
-      //       type: 'JOB_PAGE_CITY_CODE_SET',
-      //       area: [searchCity],
-      //     })
-      //     console.log(searchCity)
-  
-      //     this.setState({
-      //       searchCityArr: [searchCity],
-      //     })
-      //   }
-        
-      // }
-
-      // if ((searchCity === undefined || searchCity === 'undefined') && this.state.searchCityArr.length === 0) {
-      //   if (this.props.supers.location.address.code.length>0){
-      //     console.log(this.props.supers.location.address.code)
-      //     this.setState({
-      //       searchCityArr: this.props.supers.location.address.code,
-      //     })
-      //   }        
-      // }
-     
-
-      
+    }   
   }
 
   render() {
-    const { form, supers } = this.props // userStatus
+    const { form } = this.props // userStatus
     const { getFieldProps } = form
     const {searchCityArr} = this.state
-    // const searchCityArr = []
-    // console.log(searchCityArr)
     let {
       callback = function() {},
       defaultValue,

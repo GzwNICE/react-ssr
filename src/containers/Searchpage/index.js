@@ -346,17 +346,7 @@ class SearchPage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-        <MySearchBar
-          callback={this.search}
-          touchCancel={this.Cancel}
-          onChange={this.change}
-          onChangeCity={this.onChangeCity}
-          autoFocus
-          showCity="true"
-          defaultValue="" // 输入框的默认值
-          placeholder="请输入职位/公司名"
-          SearchUser={false}
-        />
+       
         {this.ShowSearchEnd()}
       </div>
     )
