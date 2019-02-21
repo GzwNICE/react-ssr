@@ -310,22 +310,23 @@ class SearchPage extends PureComponent {
     }
   }
   ShowSearchEnd = () => {
-    if (this.state.stareSearch) {
-      return (
-        <div>
-          {this.ShowPost(this.props.tips.job)}
-          {this.ShowCompany(this.props.tips.company)}
-          {this.ShowWelfare(this.props.tips.welfare)}
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <SearchHistory callback={this.searcHis} {...this.props} />
-          <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
-        </div>
-      )
-    }
+    // if (this.state.stareSearch) {
+    //   return (
+    //     <div>
+    //       {this.ShowPost(this.props.tips.job)}
+    //       {this.ShowCompany(this.props.tips.company)}
+    //       {this.ShowWelfare(this.props.tips.welfare)}
+    //     </div>
+    //   )
+    // } else {
+    //   return (
+    //     <div>
+    //       <SearchHistory callback={this.searcHis} {...this.props} />
+    //       <SearchHot data={this.props.hot} callbackParent={this.touchHot} />
+    //     </div>
+    //   )
+    // }
+    return <div>111</div>
   }
 
   componentDidMount() {
@@ -346,7 +347,7 @@ class SearchPage extends PureComponent {
             content="酒店招聘,餐饮,物业,海外,高尔夫,游轮,招聘会"
           />
         </Helmet>
-       
+      
         {this.ShowSearchEnd()}
       </div>
     )
