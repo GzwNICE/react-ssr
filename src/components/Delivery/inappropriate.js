@@ -74,7 +74,7 @@ class DeliveryNo extends PureComponent {
         () => {
           if (scrollTop !== 0) {
             if(this.refs['rejectpage']){
-              this.refs['rejectpage'].scrollTo(0, scrollTop)
+              this.refs['rejectpage'].scrollTop = scrollTop
             }
           }
         }

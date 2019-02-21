@@ -198,7 +198,7 @@ class JobPage extends (PureComponent || Component) {
       }, () => {
         if(scrollTop !== 0) {
           if(this.refs['jobPage']){
-            this.refs['jobPage'].scrollTo(0,scrollTop)
+            this.refs['jobPage'].scrollTop = scrollTop
           }
         }
       })
@@ -222,7 +222,7 @@ class JobPage extends (PureComponent || Component) {
           this.props.dispatch(changeQuery(allQuery))
             .then(() => {
               if(this.refs['jobPage']){
-                this.refs['jobPage'].scrollTo(0,0)
+                this.refs['jobPage'].scrollTop = 0
               }
             })
         },100)

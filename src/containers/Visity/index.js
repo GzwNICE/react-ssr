@@ -56,7 +56,7 @@ class Visity extends PureComponent {
       }, () => {
         if(scrollTop !== 0) {
           if(this.refs['page']){
-            this.refs['page'].scrollTo(0,scrollTop)
+            this.refs['page'].scrollTop = scrollTop
           }
         }
       })

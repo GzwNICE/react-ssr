@@ -94,7 +94,7 @@ class RecommendList extends PureComponent {
         }, () => {
           if(scrollTop !== 0) {
             if(this.refs['Page']){
-              this.refs['Page'].scrollTo(0, scrollTop)
+              this.refs['Page'].scrollTop=scrollTop
             }
           }
         })

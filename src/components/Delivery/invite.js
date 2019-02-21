@@ -68,7 +68,7 @@ class DeliveryInvite extends PureComponent {
         () => {
           if (scrollTop !== 0) {
             if(this.refs['invitepage']){
-              this.refs['invitepage'].scrollTo(0, scrollTop)
+              this.refs['invitepage'].scrollTop = scrollTop
             }
           }
         }
