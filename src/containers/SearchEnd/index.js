@@ -485,10 +485,6 @@ class SearchEnd extends PureComponent {
     let arr1 = path.split('search/')
 
     let key = data.keyword || keyword || arr1[1]
-    // const code =
-    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
-    //     ? this.props.userStatus.code
-    //     : this.props.supers.location.address.code
     const areaCode = this.getCityCodeByCookie()
 
     let allQuery = {
@@ -506,11 +502,6 @@ class SearchEnd extends PureComponent {
       salary_min,
       salary_max,
       size: this.props.pager.size,
-      // area:
-      //   this.props.query.area ||
-      //   (this.props.userStatus.code && (this.props.userStatus.code[0] || '')) ||
-      //   code ||
-      //   this.getQuery.area,
       area: areaCode,
       ...queryMoreOnly,
     }
@@ -628,21 +619,7 @@ class SearchEnd extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.searchLIst
-    // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
-
-    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
-    //   const allQuery = this.handleSearchQuery()
-    //   const params = {
-    //     ...allQuery,
-    //     area:
-    //       this.props.query.area ||
-    //       (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
-    //     ...this.state.searchCondition,
-    //   }
-    //   this.props.dispatch(getSearchListInit(params))
-    // }
-    // if (nextList !== thisList) {
     this.setState(
       {
         dataSource: this.state.dataSource.cloneWithRows(nextList),
@@ -689,18 +666,7 @@ class SearchEnd extends PureComponent {
         searchCityArr: address2Code,
       })
     }
-    // const searchCity = Cookies.get('searchCity')
-    // if (searchCity !== undefined && searchCity !== 'undefined' && this.props.supers.location.address.code[0] !== searchCity) {
-    //   this.props.dispatch({
-    //     type: 'JOB_PAGE_CITY_CODE_SET',
-    //     area: [searchCity],
-    //   })
-    // }
-    // window.onbeforeunload = function(e){
-    //   // console.log(queryString.parse(this.props.history.location.search))
-    //   // alert(1111)
-    //   Cookies.set('searchEndFirst', 1)
-    // }
+
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
@@ -728,16 +694,9 @@ class SearchEnd extends PureComponent {
   render() {
     const { queryMore, searchCityArr } = this.state
     let query = this.props.query
-    // const area =
-    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
-    //     ? this.props.userStatus.code
-    //     : this.props.supers.location.address.code
-    if (query.area.length === 0 && !filterChange) {
-      // query.area = area
-    }
-    const { areaParms } = queryString.parse(this.props.history.location.search)
-    // console.log(areaParms)
-    // console.log(query)
+    // if (query.area.length === 0 && !filterChange) {
+    //   query.area = area
+    // }
 
     const searchEndFirst = Cookies.get('searchEndFirst')
     // 当页面刷新时用定位的城市 pageFirst
