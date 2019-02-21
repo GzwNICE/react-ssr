@@ -40,6 +40,30 @@ class SearchPage extends PureComponent {
   }
 
   componentWillReceiveProps(next) {
+        // 根据cookie来设置跳转url城市的参数
+    // 当searchCity没有定义时，判断是否和定位一样，不一样判断定位有没有，有的话传定位没有传空字符串
+    // 有定义时用定义的
+    const searchCity = Cookies.get('searchCity')
+    const address2Code = this.props.supers.location.address2.code
+    const { areaParms } = this.state
+    if (searchCity === undefined || searchCity === 'undefined') {
+      if (address2Code.length > 0) {
+        // console.log(address2Code[0])
+        if (areaParms !== address2Code[0]) {
+          this.setState({
+            areaParms: address2Code[0],
+          })
+        }
+      } else {
+        this.setState({
+          areaParms: '',
+        })
+      }
+    } else {
+      this.setState({
+        areaParms: searchCity,
+      })
+    }
     // const { supers, areaCode, query } = this.props // userStatus
     // let area = supers.location.address.code[0]
     // console.log(areaCode[0])
@@ -52,19 +76,19 @@ class SearchPage extends PureComponent {
     // this.setState({
     //   areaParms: area,
     // })
-    const searchCity = Cookies.get('searchCity')
-    if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
-      this.props.dispatch({
-        type: 'JOB_PAGE_CITY_CODE_SET',
-        area: [searchCity],
-      })
+    // const searchCity = Cookies.get('searchCity')
+    // if (searchCity !== undefined && searchCity !== 'undefined' && this.props.supers.location.address.code[0] !== searchCity) {
+    //   this.props.dispatch({
+    //     type: 'JOB_PAGE_CITY_CODE_SET',
+    //     area: [searchCity],
+    //   })
       
-    }
-    if (searchCity && searchCity !== this.state.areaParms) {
-      this.setState({
-        areaParms: searchCity,
-      })
-    }
+    // }
+    // if (searchCity && searchCity !== this.state.areaParms) {
+    //   this.setState({
+    //     areaParms: searchCity,
+    //   })
+    // }
   }
   onChangeCity = value => {
     // const Area = option.areas_index
@@ -90,11 +114,45 @@ class SearchPage extends PureComponent {
       })
     )
   }
-
+  getCityCodeByCookie=()=> {
+    const searchCity = Cookies.get('searchCity')
+    const address2Code = this.props.supers.location.address2.code
+    let code = ''
+    if (searchCity !== undefined && searchCity !== 'undefined') {
+      code = searchCity
+      if (searchCity === '') {
+        code = ''
+      } else {
+        code = searchCity
+      }
+    } else {
+      code = address2Code.length>0?address2Code[0] : ''
+    }
+    return code
+  }
   Cancel = () => {
-    const { redirect } = queryString.parse(window.location.search)
-    if (redirect) {
-      this.props.history.replace(redirect)
+    // const pathname = this.props.history.location.pathname
+    const search = this.props.history.location.search
+    console.log(search)
+
+    if (search && search.indexOf('?redirect=') !== -1) {
+      const areaCode = this.getCityCodeByCookie()
+      let path = search.split('?redirect=')[1]
+      if (search.indexOf('areaParms=') !== -1) {
+        let params = path.split('&')
+        params = params.map(item => {
+          if (item.indexOf('areaParms=') !== -1) {
+            item = `areaParms=${areaCode}`
+          }
+          return item
+        })
+        let newPath = params.join('&')
+        this.props.history.replace(newPath)
+        console.log(newPath)
+      } else {
+        console.log(path)
+        this.props.history.replace(path)
+      }
     } else {
       this.props.history.replace('/')
     }

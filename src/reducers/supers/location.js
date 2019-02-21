@@ -19,10 +19,14 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case location$.location_load:
       // Cookies.set('searchCity', code)
-      console.log(action.payload.address)
-      if (action.payload.address && action.payload.address.code.length>0) {
-        Cookies.set('searchCity', action.payload.address.code[0])
-      }
+      
+      // const searchCity = Cookies.get('searchCity')
+      // console.log(searchCity)
+      // console.log(action.payload.address)
+      // if ((!searchCity || searchCity === 'undefined') && action.payload.address && action.payload.address.code.length>0) {
+      //   console.log(action.payload.address.code[0])
+      //   Cookies.set('searchCity', action.payload.address.code[0])
+      // }
       return {
         ...state,
         ...action.payload,

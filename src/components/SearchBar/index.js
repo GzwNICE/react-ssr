@@ -48,6 +48,7 @@ class MySearchBar extends PureComponent {
   }
 
   formatArea(value) {
+    // console.log(value.length)
     return value.length ? value.optIndex[value[0]] : '城市'
   }
 
@@ -65,14 +66,23 @@ class MySearchBar extends PureComponent {
       is_login: F.getUserInfo().is_login,
       photo: F.getUserInfo().photo,
     })
-    // const searchCity = sessionStorage.getItem('searchCity')
     const searchCity = Cookies.get('searchCity')
-    if (searchCity) {
-      let searchCityArr = [searchCity]
+    if (searchCity !== undefined && searchCity !== 'undefined') {
+      if (searchCity === '') {
+        this.setState({
+          searchCityArr: [],
+        })
+      } else {
+        let searchCityArr = [searchCity]
       this.setState({
         searchCityArr,
       })
-
+      }
+      
+    } else {
+      this.setState({
+        searchCityArr: this.props.supers.location.address2.code.length>0?this.props.supers.location.address2.code : [],
+      })
     }
     // const { supers } = this.props
     // this.props.dispatch(changeAllCity([]))
@@ -87,44 +97,82 @@ class MySearchBar extends PureComponent {
     // const { supers } = this.props // userStatus
   }
 
-  componentWillReceiveProps(nextProps) {
-    // const { query } = this.props // userStatus
-    
-    // console.log(nextProps.supers.location.address.code)
+  componentWillReceiveProps(nextProps) { 
+    const searchCity = Cookies.get('searchCity')
+    const {searchCityArr} = this.state
+    const address2Code = this.props.supers.location.address2.code
+    // console.log(searchCity)
+    // console.log(address2Code)
 
-    // if (
-    //   query.area.length === 0 &&
-    //   nextProps.supers.location.address.code.length > 0
-    // ) {
-  
-    // }
-   
     this.props.form.validateFields((err, values) => {
       if (err) return
+      // console.log(values.areas)
  
       if (values.areas && nextProps.userStatus.code && nextProps.userStatus.code[0] !== values.areas[0]) {
-      
         this.props.onChangeCity && this.props.onChangeCity(values)
         this.props.dispatch({
           type: 'SEARCH_AREA_SINGLE',
           payload: values.areas,
         })
       }
+      // 当值city选择变化时
     })
-      // const searchCity = sessionStorage.getItem('searchCity')
-      const searchCity = Cookies.get('searchCity')
-      if (searchCity && this.props.supers.location.address.code[0] !== searchCity) {
-        this.props.dispatch({
-          type: 'JOB_PAGE_CITY_CODE_SET',
-          area: [searchCity],
-        })
-      }
+    // 城市初始值设置当1.searchCityArr没有值  2.this.props.supers.location.address2.code有值 3.searchCity在cookie中没有设置过    时设置城市初始值
+    if (searchCityArr.length === 0 && address2Code.length !== 0 && (searchCity === undefined || searchCity === 'undefined')) {
+      this.setState({
+        searchCityArr: address2Code,
+      })
+    }
+
+    
+     
+      // const {searchCityArr} = this.state.searchCityArr
+      // if (searchCityArr.length>0) {
+
+      // }
+      // if (searchCity !== undefined && searchCity !== 'undefined' &&  searchCityArr[0]!== searchCity) {
+      //   if (searchCity === '') {
+      //     // alert(111)
+      //     this.props.dispatch({
+      //       type: 'JOB_PAGE_CITY_CODE_SET',
+      //       area: [],
+      //     })
+      //     this.setState({
+      //       searchCityArr: [],
+      //     })
+      //   } else {
+      //     this.props.dispatch({
+      //       type: 'JOB_PAGE_CITY_CODE_SET',
+      //       area: [searchCity],
+      //     })
+      //     console.log(searchCity)
+  
+      //     this.setState({
+      //       searchCityArr: [searchCity],
+      //     })
+      //   }
+        
+      // }
+
+      // if ((searchCity === undefined || searchCity === 'undefined') && this.state.searchCityArr.length === 0) {
+      //   if (this.props.supers.location.address.code.length>0){
+      //     console.log(this.props.supers.location.address.code)
+      //     this.setState({
+      //       searchCityArr: this.props.supers.location.address.code,
+      //     })
+      //   }        
+      // }
+     
+
+      
   }
 
   render() {
     const { form, supers } = this.props // userStatus
     const { getFieldProps } = form
     const {searchCityArr} = this.state
+    // const searchCityArr = []
+    // console.log(searchCityArr)
     let {
       callback = function() {},
       defaultValue,
@@ -143,7 +191,7 @@ class MySearchBar extends PureComponent {
             <div>
               <Area
                 {...getFieldProps('areas', {
-                  initialValue: searchCityArr.length>0 ? searchCityArr:supers.location.address.code,
+                  initialValue: searchCityArr,
                 })} // 触发form，调用onChangeCity
                 extra=""
                 format={this.formatArea}
