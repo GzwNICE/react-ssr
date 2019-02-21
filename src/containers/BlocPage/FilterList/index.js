@@ -4,7 +4,7 @@
 import React,{PureComponent, Component} from 'react'
 import style from '../style.less'
 import { createForm } from 'rc-form'
-import Area from '../../../inputs/Area1'
+import Area from '../../../inputs/Area2'
 import Brand from '../../../inputs/Brand'
 import SimpleItem from '../../../inputs/SimpleItem'
 import Down from '../../../static/angleDownGray@3x.png'
