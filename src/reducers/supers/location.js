@@ -19,9 +19,9 @@ export default (state = initialState, action) => {
     case location$.location_load:
       return {
         ...state,
-        ...action.payload,
+        // ...action.payload,
         address2: {
-          ...initialState.address,
+          ...initialState.address2,
           ...action.payload.address,
         },
       }

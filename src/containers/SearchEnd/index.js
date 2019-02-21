@@ -56,6 +56,7 @@ let filterChange = false
     salaryString: state.search.salaryString,
     homeDate: state.home,
     selectProjectFirst: state.search.selectProjectFirst,
+    address2Code: state.supers.location.address2 ? state.supers.location.address2.code : [],
   }
 })
 @withRouter
@@ -94,11 +95,10 @@ class SearchEnd extends PureComponent {
       initLoading: true, // 页面初始化时loading
       queryMore: {}, // 跳转过来展示的行业 酒店（1）、餐饮（3）、休闲娱乐（4）、康养（养老  8）、房地产（11）
       height: 0,
-      
+      searchCityArr: [],      
     }
   }
   componentDidMount() {
-    // alert(11)
     /* 初始化this.scrollTop */
     this.scrollTop = this.props.srearchData.scrollTop
     const {
@@ -117,7 +117,15 @@ class SearchEnd extends PureComponent {
       isUsed: 1,
       more: {},
     }
-
+    if (areaParms !== undefined && areaParms !== 'undefined') {
+      Cookies.set('searchCity', areaParms)
+    } else {
+      Cookies.set('searchCity', '')
+    }
+    this.props.dispatch({
+      type: 'JOB_PAGE_CITY_CODE_SET',
+      area: [areaParms],
+    })
     if (position) this.getQuery.position = [position]
     if (area) this.getQuery.area = [area]
     if (salary) this.getQuery.salary = [parseInt(salary, 10)]
@@ -148,6 +156,7 @@ class SearchEnd extends PureComponent {
     }
 
     if (this.props.searchLIst.length < 1) {
+      Cookies.set('searchEndFirst', 1)
       Toast.loading('Loading...')
       // 保证刷新时地区选择正确
       if (areaParms) {
@@ -179,6 +188,26 @@ class SearchEnd extends PureComponent {
     })
     delete this.getQuery.keyword
     delete this.getQuery.isUsed
+    // 设置城市初始值
+    const searchCity = Cookies.get('searchCity')
+    if (searchCity !== undefined && searchCity !== 'undefined') {
+      if (searchCity === '') {
+        this.setState({
+          searchCityArr: [],
+        })
+      } else {
+        let searchCityArr = [searchCity]
+      this.setState({
+        searchCityArr,
+      })
+      }
+      
+    } else {
+      const {address2Code} = this.props
+      this.setState({
+        searchCityArr: address2Code.length>0?address2Code : [],
+      })
+    }
     /*
      如果more没有值 删除this.getQuery.more这个字段
      防止在reducer中没有选择更多的时候出现more={}会覆盖原有的字段
@@ -393,8 +422,11 @@ class SearchEnd extends PureComponent {
         this.props.dispatch(getSearchListInit(allQuery)).then(() => {
           const pathname = this.props.history.location.pathname
           let search = this.props.history.location.search
-          const area = allQuery.area[0]
-          if (search && search.indexOf('areaParms=') !== -1 && area) {
+          const area = allQuery.area.length > 0 ? allQuery.area[0] : ''
+          // console.log(search)
+          // console.log(area)
+
+          if (search && search.indexOf('areaParms=') !== -1) {
             let params = search.split('&')
             params = params.map(item => {
               if (item.indexOf('areaParms=') !== -1) {
@@ -402,6 +434,7 @@ class SearchEnd extends PureComponent {
               }
               return item
             })
+            console.log(params)
             let newSearch = params.join('&')
             this.props.history.replace(`${pathname}${newSearch}`)
             // console.log(newSearch)
@@ -419,7 +452,22 @@ class SearchEnd extends PureComponent {
     let top = document.body.scrollTop || document.documentElement.scrollTop
     this.scrollTop = top
   }
-
+  getCityCodeByCookie=()=> {
+    const searchCity = Cookies.get('searchCity')
+    const {address2Code} = this.props
+    let code = []
+    if (searchCity !== undefined && searchCity !== 'undefined') {
+      code = searchCity
+      if (searchCity === '') {
+        code = []
+      } else {
+        code = [searchCity]
+      }
+    } else {
+      code = address2Code.length>0?address2Code : []
+    }
+    return code
+  }
   handleSearchQuery = () => {
     // console.log(this.props.query)
 
@@ -439,14 +487,7 @@ class SearchEnd extends PureComponent {
     let arr1 = path.split('search/')
 
     let key = data.keyword || keyword || arr1[1]
-
-    // console.log(queryMoreOnly)
-    // console.log(more.company_industry)
-
-    const code =
-      this.props.userStatus.code && this.props.userStatus.code.length > 0
-        ? this.props.userStatus.code
-        : this.props.supers.location.address.code
+    const areaCode = this.getCityCodeByCookie()
 
     let allQuery = {
       ...data,
@@ -463,11 +504,7 @@ class SearchEnd extends PureComponent {
       salary_min,
       salary_max,
       size: this.props.pager.size,
-      area:
-        this.props.query.area ||
-        (this.props.userStatus.code && (this.props.userStatus.code[0] || '')) ||
-        code ||
-        this.getQuery.area,
+      area: areaCode,
       ...queryMoreOnly,
     }
     if (this.getQuery.isUsed) {
@@ -584,21 +621,7 @@ class SearchEnd extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const nextList = nextProps.searchLIst
-    // const thisList = this.props.searchLIst
     const scrollTop = nextProps.srearchData.scrollTop
-
-    // if(nextProps.supers.location.address.code&&nextProps.supers.location.address.code.length>0&&!this.props.supers.location.address.code[0]&&this.props.supers.location.address.code[0] !== nextProps.supers.location.address.code[0]) {
-    //   const allQuery = this.handleSearchQuery()
-    //   const params = {
-    //     ...allQuery,
-    //     area:
-    //       this.props.query.area ||
-    //       (this.props.userStatus.code && (this.props.userStatus.code[0] || '')),
-    //     ...this.state.searchCondition,
-    //   }
-    //   this.props.dispatch(getSearchListInit(params))
-    // }
-    // if (nextList !== thisList) {
     this.setState(
       {
         dataSource: this.state.dataSource.cloneWithRows(nextList),
@@ -635,12 +658,17 @@ class SearchEnd extends PureComponent {
     if (window && window._hmt) {
       window._hmt && window._hmt.push(['_trackPageview', window.location.href])
     }
-
-    window.onbeforeunload = function(e){
-      // console.log(queryString.parse(this.props.history.location.search))
-      // alert(1111)
+    const searchCity = Cookies.get('searchCity')
+    const {searchCityArr} = this.state
+    const {address2Code} = this.props
+    // 城市初始值设置当1.searchCityArr没有值  2.this.props.supers.location.address2.code有值 3.searchCity在cookie中没有设置过    时设置城市初始值
+    if (searchCityArr.length === 0 && address2Code.length !== 0 && (searchCity === undefined || searchCity === 'undefined')) {
       Cookies.set('searchEndFirst', 1)
+      this.setState({
+        searchCityArr: address2Code,
+      })
     }
+
   }
   // 关闭底部引导注册弹框
   handleCloseReg() {
@@ -666,23 +694,18 @@ class SearchEnd extends PureComponent {
   }
 
   render() {
-    const { queryMore } = this.state
+    const { queryMore, searchCityArr } = this.state
     let query = this.props.query
-    // const area =
-    //   this.props.userStatus.code && this.props.userStatus.code.length > 0
-    //     ? this.props.userStatus.code
-    //     : this.props.supers.location.address.code
-    if (query.area.length === 0 && !filterChange) {
-      // query.area = area
-    }
-    const { areaParms } = queryString.parse(this.props.history.location.search)
+    // if (query.area.length === 0 && !filterChange) {
+    //   query.area = area
+    // }
+
     const searchEndFirst = Cookies.get('searchEndFirst')
- 
     // 当页面刷新时用定位的城市 pageFirst
-    if (areaParms&&searchEndFirst === '1') {
-      query.area = [areaParms]
+    if (searchEndFirst === '1') {
+      query.area = searchCityArr  
     }
-    // console.log(query.area)
+    console.log(query.area)
     query.more = { ...queryMore, ...query.more }
 
     delete query.keyword

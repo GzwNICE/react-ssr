@@ -106,10 +106,10 @@ class ComplexSelView extends ComplexFormField {
       if (iocnClick === 'iocnClick') {
         this.setState({ value: [] }, () => this.changeValue())
         // sessionStorage.removeItem('searchCity')
-        Cookies.set('searchCity', '')
+        // Cookies.set('searchCity', '')
       } else {
         // sessionStorage.setItem('searchCity', code)
-        Cookies.set('searchCity', code)
+        // Cookies.set('searchCity', code)
         this.setState({ value: [code] }, () => this.changeValue())
 
       }  

@@ -16,6 +16,7 @@ import angleDown from '../../static/angleDown@3x.png'
 import personal from '../../static/personalHome.png'
 import Userdefault from '../../static/portrait@3x.png'
 import F from '../../helper/tool'
+import Cookies from 'js-cookie'
 const triggerFrom = '触发来源'
 
 @withRouter
@@ -24,6 +25,7 @@ const triggerFrom = '触发来源'
   supers: state.supers,
   banner: state.banner,
   query: state.search.query,
+  address2Code: state.supers.location.address2 ? state.supers.location.address2.code : [],
 }))
 @createForm()
 class MySearchBar extends PureComponent {
@@ -47,6 +49,7 @@ class MySearchBar extends PureComponent {
   }
 
   formatArea(value) {
+    // console.log(value.length)
     return value.length ? value.optIndex[value[0]] : '城市'
   }
 
@@ -64,56 +67,58 @@ class MySearchBar extends PureComponent {
       is_login: F.getUserInfo().is_login,
       photo: F.getUserInfo().photo,
     })
-    const searchCity = sessionStorage.getItem('searchCity')
-    if (searchCity) {
-      let searchCityArr = [searchCity]
+    const searchCity = Cookies.get('searchCity')
+    if (searchCity !== undefined && searchCity !== 'undefined') {
+      if (searchCity === '') {
+        this.setState({
+          searchCityArr: [],
+        })
+      } else {
+        let searchCityArr = [searchCity]
       this.setState({
         searchCityArr,
       })
-
+      }
+      
+    } else {
+      const {address2Code} = this.props
+      this.setState({
+        searchCityArr: address2Code.length>0?address2Code : [],
+      })
     }
-    // const { supers } = this.props
-    // this.props.dispatch(changeAllCity([]))
-    // setTimeout(()=>{
-    //   console.log(supers.location.address.code)
-
-    // },500)
-      // this.props.dispatch({
-      //   type: 'HOME_CHANGE_CITY',
-      //   area: supers.location.address.code,
-      // })
-    // const { supers } = this.props // userStatus
   }
 
-  componentWillReceiveProps(nextProps) {
-    // const { query } = this.props // userStatus
-    
-    // console.log(nextProps.supers.location.address.code)
-
-    // if (
-    //   query.area.length === 0 &&
-    //   nextProps.supers.location.address.code.length > 0
-    // ) {
-  
-    // }
-   
+  componentWillReceiveProps(nextProps) { 
+    const searchCity = Cookies.get('searchCity')
+    const {searchCityArr} = this.state
+    const {address2Code} = nextProps
     this.props.form.validateFields((err, values) => {
       if (err) return
+      // console.log(values.areas)
  
       if (values.areas && nextProps.userStatus.code && nextProps.userStatus.code[0] !== values.areas[0]) {
-      
         this.props.onChangeCity && this.props.onChangeCity(values)
         this.props.dispatch({
           type: 'SEARCH_AREA_SINGLE',
           payload: values.areas,
         })
       }
-   
+      // 当值city选择变化时
     })
+    
+
+    // 城市初始值设置当1.searchCityArr没有值  2.this.props.supers.location.address2.code有值 3.searchCity在cookie中没有设置过    时设置城市初始值
+    // console.log(searchCityArr)
+    // console.log(searchCity)
+    if (searchCityArr.length === 0 && address2Code.length !== 0 && (searchCity === undefined || searchCity === 'undefined')) {
+      this.setState({
+        searchCityArr: address2Code,
+      })
+    }   
   }
 
   render() {
-    const { form, supers } = this.props // userStatus
+    const { form } = this.props // userStatus
     const { getFieldProps } = form
     const {searchCityArr} = this.state
     let {
@@ -126,7 +131,6 @@ class MySearchBar extends PureComponent {
       onChange = function() {},
     } = this.props
     const { is_login, photo } = this.state
-
     return (
       <div className={style.SearchBarWrap}>
         {showCity === 'false' ? null : (
@@ -134,7 +138,7 @@ class MySearchBar extends PureComponent {
             <div>
               <Area
                 {...getFieldProps('areas', {
-                  initialValue: searchCityArr.length>0 ? searchCityArr:supers.location.address.code,
+                  initialValue: searchCityArr,
                 })} // 触发form，调用onChangeCity
                 extra=""
                 format={this.formatArea}
