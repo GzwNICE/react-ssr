@@ -49,8 +49,17 @@ class MySearchBar extends PureComponent {
   }
 
   formatArea(value) {
-    // console.log(value.length)
-    return value.length ? value.optIndex[value[0]] : '城市'
+    if (value && Array.isArray(value)) {
+      if (value.length) {
+        let city = value.optIndex[value[0]]
+        return city ? city : '城市'
+      } else {
+        return '城市'
+      }
+    } else {
+      return '城市'
+    }
+    // return value.length ? value.optIndex[value[0]] : '城市'
   }
 
   goRegister = () => {
