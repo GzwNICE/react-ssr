@@ -38,7 +38,7 @@ export default class Album extends Component {
                         <img
                           src={`${
                             val.thumb_url
-                          }?x-oss-process=image/resize,w_340,h_180`}
+                          }?x-oss-process=image/resize,m_fill,w_340,h_180`}
                           alt="albumimg"
                           onLoad={() => {
                             window.dispatchEvent(new Event('resize'))
