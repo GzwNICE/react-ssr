@@ -480,7 +480,7 @@ export default class CompanyArea extends Component {
               location={`${this.props.history.location.pathname}${
                 this.props.history.location.search
               }`}
-              zhugeFrom="职位列表页底部推荐注册"
+              zhugeFrom="名企页底部推荐注册"
             />
           </div>
         ) : null}

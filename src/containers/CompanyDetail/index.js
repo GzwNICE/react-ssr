@@ -69,6 +69,9 @@ class CompanyDetail extends PureComponent {
     const {is_login} = this.state
     if (is_login !== 1) {
       this.goLogin()
+      window.zhuge.track('注册页面打开', {
+        [`${triggerFrom}`]: '关注企业',
+      })
     } else {
       if (isFollowed === 1) {
         this.props
@@ -95,9 +98,7 @@ class CompanyDetail extends PureComponent {
               const msg = data.errMsg
               if (msg === '未登陆') {
                 this.goLogin()
-                window.zhuge.track('注册页面打开', {
-                  [`${triggerFrom}`]: '关注企业',
-                })
+                
               }
             } else {
               Toast.success('关注成功', 2)
