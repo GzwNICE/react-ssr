@@ -12,7 +12,7 @@ import SearchHot from '../../components/SearchHot'
 import SearchHistory from '../../components/SearchHistory'
 import F from '../../helper/tool'
 import resume from '../../static/sresume@3x.png'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 import welfares from '../../static/sfuli@3x.png'
 import style from './style.less'
 import { getSearchHot } from '../../actions/search'
@@ -22,7 +22,7 @@ import Cookies from 'js-cookie'
 const tiggerSearchKeyWord = '搜索词'
 
 @connect(state => {
-  console.log(state.supers.location)
+  // console.log(state.supers.location)
   return {
     hot: state.search.hot,
     tips: state.search.tips,
@@ -136,7 +136,7 @@ class SearchPage extends PureComponent {
   Cancel = () => {
     // const pathname = this.props.history.location.pathname
     const search = this.props.history.location.search
-    console.log(search)
+    // console.log(search)
 
     if (search && search.indexOf('?redirect=') !== -1) {
       const areaCode = this.getCityCodeByCookie()
@@ -151,9 +151,9 @@ class SearchPage extends PureComponent {
         })
         let newPath = params.join('&')
         this.props.history.replace(newPath)
-        console.log(newPath)
+        // console.log(newPath)
       } else {
-        console.log(path)
+        // console.log(path)
         this.props.history.replace(path)
       }
     } else {

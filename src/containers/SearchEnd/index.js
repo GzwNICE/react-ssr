@@ -434,7 +434,7 @@ class SearchEnd extends PureComponent {
               }
               return item
             })
-            console.log(params)
+            // console.log(params)
             let newSearch = params.join('&')
             this.props.history.replace(`${pathname}${newSearch}`)
             // console.log(newSearch)
@@ -705,7 +705,7 @@ class SearchEnd extends PureComponent {
     if (searchEndFirst === '1') {
       query.area = searchCityArr  
     }
-    console.log(query.area)
+    // console.log(query.area)
     query.more = { ...queryMore, ...query.more }
 
     delete query.keyword
