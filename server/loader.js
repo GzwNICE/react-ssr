@@ -30,7 +30,6 @@ import {
 } from '../src/actions/search'
 
 export default (req, res, next) => {
-  // console.log(2222221111111111122222222222233333)
   let ticket = {
     user_ticket: req.cookies.ticket || '',
   }
@@ -280,7 +279,7 @@ export default (req, res, next) => {
                 store.dispatch(wxconfig({ url })).then(() => {
                   serverRender({
                     type: 2,
-                    company_name: res.data.group_company_name,
+                    company_name: (res && res.data.group_company_name) || '',
                     job_name: ''
                   })
                 })
