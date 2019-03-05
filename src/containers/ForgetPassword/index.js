@@ -143,7 +143,7 @@ class ForgetPassword extends PureComponent {
   }
 
   goBack = () => {
-    const { redirect } = queryString.parse(window.location.search)
+    const { redirect } = queryString.parse(this.props.location.search)
     if (redirect) {
       this.props.history.push(redirect)
     } else {

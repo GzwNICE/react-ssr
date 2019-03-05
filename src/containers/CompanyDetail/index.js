@@ -131,7 +131,7 @@ class CompanyDetail extends PureComponent {
 
   whereWillIGo = () => {
     this.scrollTop = 0
-    const { redirect } = queryString.parse(window.location.search)
+    const { redirect } = queryString.parse(this.props.location.search)
     if (redirect) {
       // this.props.history.replace(redirect)
       this.props.history.goBack()
@@ -174,7 +174,7 @@ class CompanyDetail extends PureComponent {
     this.detailWrap.scrollTop =this.scrollTop
 
     const id = this.props.match.params.company_id
-    const { from } = queryString.parse(window.location.search)
+    const { from } = queryString.parse(this.props.location.search)
     const label = this.props.company.label
     if (label.length === 0) {
       this.props

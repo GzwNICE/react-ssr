@@ -219,10 +219,10 @@ class LoginCode extends PureComponent {
   }
 
   goBack = () => {
-    const { redirect, sss, one } = queryString.parse(window.location.search)
+    const { redirect, sss, one } = queryString.parse(this.props.location.search)
     let patt1 = new RegExp('service')
     if (sss) {
-      return (window.location.href = sss)
+      return (this.props.location.href = sss)
     }
     if (one) {
       return this.props.history.go(-1)
@@ -236,7 +236,7 @@ class LoginCode extends PureComponent {
   }
 
   goRegister = (url, key) => {
-    const search = window.location.search
+    const search = this.props.location.search
     const triggerFrom = '触发来源'
     if (key) {
       window.zhuge.track('注册页面打开', {

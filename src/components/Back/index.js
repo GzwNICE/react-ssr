@@ -17,7 +17,7 @@ class NavBack extends PureComponent {
     //     ? this.props.history.push('/user')
     //     : this.props.history.go(-1)
     // }
-    const { redirect } = queryString.parse(window.location.search)
+    const { redirect } = queryString.parse(this.props.location.search)
     if (redirect) {
       this.props.history.replace(redirect)
     } else {

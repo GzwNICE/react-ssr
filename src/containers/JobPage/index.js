@@ -146,7 +146,7 @@ class JobPage extends (PureComponent || Component) {
     const data = this.props.location.state || this.props.history.location.state || {}
     const more = this.props.query && this.props.query.more
     // console.log(data, more)
-    const {keyword} = queryString.parse(window.location.search)
+    const {keyword} = queryString.parse(this.props.location.search)
     const key = data.keyword || keyword || ''
     // console.log(key)
     const allQuery = {

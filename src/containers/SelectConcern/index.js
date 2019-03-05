@@ -19,7 +19,7 @@ class SelectConcern extends PureComponent {
   }
 
   componentWillMount(){
-    const parsed = queryString.parse(window.location.search)
+    const parsed = queryString.parse(this.props.location.search)
     this.setState({
       key: parsed.key-1 || 0,
     })
