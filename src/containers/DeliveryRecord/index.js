@@ -23,12 +23,15 @@ class DeliveryRecord extends PureComponent {
   }
 
   handleTabClick = index => {
+    console.log(index)
     this.props.history.replace(`/person/applyRecord?key=${index.page}`)
-    this.props.dispatch(
-      readResume({
-        type: index.page,
-      })
-    )
+    if(index.page > 1){
+      this.props.dispatch(
+        readResume({
+          type: index.page,
+        })
+      )
+    }
     if (index.page === '1') {
       window.zhuge.track('全部')
     } else if (index.page === '2') {

@@ -91,7 +91,7 @@ class DeliveryAll extends PureComponent {
     this.scrollTop = this.props.scrollTop
     this.props.dispatch(
       getDeliveryAll({
-        type: 1,
+        type: 0,
       })
     )
   }
