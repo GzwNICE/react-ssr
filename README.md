@@ -1,7 +1,7 @@
-# ve_m_ssr
+# react-ssr
 
 #### 项目介绍
-最佳东方同构触屏版
+ssr触屏版
 
 ## 测试发布
     执行npm run build:test之后把build中资源放到m_veryeast_cn/webroot/v2中
