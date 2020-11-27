@@ -15,7 +15,7 @@ import { Provider } from 'react-redux'
 require('es6-promise').polyfill()
 
 const { store, history } = configureStore()
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <Router history={history}>
       <Frontload noServerRender>
